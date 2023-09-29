@@ -15,7 +15,7 @@ namespace ApiTests
             OrderContainer.Instance.GetAll().Clear();
         }
 
-        [TestMethod, Priority(1)]
+        [TestMethod]
         public void TestCreateOrder()
         {
             // Arrange
@@ -28,7 +28,7 @@ namespace ApiTests
             Assert.IsNotNull(result); // Check if the result is not null
         }
 
-        [TestMethod, Priority(2)]
+        [TestMethod]
         public void TestGetOrder()
         {
             // Arrange
@@ -44,7 +44,7 @@ namespace ApiTests
             Assert.AreEqual(1, order.CustomerId);
         }
 
-        [TestMethod, Priority(3)]
+        [TestMethod]
         public void TestGetAllOrders()
         {
             // Arrange
@@ -61,7 +61,7 @@ namespace ApiTests
             Assert.IsTrue(orders.Count >= 2);
         }
 
-        [TestMethod, Priority(4)]
+        [TestMethod]
         public void TestUpdateOrder()
         {
             // Arrange
