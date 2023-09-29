@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiTests", "ApiTests\ApiTests.csproj", "{D4997D10-606B-4F5D-9202-B31DB5FF2465}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTful API", "RESTful API\RESTful API.csproj", "{DD122754-E929-4630-94AF-7DB8D86AA051}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D4997D10-606B-4F5D-9202-B31DB5FF2465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4997D10-606B-4F5D-9202-B31DB5FF2465}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4997D10-606B-4F5D-9202-B31DB5FF2465}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4997D10-606B-4F5D-9202-B31DB5FF2465}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD122754-E929-4630-94AF-7DB8D86AA051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD122754-E929-4630-94AF-7DB8D86AA051}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD122754-E929-4630-94AF-7DB8D86AA051}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD122754-E929-4630-94AF-7DB8D86AA051}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9EC5D6B7-69EF-418C-99C9-417C4C55F8EB}
+	EndGlobalSection
+EndGlobal
