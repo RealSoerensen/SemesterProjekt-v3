@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiTests", "ApiTests\ApiTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTful API", "RESTful API\RESTful API.csproj", "{DD122754-E929-4630-94AF-7DB8D86AA051}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{1B0975B7-B915-435E-B2B0-64733D926992}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{B4E7AA1D-96DD-4A08-8A1A-DCEEC1F5C3C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{DD122754-E929-4630-94AF-7DB8D86AA051}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD122754-E929-4630-94AF-7DB8D86AA051}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD122754-E929-4630-94AF-7DB8D86AA051}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B0975B7-B915-435E-B2B0-64733D926992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B0975B7-B915-435E-B2B0-64733D926992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B0975B7-B915-435E-B2B0-64733D926992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B0975B7-B915-435E-B2B0-64733D926992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E7AA1D-96DD-4A08-8A1A-DCEEC1F5C3C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E7AA1D-96DD-4A08-8A1A-DCEEC1F5C3C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E7AA1D-96DD-4A08-8A1A-DCEEC1F5C3C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E7AA1D-96DD-4A08-8A1A-DCEEC1F5C3C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

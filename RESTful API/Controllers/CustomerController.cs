@@ -48,9 +48,8 @@ public class CustomerController : ControllerBase
 
     // DELETE api/<CustomerController>/5
     [HttpDelete]
-    public bool Delete(Customer customer)
+    public bool Delete([FromBody] Customer customer)
     {
-        var customers = GetAll();
-        return (from c in customers where c.Id == customer.Id select _customerDB.Delete(c)).FirstOrDefault();
+        return _customerDB.Delete(customer);
     }
 }
