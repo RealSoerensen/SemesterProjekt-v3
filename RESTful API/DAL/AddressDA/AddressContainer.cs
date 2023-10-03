@@ -4,7 +4,7 @@ namespace RESTful_API.DAL.AddressDA
 {
     public class AddressContainer : IAddress
     {
-        public Address? Create(Address obj)
+        public Address Create(Address obj)
         {
             throw new NotImplementedException();
         }
