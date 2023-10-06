@@ -1,62 +1,80 @@
-﻿using API.DAL.CustomerDA;
-using API.Models;
-using Microsoft.AspNetCore.Mvc;
-using RESTful_API.DAL.AddressDA;
-using RESTful_API.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using Models;
+using RESTful_API.DAL;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace API.Controllers;
+namespace RESTful_API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class CustomerController : ControllerBase
 {
-    private readonly CustomerService customerService;
+    private readonly CustomerDB customerDA;
 
-    public CustomerController()
+    public CustomerController(CustomerDB customerDA)
     {
-        customerService = new(new CustomerDB(), new AddressDB());
+        this.customerDA = customerDA;
     }
 
     // POST api/<CustomerController>
     [HttpPost]
     public IActionResult Create([FromBody] Customer customer)
     {
-        Customer? createdCustomer = customerService.Create(customer);
-        if (createdCustomer == null)
-        {
-            return BadRequest("Customer creation failed");
-        }
+        var createdCustomer = customerDA.Create(customer);
 
         return Ok(createdCustomer);
     }
 
     // GET api/<CustomerController>/5
     [HttpGet("{id:int}")]
-    public Customer? Get(int id)
+    public IActionResult Get(int id)
     {
-        return customerService.Get(id);
+        var customer = customerDA.Get(id);
+        if (customer == null)
+        {
+            return NotFound($"Customer with id {id} was not found");
+        }
+
+        return Ok(customer);
     }
 
     // GET: api/<CustomerController>
     [HttpGet] // Get all customers
-    public List<Customer> GetAll()
+    public IActionResult GetAll()
     {
-        return customerService.GetAll();
+        var customers = customerDA.GetAll();
+        if (customers.Count == 0)
+        {
+            return NotFound("No customers found");
+        }
+
+        return Ok(customers);
     }
 
     // PUT api/<CustomerController>
     [HttpPut]
-    public bool Update([FromBody] Customer customer)
+    public IActionResult Update([FromBody] Customer customer)
     {
-        return customerService.Update(customer);
+        var updatedCustomer = customerDA.Update(customer);
+        if (!updatedCustomer)
+        {
+            return BadRequest("Customer update failed");
+        }
+
+        return Ok(customer);
     }
 
     // DELETE api/<CustomerController>/5
     [HttpDelete]
-    public bool Delete([FromBody] Customer customer)
+    public IActionResult Delete([FromBody] Customer customer)
     {
-        return customerService.Delete(customer);
+        var deletedCustomer = customerDA.Delete(customer);
+        if (!deletedCustomer)
+        {
+            return BadRequest("Customer deletion failed");
+        }
+
+        return Ok(customer);
     }
 }

@@ -1,45 +1,20 @@
-﻿using System.Data;
-using Microsoft.Data.SqlClient;
+﻿namespace RESTful_API.DAL;
 
-namespace RESTful_API.DAL
+public class DBConnection
 {
-    public class DBConnection
+    public string? ConnectionString { get; private set; }
+
+    public DBConnection()
     {
-        private static DBConnection? _instance;
-        private readonly string _connectionString;
-        private IDbConnection? _connection;
-
-        private DBConnection() 
+        try
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory()) // Set the base path to the root directory of your project.
-                .AddJsonFile("Secrets.json", optional: true, reloadOnChange: true); // Load secrets.json
-
-            IConfigurationRoot configuration = builder.Build();
-            _connectionString = GetConnectionString(configuration);
-            _connection = new SqlConnection(_connectionString);
+            var configurationBuilder = new ConfigurationBuilder();
+            IConfiguration configuration = configurationBuilder.AddUserSecrets<Program>().Build();
+            ConnectionString = configuration.GetSection("ConnectionStrings")["DbConnection"];
         }
-
-        public static DBConnection Instance()
+        catch (Exception e)
         {
-            return _instance ??= new DBConnection();
-        }
-
-        private string GetConnectionString(IConfiguration configuration)
-        {
-            return configuration.GetConnectionString("ConnectionStrings:DbConnection")!;
-        }
-
-        public IDbConnection GetConnection()
-        {
-            return _connection;
-        }
-
-        public void Dispose()
-        {
-            _connection?.Dispose();
-            _connection = null;
-            _instance = null;
+            Console.WriteLine("Unable to get Connection String from secrets\n" + e.Message);
         }
     }
 }

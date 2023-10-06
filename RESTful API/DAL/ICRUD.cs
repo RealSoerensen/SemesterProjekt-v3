@@ -1,10 +1,10 @@
-﻿namespace API.DAL;
+﻿namespace RESTful_API.DAL;
 
 public interface ICRUD<C> where C : class
 {
     C? Create(C obj);
 
-    C? Get(int id);
+    C? Get(long id);
 
     List<C> GetAll();
 

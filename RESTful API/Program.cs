@@ -1,15 +1,26 @@
-using API.DAL.CustomerDA;
-using API.DAL.OrderDA;
+using Microsoft.Extensions.DependencyInjection;
+using Models;
+using RESTful_API.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Get connection string
+var configurationBuilder = new ConfigurationBuilder();
+IConfiguration configuration = configurationBuilder.AddUserSecrets<Program>().Build();
+var connectionString = configuration.GetSection("ConnectionStrings")["DbConnection"];
+if (connectionString == null)
+{
+    Console.WriteLine("Unable to get Connection String from secrets");
+    return;
+}
 
+// Add services to the container.
+builder.Services.AddScoped(_ => new CustomerDB(connectionString));
+builder.Services.AddScoped(_ => new OrderDB(connectionString));
+builder.Services.AddScoped(_ => new AddressDB(connectionString));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<ICustomer>(CustomerContainer.Instance);
-builder.Services.AddSingleton<IOrder>(OrderContainer.Instance);
 
 var app = builder.Build();
 
@@ -21,9 +32,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseAuthorization();
-
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();

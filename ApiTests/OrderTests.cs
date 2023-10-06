@@ -1,96 +1,100 @@
-﻿using API.Controllers;
-using API.DAL.OrderDA;
-using API.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Models;
+using RESTful_API.Controllers;
+using RESTful_API.DAL;
 
-namespace ApiTests
+namespace ApiTests;
+
+[TestClass]
+public class OrderTests
 {
-    [TestClass]
-    public class OrderTests
+    private readonly OrderController _orderController;
+
+    public OrderTests()
     {
-        private readonly OrderController _orderController = new(OrderContainer.Instance);
+        DBConnection dbConnection = new();
+        var connectionString = dbConnection.ConnectionString ?? throw new Exception("Unable to get Connection String from secrets");
+        _orderController = new OrderController(new OrderDB(connectionString));
+    }
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            OrderContainer.Instance.GetAll().Clear();
-        }
+    [TestMethod]
+    public void TestCreateOrder()
+    {
+        // Arrange
+        var order = new Order(1, 1);
 
-        [TestMethod]
-        public void TestCreateOrder()
-        {
-            // Arrange
-            var order = new Order(1, 1);
+        // Act
+        var result = _orderController.Create(order);
 
-            // Act
-            var result = _orderController.Create(order);
+        // Assert
+        Assert.IsNotNull(result); // Check if the result is not null
+    }
 
-            // Assert
-            Assert.IsNotNull(result); // Check if the result is not null
-        }
+    [TestMethod]
+    public void TestGetOrder()
+    {
+        // Arrange
+        var order = new Order(1, 1);
+        _orderController.Create(order);
 
-        [TestMethod]
-        public void TestGetOrder()
-        {
-            // Arrange
-            var order = new Order(1, 1);
-            _orderController.Create(order);
+        // Act
+        var result = _orderController.Get(1);
+        order = (Order)((OkObjectResult)result).Value!;
 
-            // Act
-            order = _orderController.Get(1);
+        // Assert
+        Assert.IsNotNull(order); // Check if the order is not null
+        Assert.AreEqual(1, order.Id);
+        Assert.AreEqual(1, order.CustomerId);
+    }
 
-            // Assert
-            Assert.IsNotNull(order); // Check if the order is not null
-            Assert.AreEqual(1, order.Id);
-            Assert.AreEqual(1, order.CustomerId);
-        }
+    [TestMethod]
+    public void TestGetAllOrders()
+    {
+        // Arrange
+        var order1 = new Order(1, 1);
+        _orderController.Create(order1);
+        var order2 = new Order(2, 2);
+        _orderController.Create(order2);
 
-        [TestMethod]
-        public void TestGetAllOrders()
-        {
-            // Arrange
-            var order1 = new Order(1, 1);
-            _orderController.Create(order1);
-            var order2 = new Order(2, 2);
-            _orderController.Create(order2);
+        // Act
+        var result = _orderController.GetAll();
+        var orders = (List<Order>)((OkObjectResult)result).Value!;
 
-            // Act
-            var orders = _orderController.GetAll();
+        // Assert
+        Assert.IsNotNull(orders); // Check if the orders is not null
+        Assert.AreEqual(2, orders.Count);
+    }
 
-            // Assert
-            Assert.IsNotNull(orders); // Check if the orders is not null
-            Assert.IsTrue(orders.Count >= 2);
-        }
+    [TestMethod]
+    public void TestUpdateOrder()
+    {
+        // Arrange
+        var order = new Order(1, 1);
+        _orderController.Create(order);
 
-        [TestMethod]
-        public void TestUpdateOrder()
-        {
-            // Arrange
-            var order = new Order(1, 1);
-            _orderController.Create(order);
+        // Act
+        order.CustomerId = 2;
+        var result = _orderController.Update(order);
+        var updated = (bool)((OkObjectResult)result).Value!;
 
-            // Act
-            order = _orderController.Get(1);
-            Assert.IsNotNull(order);
-            order.CustomerId = 2;
-            var result = _orderController.Update(order);
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsTrue(updated);
+    }
 
-            // Assert
-            Assert.IsNotNull(order); // Check if the order is not null
-            Assert.IsTrue(result);
-        }
+    [TestMethod]
+    public void TestDeleteOrder()
+    {
+        // Arrange
+        var order = new Order(1, 1);
+        _orderController.Create(order);
 
-        [TestMethod]
-        public void TestDeleteOrder()
-        {
-            // Arrange
-            var order = new Order(1, 1);
-            _orderController.Create(order);
+        // Act
+        var result = _orderController.Delete(order);
+        var deleted = (bool)((OkObjectResult)result).Value!;
 
-            // Act
-            var result = _orderController.Delete(order);
-
-            // Assert
-            Assert.IsTrue(result);
-        }
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.IsTrue(deleted);
     }
 }

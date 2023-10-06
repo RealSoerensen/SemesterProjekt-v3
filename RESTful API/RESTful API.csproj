@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="..\.dockerignore" Link="DAL\.dockerignore" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,15 @@
-﻿namespace API.Models;
+﻿namespace Models;
 
 public class Order
 {
-    public int Id { get; set; }
-    public int CustomerId { get; set; }
+    public long Id { get; set; }
+    public long CustomerId { get; set; }
 
-    public Order(int id, int customerId)
+    public Order()
+    {
+    }
+
+    public Order(long id, long customerId)
     {
         Id = id;
         CustomerId = customerId;

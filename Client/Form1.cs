@@ -1,31 +1,25 @@
 using Client.Controllers;
 
-namespace Client
+namespace Client;
+
+public partial class Form1 : Form
 {
-    public partial class Form1 : Form
+    public Form1()
     {
-        public Form1()
-        {
-            InitializeComponent();
-            RefreshTabWindow();
-        }
+        InitializeComponent();
+    }
 
-        private void RefreshTabWindow()
-        {
-            var customerController = new CustomerController();
-            var customers = customerController.GetAll();
-            if (customers == null) return;
-            listBox1.Items.Clear();
-            foreach (var customer in customers)
-            {
-                string customerString = customer.Id + " " + customer.FirstName + " " + customer.LastName;
-                listBox1.Items.Add(customerString);
-            }
-        }
+    private void RefreshTabWindow()
+    {
+        var customerController = new CustomerController();
+        var customers = customerController.GetAll();
+        if (customers == null) return;
+        var customerList = customers.Select(customer => customer.FirstName + " " +customer.LastName).ToList();
+        listBox1.DataSource = customerList;
+    }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            RefreshTabWindow();
-        }
+    private void refreshBtn_Click(object sender, EventArgs e)
+    {
+        RefreshTabWindow();
     }
 }

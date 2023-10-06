@@ -1,34 +1,37 @@
-﻿using Models;
-using System.Text.Json.Serialization;
-
-namespace API.Models;
+﻿namespace Models;
 
 public class Customer
 {
     public long Id { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public Address Address { get; set; }
-    public string Email { get; set; }
-    public string? Phone { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public long AddressId { get; set; }
+    public string? Email { get; set; }
+    public string? PhoneNo { get; set; }
+    public string? Password { get; set; }
 
-    [JsonConstructor]
-    public Customer(int id, string firstName, string lastName, Address address, string email, string? phone)
+    public Customer()
+    {
+    }
+
+    public Customer(long id, string? firstName, string? lastName, long address, string? email, string? phone, string? password)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
-        Address = address;
+        AddressId = address;
         Email = email;
-        Phone = phone;
+        PhoneNo = phone;
+        Password = password;
     }
 
-    public Customer(string firstName, string lastName, Address address, string email, string? phone)
+    public Customer(string? firstName, string? lastName, long address, string? email, string? phone, string? password)
     {
         FirstName = firstName;
         LastName = lastName;
-        Address = address;
+        AddressId = address;
         Email = email;
-        Phone = phone;
+        PhoneNo = phone;
+        Password = password;
     }
 }

@@ -1,54 +1,84 @@
-﻿using API.DAL.OrderDA;
-using Microsoft.AspNetCore.Mvc;
-using API.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Models;
+using RESTful_API.DAL;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace API.Controllers;
+namespace RESTful_API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class OrderController : ControllerBase
 {
-    private readonly IOrder _orderDB;
+    private readonly OrderDB orderDA;
 
-    public OrderController(IOrder orderDB)
+    public OrderController(OrderDB orderDA)
     {
-        _orderDB = orderDB;
+        this.orderDA = orderDA;
     }
 
     // GET: api/<OrderController>
     [HttpGet]
-    public List<Order> GetAll()
+    public IActionResult GetAll()
     {
-        return _orderDB.GetAll();
+        var orders = orderDA.GetAll();
+        if (orders.Count == 0)
+        {
+            return NotFound("No orders found");
+        }
+
+        return Ok(orders);
     }
 
     // GET api/<OrderController>/5
     [HttpGet("{id:int}")]
-    public Order? Get(int id)
+    public IActionResult Get(int id)
     {
-        return _orderDB.Get(id);
+        var order = orderDA.Get(id);
+        if (order == null)
+        {
+            return NotFound($"Order with id {id} was not found");
+        }
+
+        return Ok(order);
     }
 
     // POST api/<OrderController>
     [HttpPost]
-    public Order? Create([FromBody] Order order)
+    public IActionResult Create([FromBody] Order order)
     {
-        return _orderDB.Create(order);
+        var createdOrder = orderDA.Create(order);
+        if (createdOrder == null)
+        {
+            return BadRequest("Order creation failed");
+        }
+
+        return Ok(createdOrder);
     }
 
     // PUT api/<OrderController>/5
     [HttpPut]
-    public bool Update([FromBody] Order order)
+    public IActionResult Update([FromBody] Order order)
     {
-        return _orderDB.Update(order);
+        var updatedOrder = orderDA.Update(order);
+        if (!updatedOrder)
+        {
+            return BadRequest("Order update failed");
+        }
+
+        return Ok(updatedOrder);
     }
 
     // DELETE api/<OrderController>/5
     [HttpDelete]
-    public bool Delete(Order order)
+    public IActionResult Delete([FromBody] Order order)
     {
-        return _orderDB.Delete(order);
+        var deletedOrder = orderDA.Delete(order);
+        if (!deletedOrder)
+        {
+            return BadRequest("Order deletion failed");
+        }
+
+        return Ok(deletedOrder);
     }
 }
