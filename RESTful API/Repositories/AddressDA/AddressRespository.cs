@@ -4,11 +4,11 @@ using Models;
 
 namespace RESTful_API.Repositories.AddressDA;
 
-public class AddressDB : IAddressDA
+public class AddressRespository : IAddressDA
 {
     private readonly string _connectionString;
 
-    public AddressDB(string connectionString)
+    public AddressRespository(string connectionString)
     {
         _connectionString = connectionString;
     }

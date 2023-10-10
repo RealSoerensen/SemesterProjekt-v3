@@ -82,7 +82,7 @@ public class OrderController : ControllerBase
         bool isUpdated;
         try
         {
-            isUpdated = _orderService.Update(order);
+            isUpdated = _orderService.UpdateOrder(order);
         }
         catch (Exception)
         {
@@ -104,7 +104,7 @@ public class OrderController : ControllerBase
         bool isDeleted;
         try
         {
-            isDeleted = _orderService.Delete(order);
+            isDeleted = _orderService.DeleteOrder(order);
         }
         catch (Exception e)
         {

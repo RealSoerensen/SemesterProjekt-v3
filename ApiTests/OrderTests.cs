@@ -13,9 +13,7 @@ public class OrderTests
 
     public OrderTests()
     {
-        DBConnection dbConnection = new();
-        var connectionString = dbConnection.ConnectionString ?? throw new Exception("Unable to get Connection String from secrets");
-        _orderController = new OrderController(new OrderDB(connectionString));
+        _orderController = new OrderController();
     }
 
     [TestMethod]

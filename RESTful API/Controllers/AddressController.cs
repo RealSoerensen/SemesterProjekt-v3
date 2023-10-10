@@ -14,9 +14,7 @@ public class AddressController : ControllerBase
 
     public AddressController()
     {
-        DBConnection dBConnection = new();
-        var connectionString = dBConnection.ConnectionString ?? throw new Exception("Unable to get Connection String from secrets");
-        addressService = new AddressService(new AddressDB(connectionString));
+        addressService = new AddressService();
     }
 
     // GET: api/<AddressController>
