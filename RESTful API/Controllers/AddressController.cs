@@ -21,8 +21,17 @@ namespace RESTful_API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var addresses = addressDA.GetAll();
-            if (addresses.Count == 0)
+            List<Address> addresses;
+            try
+            {
+                addresses = addressDA.GetAll();
+            }
+            catch (Exception)
+            {
+                return BadRequest("Address retrieval failed - DB ERROR");
+            }
+
+            if (addresses == null)
             {
                 return NotFound("No addresses found");
             }
@@ -34,7 +43,16 @@ namespace RESTful_API.Controllers
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
-            var address = addressDA.Get(id);
+            Address? address;
+            try
+            {
+                address = addressDA.Get(id);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Address retrieval failed - DB ERROR");
+            }
+
             if (address == null)
             {
                 return NotFound($"Address with id {id} was not found");
@@ -47,7 +65,15 @@ namespace RESTful_API.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Address address)
         {
-            var createdAddress = addressDA.Create(address);
+            Address createdAddress;
+            try
+            {
+                createdAddress = addressDA.Create(address);
+            } 
+            catch (Exception)
+            {
+                return BadRequest("Address creation failed");
+            }
 
             return Ok(createdAddress);
         }
@@ -56,20 +82,38 @@ namespace RESTful_API.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] Address address)
         {
-            var updatedAddress = addressDA.Update(address);
+            bool updatedAddress;
+            try
+            {
+                updatedAddress = addressDA.Update(address);
+            } 
+            catch (Exception)
+            {
+                return BadRequest("Address update failed - DB ERROR");
+            }
+            
             if (!updatedAddress)
             {
-                return BadRequest("Address update failed");
+                return BadRequest("Address update failed - Unable to update in DB");
             }
 
-            return Ok(updatedAddress);
+            return Ok();
         }
 
         // DELETE api/<AddressController>/5
         [HttpDelete("{id:long}")]
         public IActionResult Delete(long id)
         {
-            var address = addressDA.Get(id);
+            Address? address;
+            try
+            {
+                address = addressDA.Get(id);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Address deletion failed - DB ERROR");
+            }
+
             if (address == null)
             {
                 return NotFound($"Address with id {id} was not found");
@@ -81,7 +125,7 @@ namespace RESTful_API.Controllers
                 return BadRequest("Address deletion failed");
             }
 
-            return Ok(deletedAddress);
+            return Ok();
         }
     }
 }

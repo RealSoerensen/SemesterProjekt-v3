@@ -21,8 +21,17 @@ public class OrderController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var orders = orderDA.GetAll();
-        if (orders.Count == 0)
+        List<Order> orders;
+        try
+        {
+            orders = orderDA.GetAll();
+        }
+        catch (Exception ex)
+        {
+               return BadRequest("Order retrieval failed - DB ERROR\n" + ex.StackTrace);
+        }
+        
+        if (orders == null)
         {
             return NotFound("No orders found");
         }
@@ -34,7 +43,16 @@ public class OrderController : ControllerBase
     [HttpGet("{id:int}")]
     public IActionResult Get(int id)
     {
-        var order = orderDA.Get(id);
+        Order? order;
+        try
+        {
+            order = orderDA.Get(id);
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Order retrieval failed - DB ERROR\n" + e.StackTrace);
+        }
+
         if (order == null)
         {
             return NotFound($"Order with id {id} was not found");
@@ -47,38 +65,58 @@ public class OrderController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] Order order)
     {
-        var createdOrder = orderDA.Create(order);
-        if (createdOrder == null)
+        try
         {
-            return BadRequest("Order creation failed");
+            var createdOrder = orderDA.Create(order);
+            return Ok(createdOrder);
         }
-
-        return Ok(createdOrder);
+        catch (Exception)
+        {
+            return BadRequest("Order creation failed - DB ERROR");
+        }
     }
 
     // PUT api/<OrderController>/5
     [HttpPut]
     public IActionResult Update([FromBody] Order order)
     {
-        var updatedOrder = orderDA.Update(order);
-        if (!updatedOrder)
+        bool isUpdated;
+        try
+        {
+            isUpdated = orderDA.Update(order);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Order update failed - DB ERROR");
+        }
+        
+        if (!isUpdated)
         {
             return BadRequest("Order update failed");
         }
 
-        return Ok(updatedOrder);
+        return Ok();
     }
 
     // DELETE api/<OrderController>/5
     [HttpDelete]
     public IActionResult Delete([FromBody] Order order)
     {
-        var deletedOrder = orderDA.Delete(order);
-        if (!deletedOrder)
+        bool isDeleted;
+        try
+        {
+            isDeleted = orderDA.Delete(order);
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Order deletion failed - DB ERROR\n" + e.StackTrace);
+        }
+        
+        if (!isDeleted)
         {
             return BadRequest("Order deletion failed");
         }
 
-        return Ok(deletedOrder);
+        return Ok();
     }
 }

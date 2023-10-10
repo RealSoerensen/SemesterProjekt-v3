@@ -21,16 +21,31 @@ public class CustomerController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] Customer customer)
     {
-        var createdCustomer = customerDA.Create(customer);
-
-        return Ok(createdCustomer);
+        try
+        {
+            var createdCustomer = customerDA.Create(customer);
+            return Ok(createdCustomer);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Customer creation failed - DB ERROR");
+        }
     }
 
     // GET api/<CustomerController>/5
     [HttpGet("{id:int}")]
     public IActionResult Get(int id)
     {
-        var customer = customerDA.Get(id);
+        Customer? customer;
+        try
+        {
+            customer = customerDA.Get(id);
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Customer retrieval failed - DB ERROR\n" + e.StackTrace);
+        }
+
         if (customer == null)
         {
             return NotFound($"Customer with id {id} was not found");
@@ -43,8 +58,17 @@ public class CustomerController : ControllerBase
     [HttpGet] // Get all customers
     public IActionResult GetAll()
     {
-        var customers = customerDA.GetAll();
-        if (customers.Count == 0)
+        List<Customer> customers;
+        try 
+        {
+            customers = customerDA.GetAll();
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Customer retrieval failed - DB ERROR\n" + e.StackTrace);
+        }
+        
+        if (customers == null)
         {
             return NotFound("No customers found");
         }
@@ -56,25 +80,44 @@ public class CustomerController : ControllerBase
     [HttpPut]
     public IActionResult Update([FromBody] Customer customer)
     {
-        var updatedCustomer = customerDA.Update(customer);
-        if (!updatedCustomer)
+        bool isUpdated;
+        try
         {
-            return BadRequest("Customer update failed");
+            isUpdated = customerDA.Update(customer);
+
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Customer update failed - DB ERROR\n" + e.StackTrace);
         }
 
-        return Ok(customer);
+        if (!isUpdated)
+        {
+            return BadRequest("Customer unable to update");
+        }
+
+        return Ok();
     }
 
     // DELETE api/<CustomerController>/5
     [HttpDelete]
     public IActionResult Delete([FromBody] Customer customer)
     {
-        var deletedCustomer = customerDA.Delete(customer);
-        if (!deletedCustomer)
+        bool isDeleted;
+        try
+        {
+            isDeleted = customerDA.Delete(customer);
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Customer deletion failed - DB ERROR\n" + e.StackTrace);
+        }
+
+        if (!isDeleted)
         {
             return BadRequest("Customer deletion failed");
         }
 
-        return Ok(customer);
+        return Ok();
     }
 }

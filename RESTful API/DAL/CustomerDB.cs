@@ -22,8 +22,7 @@ public class CustomerDB : ICRUD<Customer>
 
         using var connection = new SqlConnection(_connectionString);
         connection.Open();
-        var id = connection.ExecuteScalar<long>(insertQuery, obj);
-        obj.Id = id;
+        obj.Id = connection.ExecuteScalar<long>(insertQuery, obj);
         connection.Close();
         return obj;
     }
