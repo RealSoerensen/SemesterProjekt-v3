@@ -1,5 +1,6 @@
 ﻿using Models;
 using RESTful_API.Repositories.CustomerDA;
+using System;
 
 namespace RESTful_API.Services;
 
@@ -12,29 +13,69 @@ public class CustomerService
         _customerDB = customerDB;
     }
 
-    public Customer? Create(Customer customer)
+    public Customer CreateCustomer(Customer customer)
     {
-        return _customerDB.Create(customer);
+        try
+        {
+            return _customerDB.Create(customer);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
     }
 
-    public Customer? Get(string email)
+    public Customer? GetCustomerByEmail(string email)
     {
-        return _customerDB.GetByEmail(email);
+        try
+        {
+            return _customerDB.GetByEmail(email);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
     }
 
-    public List<Customer> GetAll()
+    public List<Customer> GetAllCustomers()
     {
-        return _customerDB.GetAll();
+        try
+        {
+            return _customerDB.GetAll();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
     }
 
-    public bool Update(Customer customer)
+    public bool UpdateCustomer(Customer customer)
     {
-        return _customerDB.Update(customer);
+        try
+        {
+            return _customerDB.Update(customer);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
     }
 
-    public bool Delete(Customer customer)
+    public bool DeleteCustomer(Customer customer)
     {
-        return _customerDB.Delete(customer);
+        try
+        {
+            return _customerDB.Delete(customer);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
     }
-
 }
+

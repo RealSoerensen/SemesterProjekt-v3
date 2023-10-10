@@ -4,8 +4,6 @@ using RESTful_API.Repositories;
 using RESTful_API.Repositories.AddressDA;
 using RESTful_API.Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace RESTful_API.Controllers;
 
 [Route("api/[controller]")]
@@ -25,7 +23,7 @@ public class AddressController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        List<Address> addresses = addressService.GetAll();
+        List<Address> addresses = addressService.GetAllAddresses();
 
         if (addresses == null)
         {
@@ -39,7 +37,7 @@ public class AddressController : ControllerBase
     [HttpGet("{id:int}")]
     public IActionResult Get(int id)
     {
-        Address? address = addressService.Get(id);
+        Address? address = addressService.GetAddress(id);
 
         if (address == null)
         {
@@ -53,7 +51,7 @@ public class AddressController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] Address address)
     {
-        Address? createdAddress = addressService.Create(address);
+        Address? createdAddress = addressService.CreateAddress(address);
         if (createdAddress == null)
         {
             return BadRequest("Address creation failed - Unable to create in DB");
@@ -66,7 +64,7 @@ public class AddressController : ControllerBase
     [HttpPut]
     public IActionResult Update([FromBody] Address address)
     {
-        bool updatedAddress = addressService.Update(address);
+        bool updatedAddress = addressService.UpdateAddress(address);
         
         if (!updatedAddress)
         {
@@ -80,14 +78,14 @@ public class AddressController : ControllerBase
     [HttpDelete("{id:long}")]
     public IActionResult Delete(long id)
     {
-        Address? address = addressService.Get(id);
+        Address? address = addressService.GetAddress(id);
 
         if (address == null)
         {
             return NotFound($"Address with id {id} was not found");
         }
 
-        var deletedAddress = addressService.Delete(address);
+        var deletedAddress = addressService.DeleteAddress(address);
         if (!deletedAddress)
         {
             return BadRequest("Address deletion failed");

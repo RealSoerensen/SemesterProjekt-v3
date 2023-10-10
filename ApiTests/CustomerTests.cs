@@ -30,8 +30,8 @@ public class CustomerTests
         var customer = new Customer("John", "Doe", 1, "", "", "");
 
         // Act
-        addressService.Create(address);
-        var result = customerService.Create(customer);
+        addressService.CreateAddress(address);
+        var result = customerService.CreateCustomer(customer);
 
         // Assert
         Assert.IsNotNull(result); // Check if the result is not null
@@ -43,11 +43,11 @@ public class CustomerTests
         // Arrange
         var address = new Address("Street", "City", "State", "ZipCode", "");
         var customer = new Customer("John", "Doe", 1, "testt", "", "");
-        addressService.Create(address);
-        customerService.Create(customer);
+        addressService.CreateAddress(address);
+        customerService.CreateCustomer(customer);
 
         // Act
-        customer = customerService.Get("testt");
+        customer = customerService.GetCustomerByEmail("testt");
 
         // Assert
         Assert.IsNotNull(customer); // Check if the customer is not null
@@ -63,14 +63,14 @@ public class CustomerTests
         // Arrange
         var address = new Address("Street", "City", "State", "ZipCode", "");
         var customer1 = new Customer("John", "Doe", 1, "", "", "");
-        addressService.Create(address);
-        customerService.Create(customer1);
+        addressService.CreateAddress(address);
+        customerService.CreateCustomer(customer1);
 
         var customer2 = new Customer("Jane", "Doe", 1, "", "", "");
-        customerService.Create(customer2);
+        customerService.CreateCustomer(customer2);
 
         // Act
-        var result = customerService.GetAll();
+        var result = customerService.GetAllCustomers();
 
         // Assert
         Assert.IsNotNull(result); // Check if the customers is not null
@@ -82,12 +82,12 @@ public class CustomerTests
     {
         // Arrange
         var customer = new Customer("John", "Doe", 1, "test", "", "");
-        customerService.Create(customer);
+        customerService.CreateCustomer(customer);
         var updatedCustomer = new Customer("Jane", "Doe", 1, "test", "", "");
 
         // Act
-        customerService.Update(updatedCustomer);
-        var customerResult = customerService.Get("test");
+        customerService.UpdateCustomer(updatedCustomer);
+        var customerResult = customerService.GetCustomerByEmail("test");
 
         // Assert
         Assert.IsNotNull(customerResult); // Check if the customer is not null
@@ -99,10 +99,10 @@ public class CustomerTests
     {
         // Arrange
         var customer = new Customer("John", "Doe", 1, "", "", "");
-        customerService.Create(customer);
+        customerService.CreateCustomer(customer);
 
         // Act
-        var result = customerService.Delete(customer);
+        var result = customerService.DeleteCustomer(customer);
 
         // Assert
         Assert.IsTrue(result);
@@ -115,7 +115,7 @@ public class CustomerTests
         var customer = new Customer("John", "Doe", 1, "", "", "");
 
         // Act
-        var result = customerService.Delete(customer);
+        var result = customerService.DeleteCustomer(customer);
 
         // Assert
         Assert.IsFalse(result);

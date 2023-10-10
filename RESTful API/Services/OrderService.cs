@@ -1,22 +1,22 @@
 ﻿using Models;
-using RESTful_API.Repositories.AddressDA;
+using RESTful_API.Repositories.OrderDA;
 
 namespace RESTful_API.Services;
 
-public class AddressService
+public class OrderService
 {
-    private readonly IAddressDA _addressDB;
+    private readonly IOrderDA _orderDB;
 
-    public AddressService(IAddressDA addressDB)
+    public OrderService(IOrderDA orderDB)
     {
-        _addressDB = addressDB;
+        _orderDB = orderDB;
     }
 
-    public Address CreateAddress(Address address)
+    public Order CreateOrder(Order order)
     {
         try
         {
-            return _addressDB.Create(address); 
+            return _orderDB.Create(order);
         }
         catch (Exception e)
         {
@@ -25,11 +25,11 @@ public class AddressService
         }
     }
 
-    public Address GetAddress(long id)
+    public Order GetOrder(long id)
     {
         try
         {
-            return _addressDB.Get(id);
+            return _orderDB.Get(id);
         }
         catch (Exception e)
         {
@@ -38,11 +38,11 @@ public class AddressService
         }
     }
 
-    public List<Address> GetAllAddresses()
+    public List<Order> GetAllOrders()
     {
         try
         {
-            return _addressDB.GetAll();
+            return _orderDB.GetAll();
         }
         catch (Exception e)
         {
@@ -51,24 +51,24 @@ public class AddressService
         }
     }
 
-    public bool UpdateAddress(Address address)
+    public bool UpdateOrder(Order order)
     {
         try
         {
-            return _addressDB.Update(address);
+            return _orderDB.Update(order);
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
     }
 
-    public bool DeleteAddress(Address address)
+    public bool DeleteOrder(Order order)
     {
         try
         {
-            return _addressDB.Delete(address);
+            return _orderDB.Delete(order);
         }
         catch (Exception e)
         {

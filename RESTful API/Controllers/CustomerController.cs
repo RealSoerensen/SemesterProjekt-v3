@@ -4,8 +4,6 @@ using RESTful_API.Repositories;
 using RESTful_API.Repositories.CustomerDA;
 using RESTful_API.Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace RESTful_API.Controllers;
 
 [Route("api/[controller]")]
@@ -27,69 +25,96 @@ public class CustomerController : ControllerBase
     {
         try
         {
-            var createdCustomer = customerService.Create(customer);
+            var createdCustomer = customerService.CreateCustomer(customer);
             return Ok(createdCustomer);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e.StackTrace);
             return BadRequest("Customer creation failed - DB ERROR");
         }
     }
 
-    // GET api/<CustomerController>/5
+    // GET api/<CustomerController>/email
     [HttpGet("{email}")]
     public IActionResult Get(string email)
     {
-        Customer? customer = customerService.Get(email);
-
-        if (customer == null)
+        try
         {
-            return NotFound($"Customer with email {email} was not found");
-        }
+            Customer? customer = customerService.GetCustomerByEmail(email);
 
-        return Ok(customer);
+            if (customer == null)
+            {
+                return NotFound($"Customer with email {email} was not found");
+            }
+
+            return Ok(customer);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "An error occurred while fetching the customer.");
+        }
     }
 
     // GET: api/<CustomerController>
     [HttpGet] // Get all customers
     public IActionResult GetAll()
     {
-        List<Customer> customers = customerService.GetAll();
-        
-        if (customers == null)
+        try
         {
-            return NotFound("No customers found");
-        }
+            List<Customer>? customers = customerService.GetAllCustomers();
 
-        return Ok(customers);
+            if (customers == null)
+            {
+                return NotFound("No customers found");
+            }
+
+            return Ok(customers);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "An error occurred while fetching customers.");
+        }
     }
 
     // PUT api/<CustomerController>
     [HttpPut]
     public IActionResult Update([FromBody] Customer customer)
     {
-        bool isUpdated = customerService.Update(customer);
-
-        if (!isUpdated)
+        try
         {
-            return BadRequest("Customer unable to update");
-        }
+            bool isUpdated = customerService.UpdateCustomer(customer);
 
-        return Ok();
+            if (!isUpdated)
+            {
+                return BadRequest("Customer unable to update");
+            }
+
+            return Ok();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "An error occurred while updating the customer.");
+        }
     }
 
-    // DELETE api/<CustomerController>/5
+    // DELETE api/<CustomerController>
     [HttpDelete]
     public IActionResult Delete([FromBody] Customer customer)
     {
-        bool isDeleted = customerService.Delete(customer);
-
-        if (!isDeleted)
+        try
         {
-            return BadRequest("Customer deletion failed");
-        }
+            bool isDeleted = customerService.DeleteCustomer(customer);
 
-        return Ok();
+            if (!isDeleted)
+            {
+                return BadRequest("Customer deletion failed");
+            }
+
+            return Ok();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "An error occurred while deleting the customer.");
+        }
     }
 }

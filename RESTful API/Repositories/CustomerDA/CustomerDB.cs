@@ -31,7 +31,7 @@ public class CustomerDB : ICustomerDA
         throw new NotImplementedException();
     }
 
-    public Customer? Get(long id)
+    public Customer Get(long id)
     {
         throw new NotSupportedException();
     }

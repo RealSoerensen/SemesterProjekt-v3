@@ -2,9 +2,9 @@
 
 public interface ICRUD<C> where C : class
 {
-    C? Create(C obj);
+    C Create(C obj);
 
-    C? Get(long id);
+    C Get(long id);
 
     List<C> GetAll();
 

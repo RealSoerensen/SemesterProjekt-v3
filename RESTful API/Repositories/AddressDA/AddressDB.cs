@@ -32,7 +32,7 @@ public class AddressDB : IAddressDA
         throw new NotImplementedException();
     }
 
-    public Address? Get(long id)
+    public Address Get(long id)
     {
         throw new NotImplementedException();
     }
