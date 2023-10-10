@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
 using RESTful_API.Repositories.OrderDA;
+using RESTful_API.Services;
 
 namespace RESTful_API.Controllers;
 
@@ -8,11 +9,11 @@ namespace RESTful_API.Controllers;
 [ApiController]
 public class OrderController : ControllerBase
 {
-    private readonly OrderDB orderDA;
+    private readonly OrderService _orderService;
 
-    public OrderController(OrderDB orderDA)
+    public OrderController()
     {
-        this.orderDA = orderDA;
+        _orderService = new OrderService();
     }
 
     // GET: api/<OrderController>
@@ -22,7 +23,7 @@ public class OrderController : ControllerBase
         List<Order> orders;
         try
         {
-            orders = orderDA.GetAll();
+            orders = _orderService.GetAllOrders();
         }
         catch (Exception ex)
         {
@@ -44,7 +45,7 @@ public class OrderController : ControllerBase
         Order? order;
         try
         {
-            order = orderDA.Get(id);
+            order = _orderService.GetOrder(id);
         }
         catch (Exception e)
         {
@@ -65,7 +66,7 @@ public class OrderController : ControllerBase
     {
         try
         {
-            var createdOrder = orderDA.Create(order);
+            var createdOrder = _orderService.CreateOrder(order);
             return Ok(createdOrder);
         }
         catch (Exception)
@@ -81,7 +82,7 @@ public class OrderController : ControllerBase
         bool isUpdated;
         try
         {
-            isUpdated = orderDA.Update(order);
+            isUpdated = _orderService.Update(order);
         }
         catch (Exception)
         {
@@ -103,7 +104,7 @@ public class OrderController : ControllerBase
         bool isDeleted;
         try
         {
-            isDeleted = orderDA.Delete(order);
+            isDeleted = _orderService.Delete(order);
         }
         catch (Exception e)
         {

@@ -11,8 +11,7 @@ public class DBConnectionTest
     public void GetConnection_ReturnsConnection()
     {
         // Arrange
-        var DBConnection = new DBConnection();
-        var connectionString = DBConnection.ConnectionString;
+        var connectionString = DBConnection.GetConnectionString();
 
         // Act
         using var connection = new SqlConnection(connectionString);

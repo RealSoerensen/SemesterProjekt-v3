@@ -1,4 +1,5 @@
 ﻿using Models;
+using RESTful_API.Repositories;
 using RESTful_API.Repositories.CustomerDA;
 using System;
 
@@ -8,9 +9,10 @@ public class CustomerService
 {
     private readonly ICustomerDA _customerDB;
 
-    public CustomerService(ICustomerDA customerDB)
+    public CustomerService()
     {
-        _customerDB = customerDB;
+        var connectionString = DBConnection.GetConnectionString();
+        _customerDB = new CustomerRespository(connectionString);
     }
 
     public Customer CreateCustomer(Customer customer)

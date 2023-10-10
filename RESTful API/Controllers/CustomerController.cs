@@ -14,9 +14,7 @@ public class CustomerController : ControllerBase
 
     public CustomerController()
     {
-        DBConnection dBConnection = new();
-        var connectionString = dBConnection.ConnectionString ?? throw new Exception("Unable to get Connection String from secrets");
-        customerService = new CustomerService(new CustomerDB(connectionString));
+        customerService = new CustomerService();
     }
 
     // POST api/<CustomerController>

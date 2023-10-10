@@ -12,14 +12,10 @@ namespace ApiTests;
 public class CustomerTests
 {
     private readonly CustomerService customerService;
-    private readonly AddressService addressService;
 
     public CustomerTests()
     {
-        DBConnection dbConnection = new();
-        var connectionString = dbConnection.ConnectionString ?? throw new Exception("Unable to get Connection String from secrets");
-        customerService = new CustomerService(new CustomerDB(connectionString));
-        addressService = new AddressService(new AddressDB(connectionString));
+        customerService = new CustomerService();
     }
 
     [TestMethod]
@@ -27,10 +23,9 @@ public class CustomerTests
     {
         // Arrange
         var address = new Address("Street", "City", "State", "ZipCode", "");
-        var customer = new Customer("John", "Doe", 1, "", "", "");
+        var customer = new Customer("John", "Doe", address, "", "", "");
 
         // Act
-        addressService.CreateAddress(address);
         var result = customerService.CreateCustomer(customer);
 
         // Assert
@@ -42,8 +37,7 @@ public class CustomerTests
     {
         // Arrange
         var address = new Address("Street", "City", "State", "ZipCode", "");
-        var customer = new Customer("John", "Doe", 1, "testt", "", "");
-        addressService.CreateAddress(address);
+        var customer = new Customer("John", "Doe", address, "testt", "", "");
         customerService.CreateCustomer(customer);
 
         // Act
@@ -54,7 +48,7 @@ public class CustomerTests
         Assert.AreEqual("testt", customer.Email);
         Assert.AreEqual("John", customer.FirstName);
         Assert.AreEqual("Doe", customer.LastName);
-        Assert.AreEqual(1, customer.AddressId);
+        Assert.AreEqual(1, address.Id);
     }
 
     [TestMethod]
@@ -62,11 +56,10 @@ public class CustomerTests
     {
         // Arrange
         var address = new Address("Street", "City", "State", "ZipCode", "");
-        var customer1 = new Customer("John", "Doe", 1, "", "", "");
-        addressService.CreateAddress(address);
+        var customer1 = new Customer("John", "Doe", address, "", "", "");
         customerService.CreateCustomer(customer1);
 
-        var customer2 = new Customer("Jane", "Doe", 1, "", "", "");
+        var customer2 = new Customer("Jane", "Doe", address, "", "", "");
         customerService.CreateCustomer(customer2);
 
         // Act
@@ -81,9 +74,10 @@ public class CustomerTests
     public void UpdateCustomer_ReturnsTrue()
     {
         // Arrange
-        var customer = new Customer("John", "Doe", 1, "test", "", "");
+        var address = new Address("Street", "City", "State", "ZipCode", "");
+        var customer = new Customer("John", "Doe", address, "test", "", "");
         customerService.CreateCustomer(customer);
-        var updatedCustomer = new Customer("Jane", "Doe", 1, "test", "", "");
+        var updatedCustomer = new Customer("Jane", "Doe", address, "test", "", "");
 
         // Act
         customerService.UpdateCustomer(updatedCustomer);
@@ -98,7 +92,8 @@ public class CustomerTests
     public void DeleteCustomer_ReturnsTrue()
     {
         // Arrange
-        var customer = new Customer("John", "Doe", 1, "", "", "");
+        var address = new Address("Street", "City", "State", "ZipCode", "");
+        var customer = new Customer("John", "Doe", address, "", "", "");
         customerService.CreateCustomer(customer);
 
         // Act
@@ -112,7 +107,8 @@ public class CustomerTests
     public void DeleteCustomer_ReturnsFalse()
     {
         // Arrange
-        var customer = new Customer("John", "Doe", 1, "", "", "");
+        var address = new Address("Street", "City", "State", "ZipCode", "");
+        var customer = new Customer("John", "Doe", address, "", "", "");
 
         // Act
         var result = customerService.DeleteCustomer(customer);

@@ -1,4 +1,5 @@
 ﻿using Models;
+using RESTful_API.Repositories;
 using RESTful_API.Repositories.AddressDA;
 
 namespace RESTful_API.Services;
@@ -7,9 +8,10 @@ public class AddressService
 {
     private readonly IAddressDA _addressDB;
 
-    public AddressService(IAddressDA addressDB)
+    public AddressService()
     {
-        _addressDB = addressDB;
+        var connectionString = DBConnection.GetConnectionString();
+        _addressDB = new AddressRespository(connectionString);
     }
 
     public Address CreateAddress(Address address)

@@ -1,4 +1,5 @@
 ﻿using Models;
+using RESTful_API.Repositories;
 using RESTful_API.Repositories.OrderDA;
 
 namespace RESTful_API.Services;
@@ -7,9 +8,10 @@ public class OrderService
 {
     private readonly IOrderDA _orderDB;
 
-    public OrderService(IOrderDA orderDB)
+    public OrderService()
     {
-        _orderDB = orderDB;
+        var connectionString = DBConnection.GetConnectionString();
+        _orderDB = new OrderRespository(connectionString);
     }
 
     public Order CreateOrder(Order order)

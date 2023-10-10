@@ -1,20 +1,14 @@
-﻿namespace RESTful_API.Repositories;
+﻿using Microsoft.Identity.Client;
+
+namespace RESTful_API.Repositories;
 
 public class DBConnection
 {
-    public string? ConnectionString { get; private set; }
-
-    public DBConnection()
+    public static string GetConnectionString()
     {
-        try
-        {
-            var configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.AddUserSecrets<Program>().Build();
-            ConnectionString = configuration.GetSection("ConnectionStrings")["DbConnection"];
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Unable to get Connection String from secrets\n" + e.Message);
-        }
+        var configurationBuilder = new ConfigurationBuilder();
+        IConfiguration configuration = configurationBuilder.AddUserSecrets<Program>().Build();
+        var connectionString = configuration.GetSection("ConnectionStrings")["DbConnection"];
+        return connectionString ?? throw new Exception("Connection string not found");
     }
 }

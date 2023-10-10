@@ -1,37 +1,39 @@
-﻿using Models;
+﻿using Dapper;
+using Microsoft.Data.SqlClient;
+using Models;
 
-namespace RESTful_API.Repositories.OrderDA;
+namespace RESTful_API.Repositories.AddressDA;
 
-public class OrderDB : ICRUD<Order>
+public class AddressDB : IAddressDA
 {
     private readonly string _connectionString;
 
-    public OrderDB(string connectionString)
+    public AddressDB(string connectionString)
     {
         _connectionString = connectionString;
     }
 
-    public Order Create(Order obj)
+    public Address Create(Address obj)
     {
         throw new NotImplementedException();
     }
 
-    public bool Delete(Order obj)
+    public bool Delete(Address obj)
     {
         throw new NotImplementedException();
     }
 
-    public Order Get(long id)
+    public Address Get(long id)
     {
         throw new NotImplementedException();
     }
 
-    public List<Order> GetAll()
+    public List<Address> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public bool Update(Order obj)
+    public bool Update(Address obj)
     {
         throw new NotImplementedException();
     }
