@@ -1,16 +1,19 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Models;
+using RESTful_API.Services;
 
 namespace RESTful_API.Repositories.CustomerDA;
 
-public class CustomerDB : ICustomerDA
+public class CustomerRespository : ICustomerDA
 {
     private readonly string _connectionString;
+    private readonly AddressService AddressService;
 
-    public CustomerDB(string connectionString)
+    public CustomerRespository(string connectionString)
     {
         _connectionString = connectionString;
+        AddressService = new AddressService();
     }
 
     public Customer Create(Customer obj)
