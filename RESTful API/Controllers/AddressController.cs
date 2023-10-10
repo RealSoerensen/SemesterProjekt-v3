@@ -1,131 +1,98 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using RESTful_API.DAL;
+using RESTful_API.Repositories;
+using RESTful_API.Repositories.AddressDA;
+using RESTful_API.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace RESTful_API.Controllers
+namespace RESTful_API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class AddressController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AddressController : ControllerBase
+    private readonly AddressService addressService;
+
+    public AddressController()
     {
-        private readonly AddressDB addressDA;
+        DBConnection dBConnection = new();
+        var connectionString = dBConnection.ConnectionString ?? throw new Exception("Unable to get Connection String from secrets");
+        addressService = new AddressService(new AddressDB(connectionString));
+    }
 
-        public AddressController(AddressDB addressDA)
+    // GET: api/<AddressController>
+    [HttpGet]
+    public IActionResult Get()
+    {
+        List<Address> addresses = addressService.GetAll();
+
+        if (addresses == null)
         {
-            this.addressDA = addressDA;
+            return NotFound("No addresses found");
         }
 
-        // GET: api/<AddressController>
-        [HttpGet]
-        public IActionResult Get()
+        return Ok(addresses);
+    }
+
+    // GET api/<AddressController>/5
+    [HttpGet("{id:int}")]
+    public IActionResult Get(int id)
+    {
+        Address? address = addressService.Get(id);
+
+        if (address == null)
         {
-            List<Address> addresses;
-            try
-            {
-                addresses = addressDA.GetAll();
-            }
-            catch (Exception)
-            {
-                return BadRequest("Address retrieval failed - DB ERROR");
-            }
-
-            if (addresses == null)
-            {
-                return NotFound("No addresses found");
-            }
-
-            return Ok(addresses);
+            return NotFound($"Address with id {id} was not found");
         }
 
-        // GET api/<AddressController>/5
-        [HttpGet("{id:int}")]
-        public IActionResult Get(int id)
+        return Ok(address);
+    }
+
+    // POST api/<AddressController>
+    [HttpPost]
+    public IActionResult Create([FromBody] Address address)
+    {
+        Address? createdAddress = addressService.Create(address);
+        if (createdAddress == null)
         {
-            Address? address;
-            try
-            {
-                address = addressDA.Get(id);
-            }
-            catch (Exception)
-            {
-                return BadRequest("Address retrieval failed - DB ERROR");
-            }
-
-            if (address == null)
-            {
-                return NotFound($"Address with id {id} was not found");
-            }
-
-            return Ok(address);
+            return BadRequest("Address creation failed - Unable to create in DB");
         }
 
-        // POST api/<AddressController>
-        [HttpPost]
-        public IActionResult Create([FromBody] Address address)
-        {
-            Address createdAddress;
-            try
-            {
-                createdAddress = addressDA.Create(address);
-            } 
-            catch (Exception)
-            {
-                return BadRequest("Address creation failed");
-            }
+        return Ok(createdAddress);
+    }
 
-            return Ok(createdAddress);
+    // PUT api/<AddressController>/5
+    [HttpPut]
+    public IActionResult Update([FromBody] Address address)
+    {
+        bool updatedAddress = addressService.Update(address);
+        
+        if (!updatedAddress)
+        {
+            return BadRequest("Address update failed - Unable to update in DB");
         }
 
-        // PUT api/<AddressController>/5
-        [HttpPut]
-        public IActionResult Update([FromBody] Address address)
-        {
-            bool updatedAddress;
-            try
-            {
-                updatedAddress = addressDA.Update(address);
-            } 
-            catch (Exception)
-            {
-                return BadRequest("Address update failed - DB ERROR");
-            }
-            
-            if (!updatedAddress)
-            {
-                return BadRequest("Address update failed - Unable to update in DB");
-            }
+        return Ok();
+    }
 
-            return Ok();
+    // DELETE api/<AddressController>/5
+    [HttpDelete("{id:long}")]
+    public IActionResult Delete(long id)
+    {
+        Address? address = addressService.Get(id);
+
+        if (address == null)
+        {
+            return NotFound($"Address with id {id} was not found");
         }
 
-        // DELETE api/<AddressController>/5
-        [HttpDelete("{id:long}")]
-        public IActionResult Delete(long id)
+        var deletedAddress = addressService.Delete(address);
+        if (!deletedAddress)
         {
-            Address? address;
-            try
-            {
-                address = addressDA.Get(id);
-            }
-            catch (Exception)
-            {
-                return BadRequest("Address deletion failed - DB ERROR");
-            }
-
-            if (address == null)
-            {
-                return NotFound($"Address with id {id} was not found");
-            }
-
-            var deletedAddress = addressDA.Delete(address);
-            if (!deletedAddress)
-            {
-                return BadRequest("Address deletion failed");
-            }
-
-            return Ok();
+            return BadRequest("Address deletion failed");
         }
+
+        return Ok();
     }
 }

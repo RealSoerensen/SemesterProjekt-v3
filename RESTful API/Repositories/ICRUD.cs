@@ -1,4 +1,4 @@
-﻿namespace RESTful_API.DAL;
+﻿namespace RESTful_API.Repositories;
 
 public interface ICRUD<C> where C : class
 {

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using RESTful_API.DAL;
+using RESTful_API.Repositories;
+using RESTful_API.Repositories.CustomerDA;
+using RESTful_API.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,11 +12,13 @@ namespace RESTful_API.Controllers;
 [ApiController]
 public class CustomerController : ControllerBase
 {
-    private readonly CustomerDB customerDA;
+    private readonly CustomerService customerService;
 
-    public CustomerController(CustomerDB customerDA)
+    public CustomerController()
     {
-        this.customerDA = customerDA;
+        DBConnection dBConnection = new();
+        var connectionString = dBConnection.ConnectionString ?? throw new Exception("Unable to get Connection String from secrets");
+        customerService = new CustomerService(new CustomerDB(connectionString));
     }
 
     // POST api/<CustomerController>
@@ -23,32 +27,25 @@ public class CustomerController : ControllerBase
     {
         try
         {
-            var createdCustomer = customerDA.Create(customer);
+            var createdCustomer = customerService.Create(customer);
             return Ok(createdCustomer);
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Console.WriteLine(e.StackTrace);
             return BadRequest("Customer creation failed - DB ERROR");
         }
     }
 
     // GET api/<CustomerController>/5
-    [HttpGet("{id:int}")]
-    public IActionResult Get(int id)
+    [HttpGet("{email}")]
+    public IActionResult Get(string email)
     {
-        Customer? customer;
-        try
-        {
-            customer = customerDA.Get(id);
-        }
-        catch (Exception e)
-        {
-            return BadRequest("Customer retrieval failed - DB ERROR\n" + e.StackTrace);
-        }
+        Customer? customer = customerService.Get(email);
 
         if (customer == null)
         {
-            return NotFound($"Customer with id {id} was not found");
+            return NotFound($"Customer with email {email} was not found");
         }
 
         return Ok(customer);
@@ -58,15 +55,7 @@ public class CustomerController : ControllerBase
     [HttpGet] // Get all customers
     public IActionResult GetAll()
     {
-        List<Customer> customers;
-        try 
-        {
-            customers = customerDA.GetAll();
-        }
-        catch (Exception e)
-        {
-            return BadRequest("Customer retrieval failed - DB ERROR\n" + e.StackTrace);
-        }
+        List<Customer> customers = customerService.GetAll();
         
         if (customers == null)
         {
@@ -80,16 +69,7 @@ public class CustomerController : ControllerBase
     [HttpPut]
     public IActionResult Update([FromBody] Customer customer)
     {
-        bool isUpdated;
-        try
-        {
-            isUpdated = customerDA.Update(customer);
-
-        }
-        catch (Exception e)
-        {
-            return BadRequest("Customer update failed - DB ERROR\n" + e.StackTrace);
-        }
+        bool isUpdated = customerService.Update(customer);
 
         if (!isUpdated)
         {
@@ -103,15 +83,7 @@ public class CustomerController : ControllerBase
     [HttpDelete]
     public IActionResult Delete([FromBody] Customer customer)
     {
-        bool isDeleted;
-        try
-        {
-            isDeleted = customerDA.Delete(customer);
-        }
-        catch (Exception e)
-        {
-            return BadRequest("Customer deletion failed - DB ERROR\n" + e.StackTrace);
-        }
+        bool isDeleted = customerService.Delete(customer);
 
         if (!isDeleted)
         {

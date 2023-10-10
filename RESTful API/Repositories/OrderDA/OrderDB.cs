@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace RESTful_API.DAL;
+namespace RESTful_API.Repositories.OrderDA;
 
 public class OrderDB : ICRUD<Order>
 {

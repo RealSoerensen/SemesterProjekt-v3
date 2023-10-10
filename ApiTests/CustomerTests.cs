@@ -1,22 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using RESTful_API.Controllers;
-using RESTful_API.DAL;
+using RESTful_API.Repositories;
+using RESTful_API.Repositories.AddressDA;
+using RESTful_API.Repositories.CustomerDA;
+using RESTful_API.Services;
 
 namespace ApiTests;
 
 [TestClass]
 public class CustomerTests
 {
-    private readonly CustomerController customerController;
-    private readonly AddressController addressController;
+    private readonly CustomerService customerService;
+    private readonly AddressService addressService;
 
     public CustomerTests()
     {
         DBConnection dbConnection = new();
         var connectionString = dbConnection.ConnectionString ?? throw new Exception("Unable to get Connection String from secrets");
-        customerController = new CustomerController(new CustomerDB(connectionString));
-        addressController = new AddressController(new AddressDB(connectionString));
+        customerService = new CustomerService(new CustomerDB(connectionString));
+        addressService = new AddressService(new AddressDB(connectionString));
     }
 
     [TestMethod]
@@ -27,8 +30,8 @@ public class CustomerTests
         var customer = new Customer("John", "Doe", 1, "", "", "");
 
         // Act
-        addressController.Create(address);
-        var result = customerController.Create(customer);
+        addressService.Create(address);
+        var result = customerService.Create(customer);
 
         // Assert
         Assert.IsNotNull(result); // Check if the result is not null
@@ -39,17 +42,16 @@ public class CustomerTests
     {
         // Arrange
         var address = new Address("Street", "City", "State", "ZipCode", "");
-        var customer = new Customer(1, "John", "Doe", 1, "", "", "");
-        addressController.Create(address);
-        customerController.Create(customer);
+        var customer = new Customer("John", "Doe", 1, "testt", "", "");
+        addressService.Create(address);
+        customerService.Create(customer);
 
         // Act
-        var result = customerController.Get(1);
-        customer = (Customer)((OkObjectResult)result).Value!;
+        customer = customerService.Get("testt");
 
         // Assert
         Assert.IsNotNull(customer); // Check if the customer is not null
-        Assert.AreEqual(1, customer.Id);
+        Assert.AreEqual("testt", customer.Email);
         Assert.AreEqual("John", customer.FirstName);
         Assert.AreEqual("Doe", customer.LastName);
         Assert.AreEqual(1, customer.AddressId);
@@ -61,36 +63,35 @@ public class CustomerTests
         // Arrange
         var address = new Address("Street", "City", "State", "ZipCode", "");
         var customer1 = new Customer("John", "Doe", 1, "", "", "");
-        addressController.Create(address);
-        customerController.Create(customer1);
+        addressService.Create(address);
+        customerService.Create(customer1);
 
         var customer2 = new Customer("Jane", "Doe", 1, "", "", "");
-        customerController.Create(customer2);
+        customerService.Create(customer2);
 
         // Act
-        var result = customerController.GetAll();
-        var customers = (List<Customer>)((OkObjectResult)result).Value!;
+        var result = customerService.GetAll();
 
         // Assert
-        Assert.IsNotNull(customers); // Check if the customers is not null
-        Assert.IsTrue(customers.Count >= 2);
+        Assert.IsNotNull(result); // Check if the customers is not null
+        Assert.IsTrue(result.Count >= 2);
     }
 
     [TestMethod]
     public void UpdateCustomer_ReturnsTrue()
     {
         // Arrange
-        var customer = new Customer(1, "John", "Doe", 1, "", "", "");
-        customerController.Create(customer);
-        var updatedCustomer = new Customer(1, "Jane", "Doe", 1, "", "", "");
+        var customer = new Customer("John", "Doe", 1, "test", "", "");
+        customerService.Create(customer);
+        var updatedCustomer = new Customer("Jane", "Doe", 1, "test", "", "");
 
         // Act
-        customerController.Update(updatedCustomer);
-        var customerResult = customerController.Get(1);
-        customer = (Customer)((OkObjectResult)customerResult).Value!;
+        customerService.Update(updatedCustomer);
+        var customerResult = customerService.Get("test");
 
         // Assert
-        Assert.AreEqual("Jane", customer.FirstName);
+        Assert.IsNotNull(customerResult); // Check if the customer is not null
+        Assert.AreEqual("Jane", customerResult.FirstName);
     }
 
     [TestMethod]
@@ -98,14 +99,13 @@ public class CustomerTests
     {
         // Arrange
         var customer = new Customer("John", "Doe", 1, "", "", "");
-        customerController.Create(customer);
+        customerService.Create(customer);
 
         // Act
-        var result = customerController.Delete(customer);
-        var resultBool = (bool)((BadRequestObjectResult)result).Value!;
+        var result = customerService.Delete(customer);
 
         // Assert
-        Assert.IsTrue(resultBool);
+        Assert.IsTrue(result);
     }
 
     [TestMethod]
@@ -115,10 +115,9 @@ public class CustomerTests
         var customer = new Customer("John", "Doe", 1, "", "", "");
 
         // Act
-        var result = customerController.Delete(customer);
-        var resultBool = (bool)((BadRequestObjectResult)result).Value!;
+        var result = customerService.Delete(customer);
 
         // Assert
-        Assert.IsFalse(resultBool);
+        Assert.IsFalse(result);
     }
 }
