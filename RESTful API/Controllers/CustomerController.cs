@@ -36,83 +36,87 @@ public class CustomerController : ControllerBase
     [HttpGet("{email}")]
     public IActionResult Get(string email)
     {
+        Customer? customer;
         try
         {
-            Customer? customer = customerService.GetCustomerByEmail(email);
-
-            if (customer == null)
-            {
-                return NotFound($"Customer with email {email} was not found");
-            }
-
-            return Ok(customer);
+            customer = customerService.GetCustomerByEmail(email);
         }
         catch (Exception)
         {
             return StatusCode(500, "An error occurred while fetching the customer.");
         }
+
+        if (customer == null)
+        {
+            return NotFound($"Customer with email {email} was not found");
+        }
+
+        return Ok(customer);
     }
 
     // GET: api/<CustomerController>
     [HttpGet] // Get all customers
     public IActionResult GetAll()
     {
+        List<Customer> customers;
         try
         {
-            List<Customer>? customers = customerService.GetAllCustomers();
-
-            if (customers == null)
-            {
-                return NotFound("No customers found");
-            }
-
-            return Ok(customers);
+            customers = customerService.GetAllCustomers();
         }
         catch (Exception)
         {
             return StatusCode(500, "An error occurred while fetching customers.");
         }
+
+        if (customers.Count == 0)
+        {
+            return NotFound("No customers found");
+        }
+
+        return Ok(customers);
     }
 
     // PUT api/<CustomerController>
     [HttpPut]
     public IActionResult Update([FromBody] Customer customer)
     {
+        bool isUpdated;
         try
         {
-            bool isUpdated = customerService.UpdateCustomer(customer);
-
-            if (!isUpdated)
-            {
-                return BadRequest("Customer unable to update");
-            }
-
-            return Ok();
+            isUpdated = customerService.UpdateCustomer(customer);
         }
         catch (Exception)
         {
             return StatusCode(500, "An error occurred while updating the customer.");
         }
+
+        if (!isUpdated)
+        {
+            return BadRequest("Customer unable to update");
+        }
+
+        return Ok();
     }
 
     // DELETE api/<CustomerController>
     [HttpDelete]
     public IActionResult Delete([FromBody] Customer customer)
     {
+        bool isDeleted;
         try
         {
-            bool isDeleted = customerService.DeleteCustomer(customer);
-
-            if (!isDeleted)
-            {
-                return BadRequest("Customer deletion failed");
-            }
-
-            return Ok();
+            isDeleted = customerService.DeleteCustomer(customer);
         }
         catch (Exception)
         {
             return StatusCode(500, "An error occurred while deleting the customer.");
         }
+
+        if (!isDeleted)
+        {
+            return BadRequest("Customer deletion failed");
+        }
+
+        return Ok();
     }
 }

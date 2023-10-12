@@ -9,36 +9,26 @@ internal class CustomerDA
 
     public Customer? Create(Customer obj)
     {
-        using var client = new HttpClient();
-        var response = client.PostAsJsonAsync(URL, obj).Result;
-        return response.IsSuccessStatusCode ? response.Content.ReadFromJsonAsync<Customer>().Result : null;
+        throw new NotImplementedException();
     }
 
     public Customer? GetCustomerById(int id)
     {
-        using var client = new HttpClient();
-        var response = client.GetAsync(URL + "?id=" + id).Result;
-        return response.IsSuccessStatusCode ? response.Content.ReadFromJsonAsync<Customer>().Result : null;
+        throw new NotImplementedException();
     }
 
     public List<Customer>? GetAllCustomers()
     {
-        using var client = new HttpClient();
-        var response = client.GetAsync(URL).Result;
-        return response.IsSuccessStatusCode ? response.Content.ReadFromJsonAsync<List<Customer>>().Result : new List<Customer>();
+        throw new NotImplementedException();
     }
 
     public bool Update(Customer obj)
     {
-        using var client = new HttpClient();
-        var response = client.PutAsJsonAsync(URL, obj).Result;
-        return response.IsSuccessStatusCode;
+        throw new NotImplementedException();
     }
 
     public bool Delete(Customer obj)
     {
-        using var client = new HttpClient();
-        var response = client.DeleteAsync(URL + "/" + obj.Id).Result;
-        return response.IsSuccessStatusCode;
+        throw new NotImplementedException();
     }
 }
