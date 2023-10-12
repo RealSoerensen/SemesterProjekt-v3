@@ -2,33 +2,26 @@
 
 public class Address
 {
-    public long Id { get; set; }
-    public string? Street { get; set; }
-    public string? City { get; set; }
-    public string? State { get; set; }
-    public string? Zip { get; set; }
-    public string? Country { get; set; }
+    public long? Id { get; private set; }
+    public string Street { get; private set; }
+    public string City { get; private set; }
+    public string Zip { get; private set; }
+    public string HouseNumber { get; private set; }
 
-    public Address()
-    {
-    }
-
-    public Address(long id, string? street, string? city, string? state, string? zip, string? country)
+    public Address(long id, string street, string city, string zip, string houseNumber)
     {
         Id = id;
         Street = street;
         City = city;
-        State = state;
         Zip = zip;
-        Country = country;
+        HouseNumber = houseNumber;
     }
 
-    public Address(string? street, string? city, string? state, string? zip, string? country)
+    public Address(string street, string city, string zip, string houseNumber)
     {
         Street = street;
         City = city;
-        State = state;
         Zip = zip;
-        Country = country;
+        HouseNumber = houseNumber;
     }
 }
