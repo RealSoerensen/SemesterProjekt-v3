@@ -1,4 +1,6 @@
-﻿namespace Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Models;
 
 public class Customer
 {
