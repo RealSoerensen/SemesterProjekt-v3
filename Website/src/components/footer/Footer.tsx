@@ -1,25 +1,15 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faPhone} from '@fortawesome/free-solid-svg-icons'
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-type Props = {};
+const Footer = () => {
 
-const Footer = (props: Props) => {
-  const footerStyle: React.CSSProperties = {
-    position: 'fixed',
-    bottom: 0,
-    width: '100%',
-    backgroundColor: '#333',
-    color: '#fff',
-    padding: '10px 0',
-    textAlign: 'center',
-  };
+  const phoneIcon = icon({ name: 'phone', family: 'classic', style: 'solid' });
 
   return (
-    <footer style={footerStyle}>
-      <div className="container">
+    <footer className='bg-dark text-center text-light fixed-bottom'>
+      <div className="container mt-3">
         <p>&copy; {new Date().getFullYear()} Padel Shop</p>
-        <p><FontAwesomeIcon icon={faPhone} />  Contact Patrick, out lead developer: 60513224  <FontAwesomeIcon icon={faPhone} flip="horizontal"/></p> {/* Add your phone number here */}
+        <p><FontAwesomeIcon icon={phoneIcon} />  Contact Patrick, out lead developer: <a href="tel:+4560513224">60513224</a>  <FontAwesomeIcon icon={phoneIcon} flip="horizontal" /></p>
       </div>
     </footer>
   );

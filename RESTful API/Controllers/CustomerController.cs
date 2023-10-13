@@ -97,7 +97,7 @@ public class CustomerController : ControllerBase
     }
 
     // DELETE api/<CustomerController>/email
-    [HttpDelete("email:string")]
+    [HttpDelete("{email:string}")]
     public IActionResult Delete(string email)
     {
         bool isDeleted;
