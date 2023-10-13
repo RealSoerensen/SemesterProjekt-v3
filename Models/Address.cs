@@ -19,12 +19,12 @@ public class Address
     }
 
     [JsonConstructor]
-    public Address(long id, string street, string city, string zip, string houseNumber)
+    public Address(long id, string zipCode, string houseNumber, string city, string street)
     {
         Id = id;
         Street = street;
         City = city;
-        Zip = zip;
+        Zip = zipCode;
         HouseNumber = houseNumber;
     }
 }

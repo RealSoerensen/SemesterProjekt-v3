@@ -25,9 +25,9 @@ public class OrderController : ControllerBase
         {
             orders = _orderService.GetAllOrders();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return BadRequest("Order retrieval failed - DB ERROR\n" + ex.StackTrace);
+            return BadRequest("Order retrieval failed - DB ERROR");
         }
 
         if (orders == null)
@@ -47,14 +47,14 @@ public class OrderController : ControllerBase
         {
             order = _orderService.GetOrder(id);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return BadRequest("Order retrieval failed - DB ERROR\n" + e.StackTrace);
+            return BadRequest("Order retrieval failed - DB ERROR");
         }
 
         if (order == null)
         {
-            return NotFound($"Order with id {id} was not found");
+            return NotFound();
         }
 
         return Ok(order);
@@ -106,9 +106,9 @@ public class OrderController : ControllerBase
         {
             isDeleted = _orderService.DeleteOrder(id);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return BadRequest("Order deletion failed - DB ERROR\n" + e.StackTrace);
+            return BadRequest("Order deletion failed - DB ERROR");
         }
 
         if (!isDeleted)

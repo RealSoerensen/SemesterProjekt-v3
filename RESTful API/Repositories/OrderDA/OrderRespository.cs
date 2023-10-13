@@ -22,7 +22,7 @@ public class OrderRespository : IOrderDA
         try
         {
             var sql = "INSERT INTO [Order] (CustomerId, OrderDate, TotalPrice) VALUES (@CustomerId, @OrderDate, @TotalPrice); SELECT CAST(SCOPE_IDENTITY() as bigint);";
-            obj.Id = dbConnection.QuerySingle<int>(sql, obj, transaction);
+            dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
         }
         catch (Exception)

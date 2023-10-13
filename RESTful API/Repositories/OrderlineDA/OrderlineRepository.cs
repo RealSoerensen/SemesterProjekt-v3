@@ -21,8 +21,8 @@ public class OrderlineRepository : IOrderlineDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity) VALUES (@OrderId, @ProductId, @Quantity); SELECT CAST(SCOPE_IDENTITY() as bigint);";
-            obj.Id = dbConnection.QuerySingle<int>(sql, obj, transaction);
+            var sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity) VALUES (@OrderId, @ProductId, @Quantity);";
+            dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
         }
         catch (Exception)

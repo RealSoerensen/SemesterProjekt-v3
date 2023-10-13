@@ -77,17 +77,14 @@ public class AddressRespository : IAddressDA
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
         try
         {
             var sql = "SELECT * FROM Address";
-            var addresses = dbConnection.Query<Address>(sql, transaction).ToList();
-            transaction.Commit();
+            var addresses = dbConnection.Query<Address>(sql).ToList();
             return addresses;
         }
         catch (Exception)
         {
-            transaction.Rollback();
             throw;
         }
     }
