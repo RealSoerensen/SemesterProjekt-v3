@@ -1,24 +1,24 @@
 ﻿using Models;
 using RESTful_API.Repositories;
-using RESTful_API.Repositories.CustomerDA;
+using RESTful_API.Repositories.ProductDescriptionDA;
 
 namespace RESTful_API.Services;
 
-public class CustomerService
+public class ProductDescriptionService
 {
-    private readonly ICustomerDA _customerDB;
+    private readonly IProductDescriptionDA productDescriptionRepository;
 
-    public CustomerService()
+    public ProductDescriptionService()
     {
         var connectionString = DBConnection.GetConnectionString();
-        _customerDB = new CustomerRespository(connectionString);
+        productDescriptionRepository = new ProductDescriptionRepository(connectionString);
     }
 
-    public Customer CreateCustomer(Customer customer)
+    public ProductDescription CreateProductDescription(ProductDescription productDescription)
     {
         try
         {
-            return _customerDB.Create(customer);
+            return productDescriptionRepository.Create(productDescription);
         }
         catch (Exception e)
         {
@@ -27,11 +27,11 @@ public class CustomerService
         }
     }
 
-    public Customer? GetCustomerByEmail(string email)
+    public ProductDescription GetProductDescriptionById(int id)
     {
         try
         {
-            return _customerDB.GetByEmail(email);
+            return productDescriptionRepository.Get(id);
         }
         catch (Exception e)
         {
@@ -40,11 +40,11 @@ public class CustomerService
         }
     }
 
-    public List<Customer> GetAllCustomers()
+    public List<ProductDescription> GetAllProductDescriptions()
     {
         try
         {
-            return _customerDB.GetAll();
+            return productDescriptionRepository.GetAll();
         }
         catch (Exception e)
         {
@@ -53,11 +53,11 @@ public class CustomerService
         }
     }
 
-    public bool UpdateCustomer(Customer customer)
+    public bool UpdateProductDescription(ProductDescription productDescription)
     {
         try
         {
-            return _customerDB.Update(customer);
+            return productDescriptionRepository.Update(productDescription);
         }
         catch (Exception e)
         {
@@ -66,11 +66,11 @@ public class CustomerService
         }
     }
 
-    public bool DeleteCustomer(string email)
+    public bool DeleteProductDescription(long id)
     {
         try
         {
-            return _customerDB.DeleteByEmail(email);
+            return productDescriptionRepository.Delete(id);
         }
         catch (Exception e)
         {

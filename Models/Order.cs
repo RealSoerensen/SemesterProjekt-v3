@@ -4,21 +4,21 @@ public class Order
 {
     public DateTime DateTime { get; set; } = DateTime.Now;
     public long? Id { get; set; }
-    public Customer Customer { get; set; }
+    public long CustomerID { get; set; }
     public double TotalPrice { get; set; }
     public int Discount { get; set; }
 
-    public Order(long id, Customer customer, double totalPrice, int discount)
+    public Order(long id, long customerID, double totalPrice, int discount)
     {
         Id = id;
-        Customer = customer;
+        CustomerID = customerID;
         TotalPrice = totalPrice;
         Discount = discount;
     }
 
-    public Order(Customer customer, double totalPrice, int discount)
+    public Order(long customerID, double totalPrice, int discount)
     {
-        Customer = customer;
+        CustomerID = customerID;
         TotalPrice = totalPrice;
         Discount = discount;
     }

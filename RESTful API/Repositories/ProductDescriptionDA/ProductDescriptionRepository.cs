@@ -3,26 +3,30 @@ using Microsoft.Data.SqlClient;
 using Models;
 using System.Data;
 
-namespace RESTful_API.Repositories.OrderDA;
+namespace RESTful_API.Repositories.ProductDescriptionDA;
 
-public class OrderRespository : IOrderDA
+public class ProductDescriptionRepository : IProductDescriptionDA
 {
     private readonly string _connectionString;
 
-    public OrderRespository(string connectionString)
+    public ProductDescriptionRepository(string connectionString)
     {
         _connectionString = connectionString;
     }
 
-    public Order Create(Order obj)
+    public ProductDescription Create(ProductDescription productDescription)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
+
         try
         {
-            var sql = "INSERT INTO [Order] (CustomerId, OrderDate, TotalPrice) VALUES (@CustomerId, @OrderDate, @TotalPrice); SELECT CAST(SCOPE_IDENTITY() as bigint);";
-            obj.Id = dbConnection.QuerySingle<int>(sql, obj, transaction);
+            string insertProductDescriptionQuery = "INSERT INTO ProductDescription (Description, Image, Price, Name, Stock) " +
+                                          "VALUES (@Description, @Image, @Price, @Name, @Stock)";
+            dbConnection.Execute(insertProductDescriptionQuery, productDescription, transaction);
+
+            // Commit the transaction as the insert was successful
             transaction.Commit();
         }
         catch (Exception)
@@ -30,7 +34,8 @@ public class OrderRespository : IOrderDA
             transaction.Rollback();
             throw;
         }
-        return obj;
+
+        return productDescription;
     }
 
     public bool Delete(long id)
@@ -41,8 +46,56 @@ public class OrderRespository : IOrderDA
 
         try
         {
-            var sql = "DELETE FROM [Order] WHERE Id = @Id";
+            var sql = "DELETE FROM ProductDescription WHERE Id = @Id";
             dbConnection.Execute(sql, id, transaction);
+            transaction.Commit();
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
+        return true;
+    }
+
+    public ProductDescription Get(long id)
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+
+        using var transaction = dbConnection.BeginTransaction();
+        try
+        {
+            var sql = "SELECT * FROM ProductDescription WHERE Id = @Id";
+            var productDescription = dbConnection.QuerySingle<ProductDescription>(sql, new { Id = id }, transaction);
+            transaction.Commit();
+            return productDescription;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
+    }
+
+    public List<ProductDescription> GetAll()
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        var sql = "SELECT * FROM ProductDescription";
+        return dbConnection.Query<ProductDescription>(sql).ToList();
+    }
+
+    public bool Update(ProductDescription productDescription)
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        using var transaction = dbConnection.BeginTransaction();
+
+        try
+        {
+            var sql = "UPDATE ProductDescription SET Description = @Description, Image = @Image, Price = @Price, Name = @Name, Stock = @Stock WHERE Id = @Id";
+            dbConnection.Execute(sql, productDescription, transaction);
             transaction.Commit();
         }
         catch (Exception)
@@ -52,52 +105,5 @@ public class OrderRespository : IOrderDA
         }
 
         return true;
-    }
-
-    public Order Get(long id)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-        try
-        {
-            var sql = "SELECT * FROM [Order] WHERE Id = @Id";
-            var order = dbConnection.QuerySingle<Order>(sql, new { Id = id }, transaction);
-            transaction.Commit();
-            return order;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
-    }
-
-    public List<Order> GetAll()
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        var sql = "SELECT * FROM [Order]";
-        return dbConnection.Query<Order>(sql).ToList();
-    }
-
-    public bool Update(Order obj)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-
-        try
-        {
-            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, OrderDate = @OrderDate, TotalPrice = @TotalPrice WHERE Id = @Id";
-            dbConnection.Execute(sql, obj, transaction);
-            transaction.Commit();
-            return true;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
     }
 }

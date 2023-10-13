@@ -63,7 +63,7 @@ public class AddressController : ControllerBase
     public IActionResult Update([FromBody] Address address)
     {
         bool updatedAddress = addressService.UpdateAddress(address);
-        
+
         if (!updatedAddress)
         {
             return BadRequest("Address update failed - Unable to update in DB");
@@ -73,17 +73,10 @@ public class AddressController : ControllerBase
     }
 
     // DELETE api/<AddressController>/5
-    [HttpDelete("{id:long}")]
-    public IActionResult Delete(long id)
+    [HttpDelete("id:int")]
+    public IActionResult Delete(int id)
     {
-        Address? address = addressService.GetAddress(id);
-
-        if (address == null)
-        {
-            return NotFound($"Address with id {id} was not found");
-        }
-
-        var deletedAddress = addressService.DeleteAddress(address);
+        var deletedAddress = addressService.DeleteAddress(id);
         if (!deletedAddress)
         {
             return BadRequest("Address deletion failed");

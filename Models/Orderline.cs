@@ -1,31 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Models;
 
-namespace Models
+public class Orderline
 {
-    public class Orderline
+    public long? Id { get; set; }
+    public long OrderID { get; set; }
+    public long ProductID { get; set; }
+    public int Quantity { get; set; }
+
+    public Orderline(long id, long orderID, long productID, int quantity)
     {
-        public long? Id { get; set; }
-        public Order Order { get; set; }
-        public Product Product { get; set; }
-        public int Quantity { get; set; }
+        Id = id;
+        OrderID = orderID;
+        ProductID = productID;
+        Quantity = quantity;
+    }
 
-        public Orderline(long id, Order order, Product product, int quantity)
-        {
-            Id = id;
-            Order = order;
-            Product = product;
-            Quantity = quantity;
-        }
-
-        public Orderline(Order order, Product product, int quantity)
-        {
-            Order = order;
-            Product = product;
-            Quantity = quantity;
-        }
+    public Orderline(long orderID, long productID, int quantity)
+    {
+        OrderID = orderID;
+        ProductID = productID;
+        Quantity = quantity;
     }
 }

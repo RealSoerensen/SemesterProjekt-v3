@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using Models;
-using RESTful_API.Services;
 using System.Data;
 
 namespace RESTful_API.Repositories.AddressDA;
@@ -34,23 +33,82 @@ public class AddressRespository : IAddressDA
         return obj;
     }
 
-    public bool Delete(Address obj)
+    public bool Delete(long id)
     {
-        throw new NotImplementedException();
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        using var transaction = dbConnection.BeginTransaction();
+
+        try
+        {
+            var sql = "DELETE FROM Address WHERE Id = @Id";
+            dbConnection.Execute(sql, id, transaction);
+            transaction.Commit();
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
+
+        return true;
     }
 
     public Address Get(long id)
     {
-        throw new NotImplementedException();
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        using var transaction = dbConnection.BeginTransaction();
+        try
+        {
+            var sql = "SELECT * FROM Address WHERE Id = @Id";
+            var address = dbConnection.QuerySingle<Address>(sql, new { Id = id }, transaction);
+            transaction.Commit();
+            return address;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 
     public List<Address> GetAll()
     {
-        throw new NotImplementedException();
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        using var transaction = dbConnection.BeginTransaction();
+        try
+        {
+            var sql = "SELECT * FROM Address";
+            var addresses = dbConnection.Query<Address>(sql, transaction).ToList();
+            transaction.Commit();
+            return addresses;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 
     public bool Update(Address obj)
     {
-        throw new NotImplementedException();
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        using var transaction = dbConnection.BeginTransaction();
+
+        try
+        {
+            var sql = "UPDATE Address SET street = @Street, city = @City, zipCode = @Zip, houseNumber = @HouseNumber WHERE Id = @Id";
+            dbConnection.Execute(sql, obj, transaction);
+            transaction.Commit();
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
+        return true;
     }
 }

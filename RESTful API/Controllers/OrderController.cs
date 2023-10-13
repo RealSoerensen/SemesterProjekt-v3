@@ -27,9 +27,9 @@ public class OrderController : ControllerBase
         }
         catch (Exception ex)
         {
-               return BadRequest("Order retrieval failed - DB ERROR\n" + ex.StackTrace);
+            return BadRequest("Order retrieval failed - DB ERROR\n" + ex.StackTrace);
         }
-        
+
         if (orders == null)
         {
             return NotFound("No orders found");
@@ -88,7 +88,7 @@ public class OrderController : ControllerBase
         {
             return BadRequest("Order update failed - DB ERROR");
         }
-        
+
         if (!isUpdated)
         {
             return BadRequest("Order update failed");
@@ -98,19 +98,19 @@ public class OrderController : ControllerBase
     }
 
     // DELETE api/<OrderController>/5
-    [HttpDelete]
-    public IActionResult Delete([FromBody] Order order)
+    [HttpDelete("id:int")]
+    public IActionResult Delete(int id)
     {
         bool isDeleted;
         try
         {
-            isDeleted = _orderService.DeleteOrder(order);
+            isDeleted = _orderService.DeleteOrder(id);
         }
         catch (Exception e)
         {
             return BadRequest("Order deletion failed - DB ERROR\n" + e.StackTrace);
         }
-        
+
         if (!isDeleted)
         {
             return BadRequest("Order deletion failed");

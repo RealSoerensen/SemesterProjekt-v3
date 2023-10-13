@@ -66,11 +66,11 @@ public class OrderService
         }
     }
 
-    public bool DeleteOrder(Order order)
+    public bool DeleteOrder(long id)
     {
         try
         {
-            return _orderDB.Delete(order);
+            return _orderDB.Delete(id);
         }
         catch (Exception e)
         {

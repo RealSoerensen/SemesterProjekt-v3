@@ -3,25 +3,25 @@ using Microsoft.Data.SqlClient;
 using Models;
 using System.Data;
 
-namespace RESTful_API.Repositories.OrderDA;
+namespace RESTful_API.Repositories.OrderlineDA;
 
-public class OrderRespository : IOrderDA
+public class OrderlineRepository : IOrderlineDA
 {
-    private readonly string _connectionString;
+    public readonly string _connectionString;
 
-    public OrderRespository(string connectionString)
+    public OrderlineRepository(string connectionString)
     {
         _connectionString = connectionString;
     }
 
-    public Order Create(Order obj)
+    public Orderline Create(Orderline obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO [Order] (CustomerId, OrderDate, TotalPrice) VALUES (@CustomerId, @OrderDate, @TotalPrice); SELECT CAST(SCOPE_IDENTITY() as bigint);";
+            var sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity) VALUES (@OrderId, @ProductId, @Quantity); SELECT CAST(SCOPE_IDENTITY() as bigint);";
             obj.Id = dbConnection.QuerySingle<int>(sql, obj, transaction);
             transaction.Commit();
         }
@@ -41,7 +41,7 @@ public class OrderRespository : IOrderDA
 
         try
         {
-            var sql = "DELETE FROM [Order] WHERE Id = @Id";
+            var sql = "DELETE FROM Orderline WHERE Id = @Id";
             dbConnection.Execute(sql, id, transaction);
             transaction.Commit();
         }
@@ -54,17 +54,18 @@ public class OrderRespository : IOrderDA
         return true;
     }
 
-    public Order Get(long id)
+    public Orderline Get(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
+
         try
         {
-            var sql = "SELECT * FROM [Order] WHERE Id = @Id";
-            var order = dbConnection.QuerySingle<Order>(sql, new { Id = id }, transaction);
+            var sql = "SELECT * FROM Orderline WHERE Id = @Id";
+            var orderline = dbConnection.QuerySingle<Orderline>(sql, new { Id = id }, transaction);
             transaction.Commit();
-            return order;
+            return orderline;
         }
         catch (Exception)
         {
@@ -73,15 +74,15 @@ public class OrderRespository : IOrderDA
         }
     }
 
-    public List<Order> GetAll()
+    public List<Orderline> GetAll()
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        var sql = "SELECT * FROM [Order]";
-        return dbConnection.Query<Order>(sql).ToList();
+        var sql = "SELECT * FROM Orderline";
+        return dbConnection.Query<Orderline>(sql).ToList();
     }
 
-    public bool Update(Order obj)
+    public bool Update(Orderline obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -89,15 +90,15 @@ public class OrderRespository : IOrderDA
 
         try
         {
-            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, OrderDate = @OrderDate, TotalPrice = @TotalPrice WHERE Id = @Id";
+            var sql = "UPDATE Orderline SET OrderId = @OrderId, ProductId = @ProductId, Quantity = @Quantity WHERE Id = @Id";
             dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
-            return true;
         }
         catch (Exception)
         {
             transaction.Rollback();
             throw;
         }
+        return true;
     }
 }

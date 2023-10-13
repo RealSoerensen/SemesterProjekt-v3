@@ -1,24 +1,24 @@
 ﻿using Models;
 using RESTful_API.Repositories;
-using RESTful_API.Repositories.CustomerDA;
+using RESTful_API.Repositories.ProductDA;
 
 namespace RESTful_API.Services;
 
-public class CustomerService
+public class ProductService
 {
-    private readonly ICustomerDA _customerDB;
+    private readonly IProductDA productRepository;
 
-    public CustomerService()
+    public ProductService()
     {
         var connectionString = DBConnection.GetConnectionString();
-        _customerDB = new CustomerRespository(connectionString);
+        productRepository = new ProductRepository(connectionString);
     }
 
-    public Customer CreateCustomer(Customer customer)
+    public Product CreateProduct(Product product)
     {
         try
         {
-            return _customerDB.Create(customer);
+            return productRepository.Create(product);
         }
         catch (Exception e)
         {
@@ -27,11 +27,11 @@ public class CustomerService
         }
     }
 
-    public Customer? GetCustomerByEmail(string email)
+    public Product GetProductBySN(long productSN)
     {
         try
         {
-            return _customerDB.GetByEmail(email);
+            return productRepository.Get(productSN);
         }
         catch (Exception e)
         {
@@ -40,11 +40,11 @@ public class CustomerService
         }
     }
 
-    public List<Customer> GetAllCustomers()
+    public List<Product> GetAllProducts()
     {
         try
         {
-            return _customerDB.GetAll();
+            return productRepository.GetAll();
         }
         catch (Exception e)
         {
@@ -53,11 +53,11 @@ public class CustomerService
         }
     }
 
-    public bool UpdateCustomer(Customer customer)
+    public bool UpdateProduct(Product product)
     {
         try
         {
-            return _customerDB.Update(customer);
+            return productRepository.Update(product);
         }
         catch (Exception e)
         {
@@ -66,11 +66,11 @@ public class CustomerService
         }
     }
 
-    public bool DeleteCustomer(string email)
+    public bool DeleteProduct(long id)
     {
         try
         {
-            return _customerDB.DeleteByEmail(email);
+            return productRepository.Delete(id);
         }
         catch (Exception e)
         {

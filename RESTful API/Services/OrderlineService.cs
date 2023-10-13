@@ -1,24 +1,24 @@
 ﻿using Models;
 using RESTful_API.Repositories;
-using RESTful_API.Repositories.CustomerDA;
+using RESTful_API.Repositories.OrderlineDA;
 
 namespace RESTful_API.Services;
 
-public class CustomerService
+public class OrderlineService
 {
-    private readonly ICustomerDA _customerDB;
+    private readonly IOrderlineDA orderlineRepository;
 
-    public CustomerService()
+    public OrderlineService()
     {
         var connectionString = DBConnection.GetConnectionString();
-        _customerDB = new CustomerRespository(connectionString);
+        orderlineRepository = new OrderlineRepository(connectionString);
     }
 
-    public Customer CreateCustomer(Customer customer)
+    public Orderline CreateOrderline(Orderline orderline)
     {
         try
         {
-            return _customerDB.Create(customer);
+            return orderlineRepository.Create(orderline);
         }
         catch (Exception e)
         {
@@ -27,11 +27,11 @@ public class CustomerService
         }
     }
 
-    public Customer? GetCustomerByEmail(string email)
+    public Orderline GetOrderlineById(long id)
     {
         try
         {
-            return _customerDB.GetByEmail(email);
+            return orderlineRepository.Get(id);
         }
         catch (Exception e)
         {
@@ -40,11 +40,11 @@ public class CustomerService
         }
     }
 
-    public List<Customer> GetAllCustomers()
+    public List<Orderline> GetAllOrderlines()
     {
         try
         {
-            return _customerDB.GetAll();
+            return orderlineRepository.GetAll();
         }
         catch (Exception e)
         {
@@ -53,11 +53,11 @@ public class CustomerService
         }
     }
 
-    public bool UpdateCustomer(Customer customer)
+    public bool UpdateOrderline(Orderline orderline)
     {
         try
         {
-            return _customerDB.Update(customer);
+            return orderlineRepository.Update(orderline);
         }
         catch (Exception e)
         {
@@ -66,11 +66,11 @@ public class CustomerService
         }
     }
 
-    public bool DeleteCustomer(string email)
+    public bool DeleteOrderline(long id)
     {
         try
         {
-            return _customerDB.DeleteByEmail(email);
+            return orderlineRepository.Delete(id);
         }
         catch (Exception e)
         {

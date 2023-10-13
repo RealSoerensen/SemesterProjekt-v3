@@ -12,6 +12,7 @@ public class Customer
     public string Password { get; set; }
     public DateTime RegisterDate { get; set; } = DateTime.Now;
 
+    [JsonConstructor]
     public Customer(string firstName, string lastName, long addressID, string email, string phoneNo, string password)
     {
         FirstName = firstName;

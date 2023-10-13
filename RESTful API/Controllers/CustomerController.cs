@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using RESTful_API.Repositories;
-using RESTful_API.Repositories.CustomerDA;
 using RESTful_API.Services;
 
 namespace RESTful_API.Controllers;
@@ -98,14 +96,14 @@ public class CustomerController : ControllerBase
         return Ok();
     }
 
-    // DELETE api/<CustomerController>
-    [HttpDelete]
-    public IActionResult Delete([FromBody] Customer customer)
+    // DELETE api/<CustomerController>/email
+    [HttpDelete("email:string")]
+    public IActionResult Delete(string email)
     {
         bool isDeleted;
         try
         {
-            isDeleted = customerService.DeleteCustomer(customer);
+            isDeleted = customerService.DeleteCustomer(email);
         }
         catch (Exception)
         {
