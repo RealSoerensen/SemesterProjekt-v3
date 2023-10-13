@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
-import './Nav.css'
-type Props = {}
+import { AuthContext } from '../../contexts/AuthContext';
 
-const Nav = (props: Props) => {
+const Nav = () => {
     const [linkItem, setlinkItem] = useState<string[]>([
         'Home',
         'About',
@@ -14,6 +13,9 @@ const Nav = (props: Props) => {
         'Sign up',
         'Sign in'
     ]);
+
+    const { customer } = useContext(AuthContext);
+
     const [expandNavBarMobile, setExpandNavBarMobile] = useState<boolean>(false);
     const ToggleNavBarMobile = () => {
         setExpandNavBarMobile(!expandNavBarMobile);

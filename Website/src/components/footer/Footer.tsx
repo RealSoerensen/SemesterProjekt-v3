@@ -9,7 +9,11 @@ const Footer = () => {
     <footer className='bg-dark text-center text-light fixed-bottom'>
       <div className="container mt-3">
         <p>&copy; {new Date().getFullYear()} Padel Shop</p>
-        <p><FontAwesomeIcon icon={phoneIcon} />  Contact Patrick, out lead developer: <a href="tel:+4560513224">60513224</a>  <FontAwesomeIcon icon={phoneIcon} flip="horizontal" /></p>
+        <p>
+          <FontAwesomeIcon icon={phoneIcon} />
+          Contact Patrick, our lead developer: <a href="tel:+4560513224">60513224</a>
+          <FontAwesomeIcon icon={phoneIcon} flip="horizontal" />
+        </p>
       </div>
     </footer>
   );
