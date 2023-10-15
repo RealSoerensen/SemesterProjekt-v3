@@ -106,7 +106,7 @@ public class AddressController : ControllerBase
     }
 
     // DELETE api/<AddressController>/5
-    [HttpDelete("id:int")]
+    [HttpDelete("{id:int}")]
     public IActionResult Delete(int id)
     {
         bool deletedAddress;

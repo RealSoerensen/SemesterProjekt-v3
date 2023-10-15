@@ -1,8 +1,12 @@
-import React from 'react'
+import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../contexts/AuthContext';
 
 const ProfilePage = () => {
-    const { customer } = React.useContext(AuthContext);
+    const { customer } = useContext(AuthContext);
+
+    useEffect(() => {
+        console.log(customer);
+    }, [customer]);
 
     if (!customer) {
         return <div>Not logged in</div>
@@ -10,16 +14,8 @@ const ProfilePage = () => {
 
     return (
         <div>
-            ProfilePage
-            <div className="container">
-                customer.id: {customer.getID()}
-                <br />
-                customer.firstName: {customer.getFirstName()}
-                <br />
-                customer.lastName: {customer.getLastName()}
-                <br />
-                customer.email: {customer.getEmail()}
-            </div>
+            <h1>ProfilePage</h1>
+            <p>Customer: {customer.firstName} {customer.lastName}</p>
         </div>
     )
 }
