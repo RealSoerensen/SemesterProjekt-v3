@@ -23,7 +23,9 @@ function App() {
 
         <div className="container">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            {["/", "/home", "/index"].map((path, index) =>
+              <Route path={path} element={<HomePage />} key={index} />
+            )}
             <Route path="/home" element={<HomePage />} />
             <Route path="/category/:category" element={<Category />} />
             <Route path="/about" element={<About />} />
