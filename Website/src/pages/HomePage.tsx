@@ -14,13 +14,13 @@ import CustomCard from '../models/CustomCard';
 import Card from '../components/Card/Card';
 
 const HomePage: React.FC = () => {
-    
-    const [categories, setCategories] = useState<CustomCard[]>([
+
+    const [categories] = useState<CustomCard[]>([
         new CustomCard(bats, 'Bats', "Choose from a wide range of padel bats"),
         new CustomCard(balls, 'Balls', "Balls for padel and beach tennis"),
-        new CustomCard(shoes, 'Shoes' , "Shoes for padel and beach tennis"),
-        new CustomCard(clothes, 'Clothes' , " Clothes for padel and beach tennis"),
-        new CustomCard(bags, 'Bags' , " Bags for padel and beach tennis")
+        new CustomCard(shoes, 'Shoes', "Shoes for padel and beach tennis"),
+        new CustomCard(clothes, 'Clothes', " Clothes for padel and beach tennis"),
+        new CustomCard(bags, 'Bags', " Bags for padel and beach tennis")
     ]);
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
 
@@ -30,15 +30,14 @@ const HomePage: React.FC = () => {
             shuffled.pop();
         }
         setShuffledCategories(shuffled);
-    }, []);
-        
+    }, [categories]);
+
     return (
         <div className='mb-5'>
             <div className='overflow-hidden position-relative text-center'>
-                <img className="img-fluid object-fit-cover" style={{width:"100%" ,height:"500px"}} src={frontpageImage} alt="Frontpage image" >
+                <img className="img-fluid object-fit-cover" style={{ width: "100%", height: "500px" }} src={frontpageImage} alt='frontpage' />
 
-                </img>
-                <div className='position-absolute' style={{top:"50%", left:"50%", transform:"translate(-50%, -50%)"}}>
+                <div className='position-absolute' style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
                     <h2 className='text-white'>
                         Padel Shop
                     </h2>
