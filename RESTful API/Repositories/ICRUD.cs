@@ -10,5 +10,5 @@ public interface ICRUD<C> where C : class
 
     bool Update(C obj);
 
-    bool Delete(C obj);
+    bool Delete(long id);
 }

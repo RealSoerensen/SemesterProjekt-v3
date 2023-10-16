@@ -66,11 +66,11 @@ public class AddressService
         }
     }
 
-    public bool DeleteAddress(Address address)
+    public bool DeleteAddress(long id)
     {
         try
         {
-            return _addressDB.Delete(address);
+            return _addressDB.Delete(id);
         }
         catch (Exception e)
         {

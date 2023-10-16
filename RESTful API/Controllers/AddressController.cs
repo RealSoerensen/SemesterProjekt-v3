@@ -21,7 +21,15 @@ public class AddressController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        List<Address> addresses = addressService.GetAllAddresses();
+        List<Address> addresses;
+        try
+        {
+            addresses = addressService.GetAllAddresses();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "An error occurred while fetching the addresses.");
+        }
 
         if (addresses == null)
         {
@@ -35,7 +43,15 @@ public class AddressController : ControllerBase
     [HttpGet("{id:int}")]
     public IActionResult Get(int id)
     {
-        Address? address = addressService.GetAddress(id);
+        Address? address;
+        try
+        {
+            address = addressService.GetAddress(id);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "An error occurred while fetching the address.");
+        }
 
         if (address == null)
         {
@@ -49,7 +65,16 @@ public class AddressController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] Address address)
     {
-        Address? createdAddress = addressService.CreateAddress(address);
+        Address? createdAddress;
+        try
+        {
+            createdAddress = addressService.CreateAddress(address);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Address creation failed - DB ERROR");
+        }
+
         if (createdAddress == null)
         {
             return BadRequest("Address creation failed - Unable to create in DB");
@@ -62,8 +87,16 @@ public class AddressController : ControllerBase
     [HttpPut]
     public IActionResult Update([FromBody] Address address)
     {
-        bool updatedAddress = addressService.UpdateAddress(address);
-        
+        bool updatedAddress;
+        try
+        {
+            updatedAddress = addressService.UpdateAddress(address);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Address update failed - DB ERROR");
+        }
+
         if (!updatedAddress)
         {
             return BadRequest("Address update failed - Unable to update in DB");
@@ -73,17 +106,19 @@ public class AddressController : ControllerBase
     }
 
     // DELETE api/<AddressController>/5
-    [HttpDelete("{id:long}")]
-    public IActionResult Delete(long id)
+    [HttpDelete("{id:int}")]
+    public IActionResult Delete(int id)
     {
-        Address? address = addressService.GetAddress(id);
-
-        if (address == null)
+        bool deletedAddress;
+        try
         {
-            return NotFound($"Address with id {id} was not found");
+            deletedAddress = addressService.DeleteAddress(id);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Address deletion failed - DB ERROR");
         }
 
-        var deletedAddress = addressService.DeleteAddress(address);
         if (!deletedAddress)
         {
             return BadRequest("Address deletion failed");

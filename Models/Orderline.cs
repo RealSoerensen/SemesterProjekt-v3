@@ -1,31 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
-namespace Models
+namespace Models;
+
+public class Orderline
 {
-    public class Orderline
+    public long OrderID { get; set; }
+    public long ProductID { get; set; }
+    public int Quantity { get; set; }
+
+
+    [JsonConstructor]
+    public Orderline( int quantity, long productSN, long orderID)
     {
-        public long? Id { get; set; }
-        public Order Order { get; set; }
-        public Product Product { get; set; }
-        public int Quantity { get; set; }
-
-        public Orderline(long id, Order order, Product product, int quantity)
-        {
-            Id = id;
-            Order = order;
-            Product = product;
-            Quantity = quantity;
-        }
-
-        public Orderline(Order order, Product product, int quantity)
-        {
-            Order = order;
-            Product = product;
-            Quantity = quantity;
-        }
+        OrderID = orderID;
+        ProductID = productSN;
+        Quantity = quantity;
     }
 }

@@ -1,19 +1,18 @@
-﻿namespace Models
+﻿namespace Models;
+
+public class Product
 {
-    public class Product
+    public long? ProductSN { get; set; }
+    public long ProductDescriptionID { get; set; }
+
+    public Product(long productDescriptionID, long productSN)
     {
-        public long? ProductSN { get; set; }
-        public ProductDescription ProductDescriptionID { get; set; }
+        ProductSN = productSN;
+        ProductDescriptionID = productDescriptionID;
+    }
 
-        public Product(long productSN, ProductDescription productDescriptionID)
-        {
-            ProductSN = productSN;
-            ProductDescriptionID = productDescriptionID;
-        }
-
-        public Product(ProductDescription productDescriptionID)
-        {
-            ProductDescriptionID = productDescriptionID;
-        }
+    public Product(long productDescriptionID)
+    {
+        ProductDescriptionID = productDescriptionID;
     }
 }

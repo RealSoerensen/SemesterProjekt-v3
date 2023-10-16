@@ -1,7 +1,6 @@
 ﻿using Models;
 using RESTful_API.Repositories;
 using RESTful_API.Repositories.CustomerDA;
-using System;
 
 namespace RESTful_API.Services;
 
@@ -67,11 +66,11 @@ public class CustomerService
         }
     }
 
-    public bool DeleteCustomer(Customer customer)
+    public bool DeleteCustomer(string email)
     {
         try
         {
-            return _customerDB.Delete(customer);
+            return _customerDB.DeleteByEmail(email);
         }
         catch (Exception e)
         {
@@ -80,4 +79,3 @@ public class CustomerService
         }
     }
 }
-
