@@ -1,7 +1,9 @@
-import { useContext, useState } from 'react';
+import React from 'react'
+import { useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 import { NavLink, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
-import { AuthContext } from '../contexts/AuthContext';
+import './Nav.css'
 
 const Nav = () => {
     const [linkItem, setlinkItem] = useState<string[]>([
@@ -13,8 +15,7 @@ const Nav = () => {
         'Sign up',
         'Sign in'
     ]);
-
-    const { customer } = useContext(AuthContext);
+    const { customer } = React.useContext(AuthContext);
 
     const [expandNavBarMobile, setExpandNavBarMobile] = useState<boolean>(false);
     const ToggleNavBarMobile = () => {
@@ -37,7 +38,7 @@ const Nav = () => {
                                         <NavLink
                                             className={({ isActive, isPending }) =>
                                                 isPending ? "" : isActive ? "nav-link active" : "nav-link"}
-                                                to={`/${link.toLowerCase() === 'home' ? '' : link.toLowerCase()  }`}
+                                            to={`/${link.toLowerCase() === 'home' ? '' : link.toLowerCase()}`}
                                         >{link}</NavLink>
                                     </li>
                                 )
