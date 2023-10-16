@@ -56,12 +56,13 @@ const LoginPage: React.FC<LoginProps> = () => {
                 {error && <p className='text-danger'>Error: {error}</p>}
                 {success && <p className='text-success'>{success}</p>}
             </div>
-
-            <button type="button" className="btn btn-primary" onClick={handleLogin}>Login</button>
-            <br />
-            <Link to="/forgot-password">Forgot password?</Link>
-            <br />
-            <Link to="/register">Don't have an account? Register here.</Link>
+            <div className="pb-3">
+                <button type="button" className="btn btn-primary" onClick={handleLogin}>Login</button>
+                <br />
+                <Link to="/forgot-password">Forgot password?</Link>
+                <br />
+                <Link to="/register">Don't have an account? Register here.</Link>
+            </div>
         </form>
     );
 };
