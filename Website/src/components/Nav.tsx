@@ -1,24 +1,55 @@
-import React from 'react'
+import { useContext } from 'react'
 import { useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Nav = () => {
-    const [linkItem, setlinkItem] = useState<string[]>([
+    const [linkItem] = useState<string[]>([
         'Home',
         'About',
         'Contact'
     ]);
-    const [buttonText, setButtonText] = useState<string[]>([
-        'Sign up',
-        'Sign in'
-    ]);
-    const { customer } = React.useContext(AuthContext);
+    const { customer, setCustomer } = useContext(AuthContext);
 
     const [expandNavBarMobile, setExpandNavBarMobile] = useState<boolean>(false);
     const ToggleNavBarMobile = () => {
         setExpandNavBarMobile(!expandNavBarMobile);
+    }
+
+    function handleUserContext() {
+        if (!customer) {
+            return (
+                <div>
+                    <Link to="/login">
+                        <button className="btn btn-primary m-1" type="button">
+                            Login
+                        </button>
+                    </Link>
+
+                    <Link to="/register">
+                        <button className="btn btn-primary m-1" type="button">
+                            Register
+                        </button>
+                    </Link>
+                </div>
+            )
+        }
+
+        return (
+            <div>
+                <Link to="/profile">
+                    <button className="btn btn-primary m-1" type="button">
+                        Profile
+                    </button>
+                </Link>
+
+                <button className="btn btn-primary m-1" type="button" onClick={() => setCustomer(null)}>
+                    Logout
+                </button>
+            </div>
+        )
+
     }
 
     return (
@@ -44,32 +75,16 @@ const Nav = () => {
                             })
                         }
                     </ul>
-                    <div className='text-center'>
-                        {
-                            buttonText.map((button, index) => {
-                                return (
-                                    <div className="d-inline m-1 d-lg-none .d-xl-block" key={index}>
-                                        <button className={button === 'Sign up' ? "btn btn-outline-success m-1" : "btn btn-outline-primary m-1"}
-                                            type="submit">{button}</button>
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>
                 </div>
                 {
-                    buttonText.map((button, index) => {
-                        return (
-                            <div className="d-none d-lg-block d-xl-block" key={index}>
-                                <button className={button === 'Sign up' ? "btn btn-outline-success m-1" : "btn btn-outline-primary m-1"}
-                                    type="submit">{button}</button>
-                            </div>
-                        )
-                    })
+                    handleUserContext()
                 }
             </div>
         </nav>
     )
+
+
+
 }
 
 export default Nav
