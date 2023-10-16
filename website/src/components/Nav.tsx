@@ -37,7 +37,7 @@ const Nav = () => {
                                         <NavLink
                                             className={({ isActive, isPending }) =>
                                                 isPending ? "" : isActive ? "nav-link active" : "nav-link"}
-                                            to={`/${link.toLowerCase()}`}
+                                                to={`/${link.toLowerCase() === 'home' ? '' : link.toLowerCase()  }`}
                                         >{link}</NavLink>
                                     </li>
                                 )
