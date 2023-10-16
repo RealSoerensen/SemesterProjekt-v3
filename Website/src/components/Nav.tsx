@@ -22,7 +22,7 @@ const Nav = () => {
     }
 
     return (
-        <nav className="navbar sticky-top navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar bg-white sticky-top navbar-expand-lg bg-body-tertiary">
             <div className='container'>
                 <Link className="navbar-brand" to="/">Padel Shop</Link>
                 <button className="navbar-toggler" type="button" onClick={ToggleNavBarMobile}>
