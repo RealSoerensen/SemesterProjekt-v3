@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
-import './Nav.css'
 
 const Nav = () => {
     const [linkItem, setlinkItem] = useState<string[]>([

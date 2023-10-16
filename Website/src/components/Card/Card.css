@@ -1,0 +1,10 @@
+/* CSS */
+.card-text_custom {
+    /* Limit text to 3 lines and truncate with ellipsis */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* Maximum number of lines */
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
