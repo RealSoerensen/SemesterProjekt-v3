@@ -13,6 +13,7 @@ import Contact from "./pages/ContactPage";
 import Cart from "./pages/CartPage";
 import Category from "./pages/CategoryPage";
 import ForgotPassword from "./pages/auth/ForgotPasswordPage";
+import React from "react";
 
 function App() {
   return (
