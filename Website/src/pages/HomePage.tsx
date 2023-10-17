@@ -60,12 +60,9 @@ const HomePage: React.FC = () => {
         }
     }, [products]);
     useEffect(() => {
-        console.log("ran")
         if(products.length == bestSellers.length){
         const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
-            console.log(shuffled)
             const selectedItems = shuffled.slice(0, 4);
-            console.log(selectedItems)
             for(let i = 0; i < selectedItems.length; i++) {
                 setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description)]);
             }
