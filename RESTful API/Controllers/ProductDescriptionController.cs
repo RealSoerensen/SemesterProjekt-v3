@@ -92,7 +92,7 @@ public class ProductDescriptionController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("id:int")]
+    [HttpDelete("{id:int}")]
     public IActionResult Delete(int id)
     {
         bool isDeleted;

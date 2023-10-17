@@ -4,7 +4,7 @@ const Settings: React.FC = () => {
     return (
         <div>
             <h1>
-                Settings
+                Indstillinger
             </h1>
             <p>
                 This is the settings page

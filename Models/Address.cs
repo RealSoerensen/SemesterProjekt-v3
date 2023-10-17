@@ -10,7 +10,21 @@ public class Address
     public string Zip { get; set; }
     public string HouseNumber { get; set; }
 
-    public Address()
+    [JsonConstructor]
+    public Address(string street, string city, string zip, string houseNumber)
     {
+        Street = street;
+        City = city;
+        Zip = zip;
+        HouseNumber = houseNumber;
+    }
+
+    public Address(long id, string zipCode, string houseNumber, string city, string street)
+    {
+        Id = id;
+        Street = street;
+        City = city;
+        Zip = zipCode;
+        HouseNumber = houseNumber;
     }
 }
