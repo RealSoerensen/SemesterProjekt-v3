@@ -11,7 +11,7 @@ const Nav = () => {
         'About',
         'Contact'
     ]);
-    const { customer, setCustomer } = useContext(AuthContext);
+    const { customer } = useContext(AuthContext);
 
     const [expandNavBarMobile, setExpandNavBarMobile] = useState<boolean>(false);
     const ToggleNavBarMobile = () => {
