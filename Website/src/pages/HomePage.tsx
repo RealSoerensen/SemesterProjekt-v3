@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import { getAllProducts} from '../services/ProductService';
 
 //images
 import frontpageImage from '../content/images/frontpageImage.jpg';
@@ -12,6 +12,9 @@ import clothes from '../content/images/shirt.jpg';
 import bags from '../content/images/bag.jpg';
 import CustomCard from '../models/CustomCard';
 import Card from '../components/Card/Card';
+import Product from '../models/Product';
+import { getAllProductDescriptionById } from '../services/ProductDescription';
+import ProductDescription from '../models/ProductDescription';
 
 const HomePage: React.FC = () => {
 
@@ -23,7 +26,8 @@ const HomePage: React.FC = () => {
         new CustomCard(bags, 'Bags', " Bags for padel and beach tennis")
     ]);
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
-
+    const [products, setProducts] = useState<Product[]>([]);
+    const [bestSellers, setBestSellers] = useState<ProductDescription[]>([])
     useEffect(() => {
         const shuffled = [...categories].sort(() => Math.random() - 0.5);
         if (shuffled.length > 4) {
@@ -31,7 +35,25 @@ const HomePage: React.FC = () => {
         }
         setShuffledCategories(shuffled);
     }, [categories]);
+    useEffect(() => {
+        getAllProducts().then((data) => setProducts(data));
+    }, []);
 
+    useEffect(() => {
+        console.log(products)
+        if (products.length !== 0) {
+            let tempBestseller: ProductDescription[] = [];
+                        for(let i = 0; i < products.length; i++) {
+                getAllProductDescriptionById(products[i].productDescriptionID).then((data) => {
+                    console.log(data)
+            });};
+            console.log(tempBestseller)
+        }
+
+    }, [products]);
+    useEffect(() => {
+        // console.log(bestSellers)
+    },[bestSellers])
     return (
         <div className='mb-5'>
             <div className='overflow-hidden position-relative text-center'>
@@ -47,12 +69,13 @@ const HomePage: React.FC = () => {
                 </div>
             </div>
             <div className='row mt-4'>
-                <Card cards={shuffledCategories} />
+                <Card cards={shuffledCategories}/>
             </div>
             <div className='row mt-5'>
                 <h2 className='text-center'>
                     Best sellers
                 </h2>
+
                 {/* <Card cards={categories} /> */}
             </div>
         </div>
