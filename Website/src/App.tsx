@@ -14,6 +14,7 @@ import Contact from "./pages/ContactPage";
 import Cart from "./pages/CartPage";
 import Category from "./pages/CategoryPage";
 import ForgotPassword from "./pages/auth/ForgotPasswordPage";
+import LogoutPage from "./pages/auth/LogoutPage";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
             {["/", "/home", "/index"].map((path, index) =>
               <Route path={path} element={<HomePage />} key={index} />
             )}
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/logout" element={<LogoutPage />} />
             <Route path="/category/:category" element={<Category />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
