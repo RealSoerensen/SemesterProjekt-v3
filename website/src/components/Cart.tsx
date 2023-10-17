@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import Product from "../models/Product";
 import ProductDescription from "../models/ProductDescription";
@@ -53,9 +54,18 @@ const Cart: React.FC = () => {
                             )
                         })
 
+
+
                 }
+                <div className="container">
+                    <Link to="/cart">
+                        <button className="btn btn-primary" type="button">
+                            Go to cart
+                        </button>
+                    </Link>
+                </div>
             </ul>
-        </div>
+        </div >
     )
 }
 
