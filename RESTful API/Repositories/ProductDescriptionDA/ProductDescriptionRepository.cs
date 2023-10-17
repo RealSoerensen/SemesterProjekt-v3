@@ -22,8 +22,8 @@ public class ProductDescriptionRepository : IProductDescriptionDA
 
         try
         {
-            string insertProductDescriptionQuery = "INSERT INTO ProductDescription (Description, Image, Price, Name, Stock) " +
-                                          "VALUES (@Description, @Image, @Price, @Name, @Stock)";
+            string insertProductDescriptionQuery = "INSERT INTO ProductDescription (Description, Image, Price, Name, Brand, Stock) " +
+                                          "VALUES (@Description, @Image, @Price, @Name, @Brand, @Stock)";
             dbConnection.Execute(insertProductDescriptionQuery, productDescription, transaction);
 
             // Commit the transaction as the insert was successful
@@ -94,7 +94,7 @@ public class ProductDescriptionRepository : IProductDescriptionDA
 
         try
         {
-            var sql = "UPDATE ProductDescription SET Description = @Description, Image = @Image, Price = @Price, Name = @Name, Stock = @Stock WHERE Id = @Id";
+            var sql = "UPDATE ProductDescription SET Description = @Description, Image = @Image, Price = @Price, Name = @Name, Brand = @Brand, Stock = @Stock WHERE Id = @Id";
             dbConnection.Execute(sql, productDescription, transaction);
             transaction.Commit();
         }
