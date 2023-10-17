@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
 
 const Nav = () => {
     const [linkItem] = useState<string[]>([
@@ -10,7 +11,7 @@ const Nav = () => {
         'About',
         'Contact'
     ]);
-    const { customer, setCustomer } = useContext(AuthContext);
+    const { customer } = useContext(AuthContext);
 
     const [expandNavBarMobile, setExpandNavBarMobile] = useState<boolean>(false);
     const ToggleNavBarMobile = () => {
@@ -38,18 +39,24 @@ const Nav = () => {
 
         return (
             <div>
-                <Link to="/profile">
-                    <button className="btn btn-primary m-1" type="button">
-                        Profile
+                <div className="dropdown ">
+                    <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {customer.firstName}
                     </button>
-                </Link>
-
-                <button className="btn btn-primary m-1" type="button" onClick={() => setCustomer(null)}>
-                    Logout
-                </button>
+                    <ul className="dropdown-menu">
+                        <Link to="/profile">
+                            <li className='dropdown-item'>Profile</li>
+                        </Link>
+                        <Link to="/settings">
+                            <li className='dropdown-item'>Settings</li>
+                        </Link>
+                        <Link to="/logout">
+                            <li className='dropdown-item'>Logout</li>
+                        </Link>
+                    </ul>
+                </div>
             </div>
         )
-
     }
 
     return (
