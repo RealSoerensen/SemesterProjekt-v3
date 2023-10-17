@@ -12,25 +12,7 @@ public class ProductDescription
     public long Stock { get; set; }
     public string Brand { get; set; }
 
-    [JsonConstructor]
-    public ProductDescription(long id, string description, byte[] image, decimal price, string name, string brand, long stock)
+    ProductDescription()
     {
-        Id = id;
-        Description = description;
-        Image = image;
-        Price = price;
-        Name = name;
-        Brand = brand;
-        Stock = stock;
-    }
-
-    public ProductDescription(string description, byte[] image, decimal price, string name, string brand, long stock)
-    {
-        Description = description;
-        Image = image;
-        Price = price;
-        Name = name;
-        Brand = brand;
-        Stock = stock;
     }
 }
