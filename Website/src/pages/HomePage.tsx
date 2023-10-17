@@ -19,11 +19,11 @@ import ProductDescription from '../models/ProductDescription';
 const HomePage: React.FC = () => {
 
     const [categories] = useState<CustomCard[]>([
-        new CustomCard(bats, 'Bats', "Choose from a wide range of padel bats"),
-        new CustomCard(balls, 'Balls', "Balls for padel and beach tennis"),
-        new CustomCard(shoes, 'Shoes', "Shoes for padel and beach tennis"),
-        new CustomCard(clothes, 'Clothes', " Clothes for padel and beach tennis"),
-        new CustomCard(bags, 'Bags', " Bags for padel and beach tennis")
+        new CustomCard(bats, 'Bats', "Choose from a wide range of padel bats" , "bats"),
+        new CustomCard(balls, 'Balls', "Balls for padel and beach tennis" , "balls"),
+        new CustomCard(shoes, 'Shoes', "Shoes for padel and beach tennis", "shoes"),
+        new CustomCard(clothes, 'Clothes', " Clothes for padel and beach tennis", "clothes"),
+        new CustomCard(bags, 'Bags', " Bags for padel and beach tennis", "bags")
     ]);
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
@@ -64,7 +64,7 @@ const HomePage: React.FC = () => {
         const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
             const selectedItems = shuffled.slice(0, 4);
             for(let i = 0; i < selectedItems.length; i++) {
-                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description)]);
+                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description, `product/${selectedItems[i].id}`)]);
             }
         }
         },[bestSellers])
