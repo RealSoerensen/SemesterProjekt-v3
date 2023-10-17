@@ -5,8 +5,9 @@ class ProductDescription {
     name: string;
     image: string;
     stock: number;
-    brand:string;
-    constructor(id: number, description: string, price: number, name: string, image: string, stock: number, brand:string) {
+    brand: string;
+
+    constructor(id: number, description: string, price: number, name: string, image: string, stock: number, brand: string) {
         this.id = id;
         this.description = description;
         this.price = price;

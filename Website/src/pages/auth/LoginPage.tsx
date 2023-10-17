@@ -18,7 +18,6 @@ const LoginPage: React.FC = () => {
         }
 
         const customer = await login(email, password);
-        console.log(customer);
 
         if (customer) {
             setSuccess('Logging in...');

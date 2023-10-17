@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllProducts} from '../services/ProductService';
+import { getAllProducts } from '../services/ProductService';
 
 //images
 import frontpageImage from '../content/images/frontpageImage.jpg';
@@ -13,7 +13,7 @@ import bags from '../content/images/bag.jpg';
 import CustomCard from '../models/CustomCard';
 import Card from '../components/Card/Card';
 import Product from '../models/Product';
-import { getAllProductDescriptionById } from '../services/ProductDescription';
+import { getProductDescriptionById } from '../services/ProductDescription';
 import ProductDescription from '../models/ProductDescription';
 
 const HomePage: React.FC = () => {
@@ -50,25 +50,20 @@ const HomePage: React.FC = () => {
     //     }
     // }, [products]);
     useEffect(() => {
-        if (products.length !== 0) {
-            const fetchedBestSellers: any[] | ((prevState: ProductDescription[]) => ProductDescription[]) = [];
-            Promise.all(products.map(product => getAllProductDescriptionById(product.productDescriptionID)))
-                .then(data => {
-                    fetchedBestSellers.push(...data);
-                    setBestSellers(fetchedBestSellers);
+        console.log(products)
+        if (products !== null) {
+            let tempBestseller: ProductDescription[] = [];
+            for (let i = 0; i < products.length; i++) {
+                getProductDescriptionById(products[i].productDescriptionID).then((data) => {
+                    console.log(data)
                 });
+            };
+            console.log(tempBestseller)
         }
     }, [products]);
     useEffect(() => {
-        if(products.length == bestSellers.length){
-        const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
-            const selectedItems = shuffled.slice(0, 4);
-            for(let i = 0; i < selectedItems.length; i++) {
-                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description)]);
-            }
-        }
-        },[bestSellers])
-
+        // console.log(bestSellers)
+    }, [bestSellers])
     return (
         <div className='mb-5'>
             <div className='overflow-hidden position-relative text-center'>
@@ -84,7 +79,7 @@ const HomePage: React.FC = () => {
                 </div>
             </div>
             <div className='row mt-4'>
-                <Card cards={shuffledCategories}/>
+                <Card cards={shuffledCategories} />
             </div>
             <div className='row mt-5'>
                 <h2 className='text-center'>

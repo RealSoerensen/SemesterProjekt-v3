@@ -14,8 +14,10 @@ const ProfilePage = () => {
 
     return (
         <div>
-            <h1>ProfilePage</h1>
-            <p>Customer: {customer.firstName} {customer.lastName}</p>
+            <h1>Hej {customer.firstName}</h1>
+            <div>
+
+            </div>
         </div>
     )
 }

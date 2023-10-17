@@ -52,5 +52,8 @@
     "fontawesome-svg-core": {
       "license": "free"
     }
+  },
+  "devDependencies": {
+    "@types/bootstrap": "^5.2.7"
   }
 }
