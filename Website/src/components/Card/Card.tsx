@@ -1,7 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import CustomCard from '../../models/CustomCard'
 import './Card.css'
+
+
+export class CustomCard {
+    image: string;
+    title: string;
+    cardDescription: string;
+    constructor(image: string, title: string, cardDescription: string) {
+        this.image = image;
+        this.title = title;
+        this.cardDescription = cardDescription;
+    }
+}
+
 type Props = {
     cards: CustomCard[];
 }
