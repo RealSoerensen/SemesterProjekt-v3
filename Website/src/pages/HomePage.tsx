@@ -27,7 +27,9 @@ const HomePage: React.FC = () => {
     ]);
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
-    const [bestSellers, setBestSellers] = useState<ProductDescription[]>([])
+    const [bestSellers, setBestSellers] = useState<ProductDescription[]>([]);
+    const [tempBestSellers, setTempBestSellers] = useState<ProductDescription[]>([]);
+    const [shuffledBestSellers, setShuffledBestSellers] = useState<CustomCard[]>([]);
     useEffect(() => {
         const shuffled = [...categories].sort(() => Math.random() - 0.5);
         if (shuffled.length > 4) {
@@ -36,24 +38,40 @@ const HomePage: React.FC = () => {
         setShuffledCategories(shuffled);
     }, [categories]);
     useEffect(() => {
-        getAllProducts().then((data) => setProducts(data));
+        getAllProducts().then((data) => setProducts(data),);
     }, []);
 
+    // useEffect(() => {
+    //     if (products.length !== 0) {
+    //         for(let i = 0; i < products.length; i++) {
+    //             getAllProductDescriptionById(products[i].productDescriptionID).then((data) => {
+    //                 setBestSellers((prev) => [...prev, data]);
+    //         });};
+    //     }
+    // }, [products]);
     useEffect(() => {
-        console.log(products)
         if (products.length !== 0) {
-            let tempBestseller: ProductDescription[] = [];
-                        for(let i = 0; i < products.length; i++) {
-                getAllProductDescriptionById(products[i].productDescriptionID).then((data) => {
-                    console.log(data)
-            });};
-            console.log(tempBestseller)
+            const fetchedBestSellers: any[] | ((prevState: ProductDescription[]) => ProductDescription[]) = [];
+            Promise.all(products.map(product => getAllProductDescriptionById(product.productDescriptionID)))
+                .then(data => {
+                    fetchedBestSellers.push(...data);
+                    setBestSellers(fetchedBestSellers);
+                });
         }
-
     }, [products]);
     useEffect(() => {
-        // console.log(bestSellers)
-    },[bestSellers])
+        console.log("ran")
+        if(products.length == bestSellers.length){
+        const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
+            console.log(shuffled)
+            const selectedItems = shuffled.slice(0, 4);
+            console.log(selectedItems)
+            for(let i = 0; i < selectedItems.length; i++) {
+                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description)]);
+            }
+        }
+        },[bestSellers])
+
     return (
         <div className='mb-5'>
             <div className='overflow-hidden position-relative text-center'>
@@ -73,10 +91,9 @@ const HomePage: React.FC = () => {
             </div>
             <div className='row mt-5'>
                 <h2 className='text-center'>
-                    Best sellers
+                    Highlighted Products
                 </h2>
-
-                {/* <Card cards={categories} /> */}
+                <Card cards={shuffledBestSellers} />
             </div>
         </div>
     );
