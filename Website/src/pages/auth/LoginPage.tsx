@@ -3,9 +3,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { login } from "../../services/AuthService";
 import { Link } from "react-router-dom";
 
-interface LoginProps { }
 
-const LoginPage: React.FC<LoginProps> = () => {
+const LoginPage: React.FC = () => {
     const { setCustomer } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
