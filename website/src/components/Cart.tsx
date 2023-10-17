@@ -31,13 +31,13 @@ const Cart: React.FC = () => {
     }, [cart]);
 
     return (
-        <div className='dropdown'>
+        <div className='dropdown m-1'>
             <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Cart <span className="badge bg-secondary">{cart.length}</span>
+                Kurv <span className="badge bg-secondary">{cart.length}</span>
             </button>
             <ul className="dropdown-menu">
                 {
-                    cartItems.length === 0 ? <li className='dropdown-item'>Cart is empty</li> :
+                    cartItems.length === 0 ? <li className='dropdown-item'>Kurven er tom</li> :
                         cartItems.map((item, index) => {
                             return (
                                 <li className='dropdown-item' key={index}>
@@ -60,7 +60,7 @@ const Cart: React.FC = () => {
                 <div className="container">
                     <Link to="/cart">
                         <button className="btn btn-primary" type="button">
-                            Go to cart
+                            Gå til kurv
                         </button>
                     </Link>
                 </div>

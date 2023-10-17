@@ -98,7 +98,7 @@ public class OrderController : ControllerBase
     }
 
     // DELETE api/<OrderController>/5
-    [HttpDelete("id:int")]
+    [HttpDelete("{id:int}")]
     public IActionResult Delete(int id)
     {
         bool isDeleted;
@@ -117,5 +117,27 @@ public class OrderController : ControllerBase
         }
 
         return Ok();
+    }
+
+    // GET api/<OrderController>/customer/email
+    [HttpGet("customer/{email}")]
+    public IActionResult GetOrdersByCustomerEmail(string email)
+    {
+        List<Order> orders;
+        try
+        {
+            orders = _orderService.GetOrdersByCustomerEmail(email);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Order retrieval failed - DB ERROR");
+        }
+
+        if (orders == null)
+        {
+            return NotFound("No orders found");
+        }
+
+        return Ok(orders);
     }
 }
