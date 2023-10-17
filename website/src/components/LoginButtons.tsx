@@ -20,7 +20,7 @@ const LoginButtons = () => {
                 </Link>
             </div>
         ) : (
-            <div className="dropdown ">
+            <div className="dropdown m-1">
                 <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {customer.firstName}
                 </button>
