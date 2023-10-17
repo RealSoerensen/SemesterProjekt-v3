@@ -3,8 +3,12 @@ import React from "react";
 const Settings: React.FC = () => {
     return (
         <div>
-            <h1>Home</h1>
-            <p>Here you can find all sorts of information about me and my projects.</p>
+            <h1>
+                Settings
+            </h1>
+            <p>
+                This is the settings page
+            </p>
         </div>
     );
 };

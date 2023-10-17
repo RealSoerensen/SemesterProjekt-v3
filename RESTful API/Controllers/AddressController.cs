@@ -31,12 +31,7 @@ public class AddressController : ControllerBase
             return StatusCode(500, "An error occurred while fetching the addresses.");
         }
 
-        if (addresses == null)
-        {
-            return NotFound("No addresses found");
-        }
-
-        return Ok(addresses);
+        return addresses == null ? NotFound("No addresses found") : Ok(addresses);
     }
 
     // GET api/<AddressController>/5
@@ -53,12 +48,7 @@ public class AddressController : ControllerBase
             return StatusCode(500, "An error occurred while fetching the address.");
         }
 
-        if (address == null)
-        {
-            return NotFound($"Address with id {id} was not found");
-        }
-
-        return Ok(address);
+        return address == null ? NotFound($"Address with id {id} was not found") : Ok(address);
     }
 
     // POST api/<AddressController>
@@ -75,12 +65,7 @@ public class AddressController : ControllerBase
             return BadRequest("Address creation failed - DB ERROR");
         }
 
-        if (createdAddress == null)
-        {
-            return BadRequest("Address creation failed - Unable to create in DB");
-        }
-
-        return Ok(createdAddress);
+        return createdAddress == null ? BadRequest("Address creation failed - Unable to create in DB") : Ok(createdAddress);
     }
 
     // PUT api/<AddressController>/5
@@ -97,12 +82,7 @@ public class AddressController : ControllerBase
             return BadRequest("Address update failed - DB ERROR");
         }
 
-        if (!updatedAddress)
-        {
-            return BadRequest("Address update failed - Unable to update in DB");
-        }
-
-        return Ok();
+        return !updatedAddress ? BadRequest("Address update failed - Unable to update in DB") : Ok();
     }
 
     // DELETE api/<AddressController>/5
@@ -119,11 +99,6 @@ public class AddressController : ControllerBase
             return BadRequest("Address deletion failed - DB ERROR");
         }
 
-        if (!deletedAddress)
-        {
-            return BadRequest("Address deletion failed");
-        }
-
-        return Ok();
+        return !deletedAddress ? BadRequest("Address deletion failed") : Ok();
     }
 }

@@ -15,6 +15,7 @@ import Cart from "./pages/CartPage";
 import Category from "./pages/CategoryPage";
 import ForgotPassword from "./pages/auth/ForgotPasswordPage";
 import LogoutPage from "./pages/auth/LogoutPage";
+import Settings from "./pages/profile/SettingsPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             {["/", "/home", "/index"].map((path, index) =>
               <Route path={path} element={<HomePage />} key={index} />
             )}
+            <Route path="/settings" element={<Settings />} />
             <Route path="/logout" element={<LogoutPage />} />
             <Route path="/category/:category" element={<Category />} />
             <Route path="/about" element={<About />} />
