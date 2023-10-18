@@ -11,9 +11,10 @@ public class ProductDescription
     public string Name { get; set; }
     public long Stock { get; set; }
     public string Brand { get; set; }
+    public string Category { get; set; }
 
     [JsonConstructor]
-    public ProductDescription(string description, string image, decimal price, string name, long stock, string brand)
+    public ProductDescription(string description, string image, decimal price, string name, long stock, string brand, string category)
     {
         Description = description;
         Image = image;
@@ -21,9 +22,10 @@ public class ProductDescription
         Name = name;
         Stock = stock;
         Brand = brand;
+        Category = category;
     }
 
-    public ProductDescription(long id, string description, string image, decimal price, string name, long stock, string brand)
+    public ProductDescription(long id, string description, string image, decimal price, string name, long stock, string brand, string category)
     {
         Id = id;
         Description = description;
@@ -32,5 +34,6 @@ public class ProductDescription
         Name = name;
         Stock = stock;
         Brand = brand;
+        Category = category;
     }
 }
