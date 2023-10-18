@@ -36,7 +36,6 @@ export async function getProductDescriptionById(id: number): Promise<ProductDesc
             //     if (typeof reader.result === 'string')
             //         productDescription.image = reader.result; // You can add this new property to your ProductDescription class
             //     };
-                console.log(productDescription);
             return productDescription;
 
         } else {
