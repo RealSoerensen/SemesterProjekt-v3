@@ -16,7 +16,7 @@ public class ProductDescriptionController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] ProductDescription productDescription)
+    public IActionResult Create(ProductDescription productDescription)
     {
         try
         {
