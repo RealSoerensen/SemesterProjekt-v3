@@ -15,7 +15,6 @@ import Card from '../components/Card/Card';
 import Product from '../models/Product';
 import { getProductDescriptionById } from '../services/ProductDescription';
 import ProductDescription from '../models/ProductDescription';
-import ImageBase64 from '../components/ImageBase64/ImageBase64';
 
 const HomePage: React.FC = () => {
 
@@ -52,7 +51,7 @@ const HomePage: React.FC = () => {
     //     }
     // }, [products]);
     useEffect(() => {
-        landingpageLinks
+        
         if (products?.length > 0) {
             const fetchedBestSellers: any[] | ((prevState: ProductDescription[]) => ProductDescription[]) = [];
             Promise.all(products.map(product => getProductDescriptionById(product.productDescriptionID)))
@@ -77,7 +76,7 @@ const HomePage: React.FC = () => {
         },[bestSellers])
 
     return (
-        <div className='mb-5'>
+        <div className='mb-5 container'>
             <div className='overflow-hidden position-relative text-center'>
                 <img className="img-fluid object-fit-cover" style={{ width: "100%", height: "500px" }} src={frontpageImage} alt='frontpage' />
 
