@@ -49,12 +49,13 @@ const HomePage: React.FC = () => {
     //     }
     // }, [products]);
     useEffect(() => {
-        console.log(products)
         if (products !== null) {
             let tempBestseller: ProductDescription[] = [];
             for (let i = 0; i < products.length; i++) {
-                getProductDescriptionById(products[i].productDescriptionID).then((data) => {
-                    console.log(data)
+                getProductDescriptionById(products[i].productDescriptionID).then((data: ProductDescription | null) => {
+                    if (data !== null) {
+                        tempBestseller.push(data);
+                    }
                 });
             };
             console.log(tempBestseller)

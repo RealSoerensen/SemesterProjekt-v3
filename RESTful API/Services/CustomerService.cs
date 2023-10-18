@@ -13,7 +13,7 @@ public class CustomerService
     {
         var connectionString = DBConnection.GetConnectionString();
         _customerDB = new CustomerRespository(connectionString);
-        _orderService = new OrderService()
+        _orderService = new OrderService();
     }
 
     public Customer CreateCustomer(Customer customer)
