@@ -11,13 +11,13 @@ type Props = {
 const Image = (props:Props) => {
     const [image, setImage] = useState<string>("");
     useEffect(() => {
-        if(props.image.length>200){
-            
+        console.log(props.image)
+        if(props?.image?.length>200){
             setImage(`data:image/jpeg;base64,${props.image}`);
         }else{
             setImage(props.image)
         }        
-    },[])
+    },[image])
   return (
     <img className={props.className} src={image} alt={props.imageTitle}/>
   )
