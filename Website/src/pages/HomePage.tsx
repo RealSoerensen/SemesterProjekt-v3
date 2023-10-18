@@ -68,6 +68,7 @@ const HomePage: React.FC = () => {
             if (selectedItems.length > 4) {
                 selectedItems.pop();
             }
+            setShuffledBestSellers([])
             for (let i = 0; i < selectedItems.length; i++) {
 
                 setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description, `product/${selectedItems[i].id}`)]);
