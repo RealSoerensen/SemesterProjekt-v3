@@ -22,7 +22,7 @@ function App() {
       <AuthProvider>
         <Nav />
 
-        <div className="container-fluid">
+        <div className="container-fluid" style={{minHeight:"100vh"}}>
           <Routes>
             {["/", "/home", "/index"].map((path, index) =>
               <Route path={path} element={<HomePage />} key={index} />
