@@ -1,18 +1,19 @@
+/* Style the .form-group container */
 .form-group {
     margin-bottom: 10px; /* Adjust this value to control the vertical distance */
     display: flex; /* Use flexbox to align label and input horizontally */
     align-items: center; /* Vertically center items within the .form-group */
+    width: 35%; /* Set the container's width to 50% of the screen */
 }
 
 /* Style the labels within .form-group */
 .form-group label {
-    flex: .4; /* Allow labels to take up some space */
-    margin-right: 2px; /* Add some spacing between labels and inputs */
+    margin-right: 10px; /* Add some spacing between labels and inputs */
     display: block;
+    flex: 1; /* Allow labels to take up some space (adjust as needed) */
 }
 
 /* Style the inputs within .form-group */
 .form-group input {
-    flex: 3; /* Allow inputs to take up more space */
-    width: auto; /* Remove the fixed width to make them flexible */
+    width: 100%; /* Make inputs fill the available space */
 }
