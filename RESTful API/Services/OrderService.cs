@@ -78,4 +78,17 @@ public class OrderService
             throw;
         }
     }
+
+    internal List<Order> GetOrdersByCustomerEmail(string email)
+    {
+        try
+        {
+            return _orderDB.GetOrdersByCustomerEmail(email);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

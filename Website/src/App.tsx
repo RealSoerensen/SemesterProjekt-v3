@@ -5,7 +5,7 @@ import Nav from './components/Nav';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
+import RegisterPage from './pages/auth/RegisterPage/RegisterPage';
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProductPage from "./pages/ProductPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -15,7 +15,6 @@ import Cart from "./pages/CartPage";
 import Category from "./pages/CategoryPage";
 import ForgotPassword from "./pages/auth/ForgotPasswordPage";
 import LogoutPage from "./pages/auth/LogoutPage";
-import Settings from "./pages/profile/SettingsPage";
 
 function App() {
   return (
@@ -23,12 +22,11 @@ function App() {
       <AuthProvider>
         <Nav />
 
-        <div className="container">
+        <div className="container-fluid">
           <Routes>
             {["/", "/home", "/index"].map((path, index) =>
               <Route path={path} element={<HomePage />} key={index} />
             )}
-            <Route path="/settings" element={<Settings />} />
             <Route path="/logout" element={<LogoutPage />} />
             <Route path="/category/:category" element={<Category />} />
             <Route path="/about" element={<About />} />

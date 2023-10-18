@@ -52,6 +52,7 @@ const HomePage: React.FC = () => {
     //     }
     // }, [products]);
     useEffect(() => {
+        landingpageLinks
         if (products?.length > 0) {
             const fetchedBestSellers: any[] | ((prevState: ProductDescription[]) => ProductDescription[]) = [];
             Promise.all(products.map(product => getProductDescriptionById(product.productDescriptionID)))

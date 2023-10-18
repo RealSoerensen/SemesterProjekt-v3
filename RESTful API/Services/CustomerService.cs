@@ -7,11 +7,13 @@ namespace RESTful_API.Services;
 public class CustomerService
 {
     private readonly ICustomerDA _customerDB;
+    private readonly OrderService _orderService;
 
     public CustomerService()
     {
         var connectionString = DBConnection.GetConnectionString();
         _customerDB = new CustomerRespository(connectionString);
+        _orderService = new OrderService();
     }
 
     public Customer CreateCustomer(Customer customer)
@@ -57,6 +59,13 @@ public class CustomerService
     {
         try
         {
+            string email = customer.Email;
+            List<Order> orders = _orderService.GetOrdersByCustomerEmail(email);
+            foreach (var order in orders)
+            {
+                order.CustomerEmail = email;
+                _orderService.UpdateOrder(order);
+            }
             return _customerDB.Update(customer);
         }
         catch (Exception e)

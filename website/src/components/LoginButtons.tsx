@@ -20,19 +20,16 @@ const LoginButtons = () => {
                 </Link>
             </div>
         ) : (
-            <div className="dropdown ">
+            <div className="dropdown m-1">
                 <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {customer.firstName}
                 </button>
                 <ul className="dropdown-menu">
                     <Link to="/profile">
-                        <li className='dropdown-item'>Profile</li>
-                    </Link>
-                    <Link to="/settings">
-                        <li className='dropdown-item'>Settings</li>
+                        <li className='dropdown-item'>Konto</li>
                     </Link>
                     <Link to="/logout">
-                        <li className='dropdown-item'>Logout</li>
+                        <li className='dropdown-item'>Log ud</li>
                     </Link>
                 </ul>
             </div>
