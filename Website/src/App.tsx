@@ -5,7 +5,7 @@ import Nav from './components/Nav';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
+import RegisterPage from './pages/auth/RegisterPage/RegisterPage';
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProductPage from "./pages/ProductPage";
 import NotFoundPage from "./pages/NotFoundPage";
