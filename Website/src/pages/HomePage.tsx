@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllProducts} from '../services/ProductService';
+import { getAllProducts } from '../services/ProductService';
 
 //images
 import frontpageImage from '../content/images/frontpageImage.jpg';
@@ -19,8 +19,8 @@ import ProductDescription from '../models/ProductDescription';
 const HomePage: React.FC = () => {
 
     const [categories] = useState<CustomCard[]>([
-        new CustomCard(bats, 'Bats', "Choose from a wide range of padel bats" , "category/bats"),
-        new CustomCard(balls, 'Balls', "Balls for padel and beach tennis" , "category/balls"),
+        new CustomCard(bats, 'Bats', "Choose from a wide range of padel bats", "category/bats"),
+        new CustomCard(balls, 'Balls', "Balls for padel and beach tennis", "category/balls"),
         new CustomCard(shoes, 'Shoes', "Shoes for padel and beach tennis", "category/shoes"),
         new CustomCard(clothes, 'Clothes', " Clothes for padel and beach tennis", "category/clothes"),
         new CustomCard(bags, 'Bags', " Bags for padel and beach tennis", "category/bags")
@@ -51,7 +51,7 @@ const HomePage: React.FC = () => {
     //     }
     // }, [products]);
     useEffect(() => {
-        
+
         if (products?.length > 0) {
             const fetchedBestSellers: any[] | ((prevState: ProductDescription[]) => ProductDescription[]) = [];
             Promise.all(products.map(product => getProductDescriptionById(product.productDescriptionID)))
@@ -62,19 +62,18 @@ const HomePage: React.FC = () => {
         }
     }, [products]);
     useEffect(() => {
-        if(products?.length == bestSellers?.length){
-        const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
+        if (products?.length === bestSellers?.length) {
+            const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
             const selectedItems = shuffled.slice(0, 4);
-            console.log(selectedItems.length)
             if (selectedItems.length > 4) {
                 selectedItems.pop();
             }
-            setShuffledBestSellers([])
-            for(let i = 0; i < selectedItems.length; i++) {
+            for (let i = 0; i < selectedItems.length; i++) {
+
                 setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description, `product/${selectedItems[i].id}`)]);
             }
         }
-        },[bestSellers])
+    }, [bestSellers])
 
     return (
         <div className='mb-5 container'>
@@ -91,22 +90,22 @@ const HomePage: React.FC = () => {
                 </div>
             </div>
             <div className='row mt-4'>
-                <Card cards={shuffledCategories}/>
+                <Card cards={shuffledCategories} />
             </div>
             <div className='row mt-5'>
                 <h2 className='text-center'>
                     Highlighted Products
                 </h2>
                 {
-                    shuffledBestSellers.length === 0 ? 
-                    <div className="d-flex justify-content-center">
-                        <div className="spinner-grow" role="status">
-                            <span className="sr-only"></span>
+                    shuffledBestSellers.length === 0 ?
+                        <div className="d-flex justify-content-center">
+                            <div className="spinner-grow" role="status">
+                                <span className="sr-only"></span>
+                            </div>
                         </div>
-                    </div>
-                   :  <Card cards={shuffledBestSellers} />
+                        : <Card cards={shuffledBestSellers} />
                 }
-               
+
             </div>
         </div>
     );
