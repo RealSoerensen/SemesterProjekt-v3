@@ -11,7 +11,6 @@ type Props = {
 const Image = (props:Props) => {
     const [image, setImage] = useState<string>("");
     useEffect(() => {
-        console.log(props.image)
         if(props?.image?.length>200){
             setImage(`data:image/jpeg;base64,${props.image}`);
         }else{
