@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import './Card.css'
-
+import Image from '../Image'
 
 export class CustomCard {
     image: string;
@@ -30,7 +30,7 @@ const Card = (props: Props) => {
                             <Link to={`${card.linkto}`} className="btn">
                                 <div className='border shadow-sm rounded'>
                                     <div className='bg-image '>
-                                        <img src={card.image} className="card-img-top zoom" alt={card.title} />
+                                        <Image image={card.image} imageTitle={card.title} className='card-img-top zoom' />
                                     </div>
                                     <div className="card-body">
                                         <h5 className="card-title">{card.title}</h5>

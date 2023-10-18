@@ -65,11 +65,12 @@ const HomePage: React.FC = () => {
         if(products?.length == bestSellers?.length){
         const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
             const selectedItems = shuffled.slice(0, 4);
+            console.log(selectedItems.length)
             if (selectedItems.length > 4) {
                 selectedItems.pop();
             }
+            setShuffledBestSellers([])
             for(let i = 0; i < selectedItems.length; i++) {
- 
                 setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description, `product/${selectedItems[i].id}`)]);
             }
         }
