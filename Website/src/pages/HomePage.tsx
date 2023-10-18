@@ -28,9 +28,7 @@ const HomePage: React.FC = () => {
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [bestSellers, setBestSellers] = useState<ProductDescription[]>([]);
-    const [tempBestSellers, setTempBestSellers] = useState<ProductDescription[]>([]);
     const [shuffledBestSellers, setShuffledBestSellers] = useState<CustomCard[]>([]);
-    const [base64image, setBase64image] = useState<string[]>([]);
     useEffect(() => {
         const shuffled = [...categories].sort(() => Math.random() - 0.5);
         if (shuffled.length > 4) {
@@ -41,15 +39,6 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         getAllProducts()?.then((data) => setProducts(data),);
     }, []);
-
-    // useEffect(() => {
-    //     if (products.length !== 0) {
-    //         for(let i = 0; i < products.length; i++) {
-    //             getAllProductDescriptionById(products[i].productDescriptionID).then((data) => {
-    //                 setBestSellers((prev) => [...prev, data]);
-    //         });};
-    //     }
-    // }, [products]);
     useEffect(() => {
 
         if (products?.length > 0) {
@@ -70,7 +59,6 @@ const HomePage: React.FC = () => {
             }
             setShuffledBestSellers([])
             for (let i = 0; i < selectedItems.length; i++) {
-
                 setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description, `product/${selectedItems[i].id}`)]);
             }
         }
