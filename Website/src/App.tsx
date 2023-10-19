@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-import React from "react";
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -11,7 +10,7 @@ import ProductPage from "./pages/ProductPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import About from "./pages/AboutPage";
 import Contact from "./pages/ContactPage";
-import Cart from "./pages/CartPage";
+import Cart from "./pages/CartPage/CartPage";
 import Category from "./pages/CategoryPage";
 import ForgotPassword from "./pages/auth/ForgotPasswordPage";
 import LogoutPage from "./pages/auth/LogoutPage";
