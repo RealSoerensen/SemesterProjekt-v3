@@ -2,11 +2,14 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 
-const LoginButtons = () => {
+type Props = {
+    HideClass: string;
+}
+const LoginButtons = (props : Props) => {
     const { customer } = useContext(AuthContext);
     return (
         customer === null ? (
-            <div>
+            <div className={`text-center ${props.HideClass}`}>
                 <Link to="/login">
                     <button className="btn btn-primary m-1" type="button">
                         Login

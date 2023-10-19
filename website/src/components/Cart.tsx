@@ -15,8 +15,10 @@ class CartItem {
         this.productDescription = productDescription;
     }
 }
-
-const Cart: React.FC = () => {
+type Props = {
+    HideClass: string;
+}
+const Cart: React.FC<Props> = (props) => {
     const { cart } = useContext(CartContext);
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
@@ -31,7 +33,7 @@ const Cart: React.FC = () => {
     }, [cart]);
 
     return (
-        <div className='dropdown m-1'>
+        <div className={`dropdown m-1 d-inline ${props.HideClass}`}>
             <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Kurv <span className="badge bg-secondary">{cart.length}</span>
             </button>
@@ -53,9 +55,6 @@ const Cart: React.FC = () => {
                                 </li>
                             )
                         })
-
-
-
                 }
                 <div className="container">
                     <Link to="/cart">
