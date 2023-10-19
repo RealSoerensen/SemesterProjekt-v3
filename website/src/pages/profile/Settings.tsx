@@ -7,7 +7,7 @@ const Settings: React.FC = () => {
                 Indstillinger
             </h1>
             <p>
-                This is the settings page
+                Her finder du alle Indstillinger til din profil
             </p>
         </div>
     );

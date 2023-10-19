@@ -92,7 +92,7 @@ const Details = () => {
                 <div className="col">
                     <h4> Konto Oplysninger</h4>
                     <div className="input-group mb-3">
-                        <span className="input-group-text">First and last name</span>
+                        <span className="input-group-text">For- og efternavn</span>
                         <input type="text" aria-label="First name" className="form-control" defaultValue={firstName} onChange={(e) => setFirstName(e.target.value)} />
                         <input type="text" aria-label="Last name" className="form-control" defaultValue={lastName} onChange={(e) => setLastName(e.target.value)} />
                     </div>

@@ -7,9 +7,9 @@ import LoginButtons from './LoginButtons';
 
 const Nav = () => {
     const [linkItem] = useState<string[]>([
-        'Home',
-        'About',
-        'Contact'
+        'Hjem',
+        'Om os',
+        'Kontakt os'
     ]);
     const [expandNavBarMobile, setExpandNavBarMobile] = useState<boolean>(false);
 
@@ -35,7 +35,9 @@ const Nav = () => {
                                             className={({ isActive, isPending }) =>
                                                 isPending ? "" : isActive ? "nav-link active" : "nav-link"}
                                             to={`/${link.toLowerCase() === 'home' ? '' : link.toLowerCase()}`}
-                                        >{link}</NavLink>
+                                        >
+                                            {link}
+                                        </NavLink>
                                     </li>
                                 )
                             })
