@@ -4,7 +4,7 @@ import ProductDescription from "../models/ProductDescription";
 
 const url = `${baseURL}/api/ProductDescription`;
 
-export async function getAllProductDescription() {
+export async function getAllProductDescription(): Promise<ProductDescription[] | null> {
     try {
         const response = await axios.get(`${url}`);
 

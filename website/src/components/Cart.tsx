@@ -1,55 +1,38 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../contexts/CartContext";
-import Product from "../models/Product";
-import ProductDescription from "../models/ProductDescription";
-import { getProductDescriptionById } from "../services/ProductDescription";
+import { CartContext, CartItem } from "../contexts/CartContext";
+import Image from "./Image";
 
-
-class CartItem {
-    product: Product;
-    productDescription: ProductDescription;
-
-    constructor(product: Product, productDescription: ProductDescription) {
-        this.product = product;
-        this.productDescription = productDescription;
-    }
-}
 type Props = {
     HideClass: string;
 }
+
 const Cart: React.FC<Props> = (props) => {
     const { cart } = useContext(CartContext);
-    const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-    useEffect(() => {
-        cart.forEach(product => {
-            getProductDescriptionById(product.productDescriptionID).then((data) => {
-                if (data !== null)
-                    setCartItems(prev => [...prev, new CartItem(product, data)]);
-            });
-        });
-
-    }, [cart]);
 
     return (
         <div className={`dropdown m-1 d-inline ${props.HideClass}`}>
             <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Kurv <span className="badge bg-secondary">{cart.length}</span>
             </button>
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu" style={{ width: "100%" }}>
                 {
-                    cartItems.length === 0 ? <li className='dropdown-item'>Kurven er tom</li> :
-                        cartItems.map((item, index) => {
+                    cart.length === 0 ? <li className="dropdown-item">Kurven er tom</li> :
+                        cart.map((item: CartItem, index: number) => {
                             return (
-                                <li className='dropdown-item' key={index}>
-                                    <div className='row'>
-                                        <div className='col-3'>
-                                            <img className='img-fluid' src={item.productDescription.image} alt='product' />
+                                <li className="dropdown-item" key={index}>
+                                    <div className="row">
+                                        <div className="col-4">
+                                            <Image image={item.productDescription.image} imageTitle={item.productDescription.name} className="img-fluid" />
                                         </div>
-                                        <div className='col-9'>
-                                            <h6>{item.productDescription.name}</h6>
-                                            <p>Pris: {item.productDescription.price}</p>
+                                        <div className="col-4">
+                                            <p className="fw-bold">{item.productDescription.name}</p>
+                                            <p className="fw-bold">{item.productDescription.price} kr.</p>
+                                        </div>
+                                        <div className="col-4">
+                                            <button className="btn btn-danger">
+                                                X
+                                            </button>
                                         </div>
                                     </div>
                                 </li>

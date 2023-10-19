@@ -1,9 +1,20 @@
 import { Dispatch, SetStateAction, ReactNode, createContext, FC, useState, useEffect } from "react";
 import Product from "../models/Product";
+import ProductDescription from "../models/ProductDescription";
+
+export class CartItem {
+    product: Product;
+    productDescription: ProductDescription;
+
+    constructor(product: Product, productDescription: ProductDescription) {
+        this.product = product;
+        this.productDescription = productDescription;
+    }
+}
 
 interface CartContextType {
-    cart: Product[];
-    setCart: Dispatch<SetStateAction<Product[]>>;
+    cart: CartItem[];
+    setCart: Dispatch<SetStateAction<CartItem[]>>;
 }
 
 interface CartProviderProps {
@@ -16,10 +27,11 @@ export const CartContext = createContext<CartContextType>({
 });
 
 export const CartProvider: FC<CartProviderProps> = ({ children }) => {
-    const [cart, setCart] = useState<Product[]>(() => {
+    const [cart, setCart] = useState<CartItem[]>(() => {
         const cartString = localStorage.getItem('cart');
         if (cartString) {
-            const cart: Product[] = JSON.parse(cartString);
+            console.log("cart loaded from localStorage")
+            const cart: CartItem[] = JSON.parse(cartString);
             return cart;
         }
         return [];
@@ -28,6 +40,7 @@ export const CartProvider: FC<CartProviderProps> = ({ children }) => {
     // Update the token in localStorage whenever it changes
     useEffect(() => {
         if (cart) {
+            console.log("cart changed");
             localStorage.setItem('cart', JSON.stringify(cart));
         } else {
             localStorage.removeItem('cart');

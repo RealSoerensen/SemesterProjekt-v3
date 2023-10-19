@@ -15,34 +15,37 @@ import Cart from "./pages/CartPage";
 import Category from "./pages/CategoryPage";
 import ForgotPassword from "./pages/auth/ForgotPasswordPage";
 import LogoutPage from "./pages/auth/LogoutPage";
+import { CartProvider } from "./contexts/CartContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Nav />
+      <CartProvider>
+        <AuthProvider>
+          <Nav />
 
-        <div className="container-fluid" style={{minHeight:"100vh"}}>
-          <Routes>
-            {["/", "/home", "/index"].map((path, index) =>
-              <Route path={path} element={<HomePage />} key={index} />
-            )}
-            <Route path="/logout" element={<LogoutPage />} />
-            <Route path="/category/:category" element={<Category />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/product/:id" element={<ProductPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </div>
+          <div className="container-fluid" style={{ minHeight: "100vh" }}>
+            <Routes>
+              {["/", "/home", "/index"].map((path, index) =>
+                <Route path={path} element={<HomePage />} key={index} />
+              )}
+              <Route path="/logout" element={<LogoutPage />} />
+              <Route path="/category/:category" element={<Category />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/product/:id" element={<ProductPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </div>
 
-        <Footer />
-      </AuthProvider>
+          <Footer />
+        </AuthProvider>
+      </CartProvider>
     </BrowserRouter>
   );
 }
