@@ -3,8 +3,12 @@ import React from "react";
 const Cart: React.FC = () => {
     return (
         <div>
-            <h1>Cart</h1>
-            <p>Here you can find all sorts of information about me and my projects.</p>
+            <h1>Kurven</h1>
+            <div>
+                <label>
+                    Se alle produkter i kurven her:
+                </label>
+            </div>
         </div>
     );
 };

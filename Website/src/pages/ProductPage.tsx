@@ -5,7 +5,7 @@ const ProductPage = () => {
 
     return (
         <div>
-            ProductPage
+            Produkt side
             <br />
             id: {id}
         </div>

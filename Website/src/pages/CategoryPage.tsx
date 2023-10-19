@@ -6,8 +6,8 @@ const Category: React.FC = () => {
 
     return (
         <div>
-            <h1>Category</h1>
-            <p>See products from {category} here!</p>
+            <h1>Kategori</h1>
+            <p>Se alle produkter fra {category} her!</p>
         </div>
     );
 };

@@ -47,7 +47,7 @@ const Cart: React.FC = () => {
                                         </div>
                                         <div className='col-9'>
                                             <h6>{item.productDescription.name}</h6>
-                                            <p>Price: {item.productDescription.price}</p>
+                                            <p>Pris: {item.productDescription.price}</p>
                                         </div>
                                     </div>
                                 </li>
