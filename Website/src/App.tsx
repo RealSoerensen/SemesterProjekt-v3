@@ -9,7 +9,6 @@ import ProfilePage from "./pages/profile/ProfilePage";
 import ProductPage from "./pages/ProductPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import About from "./pages/AboutPage";
-import Contact from "./pages/ContactPage";
 import Cart from "./pages/CartPage/CartPage";
 import Category from "./pages/CategoryPage";
 import ForgotPassword from "./pages/auth/ForgotPasswordPage";
@@ -31,7 +30,6 @@ function App() {
               <Route path="/logout" element={<LogoutPage />} />
               <Route path="/category/:category" element={<Category />} />
               <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
