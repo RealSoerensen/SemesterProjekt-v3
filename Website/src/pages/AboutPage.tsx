@@ -1,10 +1,7 @@
 import React from "react";
-import { useState, useEffect } from 'react';
-import Card, { CustomCard } from "../components/Card/Card";
-
+import { useState } from 'react';
 
 //images
-import jonesimg from '../content/images/jones.jpg';
 import padelabout from '../content/images/padelabout.jpg'
 import dogpicture from '../content/images/dogpicture.jpg'
 
@@ -19,7 +16,7 @@ class Employee {
 }
 
 const About: React.FC = () => {
-    const [employees, setEmployees] = useState<Employee[]>([
+    const [employees] = useState<Employee[]>([
         new Employee("Jonas", dogpicture),
         new Employee("Filip", dogpicture),
         new Employee("Svend", dogpicture),
