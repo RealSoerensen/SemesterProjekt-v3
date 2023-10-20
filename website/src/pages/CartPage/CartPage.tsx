@@ -72,14 +72,13 @@ const CartPage = () => {
                                         })
                                     }
                                 </tbody>
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <h4>Total: {calculateTotal()}kr</h4>
-                                    </div>
-                                </div>
                             </table>
-
                     }
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h4>Total: {calculateTotal()}kr</h4>
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-md-12">
                             <button className='btn btn-primary m-1'>Gå til betaling</button>

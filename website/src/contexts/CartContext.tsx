@@ -30,7 +30,6 @@ export const CartProvider: FC<CartProviderProps> = ({ children }) => {
     const [cart, setCart] = useState<CartItem[]>(() => {
         const cartString = localStorage.getItem('cart');
         if (cartString) {
-            console.log("cart loaded from localStorage")
             const cart: CartItem[] = JSON.parse(cartString);
             return cart;
         }
@@ -40,7 +39,6 @@ export const CartProvider: FC<CartProviderProps> = ({ children }) => {
     // Update the token in localStorage whenever it changes
     useEffect(() => {
         if (cart) {
-            console.log("cart changed");
             localStorage.setItem('cart', JSON.stringify(cart));
         } else {
             localStorage.removeItem('cart');
