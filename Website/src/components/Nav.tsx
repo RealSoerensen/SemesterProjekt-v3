@@ -4,6 +4,22 @@ import { AuthContext } from '../contexts/AuthContext';
 import { NavLink, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
+<<<<<<< Updated upstream
+=======
+import Cart from './Cart';
+import LoginButtons from './LoginButtons';
+
+
+class NavbarLinks {
+    name: string;
+    linkto: string;
+    constructor(name: string, linkto: string) {
+        this.name = name;
+        this.linkto = linkto;
+    }
+}
+
+>>>>>>> Stashed changes
 
 const Nav = () => {
     const [linkItem] = useState<string[]>([
@@ -63,9 +79,18 @@ const Nav = () => {
         <nav className="navbar bg-white sticky-top navbar-expand-lg bg-body-tertiary">
             <div className='container'>
                 <Link className="navbar-brand" to="/">Padel Shop</Link>
+<<<<<<< Updated upstream
                 <button className="navbar-toggler" type="button" onClick={ToggleNavBarMobile}>
                     <span className="navbar-toggler-icon"></span>
                 </button>
+=======
+                <div className='d-block d-lg-none d-xl-none'>
+                    <Cart HideClass='' />
+                    <button className="navbar-toggler d-inline m-1" type="button" onClick={ToggleNavBarMobile}>
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+>>>>>>> Stashed changes
                 <div className={expandNavBarMobile ? "navbar-collapse " : " collapse navbar-collapse"}>
                     <ul className="navbar-nav">
                         {
@@ -83,9 +108,15 @@ const Nav = () => {
                         }
                     </ul>
                 </div>
+<<<<<<< Updated upstream
                 {
                     handleUserContext()
                 }
+=======
+                <Cart HideClass='d-none d-lg-block' />
+                <LoginButtons HideClass='d-none d-lg-block' />
+
+>>>>>>> Stashed changes
             </div>
         </nav>
     )
