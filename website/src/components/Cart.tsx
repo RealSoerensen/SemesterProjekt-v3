@@ -10,6 +10,14 @@ type Props = {
 const Cart: React.FC<Props> = (props) => {
     const { cart } = useContext(CartContext);
 
+    const calculateTotal = () => {
+        let total = 0;
+        cart.forEach((item: CartItem) => {
+            total += item.productDescription.price;
+        });
+        return total;
+    }
+
     return (
         <div className={`dropdown m-1 d-inline ${props.HideClass}`}>
             <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,11 +48,20 @@ const Cart: React.FC<Props> = (props) => {
                         })
                 }
                 <div className="container">
-                    <Link to="/cart">
-                        <button className="btn btn-primary" type="button">
-                            Gå til kurv
-                        </button>
-                    </Link>
+                    <hr />
+                    <div className="row">
+                        <div className="col-6">
+                            <p className="fw-bold">Total:</p>
+                        </div>
+                        <div className="col-6">
+                            <p className="fw-bold">{calculateTotal()} kr.</p>
+                        </div>
+                        <Link to="/cart">
+                            <button className="btn btn-primary" type="button">
+                                Gå til kurv
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </ul>
         </div >
