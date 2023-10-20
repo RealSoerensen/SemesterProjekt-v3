@@ -28,8 +28,8 @@ const Orders = () => {
                                         <h5 className="card-title">Ordre ID: {order.id}</h5>
                                         <p className="card-text">Dato: {order.date.toDateString()}</p>
                                         <p className="card-text">Tidspunkt: {order.time}</p>
-                                        <p className="card-text">Pris: {order.totalPrice}</p>
-                                        <p className="card-text">Discount: {order.discount}</p>
+                                        <p className="card-text">Pris: {order.totalPrice} (uden rabat)</p>
+                                        <p className="card-text">Rabat: {order.discount}%</p>
                                     </div>
                                 </div>
                             </div>
