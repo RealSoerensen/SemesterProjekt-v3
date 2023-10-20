@@ -3,7 +3,6 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { login } from "../../services/AuthService";
 import { Link } from "react-router-dom";
 
-
 const LoginPage: React.FC = () => {
     const { setCustomer } = useContext(AuthContext);
     const [email, setEmail] = useState('');
@@ -18,7 +17,6 @@ const LoginPage: React.FC = () => {
         }
 
         const customer = await login(email, password);
-        console.log(customer);
 
         if (customer) {
             setSuccess('Logging in...');
@@ -34,8 +32,8 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <form>
-            <div className="pb-3">
+        <form className="position-absolute top-50 start-50 translate-middle">
+            <div className="">
                 <label className='form-label'>Email:</label>
                 <input
                     type="text"
@@ -44,23 +42,23 @@ const LoginPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <label className='form-label'>Password:</label>
+                <label className='form-label'>Adgangskode:</label>
                 <input
                     type="password"
-                    className='form-control'
+                    className='form-control mb-1'
                     autoComplete="on"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                {error && <p className='text-danger'>Error: {error}</p>}
+                {error && <p className='text-danger'>Fejl: {error}</p>}
                 {success && <p className='text-success'>{success}</p>}
-            </div>
-            <div className="pb-3">
-                <button type="button" className="btn btn-primary" onClick={handleLogin}>Login</button>
-                <br />
-                <Link to="/forgot-password">Forgot password?</Link>
-                <br />
-                <Link to="/register">Don't have an account? Register here.</Link>
+                <div className="pb-3">
+                    <button type="button" className="btn btn-primary" onClick={handleLogin}>Login</button>
+                    <br />
+                    <Link to="/forgot-password">Glemt adgangskode?</Link>
+                    <br />
+                    <Link to="/register">Har du ikke en konto? Register dig her.</Link>
+                </div>
             </div>
         </form>
     );
