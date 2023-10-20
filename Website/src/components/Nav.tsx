@@ -9,7 +9,7 @@ import LoginButtons from './LoginButtons';
 class NavbarLinks {
     name: string;
     linkto: string;
-    constructor(name: string, linkto: string) { 
+    constructor(name: string, linkto: string) {
         this.name = name;
         this.linkto = linkto;
     }
@@ -33,7 +33,7 @@ const Nav = () => {
             <div className='container'>
                 <Link className="navbar-brand" to="/">Padel Shop</Link>
                 <div className='d-block d-lg-none d-xl-none'>
-                    <Cart HideClass=''/>
+                    <Cart HideClass='' />
                     <button className="navbar-toggler d-inline m-1" type="button" onClick={ToggleNavBarMobile}>
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -58,7 +58,7 @@ const Nav = () => {
                     </ul>
                     <LoginButtons HideClass='d-lg-none' />
                 </div>
-                <Cart HideClass='d-none d-lg-block'/>
+                <Cart HideClass='d-none d-lg-block' />
                 <LoginButtons HideClass='d-none d-lg-block' />
 
             </div>
