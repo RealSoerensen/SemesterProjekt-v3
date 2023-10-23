@@ -27,11 +27,11 @@ public class OrderlineService
         }
     }
 
-    public Orderline GetOrderlineById(long id)
+    public List<Orderline> GetOrderlineById(long id)
     {
         try
         {
-            return orderlineRepository.Get(id);
+            return orderlineRepository.GetOrderlines(id);
         }
         catch (Exception e)
         {

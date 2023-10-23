@@ -32,22 +32,22 @@ public class OrderlineController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult Get(long id)
     {
-        Orderline orderline;
+        List<Orderline> orderlines;
         try
         {
-            orderline = orderlineService.GetOrderlineById(id);
+            orderlines = orderlineService.GetOrderlineById(id);
         }
         catch (Exception)
         {
             return StatusCode(500, "An error occurred while fetching the orderline.");
         }
 
-        if (orderline == null)
+        if (orderlines == null)
         {
             return NotFound($"Orderline with ID {id} was not found");
         }
 
-        return Ok(orderline);
+        return Ok(orderlines);
     }
 
     [HttpGet]

@@ -1,10 +1,9 @@
 import axios from "axios";
 import baseURL from "./Constants";
-import ProductDescription from "../models/ProductDescription";
 
 const url = `${baseURL}/api/ProductDescription`;
 
-export async function getAllProductDescription(): Promise<ProductDescription[] | null> {
+export async function getAllProductDescription() {
     try {
         const response = await axios.get(`${url}`);
 
@@ -20,7 +19,7 @@ export async function getAllProductDescription(): Promise<ProductDescription[] |
     }
 }
 
-export async function getProductDescriptionById(id: number): Promise<ProductDescription | null> {
+export async function getProductDescriptionById(id: number) {
     try {
         const response = await axios.get(`${url}/${id}`);
 

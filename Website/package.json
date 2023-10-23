@@ -54,6 +54,6 @@
     }
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.2.7"
+    "@types/bootstrap": "^5.2.8"
   }
 }
