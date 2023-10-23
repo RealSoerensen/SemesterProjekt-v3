@@ -56,14 +56,19 @@ public class OrderlineRepository : IOrderlineDA
 
     public Orderline Get(long id)
     {
+        throw new NotImplementedException();
+    }
+
+    public List<Orderline> GetOrderlines(long id)
+    {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
 
         try
         {
-            var sql = "SELECT * FROM Orderline WHERE Id = @Id";
-            var orderline = dbConnection.QuerySingle<Orderline>(sql, new { Id = id }, transaction);
+            var sql = "SELECT * FROM Orderline WHERE OrderID = @Id";
+            var orderline = dbConnection.Query<Orderline>(sql, new { Id = id }, transaction).ToList();
             transaction.Commit();
             return orderline;
         }

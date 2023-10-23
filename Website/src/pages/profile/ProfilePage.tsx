@@ -36,7 +36,7 @@ const ProfilePage = () => {
             <div className="row flex-nowrap">
                 <div className="col-auto col-xl-2 px-sm-2 bg-dark">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                        <span className="fs-5 d-none d-sm-inline">Hej {customer.firstName} {customer.lastName}</span>
+                        <span className="fs-5 d-none d-sm-inline mb-1">Hej {customer.firstName} {customer.lastName}</span>
                         <ul className="nav nav-pills flex-column mb-sm-auto align-items-center align-items-sm-start" id="menu">
                             {
                                 options.map((option, index) => {
