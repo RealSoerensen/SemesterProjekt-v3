@@ -7,17 +7,13 @@ import Orderline from "../../models/Orderline";
 import Product from "../../models/Product";
 import 'bootstrap/dist/js/bootstrap.js';
 import { getProductById } from "../../services/ProductService";
-import { getProductDescriptionById } from "../../services/ProductDescription";
-import ProductDescription from "../../models/ProductDescription";
 import Image from "../../components/Image";
 
 class CompleteProduct {
     product: Product;
-    description: ProductDescription;
 
-    constructor(product: Product, description: ProductDescription) {
+    constructor(product: Product) {
         this.product = product;
-        this.description = description;
     }
 }
 
@@ -36,7 +32,9 @@ class CompleteOrder {
         });
 
         products.forEach((product: CompleteProduct) => {
-            this.products.set(product.product.productSN, product);
+            orderlines.forEach((orderline: Orderline) => {
+                this.products.set(orderline.quantity, product);
+            });
         });
     }
 }
@@ -61,8 +59,7 @@ const Orders = () => {
 
                     const completeProducts = await Promise.all(orderlines.map(async (orderline) => {
                         const product = await getProductById(orderline.productID);
-                        const productDescription = await getProductDescriptionById(product.productDescriptionID);
-                        return new CompleteProduct(product, productDescription);
+                        return new CompleteProduct(product);
                     }));
 
                     return new CompleteOrder(order, orderlines, completeProducts);
@@ -78,7 +75,7 @@ const Orders = () => {
     const totalPrice = (order: CompleteOrder): number => {
         let total = 0;
         Array.from(order.orderlines.values()).map((orderline: Orderline) => (
-            total += orderline.quantity * completeOrders[0].products.get(orderline.productID)!.description.price
+            total += orderline.quantity * completeOrders[0].products.get(orderline.productID)!.product.salePrice
         ));
         return total;
     }
@@ -109,12 +106,12 @@ const Orders = () => {
                                         <div className="container m-1" key={index}>
                                             <div className="row">
                                                 <div className="col-4">
-                                                    <Image image={completeOrder.products.get(orderline.productID)!.description.image} imageTitle={completeOrder.products.get(orderline.productID)!.description.name} className="img-fluid" />
+                                                    <Image image={completeOrder.products.get(orderline.productID)!.product.image} imageTitle={completeOrder.products.get(orderline.productID)!.product.productName} className="img-fluid" />
                                                 </div>
                                                 <div className="col-8">
-                                                    <p>Produkt: {completeOrder.products.get(orderline.productID)?.description.name}</p>
+                                                    <p>Produkt: {completeOrder.products.get(orderline.productID)?.product.productName}</p>
                                                     <p>Antal: {orderline.quantity}</p>
-                                                    <p>Pris per stk.: {completeOrder.products.get(orderline.productID)?.description.price}</p>
+                                                    <p>Pris per stk.: {completeOrder.products.get(orderline.productID)?.product.productName}</p>
                                                 </div>
                                             </div>
                                         </div>

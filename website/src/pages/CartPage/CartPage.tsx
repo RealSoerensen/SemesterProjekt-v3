@@ -16,7 +16,7 @@ const CartPage = () => {
     const calculateTotal = () => {
         let total = 0;
         cart.forEach((item: CartItem) => {
-            total += item.productDescription.price;
+            total += item.product.salePrice;
         });
         return total;
     }
@@ -25,11 +25,12 @@ const CartPage = () => {
         for (let i = 1; i < 10; i++) {
             getProductById(i).then((product) => {
                 if (!product) return;
-                getProductDescriptionById(product.productDescriptionID).then((productDescription) => {
-                    if (!productDescription) return;
-                    const newCartItem = new CartItem(product, productDescription);
-                    setCart([...cart, newCartItem]);
-                });
+                console.log(product);
+                // getProductDescriptionById(product.productDescriptionID).then((productDescription) => {
+                //     if (!productDescription) return;
+                //     const newCartItem = new CartItem(product, productDescription);
+                //     setCart([...cart, newCartItem]);
+                // });
             }
             );
         }
@@ -60,10 +61,10 @@ const CartPage = () => {
                                             return (
                                                 <tr key={index}>
                                                     <td>
-                                                        <Image image={item.productDescription.image} imageTitle={item.productDescription.name} className="cart-item-image" />
-                                                        <span>{item.productDescription.name}</span>
+                                                        <Image image={item.product.image} imageTitle={item.product.productName} className="cart-item-image" />
+                                                        <span>{item.product.productName}</span>
                                                     </td>
-                                                    <td>{item.productDescription.price} kr</td>
+                                                    <td>{item.product.salePrice} kr</td>
                                                     <td>
                                                         <button className="btn btn-danger" onClick={() => removeItem(index)}>X</button>
                                                     </td>

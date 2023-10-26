@@ -13,8 +13,7 @@ import bags from '../content/images/bag.jpg';
 import { CustomCard } from '../components/Card/Card';
 import Card from '../components/Card/Card';
 import Product from '../models/Product';
-import { getProductDescriptionById } from '../services/ProductDescription';
-import ProductDescription from '../models/ProductDescription';
+import { getProductById } from '../services/ProductService';
 
 const HomePage: React.FC = () => {
 
@@ -27,7 +26,7 @@ const HomePage: React.FC = () => {
     ]);
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
-    const [bestSellers, setBestSellers] = useState<ProductDescription[]>([]);
+    const [bestSellers, setBestSellers] = useState<Product[]>([]);
     const [shuffledBestSellers, setShuffledBestSellers] = useState<CustomCard[]>([]);
     useEffect(() => {
         const shuffled = [...categories].sort(() => Math.random() - 0.5);
@@ -39,19 +38,23 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         getAllProducts()?.then((data) => setProducts(data),);
     }, []);
+
     useEffect(() => {
 
         if (products?.length > 0) {
-            const fetchedBestSellers: any[] | ((prevState: ProductDescription[]) => ProductDescription[]) = [];
-            Promise.all(products.map(product => getProductDescriptionById(product.productDescriptionID)))
-                .then(data => {
-                    fetchedBestSellers.push(...data);
-                    setBestSellers(fetchedBestSellers);
-                });
+            setBestSellers(products)
+            // const fetchedBestSellers: any[] | ((prevState: Product[]) => Product[]) = [];
+            // Promise.all(products.map(product => getProductById(product.id)))
+            //     .then(data => {
+            //         fetchedBestSellers.push(...data);
+            //         setBestSellers(fetchedBestSellers);
+            //     });
         }
     }, [products]);
+
     useEffect(() => {
         if (products?.length === bestSellers?.length) {
+            console.log(bestSellers)
             const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
             const selectedItems = shuffled.slice(0, 4);
             if (selectedItems.length > 4) {
@@ -59,7 +62,7 @@ const HomePage: React.FC = () => {
             }
             setShuffledBestSellers([])
             for (let i = 0; i < selectedItems.length; i++) {
-                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description, `product/${selectedItems[i].id}`)]);
+                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].productName, selectedItems[i].desciption, `product/${selectedItems[i].productID}`)]);
             }
         }
     }, [products, bestSellers])
@@ -68,7 +71,6 @@ const HomePage: React.FC = () => {
         <div className='mb-5 container'>
             <div className='overflow-hidden position-relative text-center'>
                 <img className="img-fluid object-fit-cover" style={{ width: "100%", height: "500px" }} src={frontpageImage} alt='frontpage' />
-
                 <div className='position-absolute' style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
                     <h2 className='text-white'>
                         Padel Shop

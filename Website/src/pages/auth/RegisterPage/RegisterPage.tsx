@@ -52,14 +52,14 @@ const RegisterPage = () => {
             const field = formdata1[i];
             const value = field.value;
             const placeholder = field.placeholder;
-    
+
             // Check for empty fields
             if (value === "") {
                 newErrorMessage += `${placeholder} is required, `;
                 setNumberOfErrors(numberOfErrors + 1);
                 continue;
             }
-    
+
             // Additional validations
             switch (field.name) {
                 case "FirstName":
@@ -96,11 +96,11 @@ const RegisterPage = () => {
                     break;
             }
         }
-        if(numberOfErrors > 0) {
+        if (numberOfErrors > 0) {
             setErrorMessage(newErrorMessage);
         }
     };
-    
+
     return (
         <div className="container text-center ">
             <div className='row'>

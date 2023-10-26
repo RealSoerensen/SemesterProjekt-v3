@@ -12,7 +12,7 @@ export async function getOrdersFromCustomer(email: string): Promise<Order[]> {
             const orders: Order[] = response.data.map((order: any) => {
                 let date = order.dateTime.split('T')[0];
                 let time = order.dateTime.split('T')[1].split('.')[0];
-                return new Order(order.id, date, time, order.customerEmail, order.discount);
+                return new Order(order.id, date, time, order.customerEmail);
             });
             return orders;
         } else {

@@ -1,10 +1,26 @@
 class Product {
-    productSN: number;
-    productDescriptionID: number;
+    desciption: string;
+    productID: number;
+    image: string;
+    category: string;
+    productName: string;
+    stock: number;
+    salePrice: number;
+    purchasePrice: number;
+    normalPrice: number;
+    brand: string;
 
-    constructor(productSN: number, productDescriptionID: number) {
-        this.productSN = productSN;
-        this.productDescriptionID = productDescriptionID;
+    constructor(desciption: string, productID: number, image: string, category: string, productName: string, stock: number, salePrice: number, purchasePrice: number, normalPrice: number, brand: string) {
+        this.desciption = desciption;
+        this.productID = productID;
+        this.image = image;
+        this.category = category;
+        this.productName = productName;
+        this.stock = stock;
+        this.salePrice = salePrice;
+        this.purchasePrice = purchasePrice;
+        this.normalPrice = normalPrice;
+        this.brand = brand;
     }
 }
 
