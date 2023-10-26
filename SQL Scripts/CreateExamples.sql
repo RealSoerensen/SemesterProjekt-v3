@@ -1,83 +1,67 @@
--- Insert data into the Address table
-INSERT INTO [Address] ([zipCode], [houseNumber], [city], [street])
-VALUES
-    ('12345', '123 Main', 'Example City', 'Sample Street'),
-    ('54321', '456 Elm', 'Another City', 'Test Avenue'),
-    ('67890', '789 Oak', 'Newtown', 'Grove Road'),
-    ('11111', '1001 Pi', 'Riverdale', 'Forest Lane'),
-    ('22222', '456 Elm', 'Hometown', 'Meadow Drive'),
-    ('33333', '789 Wil', 'Sunnyville', 'Sunset Blvd'),
-    ('44444', '111 Bir', 'Beachville', 'Ocean Avenue'),
-    ('55555', '987 Ced', 'Mountain View', 'Summit Road'),
-    ('66666', '555 Red', 'Lake City', 'Lakefront Drive'),
-    ('77777', '222 Elm', 'Springfield', 'Park Lane');
+-- Insert Example Records into Address Table
+INSERT INTO [Address] ([zip], [houseNumber], [city], [street]) VALUES
+('12345', '10A', 'New York', 'Main St'),
+('54321', '5B', 'Los Angeles', 'Elm St'),
+('98765', '22', 'Chicago', 'Oak St'),
+('43210', '15C', 'San Francisco', 'Market St'),
+('56789', '8D', 'Miami', 'Ocean Ave'),
+('34567', '3E', 'Houston', 'Maple St'),
+('87654', '7F', 'Seattle', 'Pine St'),
+('23456', '14G', 'Boston', 'Cedar St'),
+('65432', '11H', 'Dallas', 'Cherry Ave'),
+('78901', '2I', 'Denver', 'Spruce St'),
+('11223', '9J', 'Austin', 'Palm Ave');
 
--- Insert data into the Customer table
-INSERT INTO [Customer] ([firstName], [lastName], [addressID], [email], [phoneNo], [password], [registerDate])
-VALUES
-    ('John', 'Doe', 1, 'john.doe@example.com', '555-123-4567', 'password123', '2023-01-15 10:30:00'),
-    ('Jane', 'Smith', 2, 'jane.smith@example.com', '555-987-6543', 'secretword', '2023-02-20 14:15:00'),
-    ('Robert', 'Johnson', 3, 'robert.j@example.com', '555-111-2222', 'robertpass', '2023-03-10 08:45:00'),
-    ('Lisa', 'Wilson', 4, 'lisa.w@example.com', '555-333-4444', 'lisapass', '2023-04-05 12:20:00'),
-    ('Michael', 'Brown', 5, 'michael.b@example.com', '555-555-6666', 'michaelpass', '2023-05-15 16:10:00'),
-    ('Sarah', 'Davis', 6, 'sarah.d@example.com', '555-777-8888', 'sarahpass', '2023-06-20 19:30:00'),
-    ('David', 'Lee', 7, 'david.l@example.com', '555-999-1010', 'davidpass', '2023-07-25 22:15:00'),
-    ('Emily', 'Evans', 8, 'emily.e@example.com', '555-121-1313', 'emilypass', '2023-08-30 10:00:00'),
-    ('William', 'Taylor', 9, 'william.t@example.com', '555-141-1515', 'williampass', '2023-09-05 14:45:00'),
-    ('Olivia', 'Harris', 10, 'olivia.h@example.com', '555-161-1717', 'oliviapass', '2023-10-10 18:55:00');
+-- Insert Example Records into Customer Table
+INSERT INTO [Customer] ([firstName], [lastName], [addressID], [email], [phoneNo], [password], [registerDate]) VALUES
+('John', 'Doe', 1, 'john.doe@email.com', '555-123-4567', 'password123', '2023-10-25 12:34:56'),
+('Jane', 'Smith', 2, 'jane.smith@email.com', '555-987-6543', 'securepass', '2023-10-25 13:45:32'),
+('Michael', 'Johnson', 3, 'michael.j@example.com', '555-456-7890', 'mikepass', '2023-10-26 09:12:34'),
+('Emily', 'Brown', 4, 'emily.b@example.com', '555-876-5432', 'pass1234', '2023-10-26 10:23:45'),
+('David', 'Wilson', 5, 'david.w@email.com', '555-234-5678', 'davidpass', '2023-10-26 11:34:56'),
+('Lisa', 'Lee', 6, 'lisa.l@email.com', '555-765-4321', 'lisa123', '2023-10-26 14:45:32'),
+('Robert', 'Martinez', 7, 'robert.m@email.com', '555-123-9876', 'robpass', '2023-10-25 15:12:34'),
+('Olivia', 'Garcia', 8, 'olivia.g@example.com', '555-654-3210', 'olivia456', '2023-10-25 16:23:45'),
+('William', 'Taylor', 9, 'william.t@example.com', '555-987-1234', 'willpass', '2023-10-26 18:34:56'),
+('Sophia', 'Harris', 10, 'sophia.h@example.com', '555-321-6547', 'sophia789', '2023-10-26 19:45:32'),
+('Daniel', 'Clark', 11, 'daniel.c@example.com', '555-789-3210', 'danielpass', '2023-10-25 20:56:43');
 
--- Insert data into the Order table
-INSERT INTO [Order] ([date], [customerEmail], [totalPrice], [discount])
-VALUES
-    ('2023-01-16 11:15:00', 'john.doe@example.com', 150, 10),
-    ('2023-02-21 15:30:00', 'jane.smith@example.com', 200, 15),
-    ('2023-03-11 09:50:00', 'robert.j@example.com', 100, 5),
-    ('2023-04-06 13:25:00', 'lisa.w@example.com', 250, 20),
-    ('2023-05-16 17:20:00', 'michael.b@example.com', 180, 15),
-    ('2023-06-21 19:45:00', 'sarah.d@example.com', 120, 10),
-    ('2023-07-26 21:10:00', 'david.l@example.com', 300, 25),
-    ('2023-08-31 10:55:00', 'emily.e@example.com', 90, 7),
-    ('2023-09-06 14:35:00', 'william.t@example.com', 175, 12),
-    ('2023-10-11 18:20:00', 'olivia.h@example.com', 220, 18);
+-- Insert Example Records into Order Table
+INSERT INTO [Order] ([date], [customerEmail]) VALUES
+('2023-10-25 09:30:15', 'john.doe@email.com'),
+('2023-10-25 10:45:30', 'jane.smith@email.com'),
+('2023-10-25 12:15:45', 'michael.j@example.com'),
+('2023-10-25 14:20:00', 'emily.b@example.com'),
+('2023-10-26 08:45:30', 'david.w@email.com'),
+('2023-10-26 10:00:15', 'lisa.l@email.com'),
+('2023-10-26 11:30:45', 'robert.m@email.com'),
+('2023-10-25 15:00:00', 'olivia.g@example.com'),
+('2023-10-26 08:15:30', 'william.t@example.com'),
+('2023-10-26 09:45:15', 'sophia.h@example.com'),
+('2023-10-25 17:30:30', 'daniel.c@example.com');
 
-	-- Insert data into the ProductDescription table
-INSERT INTO [ProductDescription] ([description], [image], [price], [name], [stock])
-VALUES
-    ('Product A Description', NULL, 50.00, 'Product A', 100),
-    ('Product B Description', NULL, 75.00, 'Product B', 50),
-    ('Product C Description', NULL, 30.00, 'Product C', 200),
-    ('Product D Description', NULL, 60.00, 'Product D', 75),
-    ('Product E Description', NULL, 45.00, 'Product E', 120),
-    ('Product F Description', NULL, 80.00, 'Product F', 30),
-    ('Product G Description', NULL, 55.00, 'Product G', 90),
-    ('Product H Description', NULL, 70.00, 'Product H', 60),
-    ('Product I Description', NULL, 40.00, 'Product I', 150),
-    ('Product J Description', NULL, 65.00, 'Product J', 40);
+-- Insert Example Records into Product Table
+INSERT INTO [Product] ([description], [salePrice], [purchasePrice], [normalPrice], [name], [stock], [brand]) VALUES
+('Laptop computer with 15-inch screen', 899.99, 799.99, 999.99, 'Laptop 15', 50, 'Brand X'),
+('Smartphone with 6.2-inch display', 499.99, 399.99, 599.99, 'Phone 6.2', 100, 'Brand Y'),
+('Wireless Bluetooth headphones', 79.99, 59.99, 99.99, 'Headphones', 200, 'Brand Z'),
+('55-inch 4K Ultra HD Smart TV', 799.99, 699.99, 899.99, 'TV 55', 30, 'Brand X'),
+('Digital camera with 24MP sensor', 349.99, 299.99, 399.99, 'Camera 24MP', 75, 'Brand Y'),
+('Coffee maker with timer function', 49.99, 39.99, 59.99, 'Coffee Maker', 150, 'Brand A'),
+('Stainless steel refrigerator', 999.99, 899.99, 1099.99, 'Fridge SS', 25, 'Brand B'),
+('Gaming console with 1TB storage', 399.99, 349.99, 449.99, 'Console 1TB', 40, 'Brand C'),
+('Cordless vacuum cleaner', 129.99, 109.99, 149.99, 'Vacuum Cleaner', 60, 'Brand D'),
+('Microwave oven with convection', 149.99, 129.99, 169.99, 'Microwave', 55, 'Brand E');
 
-	-- Insert data into the Product table
-INSERT INTO [Product] ([ProductDescriptionID])
-VALUES
-    (1),
-    (2),
-    (3),
-    (4),
-    (5),
-    (6),
-    (7),
-    (8),
-    (9),
-    (10);
-
-	-- Insert data into the Orderline table
-INSERT INTO [Orderline] ([quantity], [productSN], [orderID])
-VALUES
-    (2, 1, 1),
-    (3, 2, 1),
-    (1, 3, 1),
-    (2, 4, 2),
-    (4, 5, 2),
-    (1, 6, 2),
-    (3, 7, 3),
-    (2, 8, 3),
-    (1, 9, 4),
-    (4, 10, 4);
+-- Insert Example Records into Orderline Table
+INSERT INTO [Orderline] ([quantity], [priceAtTimeOfOrder], [productID], [orderID]) VALUES
+(2, 499.99, 1, 1),
+(1, 79.99, 3, 2),
+(3, 799.99, 4, 3),
+(2, 349.99, 5, 4),
+(1, 49.99, 6, 5),
+(1, 999.99, 7, 6),
+(4, 399.99, 8, 7),
+(2, 129.99, 9, 8),
+(1, 149.99, 10, 9),
+(2, 899.99, 1, 10);
