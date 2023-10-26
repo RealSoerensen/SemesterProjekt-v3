@@ -31,10 +31,10 @@ const Cart: React.FC<Props> = (props) => {
                                 <li className="dropdown-item" key={index}>
                                     <div className="row">
                                         <div className="col-4">
-                                            <Image image={item.product.image} imageTitle={item.product.productName} className="img-fluid" />
+                                            <Image image={item.product.image} imageTitle={item.product.name} className="img-fluid" />
                                         </div>
                                         <div className="col-4">
-                                            <p className="fw-bold">{item.product.productName}</p>
+                                            <p className="fw-bold">{item.product.name}</p>
                                             <p className="fw-bold">{item.product.salePrice} kr.</p>
                                         </div>
                                         <div className="col-4">

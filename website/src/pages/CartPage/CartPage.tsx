@@ -3,7 +3,7 @@ import './CartPage.css';
 import { CartContext, CartItem } from '../../contexts/CartContext';
 import Image from '../../components/Image';
 import { getProductById } from '../../services/ProductService';
-import { getProductDescriptionById } from '../../services/ProductDescription';
+import Orderline from '../../models/Orderline';
 
 const CartPage = () => {
     const { cart, setCart } = useContext(CartContext)
@@ -22,17 +22,13 @@ const CartPage = () => {
     }
 
     const addItem = () => {
-        for (let i = 1; i < 10; i++) {
+        for (let i = 1; i < 9; i++) {
             getProductById(i).then((product) => {
                 if (!product) return;
-                console.log(product);
-                // getProductDescriptionById(product.productDescriptionID).then((productDescription) => {
-                //     if (!productDescription) return;
-                //     const newCartItem = new CartItem(product, productDescription);
-                //     setCart([...cart, newCartItem]);
-                // });
-            }
-            );
+                const orderline = new Orderline(1, product.id, Math.round(Math.random() * 10), product.salePrice);
+                const cartItem = new CartItem(product, orderline);
+                setCart([...cart, cartItem]);
+            });
         }
     }
 
@@ -50,8 +46,10 @@ const CartPage = () => {
                             <table className="table">
                                 <thead>
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
+                                        <th>Produkt</th>
+                                        <th>Salgspris</th>
+                                        <th>Antal</th>
+                                        <th>Total</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -61,10 +59,12 @@ const CartPage = () => {
                                             return (
                                                 <tr key={index}>
                                                     <td>
-                                                        <Image image={item.product.image} imageTitle={item.product.productName} className="cart-item-image" />
-                                                        <span>{item.product.productName}</span>
+                                                        <Image image={item.product.image} imageTitle={item.product.name} className="cart-item-image" />
+                                                        <span>{item.product.name}</span>
                                                     </td>
                                                     <td>{item.product.salePrice} kr</td>
+                                                    <td>{item.orderline.quantity}</td>
+                                                    <td>{item.product.salePrice * item.orderline.quantity} kr</td>
                                                     <td>
                                                         <button className="btn btn-danger" onClick={() => removeItem(index)}>X</button>
                                                     </td>

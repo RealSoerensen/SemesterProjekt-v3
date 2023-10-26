@@ -4,10 +4,10 @@ import Orderline from "../models/Orderline";
 
 export class CartItem {
     product: Product;
-    orderlines: Map<number, Orderline>;
+    orderline: Orderline;
 
-    constructor(product: Product, orderlines: Orderline[]) {
-        this.orderlines = new Map<number, Orderline>();
+    constructor(product: Product, orderline: Orderline) {
+        this.orderline = orderline;
         this.product = product;
     }
 }

@@ -1,21 +1,21 @@
 class Product {
-    desciption: string;
-    productID: number;
+    description: string;
+    id: number;
     image: string;
     category: string;
-    productName: string;
+    name: string;
     stock: number;
     salePrice: number;
     purchasePrice: number;
     normalPrice: number;
     brand: string;
 
-    constructor(desciption: string, productID: number, image: string, category: string, productName: string, stock: number, salePrice: number, purchasePrice: number, normalPrice: number, brand: string) {
-        this.desciption = desciption;
-        this.productID = productID;
+    constructor(description: string, id: number, image: string, category: string, name: string, stock: number, salePrice: number, purchasePrice: number, normalPrice: number, brand: string) {
+        this.description = description;
+        this.id = id;
         this.image = image;
         this.category = category;
-        this.productName = productName;
+        this.name = name;
         this.stock = stock;
         this.salePrice = salePrice;
         this.purchasePrice = purchasePrice;

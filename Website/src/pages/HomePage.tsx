@@ -13,7 +13,6 @@ import bags from '../content/images/bag.jpg';
 import { CustomCard } from '../components/Card/Card';
 import Card from '../components/Card/Card';
 import Product from '../models/Product';
-import { getProductById } from '../services/ProductService';
 
 const HomePage: React.FC = () => {
 
@@ -43,12 +42,6 @@ const HomePage: React.FC = () => {
 
         if (products?.length > 0) {
             setBestSellers(products)
-            // const fetchedBestSellers: any[] | ((prevState: Product[]) => Product[]) = [];
-            // Promise.all(products.map(product => getProductById(product.id)))
-            //     .then(data => {
-            //         fetchedBestSellers.push(...data);
-            //         setBestSellers(fetchedBestSellers);
-            //     });
         }
     }, [products]);
 
@@ -62,7 +55,7 @@ const HomePage: React.FC = () => {
             }
             setShuffledBestSellers([])
             for (let i = 0; i < selectedItems.length; i++) {
-                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].productName, selectedItems[i].desciption, `product/${selectedItems[i].productID}`)]);
+                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description, `product/${selectedItems[i].id}`)]);
             }
         }
     }, [products, bestSellers])

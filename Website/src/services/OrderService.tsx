@@ -4,9 +4,9 @@ import Order from "../models/Order";
 
 const url = `${baseURL}/api/Order`;
 
-export async function getOrdersFromCustomer(email: string): Promise<Order[]> {
+export async function getOrdersFromCustomer(id: number): Promise<Order[]> {
     try {
-        const response = await axios.get(`${url}/customer/${email}`);
+        const response = await axios.get(`${url}/customer/${id}`);
 
         if (response.status === 200) {
             const orders: Order[] = response.data.map((order: any) => {
