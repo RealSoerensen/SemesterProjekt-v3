@@ -53,7 +53,8 @@ const RegisterPage = () => {
             const field = formdata1[i];
             const value = field.value;
             const placeholder = field.placeholder;
-    
+
+            // Additional validations
             switch (field.name) {
                 case "FirstName":
                 case "LastName":
@@ -116,14 +117,14 @@ const RegisterPage = () => {
                     break;
             }
         }
-        if(numberOfErrors > 0) {
+        if (numberOfErrors > 0) {
             setErrorMessage(newErrorMessage);
         }
         else {
             //Create new Customer/Address here.
         }
     };
-    
+
     return (
         <div className="container text-center ">
             <div className='row'>

@@ -20,7 +20,7 @@ CREATE TABLE [Customer] (
 CREATE TABLE [Order] (
 	[date] datetime,
 	[ID] bigint PRIMARY KEY IDENTITY(1, 1),
-	[customerEmail] varchar(50),
+	[customerID] bigint FOREIGN KEY REFERENCES [Customer]([ID])
 );
 
 CREATE TABLE [Product] (

@@ -79,11 +79,11 @@ public class OrderService
         }
     }
 
-    internal List<Order> GetOrdersByCustomerEmail(string email)
+    internal List<Order> GetOrdersByCustomerID(long id)
     {
         try
         {
-            return _orderDB.GetOrdersByCustomerEmail(email);
+            return _orderDB.GetOrdersByCustomerID(id);
         }
         catch (Exception e)
         {

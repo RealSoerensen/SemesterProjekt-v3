@@ -4,15 +4,15 @@ import Order from "../models/Order";
 
 const url = `${baseURL}/api/Order`;
 
-export async function getOrdersFromCustomer(email: string): Promise<Order[]> {
+export async function getOrdersFromCustomer(id: number): Promise<Order[]> {
     try {
-        const response = await axios.get(`${url}/customer/${email}`);
+        const response = await axios.get(`${url}/customer/${id}`);
 
         if (response.status === 200) {
             const orders: Order[] = response.data.map((order: any) => {
                 let date = order.dateTime.split('T')[0];
                 let time = order.dateTime.split('T')[1].split('.')[0];
-                return new Order(order.id, date, time, order.customerEmail, order.discount);
+                return new Order(order.id, date, time, order.customerEmail);
             });
             return orders;
         } else {

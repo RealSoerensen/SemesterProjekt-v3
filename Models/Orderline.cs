@@ -1,19 +1,17 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Models;
+﻿namespace Models;
 
 public class Orderline
 {
     public long OrderID { get; set; }
     public long ProductID { get; set; }
     public int Quantity { get; set; }
+    public decimal PriceAtTimeOfOrder { get; set; }
 
-
-    [JsonConstructor]
-    public Orderline( int quantity, long productSN, long orderID)
+    public Orderline(int quantity, decimal priceAtTimeOfOrder, long productID, long orderID)
     {
         OrderID = orderID;
-        ProductID = productSN;
+        ProductID = productID;
         Quantity = quantity;
+        PriceAtTimeOfOrder = priceAtTimeOfOrder;
     }
 }

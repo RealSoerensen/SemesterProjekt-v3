@@ -7,66 +7,47 @@ import Orderline from "../../models/Orderline";
 import Product from "../../models/Product";
 import 'bootstrap/dist/js/bootstrap.js';
 import { getProductById } from "../../services/ProductService";
-import { getProductDescriptionById } from "../../services/ProductDescription";
-import ProductDescription from "../../models/ProductDescription";
 import Image from "../../components/Image";
-
-class CompleteProduct {
-    product: Product;
-    description: ProductDescription;
-
-    constructor(product: Product, description: ProductDescription) {
-        this.product = product;
-        this.description = description;
-    }
-}
 
 class CompleteOrder {
     order: Order;
     orderlines: Map<number, Orderline>;
-    products: Map<number, CompleteProduct>;
+    products: Map<number, Product>;
 
-    constructor(order: Order, orderlines: Orderline[], products: CompleteProduct[]) {
+    constructor(order: Order, orderlines: Orderline[], products: Product[]) {
         this.order = order;
-        this.orderlines = new Map<number, Orderline>();
-        this.products = new Map<number, CompleteProduct>();
+        this.orderlines = new Map<number, Orderline>(orderlines.map((ol) => [ol.productID, ol]));
+        this.products = new Map<number, Product>(products.map((p) => [p.id, p]));
+    }
 
-        orderlines.forEach((orderline: Orderline) => {
-            this.orderlines.set(orderline.productID, orderline);
+    totalPrice(): number {
+        let total = 0;
+        this.orderlines.forEach((orderline) => {
+            total += orderline.quantity * orderline.priceAtTimeOfOrder;
         });
-
-        products.forEach((product: CompleteProduct) => {
-            this.products.set(product.product.productSN, product);
-        });
+        return total;
     }
 }
-
 
 const Orders = () => {
     const [completeOrders, setCompleteOrders] = useState<CompleteOrder[]>([]);
     const { customer } = useContext(AuthContext);
 
-    const getOrderlines = async (order: Order): Promise<Orderline[]> => {
-        const orderlines: Orderline[] = await getOrderslinesFromOrderID(order.id);
-        return orderlines;
-    };
-
     useEffect(() => {
         const fetchOrders = async () => {
-            if (customer !== null) {
-                const customerOrders = await getOrdersFromCustomer(customer.email);
+            if (customer) {
+                const customerOrders = await getOrdersFromCustomer(customer.id);
 
-                const updatedCompleteOrders = await Promise.all(customerOrders.map(async (order) => {
-                    const orderlines = await getOrderlines(order);
+                const updatedCompleteOrders = await Promise.all(
+                    customerOrders.map(async (order) => {
+                        const orderlines = await getOrderslinesFromOrderID(order.id);
+                        const completeProducts = await Promise.all(
+                            orderlines.map(async (orderline: Orderline) => await getProductById(orderline.productID))
+                        );
 
-                    const completeProducts = await Promise.all(orderlines.map(async (orderline) => {
-                        const product = await getProductById(orderline.productID);
-                        const productDescription = await getProductDescriptionById(product.productDescriptionID);
-                        return new CompleteProduct(product, productDescription);
-                    }));
-
-                    return new CompleteOrder(order, orderlines, completeProducts);
-                }));
+                        return new CompleteOrder(order, orderlines, completeProducts);
+                    })
+                );
 
                 setCompleteOrders(updatedCompleteOrders);
             }
@@ -75,29 +56,28 @@ const Orders = () => {
         fetchOrders();
     }, [customer]);
 
-    const totalPrice = (order: CompleteOrder): number => {
-        let total = 0;
-        Array.from(order.orderlines.values()).map((orderline: Orderline) => (
-            total += orderline.quantity * completeOrders[0].products.get(orderline.productID)!.description.price
-        ));
-        return total;
-    }
-
     return (
         <div>
             <h1>Bestillinger</h1>
             <div className="row">
                 {completeOrders.map((completeOrder, index) => (
-                    <div className="col-sm-12 col-md-6" key={index}>
+                    <div className="col-sm-12 col-md-4" key={index}>
                         <div className="card m-1">
                             <div className="card-body">
                                 <p>Ordrenummer: {completeOrder.order.id}</p>
-                                <p>Dato: {completeOrder.order.date.toDateString()}</p>
-                                <p>Pris: {totalPrice(completeOrder)} kr.</p>
+                                <p>Oprettet: {completeOrder.order.date.toDateString()}</p>
+                                <p>Pris: {completeOrder.totalPrice()} kr.</p>
                             </div>
                             <hr />
                             <div className="text-center mb-3">
-                                <button className="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target={`#collapse${index}`} aria-expanded="false" aria-controls={`collapse${index}`}>
+                                <button
+                                    className="btn btn-primary"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target={`#collapse${index}`}
+                                    aria-expanded="false"
+                                    aria-controls={`collapse${index}`}
+                                >
                                     Vis bestilling
                                 </button>
                             </div>
@@ -105,20 +85,28 @@ const Orders = () => {
                             <div className="collapse" id={`collapse${index}`}>
                                 <hr />
                                 <div className="row">
-                                    {Array.from(completeOrder.orderlines.values()).map((orderline: Orderline, index) => (
-                                        <div className="container m-1" key={index}>
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    <Image image={completeOrder.products.get(orderline.productID)!.description.image} imageTitle={completeOrder.products.get(orderline.productID)!.description.name} className="img-fluid" />
+                                    {Array.from(completeOrder.products.values()).map((product: Product, index: number) => {
+                                        const orderline = completeOrder.orderlines.get(product.id);
+                                        if (orderline && product) {
+                                            return (
+                                                <div className="col-12" key={index}>
+                                                    <div className="card-body">
+                                                        <div className="row">
+                                                            <div className="col-4">
+                                                                <Image image={product.image} imageTitle={product.name} className="img-fluid" />
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <p className="fw-bold">{product.name}</p>
+                                                                <p className="fw-bold">{orderline.quantity} stk.</p>
+                                                                <p className="fw-bold">{orderline.priceAtTimeOfOrder} kr.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="col-8">
-                                                    <p>Produkt: {completeOrder.products.get(orderline.productID)?.description.name}</p>
-                                                    <p>Antal: {orderline.quantity}</p>
-                                                    <p>Pris per stk.: {completeOrder.products.get(orderline.productID)?.description.price}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
+                                            );
+                                        }
+                                        return null;
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -128,5 +116,6 @@ const Orders = () => {
         </div>
     );
 };
+
 
 export default Orders;

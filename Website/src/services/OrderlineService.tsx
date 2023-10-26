@@ -13,7 +13,7 @@ export async function getOrderslinesFromOrderID(id: number): Promise<Orderline[]
                 if (orderline === null) {
                     throw new Error("Orderline ID is null");
                 }
-                return new Orderline(id, orderline.productID, orderline.quantity);
+                return new Orderline(id, orderline.productID, orderline.quantity, orderline.priceAtTimeOfOrder);
             });
             return orderlines;
         } else {

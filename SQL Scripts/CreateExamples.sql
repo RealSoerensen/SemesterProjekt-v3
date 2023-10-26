@@ -1,64 +1,66 @@
--- Insert Example Records into Address Table
-INSERT INTO [Address] ([zip], [houseNumber], [city], [street]) VALUES
-('12345', '10A', 'New York', 'Main St'),
-('54321', '5B', 'Los Angeles', 'Elm St'),
-('98765', '22', 'Chicago', 'Oak St'),
-('43210', '15C', 'San Francisco', 'Market St'),
-('56789', '8D', 'Miami', 'Ocean Ave'),
-('34567', '3E', 'Houston', 'Maple St'),
-('87654', '7F', 'Seattle', 'Pine St'),
-('23456', '14G', 'Boston', 'Cedar St'),
-('65432', '11H', 'Dallas', 'Cherry Ave'),
-('78901', '2I', 'Denver', 'Spruce St');
+-- Insert into [Address] table
+INSERT INTO [Address] ([zip], [houseNumber], [city], [street])
+VALUES
+    ('12345', '123', 'New York', 'Main Street'),
+    ('54321', '456', 'Los Angeles', 'Broadway'),
+    ('98765', '789', 'Chicago', 'Elm Street'),
+    ('45678', '101', 'San Francisco', 'Market Street'),
+    ('23456', '202', 'Houston', 'Oak Avenue'),
+    ('78901', '303', 'Miami', 'Ocean Drive'),
+    ('34567', '404', 'Dallas', 'Pine Street'),
+    ('87654', '505', 'Seattle', 'Lake Avenue'),
+    ('65432', '606', 'Boston', 'Harbor Road'),
+    ('21098', '707', 'Austin', 'Sunset Boulevard');
 
--- Insert Example Records into Customer Table
-INSERT INTO [Customer] ([firstName], [lastName], [addressID], [email], [phoneNo], [password], [registerDate]) VALUES
-('John', 'Doe', 1, 'john.doe@email.com', '555-123-4567', 'password123', '2023-10-25 12:34:56'),
-('Jane', 'Smith', 2, 'jane.smith@email.com', '555-987-6543', 'securepass', '2023-10-25 13:45:32'),
-('Michael', 'Johnson', 3, 'michael.j@example.com', '555-456-7890', 'mikepass', '2023-10-26 09:12:34'),
-('Emily', 'Brown', 4, 'emily.b@example.com', '555-876-5432', 'pass1234', '2023-10-26 10:23:45'),
-('David', 'Wilson', 5, 'david.w@email.com', '555-234-5678', 'davidpass', '2023-10-26 11:34:56'),
-('Lisa', 'Lee', 6, 'lisa.l@email.com', '555-765-4321', 'lisa123', '2023-10-26 14:45:32'),
-('Robert', 'Martinez', 7, 'robert.m@email.com', '555-123-9876', 'robpass', '2023-10-25 15:12:34'),
-('Olivia', 'Garcia', 8, 'olivia.g@example.com', '555-654-3210', 'olivia456', '2023-10-25 16:23:45'),
-('William', 'Taylor', 9, 'william.t@example.com', '555-987-1234', 'willpass', '2023-10-26 18:34:56'),
-('Sophia', 'Harris', 10, 'sophia.h@example.com', '555-321-6547', 'sophia789', '2023-10-26 19:45:32');
+-- Insert into [Customer] table
+INSERT INTO [Customer] ([firstName], [lastName], [addressID], [email], [phoneNo], [password], [registerDate])
+VALUES
+    ('John', 'Doe', 1, 'johndoe@email.com', '123-456-7890', 'password123', '2023-10-26 12:00:00'),
+    ('Jane', 'Smith', 2, 'janesmith@email.com', '987-654-3210', 'securepass', '2023-10-26 13:30:00'),
+    ('Mike', 'Johnson', 3, 'mike@email.com', '111-222-3333', 'mikepass', '2023-10-26 14:45:00'),
+    ('Emily', 'Wilson', 4, 'emily@email.com', '444-555-6666', 'emilypass', '2023-10-26 16:20:00'),
+    ('David', 'Lee', 5, 'david@email.com', '777-888-9999', 'davidpass', '2023-10-26 18:10:00'),
+    ('Sarah', 'Adams', 6, 'sarah@email.com', '123-987-4567', 'sarahpass', '2023-10-26 19:55:00'),
+    ('Chris', 'Brown', 7, 'chris@email.com', '555-444-3333', 'chrispass', '2023-10-26 21:30:00'),
+    ('Linda', 'Taylor', 8, 'linda@email.com', '999-888-7777', 'lindapass', '2023-10-26 23:15:00'),
+    ('Ryan', 'Miller', 9, 'ryan@email.com', '111-555-9999', 'ryanpass', '2023-10-27 01:00:00'),
+    ('Olivia', 'Martinez', 10, 'olivia@email.com', '111-333-7777', 'oliviapass', '2023-10-27 03:45:00');
 
--- Insert Example Records into Order Table
-INSERT INTO [Order] ([date], [customerEmail]) VALUES
-('2023-10-25 09:30:15', 'john.doe@email.com'),
-('2023-10-25 10:45:30', 'jane.smith@email.com'),
-('2023-10-25 12:15:45', 'michael.j@example.com'),
-('2023-10-25 14:20:00', 'emily.b@example.com'),
-('2023-10-26 08:45:30', 'david.w@email.com'),
-('2023-10-26 10:00:15', 'lisa.l@email.com'),
-('2023-10-26 11:30:45', 'robert.m@email.com'),
-('2023-10-25 15:00:00', 'olivia.g@example.com'),
-('2023-10-26 08:15:30', 'william.t@example.com'),
-('2023-10-26 09:45:15', 'sophia.h@example.com');
+-- Insert into [Order] table
+INSERT INTO [Order] ([date], [customerID])
+VALUES
+    ('2023-10-26 14:30:00', 1),
+    ('2023-10-26 15:15:00', 2),
+    ('2023-10-26 17:00:00', 3),
+    ('2023-10-26 18:45:00', 4),
+    ('2023-10-26 20:30:00', 5),
+    ('2023-10-26 22:15:00', 6),
+    ('2023-10-26 23:59:59', 7),
+    ('2023-10-27 01:45:00', 8),
+    ('2023-10-27 03:30:00', 9),
+    ('2023-10-27 05:15:00', 10);
 
--- Insert Example Records into Product Table
-INSERT INTO [Product] ([description], [salePrice], [purchasePrice], [normalPrice], [name], [stock], [brand], [category]) VALUES
-('Premium Padel Racket with Carbon Frame', 199.99, 159.99, 229.99, 'Carbon Racket', 30, 'Padel Pro', 1),
-('Padel Shoes with Non-Marking Sole', 79.99, 64.99, 99.99, 'Padel Shoes', 100, 'Sporty Feet', 2),
-('Padel Balls - Pack of 3', 14.99, 12.99, 19.99, 'Padel Balls', 500, 'BounceMaster', 3),
-('Lightweight Padel Bag with Multiple Compartments', 49.99, 39.99, 59.99, 'Padel Bag', 50, 'GearMaster', 4),
-('Padel Grip Overgrip Tape - Pack of 3', 9.99, 7.99, 12.99, 'Overgrip Tape', 200, 'GripPro', 5),
-('Padel Court Net Set', 179.99, 149.99, 199.99, 'Court Net Set', 20, 'NetMaster', 6),
-('Premium Padel Cap', 19.99, 16.99, 24.99, 'Padel Cap', 150, 'HeadSpin', 7),
-('Padel Sunglasses with UV Protection', 39.99, 29.99, 49.99, 'Padel Sunglasses', 80, 'SunShield', 8),
-('Padel Elbow Support Brace', 24.99, 19.99, 29.99, 'Elbow Brace', 100, 'JointGuard', 9),
-('Padel Training Cones - Set of 10', 19.99, 15.99, 24.99, 'Training Cones', 75, 'SpeedPro', 10);
+-- Insert into [Product] table with NULL image and realistic-sounding names and brands
+INSERT INTO [Product] ([description], [image], [salePrice], [purchasePrice], [normalPrice], [name], [stock], [brand], [category])
+VALUES
+    ('ProLine Carbon Padel Racket', NULL, 189.99, 130.00, 209.99, 'ProLine Carbon Padel Racket', 50, 'Wilson', 0), -- Category: Bats
+    ('Elite Padel Bat II', NULL, 159.99, 120.00, 179.99, 'Elite Padel Bat II', 45, 'Head', 0), -- Category: Bats
+    ('Adidas Padel Pro Shoes', NULL, 79.99, 50.00, 89.99, 'Adidas Padel Pro Shoes', 80, 'Adidas', 1), -- Category: Shoes
+    ('Asics Padel X-Tech Shoes', NULL, 89.99, 60.00, 99.99, 'Asics Padel X-Tech Shoes', 75, 'Asics', 1), -- Category: Shoes
+    ('Padel Balls (Pack of 3)', NULL, 14.99, 9.00, 17.99, 'Padel Balls (Pack of 3)', 200, 'Penn', 2), -- Category: Balls
+    ('Padel Performance Outfit', NULL, 59.99, 40.00, 69.99, 'Padel Performance Outfit', 100, 'Nike', 3), -- Category: Clothes
+    ('Babolat Padel Bag', NULL, 49.99, 35.00, 59.99, 'Babolat Padel Bag', 120, 'Babolat', 4), -- Category: Bags
+    ('Padel Accessories Bundle', NULL, 29.99, 20.00, 34.99, 'Padel Accessories Bundle', 150, 'Gamma', 5); -- Category: Accessories
 
--- Insert Example Records into Orderline Table
-INSERT INTO [Orderline] ([quantity], [priceAtTimeOfOrder], [productID], [orderID]) VALUES
-(2, 199.99, 1, 1),
-(1, 79.99, 2, 2),
-(3, 14.99, 3, 3),
-(2, 49.99, 4, 4),
-(1, 9.99, 5, 5),
-(1, 179.99, 6, 6),
-(4, 19.99, 7, 7),
-(2, 39.99, 8, 8),
-(1, 24.99, 9, 9),
-(2, 19.99, 10, 10);
+
+-- Insert into [Orderline] table
+INSERT INTO [Orderline] ([quantity], [priceAtTimeOfOrder], [productID], [orderID])
+VALUES
+    (3, 59.97, 1, 1),
+    (2, 59.98, 2, 2),
+    (5, 74.95, 3, 3),
+    (1, 39.99, 4, 4),
+    (4, 199.96, 5, 5),
+    (2, 19.98, 6, 6),
+    (3, 179.97, 7, 7),
+    (2, 49.98, 8, 8);
