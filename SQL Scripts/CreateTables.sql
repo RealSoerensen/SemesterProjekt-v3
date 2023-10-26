@@ -32,7 +32,8 @@ CREATE TABLE [Product] (
 	[normalPrice] money,
 	[name] varchar(50),
 	[stock] bigint,
-	[brand] varchar(100)
+	[brand] varchar(100),
+	[category] int,
 );
 
 CREATE TABLE [Orderline] (
