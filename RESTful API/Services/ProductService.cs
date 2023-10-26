@@ -27,11 +27,11 @@ public class ProductService
         }
     }
 
-    public Product GetProductBySN(long productSN)
+    public Product GetProductByID(long id)
     {
         try
         {
-            return productRepository.Get(productSN);
+            return productRepository.Get(id);
         }
         catch (Exception e)
         {

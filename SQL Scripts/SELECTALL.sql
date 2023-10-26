@@ -4,7 +4,7 @@ SELECT * FROM [Address];
 SELECT * FROM [Customer];
 
 -- Select all data from the Order table
-SELECT * FROM [Order];
+SELECT * FROM [Order];	
 
 -- Select all data from the Product table
 SELECT * FROM [Product];
