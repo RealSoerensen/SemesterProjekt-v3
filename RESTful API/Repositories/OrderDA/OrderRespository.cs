@@ -21,7 +21,7 @@ public class OrderRespository : IOrderDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO [Order] (CustomerId, OrderDate, TotalPrice) VALUES (@CustomerId, @OrderDate, @TotalPrice); SELECT CAST(SCOPE_IDENTITY() as bigint);";
+            var sql = "INSERT INTO [Order] (CustomerId, OrderDate) VALUES (@CustomerId, @OrderDate); SELECT CAST(SCOPE_IDENTITY() as bigint);";
             dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
         }
@@ -97,7 +97,7 @@ public class OrderRespository : IOrderDA
 
         try
         {
-            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, OrderDate = @OrderDate, TotalPrice = @TotalPrice WHERE Id = @Id";
+            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, OrderDate = @OrderDate WHERE Id = @Id";
             dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
             return true;

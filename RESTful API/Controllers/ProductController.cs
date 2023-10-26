@@ -29,13 +29,13 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpGet("{productSN}")]
-    public IActionResult Get(long productSN)
+    [HttpGet("{id:int}")]
+    public IActionResult Get(long id)
     {
         Product product;
         try
         {
-            product = productService.GetProductBySN(productSN);
+            product = productService.GetProductByID(id);
         }
         catch (Exception)
         {
@@ -44,7 +44,7 @@ public class ProductController : ControllerBase
 
         if (product == null)
         {
-            return NotFound($"Product with SN {productSN} was not found");
+            return NotFound($"Product with SN {id} was not found");
         }
 
         return Ok(product);
