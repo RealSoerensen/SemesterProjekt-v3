@@ -81,12 +81,12 @@ public class OrderRespository : IOrderDA
         return dbConnection.Query<Order>(sql).ToList();
     }
 
-    public List<Order> GetOrdersByCustomerEmail(string email)
+    public List<Order> GetOrdersByCustomerID(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        var sql = "SELECT * FROM [Order] WHERE CustomerEmail = @Email";
-        return dbConnection.Query<Order>(sql, new { Email = email }).ToList();
+        var sql = "SELECT * FROM [Order] WHERE CustomerID = @ID";
+        return dbConnection.Query<Order>(sql, new { ID = id }).ToList();
     }
 
     public bool Update(Order obj)

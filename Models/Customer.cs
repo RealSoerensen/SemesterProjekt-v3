@@ -1,9 +1,8 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Models;
+﻿namespace Models;
 
 public class Customer
 {
+    public long? ID { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public long AddressID { get; set; }
@@ -12,7 +11,6 @@ public class Customer
     public string Password { get; set; }
     public DateTime RegisterDate { get; set; } = DateTime.Now;
 
-    [JsonConstructor]
     public Customer(string firstName, string lastName, long addressID, string email, string phoneNo, string password)
     {
         FirstName = firstName;
@@ -23,8 +21,9 @@ public class Customer
         Password = password;
     }
 
-    public Customer(string firstName, string lastName, long addressID, string email, string phoneNo, string password, DateTime registerDate)
+    public Customer(long id, string firstName, string lastName, long addressID, string email, string phoneNo, string password, DateTime registerDate)
     {
+        ID = id;
         FirstName = firstName;
         LastName = lastName;
         AddressID = addressID;
