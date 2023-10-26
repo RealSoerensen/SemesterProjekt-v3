@@ -19,3 +19,19 @@ export async function updateCustomer(customer: Customer): Promise<boolean> {
         return false;
     }
 }
+
+export async function createCustomer(customer: Customer): Promise<boolean> {
+    try {
+        const response = await axios.post(`${url}`, customer);
+
+        if (response.status === 201) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    catch (e) {
+        console.error(e);
+        return false;
+    }
+}

@@ -46,49 +46,69 @@ const RegisterPage = () => {
         });
     };
 
-    const handleConfirm = () => {
+    const handleConfirm = (e: React.FormEvent) => {
+        e.preventDefault();
         let newErrorMessage = '';
         for (let i = 0; i < formdata1.length; i++) {
             const field = formdata1[i];
             const value = field.value;
             const placeholder = field.placeholder;
     
-            // Check for empty fields
-            if (value === "") {
-                newErrorMessage += `${placeholder} is required, `;
-                setNumberOfErrors(numberOfErrors + 1);
-                continue;
-            }
-    
-            // Additional validations
             switch (field.name) {
                 case "FirstName":
                 case "LastName":
                     if (value.length < 2 || value.length > 50) {
-                        newErrorMessage += `${placeholder} must be between 2 and 50 characters, `;
+                        newErrorMessage += `${placeholder} must be between 2 and 50 characters.\n`;
                         setNumberOfErrors(numberOfErrors + 1);
                     }
                     break;
                 case "Email":
                     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                     if (!emailRegex.test(value)) {
-                        newErrorMessage += `Invalid email format, `;
+                        newErrorMessage += `Invalid email format.\n`;
+                        setNumberOfErrors(numberOfErrors + 1);
+                    }
+                    break;
+                case "PhoneNo":
+                    if (value.length < 6 || value.length > 20) {
+                        newErrorMessage += `${placeholder} must be between 6 and 20 characters.\n`;
                         setNumberOfErrors(numberOfErrors + 1);
                     }
                     break;
                 case "Password":
                     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
                     if (!passwordRegex.test(value)) {
-                        newErrorMessage += `Password must contain at least one uppercase letter, one lowercase letter, and one number, and be at least 8 characters long, `;
+                        newErrorMessage += `Password must contain at least one uppercase letter, one lowercase letter, and one number, and be at least 8 characters long.\n`;
+                        setNumberOfErrors(numberOfErrors + 1);
+                    }
+                    break;
+                case "ConfirmPassword":
+                    if (value != formdata1[i - 1].value) {
+                        newErrorMessage += `Passwords must match.\n`;
                         setNumberOfErrors(numberOfErrors + 1);
                     }
                     break;
                 case "Street":
+                    if (value.length < 2 || value.length > 100) {
+                        newErrorMessage += `${placeholder} must be between 2 and 100 characters.\n`;
+                        setNumberOfErrors(numberOfErrors + 1);
+                    }
+                    break;
                 case "City":
+                    if (value.length < 2 || value.length > 60) {
+                        newErrorMessage += `${placeholder} must be between 2 and 60 characters.\n`;
+                        setNumberOfErrors(numberOfErrors + 1);
+                    }
+                    break;
                 case "Zip":
+                    if (value.length < 1 || value.length > 10) {
+                        newErrorMessage += `${placeholder} must be between 1 and 10 characters.\n`;
+                        setNumberOfErrors(numberOfErrors + 1);
+                    }
+                    break;
                 case "HouseNumber":
                     if (value.length < 1 || value.length > 4) {
-                        newErrorMessage += `${placeholder} must be between 1 and 4 characters, `;
+                        newErrorMessage += `${placeholder} must be between 1 and 4 characters.\n`;
                         setNumberOfErrors(numberOfErrors + 1);
                     }
                     break;
@@ -98,6 +118,9 @@ const RegisterPage = () => {
         }
         if(numberOfErrors > 0) {
             setErrorMessage(newErrorMessage);
+        }
+        else {
+            //Create new Customer/Address here.
         }
     };
     
@@ -123,13 +146,15 @@ const RegisterPage = () => {
                             )
                         })
                     }
-                    <input
-                        className="btn btn-primary"
-                        type='submit'
-                    />
-                    <div className="form-group">
-                        <label>{formData.Error}</label>
+                    <div className="form-group text-center mx-auto">
+                        {
+                            errorMessage.split('\n').map((err, i) => <label key={i} className="text-danger d-block">{err}</label>)
+                        }
                     </div>
+                <input
+                    className="btn btn-primary"
+                    type='submit'
+                />
                 </form>
             </div>
         </div>
