@@ -13,15 +13,16 @@ import bags from '../content/images/bag.jpg';
 import { CustomCard } from '../components/Card/Card';
 import Card from '../components/Card/Card';
 import Product from '../models/Product';
+import Category from '../models/Category';
 
 const HomePage: React.FC = () => {
 
     const [categories] = useState<CustomCard[]>([
-        new CustomCard(bats, 'Bat', "Vælg fra en bred vifte af bat", "category/bats"),
-        new CustomCard(balls, 'Bolde', "Bolde til padel og strandtennis", "category/balls"),
-        new CustomCard(shoes, 'Sko', "Sko til padel og strandtennis", "category/shoes"),
-        new CustomCard(clothes, 'Tøj', "Tøj til padel og strandtennis", "category/clothes"),
-        new CustomCard(bags, 'Tasker', "Taske til padel og strandtennis", "category/bags")
+        new CustomCard(bats, 'Bat', "Vælg fra en bred vifte af bat", "category/" + Category.Bats),
+        new CustomCard(balls, 'Bolde', "Bolde til padel og strandtennis", "category/" + Category.Balls),
+        new CustomCard(shoes, 'Sko', "Sko til padel og strandtennis", "category/" + Category.Shoes),
+        new CustomCard(clothes, 'Tøj', "Tøj til padel og strandtennis", "category/" + Category.Clothes),
+        new CustomCard(bags, 'Tasker', "Taske til padel og strandtennis", "category/" + Category.Bags)
     ]);
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
     const [products, setProducts] = useState<Product[]>([]);

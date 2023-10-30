@@ -112,4 +112,25 @@ public class ProductController : ControllerBase
 
         return Ok();
     }
+
+    [HttpGet("category/{categoryId:int}")]
+    public IActionResult GetByCategory(int categoryId)
+    {
+        List<Product> products;
+        try
+        {
+            products = productService.GetProductsByCategory(categoryId);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "An error occurred while fetching products.");
+        }
+
+        if (products.Count == 0)
+        {
+            return NotFound("No products found");
+        }
+
+        return Ok(products);
+    }
 }
