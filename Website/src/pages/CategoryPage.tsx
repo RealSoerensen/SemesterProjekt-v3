@@ -27,7 +27,7 @@ const CategoryPage: React.FC = () => {
     const categoryString = category === "0" ? "Bats" : category === "1" ? "Sko" : category === "2" ? "Bolde" : category === "3" ? "Tøj" : category === "4" ? "Tasker" : category === "5" ? "Tilbehør" : "Ukendt";
 
     return (
-        <div className="container-fluid">
+        <div className="container">
             <h1>{categoryString}</h1>
             <p>Se alle produkter fra {categoryString} her!</p>
             <div className="row">
