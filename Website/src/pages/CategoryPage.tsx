@@ -11,7 +11,6 @@ const CategoryPage: React.FC = () => {
     useEffect(() => {
         if (category) {
             const categoryId = parseInt(category);
-            console.log(categoryId);
             getProductsByCategory(categoryId).then((products) => setProducts(products));
         }
     }, [category]);
@@ -28,12 +27,12 @@ const CategoryPage: React.FC = () => {
     const categoryString = category === "0" ? "Bats" : category === "1" ? "Sko" : category === "2" ? "Bolde" : category === "3" ? "Tøj" : category === "4" ? "Tasker" : category === "5" ? "Tilbehør" : "Ukendt";
 
     return (
-        <div className="container">
+        <div className="container-fluid">
             <h1>{categoryString}</h1>
             <p>Se alle produkter fra {categoryString} her!</p>
             <div className="row">
                 {products.map((product) => (
-                    <div className="col-4" key={product.id}>
+                    <div className="col-sm-6 col-md-3 col-xl-2 d-flex justify-content-center m-1" key={product.id}>
                         <ProductShowcase product={product} />
                     </div>
                 ))}

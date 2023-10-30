@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 //images
 import padelabout from '../content/images/padelabout.jpg'
-import dogpicture from '../content/images/dogpicture.jpg'
 import jonespicture from '../content/images/jones.jpg'
 import patrickpicture from '../content/images/patrickpicture.jpg'
 import svendpicture from '../content/images/svendpicture.jpg'
@@ -64,11 +63,8 @@ const About: React.FC = () => {
                         )
                     })
                 }
-
             </div>
         </div>
-
-
     );
 };
 

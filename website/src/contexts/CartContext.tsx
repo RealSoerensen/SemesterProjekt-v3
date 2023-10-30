@@ -21,6 +21,14 @@ interface CartProviderProps {
     children: ReactNode;
 }
 
+export const calculateTotal = (cart: CartItem[]) => {
+    let total = 0;
+    cart.forEach((item: CartItem) => {
+        total += item.product.salePrice * item.orderline.quantity;
+    });
+    return Math.round(total * 100) / 100;
+}
+
 export const CartContext = createContext<CartContextType>({
     cart: [],
     setCart: () => { },

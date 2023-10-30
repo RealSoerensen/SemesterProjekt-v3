@@ -2,6 +2,11 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllProducts } from '../services/ProductService';
+import { CustomCard } from '../components/Card/Card';
+import Card from '../components/Card/Card';
+import Product from '../models/Product';
+import Category from '../models/Category';
+import ProductShowcase from '../components/ProductShowcase';
 
 //images
 import frontpageImage from '../content/images/frontpageImage.jpg';
@@ -10,10 +15,6 @@ import balls from '../content/images/Balls.jpg';
 import shoes from '../content/images/shoes.jpg';
 import clothes from '../content/images/shirt.jpg';
 import bags from '../content/images/bag.jpg';
-import { CustomCard } from '../components/Card/Card';
-import Card from '../components/Card/Card';
-import Product from '../models/Product';
-import Category from '../models/Category';
 
 const HomePage: React.FC = () => {
 
@@ -27,7 +28,8 @@ const HomePage: React.FC = () => {
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [bestSellers, setBestSellers] = useState<Product[]>([]);
-    const [shuffledBestSellers, setShuffledBestSellers] = useState<CustomCard[]>([]);
+    const [shuffledBestSellers, setShuffledBestSellers] = useState<Product[]>([]);
+
     useEffect(() => {
         const shuffled = [...categories].sort(() => Math.random() - 0.5);
         if (shuffled.length > 4) {
@@ -35,12 +37,12 @@ const HomePage: React.FC = () => {
         }
         setShuffledCategories(shuffled);
     }, [categories]);
+
     useEffect(() => {
         getAllProducts()?.then((data) => setProducts(data),);
     }, []);
 
     useEffect(() => {
-
         if (products?.length > 0) {
             setBestSellers(products)
         }
@@ -56,7 +58,7 @@ const HomePage: React.FC = () => {
             }
             setShuffledBestSellers([])
             for (let i = 0; i < selectedItems.length; i++) {
-                setShuffledBestSellers((prev) => [...prev, new CustomCard(selectedItems[i].image, selectedItems[i].name, selectedItems[i].description, `product/${selectedItems[i].id}`)]);
+                setShuffledBestSellers((prev) => [...prev, selectedItems[i]]);
             }
         }
     }, [products, bestSellers])
@@ -88,7 +90,12 @@ const HomePage: React.FC = () => {
                                 <span className="sr-only"></span>
                             </div>
                         </div>
-                        : <Card cards={shuffledBestSellers} />
+                        :
+                        shuffledBestSellers.map((product, index) => (
+                            <div className='col-lg-3 col-md-3 col-sm-6 d-flex justify-center mb-1' key={index}>
+                                <ProductShowcase product={product} />
+                            </div>
+                        ))
                 }
 
             </div>

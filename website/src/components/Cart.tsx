@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext, CartItem } from "../contexts/CartContext";
+import { CartContext, CartItem, calculateTotal } from "../contexts/CartContext";
 import Image from "./Image";
 
 type Props = {
@@ -8,14 +8,16 @@ type Props = {
 }
 
 const Cart: React.FC<Props> = (props) => {
-    const { cart } = useContext(CartContext);
+    const { cart, setCart } = useContext(CartContext);
 
-    const calculateTotal = () => {
-        let total = 0;
-        cart.forEach((item: CartItem) => {
-            total += item.product.salePrice;
-        });
-        return total;
+    const removeItem = (event: React.MouseEvent, item: CartItem) => {
+        event.stopPropagation();
+        const newCart = [...cart];
+        const index = newCart.findIndex((cartItem: CartItem) => cartItem.product.id === item.product.id);
+        if (index >= 0) {
+            newCart.splice(index, 1);
+            setCart(newCart);
+        }
     }
 
     return (
@@ -23,23 +25,27 @@ const Cart: React.FC<Props> = (props) => {
             <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Kurv <span className="badge bg-secondary">{cart.length}</span>
             </button>
-            <ul className="dropdown-menu" style={{ width: 300, translate: '-50%', }}>
+            <ul className="dropdown-menu" style={{ width: 400, translate: '-50%', }}>
                 {
                     cart.length === 0 ? <li className="dropdown-item">Kurven er tom</li> :
                         cart.map((item: CartItem, index: number) => {
                             return (
                                 <li className="dropdown-item" key={index}>
                                     <div className="row">
-                                        <div className="col-5 p-1">
-                                            <Image image={item.product.image} imageTitle={item.product.name} className="img-fluid" />
+                                        <div className="col-3">
+                                            <Link to={`/product/${item.product.id}`} className="text-decoration-none text-dark">
+                                                <Image image={item.product.image} imageTitle={item.product.name} className="img-fluid" />
+                                            </Link>
                                         </div>
-                                        <div className="col-5 p-1">
-                                            <p className="fw-bold">{item.product.name}</p>
-                                            <p className="fw-bold">{item.product.salePrice} kr.</p>
+                                        <div className="col-7 text-truncate">
+                                            <Link to={`/product/${item.product.id}`} className="text-decoration-none text-dark">
 
+                                                <p className="fw-bold">{item.product.name}</p>
+                                                <p className="fw-bold">{item.orderline.quantity} x {item.product.salePrice} kr.</p>
+                                            </Link>
                                         </div>
-                                        <div className="col-2 p-1 text-center">
-                                            <button className="btn btn-danger">
+                                        <div className="col-2">
+                                            <button className="btn btn-danger" onClick={(event) => removeItem(event, item)}>
                                                 X
                                             </button>
                                         </div>
@@ -55,7 +61,7 @@ const Cart: React.FC<Props> = (props) => {
                             <p className="fw-bold">Total:</p>
                         </div>
                         <div className="col-6">
-                            <p className="fw-bold">{calculateTotal()} kr.</p>
+                            <p className="fw-bold">{calculateTotal(cart)} kr.</p>
                         </div>
                         <Link to="/cart">
                             <button className="btn btn-primary" type="button">

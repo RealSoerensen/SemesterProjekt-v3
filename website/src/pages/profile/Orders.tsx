@@ -61,7 +61,7 @@ const Orders = () => {
             <h1>Bestillinger</h1>
             <div className="row">
                 {completeOrders.map((completeOrder, index) => (
-                    <div className="col-sm-12 col-md-4" key={index}>
+                    <div className="col-sm-12 col-md-4 d-flex justify-content-center" key={index}>
                         <div className="card m-1">
                             <div className="card-body">
                                 <p>Ordrenummer: {completeOrder.order.id}</p>
