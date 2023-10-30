@@ -1,16 +1,18 @@
+import Category from "./Category";
+
 class Product {
     description: string;
     id: number;
     image: string;
-    category: string;
     name: string;
     stock: number;
     salePrice: number;
     purchasePrice: number;
     normalPrice: number;
     brand: string;
+    category: Category;
 
-    constructor(description: string, id: number, image: string, category: string, name: string, stock: number, salePrice: number, purchasePrice: number, normalPrice: number, brand: string) {
+    constructor(description: string, id: number, image: string, category: number, name: string, stock: number, salePrice: number, purchasePrice: number, normalPrice: number, brand: string) {
         this.description = description;
         this.id = id;
         this.image = image;
