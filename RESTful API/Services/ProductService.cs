@@ -78,4 +78,17 @@ public class ProductService
             throw; // Rethrow the exception for higher-level error handling
         }
     }
+
+    public List<Product> GetProductsByCategory(int category)
+    {
+        try
+        {
+            return productRepository.GetProductsByCategory(category);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
+    }
 }

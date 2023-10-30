@@ -34,3 +34,20 @@ export async function getProductById(id: number) {
         return null;
     }
 }
+
+export async function getProductsByCategory(category: number) {
+    try {
+        const response = await axios.get(`${url}/category/${category}`);
+
+        if (response.status === 200) {
+            console.log(response.data);
+            return response.data;
+        } else {
+            return null;
+        }
+    }
+    catch (e) {
+        console.error(e);
+        return null;
+    }
+}

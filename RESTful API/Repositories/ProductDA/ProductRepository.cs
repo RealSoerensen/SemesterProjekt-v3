@@ -105,4 +105,12 @@ public class ProductRepository : IProductDA
             throw;
         }
     }
+
+    public List<Product> GetProductsByCategory(int category)
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        var sql = "SELECT * FROM Product WHERE Category = @Category";
+        return dbConnection.Query<Product>(sql, new { Category = category }).ToList();
+    }
 }
