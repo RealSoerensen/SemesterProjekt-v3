@@ -12,7 +12,7 @@ const Footer = () => {
 
     return (
         <footer className="bg-dark text-light">
-            <div className="container-fluid pt-4">
+            <div className="container pt-4">
                 <div className="row">
                     <div className="col-md-4">
                         <h3>Om os</h3>
