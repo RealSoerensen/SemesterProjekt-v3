@@ -55,6 +55,7 @@ public class AddressController : ControllerBase
     [HttpPost]
     public IActionResult Create([FromBody] Address address)
     {
+        Console.WriteLine(address);
         Address? createdAddress;
         try
         {

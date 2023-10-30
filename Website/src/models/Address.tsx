@@ -1,12 +1,12 @@
 class Address {
-    public addressID: number;
+    public id: number;
     public street: string;
     public city: string;
     public zip: string;
     public houseNumber: string;
 
-    constructor(addressID: number, street: string, city: string, zip: string, houseNumber: string) {
-        this.addressID = addressID;
+    constructor(street: string, city: string, zip: string, houseNumber: string, addressID: number = 0) {
+        this.id = addressID;
         this.street = street;
         this.city = city;
         this.zip = zip;

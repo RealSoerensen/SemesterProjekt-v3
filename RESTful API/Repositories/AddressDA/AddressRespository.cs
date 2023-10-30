@@ -21,7 +21,7 @@ public class AddressRespository : IAddressDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO Address (street, city, zipCode, houseNumber) VALUES (@Street, @City, @Zip, @HouseNumber); SELECT CAST(SCOPE_IDENTITY() as bigint);";
+            var sql = "INSERT INTO Address (street, city, zip, houseNumber) VALUES (@Street, @City, @Zip, @HouseNumber); SELECT CAST(SCOPE_IDENTITY() as bigint);";
             obj.Id = dbConnection.QuerySingle<int>(sql, obj, transaction);
             transaction.Commit();
         }

@@ -24,7 +24,7 @@ export async function createCustomer(customer: Customer): Promise<boolean> {
     try {
         const response = await axios.post(`${url}`, customer);
 
-        if (response.status === 201) {
+        if (response.status === 200) {
             return true;
         } else {
             return false;
