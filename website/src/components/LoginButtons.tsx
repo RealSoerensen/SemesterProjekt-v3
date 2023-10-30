@@ -27,11 +27,11 @@ const LoginButtons = (props: Props) => {
                 <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
                     {customer.firstName}
                 </button>
-                <ul className="dropdown-menu text-center">
-                    <Link to="/profile">
+                <ul className="dropdown-menu">
+                    <Link to="/profile" className="text-decoration-none text-dark">
                         <li className='dropdown-item'>Konto</li>
                     </Link>
-                    <Link to="/logout">
+                    <Link to="/logout" className="text-decoration-none text-dark">
                         <li className='dropdown-item'>Log ud</li>
                     </Link>
                 </ul>

@@ -1,9 +1,10 @@
 import { useContext } from 'react';
 import './CartPage.css';
-import { CartContext, CartItem, calculateTotal } from '../../contexts/CartContext';
+import { CartContext, CartItem } from '../../contexts/CartContext';
 import Image from '../../components/Image';
 import { getProductById } from '../../services/ProductService';
 import Orderline from '../../models/Orderline';
+import { calculateTotal } from '../../utils/CartUtil';
 
 const CartPage = () => {
     const { cart, setCart } = useContext(CartContext)

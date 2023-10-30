@@ -1,5 +1,4 @@
 import Customer from "../models/Customer";
-import Address from "../models/Address";
 import baseURL from "./Constants";
 import axios from "axios";
 

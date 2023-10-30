@@ -5,8 +5,8 @@ import { getProductById, getProductsByCategory } from "../services/ProductServic
 import Image from "../components/Image";
 import ProductShowcase from "../components/ProductShowcase";
 import { useContext } from "react";
-import { CartContext, CartItem } from "../contexts/CartContext";
-import Orderline from "../models/Orderline";
+import { CartContext } from "../contexts/CartContext";
+import { addItem, calculateProcentDifference } from "../utils/CartUtil";
 
 
 const ProductPage = () => {
@@ -37,20 +37,6 @@ const ProductPage = () => {
     }, [relatedProducts, product])
     if (!product) return (<div>Produktet findes ikke</div>)
 
-
-    const addToCart = (product: Product) => {
-        if (!cart.some(item => item.product.id === product.id)) {
-            const orderline = new Orderline(1, product.id, 1, product.salePrice);
-            const cartItem = new CartItem(product, orderline);
-            setCart([...cart, cartItem]);
-        }
-    }
-
-    const calculateProcentDifference = () => {
-        const procentDifference = Math.round((product.normalPrice - product.salePrice) / product.normalPrice * 100);
-        return procentDifference;
-    }
-
     return (
         <div className="container">
             <div className="row mt-5">
@@ -68,10 +54,10 @@ const ProductPage = () => {
                             product.salePrice === product.normalPrice ? <p className="">{product.salePrice} kr.</p> :
                                 <div className="mb-2">
                                     <p className=""><del>{product.normalPrice} kr.</del> {product.salePrice} kr.</p>
-                                    <p className="">Du sparer {calculateProcentDifference()}%</p>
+                                    <p className="">Du sparer {calculateProcentDifference(product)}%</p>
                                 </div>
                         }
-                        <button className="btn btn-primary mx-auto" onClick={() => (addToCart)}>Add To Cart</button>
+                        <button className="btn btn-primary mx-auto" onClick={() => addItem(product, cart, setCart)}>Tilføj til kurv</button>
                     </div>
 
                 </div>

@@ -33,32 +33,30 @@ const LoginPage: React.FC = () => {
 
     return (
         <form className="position-absolute top-50 start-50 translate-middle">
-            <div className="">
-                <label className='form-label'>Email:</label>
-                <input
-                    type="text"
-                    className='form-control'
-                    autoComplete="on"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <label className='form-label'>Adgangskode:</label>
-                <input
-                    type="password"
-                    className='form-control mb-1'
-                    autoComplete="on"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                {error && <p className='text-danger'>Fejl: {error}</p>}
-                {success && <p className='text-success'>{success}</p>}
-                <div className="pb-3">
-                    <button type="button" className="btn btn-primary" onClick={handleLogin}>Login</button>
-                    <br />
-                    <Link to="/forgot-password">Glemt adgangskode?</Link>
-                    <br />
-                    <Link to="/register">Har du ikke en konto? Register dig her.</Link>
-                </div>
+            <label className='form-label'>Email:</label>
+            <input
+                type="text"
+                className='form-control mb-1'
+                autoComplete="on"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <label className='form-label'>Adgangskode:</label>
+            <input
+                type="password"
+                className='form-control mb-1'
+                autoComplete="on"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            {error && <p className='text-danger'>Fejl: {error}</p>}
+            {success && <p className='text-success'>{success}</p>}
+            <button type="button" className="btn btn-primary mt-2" onClick={handleLogin}>Login</button>
+
+            <div className="mt-1">
+                <Link to="/forgot-password">Glemt adgangskode?</Link>
+                <br />
+                <Link to="/register">Har du ikke en konto? Register dig her.</Link>
             </div>
         </form>
     );

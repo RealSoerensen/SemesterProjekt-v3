@@ -1,27 +1,11 @@
 import { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import Cart from './Cart';
 import LoginButtons from './LoginButtons';
 
-
-class NavbarLinks {
-    name: string;
-    linkto: string;
-    constructor(name: string, linkto: string) {
-        this.name = name;
-        this.linkto = linkto;
-    }
-}
-
-
 const Nav = () => {
-    const [linkItem] = useState<NavbarLinks[]>([
-        new NavbarLinks('Hjem', 'home'),
-        new NavbarLinks('Om os', 'about'),
-        new NavbarLinks('Kontakt os', 'contact')
-    ]);
     const [expandNavBarMobile, setExpandNavBarMobile] = useState<boolean>(false);
 
     const ToggleNavBarMobile = () => {
@@ -44,21 +28,6 @@ const Nav = () => {
 
                 <div className={expandNavBarMobile ? "navbar-collapse " : " collapse navbar-collapse"}>
                     <ul className="navbar-nav">
-                        {
-                            linkItem.map((item, index) => {
-                                return (
-                                    <li className="nav-item text-center" key={index}>
-                                        <NavLink
-                                            className={({ isActive, isPending }) =>
-                                                isPending ? "" : isActive ? "nav-link active" : "nav-link"}
-                                            to={`/${item.linkto.toLowerCase()}`}
-                                        >
-                                            {item.name}
-                                        </NavLink>
-                                    </li>
-                                )
-                            })
-                        }
                         <li>
                             <LoginButtons HideClass='d-inline d-lg-none d-flex align-items-center justify-content-center' />
                         </li>

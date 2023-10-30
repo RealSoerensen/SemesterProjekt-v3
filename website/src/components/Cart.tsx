@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext, CartItem, calculateTotal } from "../contexts/CartContext";
+import { CartContext, CartItem } from "../contexts/CartContext";
 import Image from "./Image";
+import { calculateTotal } from "../utils/CartUtil";
 
 type Props = {
     HideClass: string;
@@ -37,7 +38,7 @@ const Cart: React.FC<Props> = (props) => {
                                                 <Image image={item.product.image} imageTitle={item.product.name} className="img-fluid" />
                                             </Link>
                                         </div>
-                                        <div className="col-7 text-truncate">
+                                        <div className="col-7 text-wrap">
                                             <Link to={`/product/${item.product.id}`} className="text-decoration-none text-dark">
 
                                                 <p className="fw-bold">{item.product.name}</p>
