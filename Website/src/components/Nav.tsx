@@ -32,12 +32,16 @@ const Nav = () => {
         <nav className="navbar bg-white sticky-top navbar-expand-lg bg-body-tertiary">
             <div className='container'>
                 <Link className="navbar-brand" to="/">Padel Shop</Link>
-                <div className='d-block d-lg-none d-xl-none'>
-                    <Cart HideClass='' />
-                    <button className="navbar-toggler d-inline m-1" type="button" onClick={ToggleNavBarMobile}>
+                <div className='d-flex align-items-center justify-content-center'>
+                    <div className='mr-2'>
+                        <Cart HideClass='d-block d-lg-none' />
+                    </div>
+                    <button className="navbar-toggler m-1" type="button" onClick={ToggleNavBarMobile}>
                         <span className="navbar-toggler-icon"></span>
                     </button>
                 </div>
+
+
                 <div className={expandNavBarMobile ? "navbar-collapse " : " collapse navbar-collapse"}>
                     <ul className="navbar-nav">
                         {
@@ -55,12 +59,13 @@ const Nav = () => {
                                 )
                             })
                         }
+                        <li>
+                            <LoginButtons HideClass='d-inline d-lg-none d-flex align-items-center justify-content-center' />
+                        </li>
                     </ul>
-                    <LoginButtons HideClass='d-lg-none' />
                 </div>
-                <Cart HideClass='d-none d-lg-block' />
-                <LoginButtons HideClass='d-none d-lg-block' />
-
+                <LoginButtons HideClass='d-inline d-none d-lg-block' />
+                <Cart HideClass=' d-none d-lg-block' />
             </div>
         </nav>
     )
