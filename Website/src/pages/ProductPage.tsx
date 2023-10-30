@@ -14,7 +14,7 @@ const ProductPage = () => {
         }
     }, [id]);
 
-
+    if (!product) return (<div>Produktet findes ikke</div>)
 
     return (
         <div>
