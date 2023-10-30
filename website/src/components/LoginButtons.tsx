@@ -24,7 +24,7 @@ const LoginButtons = (props: Props) => {
             </div>
         ) : (
             <div className={`dropdown m-1 ${props.HideClass} `}>
-                <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="true">
                     {customer.firstName}
                 </button>
                 <ul className="dropdown-menu text-center">
