@@ -36,3 +36,38 @@ export async function updateAddress(address: Address): Promise<boolean> {
         return false;
     }
 }
+
+export async function createAddress(address: Address): Promise<Address | null> {
+    console.log(address);
+    try {
+        const response = await axios.post(`${url}`, address);
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            console.error(`Unexpected response status: ${response.status}`);
+            return null;
+        }
+    }
+    catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
+export async function deleteAddress(id: number): Promise<boolean> {
+    try {
+        const response = await axios.delete(`${url}/${id}`);
+
+        if (response.status === 200) {
+            return true;
+        } else {
+            console.error(`Unexpected response status: ${response.status}`);
+            return false;
+        }
+    }
+    catch (e) {
+        console.error(e);
+        return false;
+    }
+}

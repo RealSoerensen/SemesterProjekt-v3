@@ -1,4 +1,6 @@
-﻿namespace Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Models;
 
 public class Address
 {
@@ -8,6 +10,7 @@ public class Address
     public string Zip { get; set; }
     public string HouseNumber { get; set; }
 
+    [JsonConstructor]
     public Address(string street, string city, string zip, string houseNumber)
     {
         Street = street;
