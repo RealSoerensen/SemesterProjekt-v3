@@ -119,14 +119,14 @@ public class OrderController : ControllerBase
         return Ok();
     }
 
-    // GET api/<OrderController>/customer/email
-    [HttpGet("customer/{email}")]
-    public IActionResult GetOrdersByCustomerEmail(string email)
+    // GET api/<OrderController>/customer/id
+    [HttpGet("customer/{id:int}")]
+    public IActionResult GetOrdersByCustomerID(long id)
     {
         List<Order> orders;
         try
         {
-            orders = _orderService.GetOrdersByCustomerEmail(email);
+            orders = _orderService.GetOrdersByCustomerID(id);
         }
         catch (Exception)
         {

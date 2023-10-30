@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction, ReactNode, createContext, FC, useState, useEffect } from "react";
 import Product from "../models/Product";
-import ProductDescription from "../models/ProductDescription";
+import Orderline from "../models/Orderline";
 
 export class CartItem {
     product: Product;
-    productDescription: ProductDescription;
+    orderline: Orderline;
 
-    constructor(product: Product, productDescription: ProductDescription) {
+    constructor(product: Product, orderline: Orderline) {
+        this.orderline = orderline;
         this.product = product;
-        this.productDescription = productDescription;
     }
 }
 

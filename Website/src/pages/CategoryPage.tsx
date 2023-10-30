@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-const Category: React.FC = () => {
+const CategoryPage: React.FC = () => {
     const { category } = useParams<{ category: string }>();
 
     return (
@@ -12,4 +12,4 @@ const Category: React.FC = () => {
     );
 };
 
-export default Category;
+export default CategoryPage;

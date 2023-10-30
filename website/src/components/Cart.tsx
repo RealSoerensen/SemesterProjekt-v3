@@ -13,7 +13,7 @@ const Cart: React.FC<Props> = (props) => {
     const calculateTotal = () => {
         let total = 0;
         cart.forEach((item: CartItem) => {
-            total += item.productDescription.price;
+            total += item.product.salePrice;
         });
         return total;
     }
@@ -31,11 +31,12 @@ const Cart: React.FC<Props> = (props) => {
                                 <li className="dropdown-item" key={index}>
                                     <div className="row">
                                         <div className="col-5 p-1">
-                                            <Image image={item.productDescription.image} imageTitle={item.productDescription.name} className="img-fluid" />
+                                            <Image image={item.product.image} imageTitle={item.product.name} className="img-fluid" />
                                         </div>
                                         <div className="col-5 p-1">
-                                            <p className="fw-bold">{item.productDescription.name}</p>
-                                            <p className="fw-bold">{item.productDescription.price} kr.</p>
+                                            <p className="fw-bold">{item.product.name}</p>
+                                            <p className="fw-bold">{item.product.salePrice} kr.</p>
+
                                         </div>
                                         <div className="col-2 p-1 text-center">
                                             <button className="btn btn-danger">

@@ -3,14 +3,13 @@ class Order {
     date: Date;
     time: string;
     customerEmail: string;
-    discount: number;
 
-    constructor(id: number, date: string, time: string, customerEmail: string, discount: number) {
+
+    constructor(id: number, date: string, time: string, customerEmail: string) {
         this.id = id;
         this.date = new Date(date);
         this.time = time;
         this.customerEmail = customerEmail;
-        this.discount = discount;
     }
 }
 

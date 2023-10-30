@@ -21,7 +21,7 @@ public class OrderRespository : IOrderDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO [Order] (CustomerId, OrderDate, TotalPrice) VALUES (@CustomerId, @OrderDate, @TotalPrice); SELECT CAST(SCOPE_IDENTITY() as bigint);";
+            var sql = "INSERT INTO [Order] (CustomerId, OrderDate) VALUES (@CustomerId, @OrderDate); SELECT CAST(SCOPE_IDENTITY() as bigint);";
             dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
         }
@@ -81,12 +81,12 @@ public class OrderRespository : IOrderDA
         return dbConnection.Query<Order>(sql).ToList();
     }
 
-    public List<Order> GetOrdersByCustomerEmail(string email)
+    public List<Order> GetOrdersByCustomerID(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        var sql = "SELECT * FROM [Order] WHERE CustomerEmail = @Email";
-        return dbConnection.Query<Order>(sql, new { Email = email }).ToList();
+        var sql = "SELECT * FROM [Order] WHERE CustomerID = @ID";
+        return dbConnection.Query<Order>(sql, new { ID = id }).ToList();
     }
 
     public bool Update(Order obj)
@@ -97,7 +97,7 @@ public class OrderRespository : IOrderDA
 
         try
         {
-            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, OrderDate = @OrderDate, TotalPrice = @TotalPrice WHERE Id = @Id";
+            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, OrderDate = @OrderDate WHERE Id = @Id";
             dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
             return true;

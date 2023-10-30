@@ -22,12 +22,12 @@ public class ProductRepository : IProductDA
 
         try
         {
-            string insertProductQuery = "INSERT INTO Product (ProductDescriptionID) " +
-                                         "VALUES (@ProductDescriptionID)";
-            dbConnection.Execute(insertProductQuery, product, transaction);
+            // Define the SQL query for inserting a product
+            string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category)
+                                    VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category)";
 
-            // Commit the transaction as the insert was successful
-            transaction.Commit();
+            // Execute the query and pass the product as a parameter
+            dbConnection.Execute(insertQuery, product);
         }
         catch (Exception)
         {
@@ -46,7 +46,7 @@ public class ProductRepository : IProductDA
 
         try
         {
-            var sql = "DELETE FROM Product WHERE ProductSN = @ProductSN";
+            var sql = "DELETE FROM Product WHERE ID = @ID";
             dbConnection.Execute(sql, id, transaction);
             transaction.Commit();
         }
@@ -74,7 +74,7 @@ public class ProductRepository : IProductDA
 
         try
         {
-            var sql = "UPDATE Product SET ProductDescriptionID = @ProductDescriptionID WHERE ProductSN = @ProductSN";
+            string sql = @"UPDATE Product SET Description = @Description, Image = @Image, SalePrice = @SalePrice, PurchasePrice = @PurchasePrice, NormalPrice = @NormalPrice, Name = @Name, Stock = @Stock, Brand = @Brand, Category = @Category WHERE ID = @ID";
             dbConnection.Execute(sql, product, transaction);
             transaction.Commit();
         }
@@ -94,8 +94,8 @@ public class ProductRepository : IProductDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "SELECT * FROM Product WHERE ProductSN = @ProductSN";
-            var product = dbConnection.QuerySingle<Product>(sql, new { ProductSN = id }, transaction);
+            var sql = "SELECT * FROM Product WHERE ID = @ID";
+            var product = dbConnection.QuerySingle<Product>(sql, new { ID = id }, transaction);
             transaction.Commit();
             return product;
         }

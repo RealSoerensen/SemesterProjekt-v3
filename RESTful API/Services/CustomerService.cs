@@ -59,11 +59,12 @@ public class CustomerService
     {
         try
         {
-            string email = customer.Email;
-            List<Order> orders = _orderService.GetOrdersByCustomerEmail(email);
+            if (customer.ID == null) throw new Exception("Customer ID cannot be null");
+            long id = (long)customer.ID;
+            List<Order> orders = _orderService.GetOrdersByCustomerID(id);
             foreach (var order in orders)
             {
-                order.CustomerEmail = email;
+                order.CustomerID = id;
                 _orderService.UpdateOrder(order);
             }
             return _customerDB.Update(customer);
