@@ -5,7 +5,7 @@ import { AuthContext } from "../contexts/AuthContext";
 type Props = {
     HideClass: string;
 }
-const LoginButtons = (props : Props) => {
+const LoginButtons = (props: Props) => {
     const { customer } = useContext(AuthContext);
     return (
         customer === null ? (
@@ -23,11 +23,11 @@ const LoginButtons = (props : Props) => {
                 </Link>
             </div>
         ) : (
-            <div className="dropdown m-1">
+            <div className={`dropdown m-1 ${props.HideClass} `}>
                 <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {customer.firstName}
                 </button>
-                <ul className="dropdown-menu">
+                <ul className="dropdown-menu text-center">
                     <Link to="/profile">
                         <li className='dropdown-item'>Konto</li>
                     </Link>
