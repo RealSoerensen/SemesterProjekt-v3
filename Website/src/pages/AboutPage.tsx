@@ -4,6 +4,10 @@ import { useState } from 'react';
 //images
 import padelabout from '../content/images/padelabout.jpg'
 import dogpicture from '../content/images/dogpicture.jpg'
+import jonespicture from '../content/images/jones.jpg'
+import patrickpicture from '../content/images/patrickpicture.jpg'
+import svendpicture from '../content/images/svendpicture.jpg'
+import filippicture from '../content/images/filippicture.jpg'
 
 class Employee {
     name: string;
@@ -14,13 +18,13 @@ class Employee {
 
     }
 }
-
+//Specifies which images to be added later in the code
 const About: React.FC = () => {
     const [employees] = useState<Employee[]>([
-        new Employee("Jonas", dogpicture),
-        new Employee("Filip", dogpicture),
-        new Employee("Svend", dogpicture),
-        new Employee("Patrick", dogpicture)
+        new Employee("Jonas", jonespicture),
+        new Employee("Filip", filippicture),
+        new Employee("Svend", svendpicture),
+        new Employee("Patrick", patrickpicture)
     ])
 
 
@@ -45,6 +49,10 @@ const About: React.FC = () => {
                 </p>
                 <h2 className="col-12 text-center mt-5">Medlemmer</h2>
 
+
+                {/*
+                Adds images that are spcified earlier 
+                 */}
                 {
                     employees.map((employee, index) => {
                         return (
