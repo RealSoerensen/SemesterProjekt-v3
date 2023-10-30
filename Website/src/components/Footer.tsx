@@ -36,10 +36,10 @@ const Footer = () => {
                                 icons.map((icon, index) => {
                                     return (
                                         <div className="col-12 mb-3" key={index}>
-                                            <a className='text-light d-flex align-items-center' href={`https://www.${icon.iconName}.com`} target="_blank" rel="noopener noreferrer">
+                                            <Link className='text-light d-flex align-items-center' to={`https://www.${icon.iconName}.com`} target="_blank" rel="noopener noreferrer">
                                                 <FontAwesomeIcon icon={icon} size="2x" />
                                                 <p className="d-inline ms-2">På {icon.iconName}</p>
-                                            </a>
+                                            </Link>
                                         </div>
                                     )
                                 })
