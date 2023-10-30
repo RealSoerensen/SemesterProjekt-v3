@@ -40,7 +40,6 @@ export async function getProductsByCategory(category: number) {
         const response = await axios.get(`${url}/category/${category}`);
 
         if (response.status === 200) {
-            console.log(response.data);
             return response.data;
         } else {
             return null;

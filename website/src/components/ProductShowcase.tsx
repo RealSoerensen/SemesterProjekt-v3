@@ -10,7 +10,17 @@ const ProductShowcase: React.FC<{ product: Product }> = ({ product }) => {
     const { cart, setCart } = useContext(CartContext);
 
     const addToCart = (product: Product) => {
-        if (!cart.some(item => item.product.id === product.id)) {
+        // if product already exist in cart then update quantity
+        const existingCartItem = cart.find((item: CartItem) => item.product.id === product.id);
+        if (existingCartItem) {
+            const newCart = [...cart];
+            const index = newCart.findIndex((cartItem: CartItem) => cartItem.product.id === product.id);
+            if (index >= 0) {
+                newCart[index].orderline.quantity += 1;
+                setCart(newCart);
+            }
+        }
+        else {
             const orderline = new Orderline(1, product.id, 1, product.salePrice);
             const cartItem = new CartItem(product, orderline);
             setCart([...cart, cartItem]);

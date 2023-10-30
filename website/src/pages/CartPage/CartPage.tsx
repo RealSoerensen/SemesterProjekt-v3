@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import './CartPage.css';
-import { CartContext, CartItem } from '../../contexts/CartContext';
+import { CartContext, CartItem, calculateTotal } from '../../contexts/CartContext';
 import Image from '../../components/Image';
 import { getProductById } from '../../services/ProductService';
 import Orderline from '../../models/Orderline';
@@ -8,28 +8,34 @@ import Orderline from '../../models/Orderline';
 const CartPage = () => {
     const { cart, setCart } = useContext(CartContext)
 
-    const removeItem = (index: number) => {
-        const newCart = cart.filter((_: CartItem, i: number) => i !== index);
+    const removeItem = (productID: number) => {
+        const newCart = cart.filter((item: CartItem) => item.orderline.productID !== productID);
         setCart(newCart);
     }
 
-    const calculateTotal = () => {
-        let total = 0;
-        cart.forEach((item: CartItem) => {
-            total += item.product.salePrice;
-        });
-        return total;
-    }
-
     const addItem = () => {
+        const newCart = [...cart];
         for (let i = 1; i < 9; i++) {
             getProductById(i).then((product) => {
-                if (!product) return;
-                const orderline = new Orderline(1, product.id, Math.round(Math.random() * 10), product.salePrice);
+                const orderline = new Orderline(1, product.id, 1, product.salePrice);
                 const cartItem = new CartItem(product, orderline);
-                setCart([...cart, cartItem]);
+                newCart.push(cartItem);
             });
         }
+        setCart(newCart);
+    }
+
+    const updateQuantity = (productID: number, value: string) => {
+        const newCart = [...cart];
+        const index = newCart.findIndex((cartItem: CartItem) => cartItem.orderline.productID === productID);
+        const quantity = parseInt(value);
+        if (quantity === 0) {
+            newCart.splice(index, 1);
+        }
+        else {
+            newCart[index].orderline.quantity = quantity;
+        }
+        setCart(newCart);
     }
 
     return (
@@ -63,10 +69,21 @@ const CartPage = () => {
                                                         <span>{item.product.name}</span>
                                                     </td>
                                                     <td>{item.product.salePrice} kr</td>
-                                                    <td>{item.orderline.quantity}</td>
-                                                    <td>{item.product.salePrice * item.orderline.quantity} kr</td>
                                                     <td>
-                                                        <button className="btn btn-danger" onClick={() => removeItem(index)}>X</button>
+                                                        <select onChange={(event) => updateQuantity(item.orderline.productID, event.target.value)} value={item.orderline.quantity}>
+                                                            {
+                                                                [...Array(10)].map((_, i) => {
+                                                                    return (
+                                                                        <option key={i}>{i}</option>
+                                                                    )
+                                                                })
+                                                            }
+
+                                                        </select>
+                                                    </td>
+                                                    <td>{Math.round(item.product.salePrice * item.orderline.quantity * 100) / 100} kr</td>
+                                                    <td>
+                                                        <button className="btn btn-danger" onClick={() => removeItem(item.orderline.productID)}>X</button>
                                                     </td>
                                                 </tr>
                                             )
@@ -77,7 +94,7 @@ const CartPage = () => {
                     }
                     <div className="row">
                         <div className="col-md-12">
-                            <h4>Total: {calculateTotal()}kr</h4>
+                            <h4>Total: {calculateTotal(cart)}kr</h4>
                         </div>
                     </div>
                     <div className="row">

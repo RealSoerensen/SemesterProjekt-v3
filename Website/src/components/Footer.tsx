@@ -27,7 +27,7 @@ const Footer = () => {
                         <p>Hindsholmvej 98</p>
                         <p>5853 Ørbæk, Danmark</p>
                         <p><a href="tel:+45 12 34 56 78" className="text-light">+45 12 34 56 78</a></p>
-                        <p><a href="mailto:info@padelshop.dk" className="text-light">info@padelshop.dk</a></p>
+                        <p><a href="mailto:info@padelshop.dk" className="text-light">kontakt@padelshop.dk</a></p>
                     </div>
                     <div className="col-md-4">
                         <h3>Følg os</h3>
