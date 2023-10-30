@@ -1,9 +1,8 @@
 import { useParams } from "react-router-dom";
 import Product from "../models/Product";
 import { useEffect, useState } from "react";
-import { getAllProducts, getProductById, getProductsByCategory } from "../services/ProductService";
+import { getProductById, getProductsByCategory } from "../services/ProductService";
 import Image from "../components/Image";
-import Card from "../components/Card/Card";
 import ProductShowcase from "../components/ProductShowcase";
 import { useContext } from "react";
 import { CartContext, CartItem } from "../contexts/CartContext";
@@ -35,7 +34,7 @@ const ProductPage = () => {
                 setRelatedProducts(updatedArray);
             }
         }
-    }, [relatedProducts])
+    }, [relatedProducts, product])
     if (!product) return (<div>Produktet findes ikke</div>)
 
 
