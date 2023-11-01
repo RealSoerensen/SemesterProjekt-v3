@@ -52,6 +52,18 @@ public class CustomerController : ControllerBase
         return Ok(customer);
     }
 
+    // GET api/<CustomerController>/emailExist
+    [HttpGet("CheckEmailExists/{email}")]
+    public IActionResult CheckEmailExists(string email) {
+        bool emailExists;
+        try {
+            emailExists = customerService.CheckEmailExists(email);
+        } catch (Exception) {
+            return StatusCode(500, "An error occurred while checking the email.");
+        }
+        return Ok(emailExists);
+    }
+
     // GET: api/<CustomerController>
     [HttpGet] // Get all customers
     public IActionResult GetAll()

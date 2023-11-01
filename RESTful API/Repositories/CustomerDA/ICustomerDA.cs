@@ -6,4 +6,5 @@ public interface ICustomerDA : ICRUD<Customer>
 {
     Customer? GetByEmail(string email);
     bool DeleteByEmail(string email);
+    bool CheckEmailExists(string email);
 }

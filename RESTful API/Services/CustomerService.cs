@@ -42,6 +42,15 @@ public class CustomerService
         }
     }
 
+    public bool CheckEmailExists(string email) {
+        try {
+            return _customerDB.CheckEmailExists(email);
+        } catch (Exception e) {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     public List<Customer> GetAllCustomers()
     {
         try

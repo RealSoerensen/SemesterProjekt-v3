@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 using Models;
 using RESTful_API.Services;
 using System.Data;
@@ -106,4 +107,16 @@ public class CustomerRespository : ICustomerDA
 
         return true;
     }
+
+    public bool CheckEmailExists(string email) {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+
+        var sql = "SELECT TOP 1 Email FROM Customer WHERE Email = @Email";
+
+        var result = dbConnection.Query<string>(sql, new { Email = email }).FirstOrDefault();
+
+        return result != null;
+    }
+
 }
