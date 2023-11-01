@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
+using Newtonsoft.Json.Linq;
 using RESTful_API.Repositories.OrderDA;
 using RESTful_API.Services;
 
@@ -10,10 +11,12 @@ namespace RESTful_API.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly OrderService _orderService;
+    private readonly OrderlineService _orderlineService;
 
     public OrderController()
     {
         _orderService = new OrderService();
+        _orderlineService = new OrderlineService();
     }
 
     // GET: api/<OrderController>
@@ -67,7 +70,51 @@ public class OrderController : ControllerBase
         try
         {
             var createdOrder = _orderService.CreateOrder(order);
-            return Ok(createdOrder);
+            return Ok(createdOrder != null);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Order creation failed - DB ERROR");
+        }
+    }
+
+    [HttpPost]
+    [Route("CreateWithID/{customerID:int}")]
+    public IActionResult CreateWithID(int customerID, [FromBody] Orderline[] orderlines)
+    {
+        try
+        {
+            Console.WriteLine("creating order");
+            var order = new Order(customerID);
+            try
+            {
+                order = _orderService.CreateOrder(order);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Order creation failed - DB ERROR");
+            }
+
+            Console.WriteLine("order created");
+
+            if (order.Id == null) return BadRequest("Order creation failed - DB ERROR");
+            Console.WriteLine("order id checked");
+
+            foreach (var orderline in orderlines)
+            {
+                Console.WriteLine("Creating: " + orderline.OrderID);
+                Console.WriteLine("Price: " + orderline.PriceAtTimeOfOrder);
+                orderline.OrderID = (long)order.Id;
+                try
+                {
+                    _orderlineService.CreateOrderline(orderline);
+                }
+                catch (Exception)
+                {
+                    return BadRequest("Orderline creation failed - DB ERROR");
+                }
+            }
+            return Ok(true);
         }
         catch (Exception)
         {
@@ -85,6 +132,7 @@ public class OrderController : ControllerBase
             isUpdated = _orderService.UpdateOrder(order);
         }
         catch (Exception)
+
         {
             return BadRequest("Order update failed - DB ERROR");
         }

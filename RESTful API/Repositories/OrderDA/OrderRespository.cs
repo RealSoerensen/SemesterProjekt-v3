@@ -21,8 +21,8 @@ public class OrderRespository : IOrderDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO [Order] (CustomerId, OrderDate) VALUES (@CustomerId, @OrderDate); SELECT CAST(SCOPE_IDENTITY() as bigint);";
-            dbConnection.Execute(sql, obj, transaction);
+            var sql = "INSERT INTO [Order] (CustomerID, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as bigint);";
+            obj.Id = dbConnection.QuerySingle<int>(sql, obj, transaction);
             transaction.Commit();
         }
         catch (Exception)
