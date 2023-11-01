@@ -51,25 +51,6 @@ public class AuthController : ControllerBase
         }
     }
 
-    [Route("register")]
-    [HttpPost]
-    public IActionResult Register(Customer customer) {
-        try 
-        {
-            if(customerService.GetCustomerByEmail(customer.Email) != null) {
-                return BadRequest("A customer with that email already exists");
-            }
-            else {
-                customerService.CreateCustomer(customer);
-                return Ok(customer);
-            }
-        } 
-        catch (Exception) 
-        {
-            return StatusCode(500, "An error occurred while processing the request.");
-        }
-    }
-
     private bool VerifyPassword(string enteredPassword, string hashedPassword)
     {
         // Implement a secure password verification mechanism (e.g., using BCrypt, Argon2, etc.).

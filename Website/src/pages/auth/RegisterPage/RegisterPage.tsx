@@ -1,7 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import './RegisterPage.css';
-import { register } from '../../../services/AuthService';
+import { createCustomer } from '../../../services/CustomerService';
 import { createAddress } from '../../../services/AddressService';
+import { checkEmailExists } from '../../../services/CustomerService';
 import Customer from "../../../models/Customer";
 import Address from "../../../models/Address";
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +32,7 @@ const RegisterPage: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const navigate = useNavigate();
 
-    const validateField = (name: string, value: string, placeholder: string) => {
+    const validateField = async (name: string, value: string, placeholder: string) => {
         let errorMessage = '';
         let errorCount = 0;
 
@@ -47,6 +48,17 @@ const RegisterPage: React.FC = () => {
                     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                     if (!emailRegex.test(value)) {
                         errorMessage += 'Invalid email format.\n';
+                        errorCount++;
+                    }
+                    try {
+                        const emailExists = await checkEmailExists(value);
+                        if(emailExists) {
+                            errorMessage += 'Email already exists.\n';
+                            errorCount++;
+                        }
+                    } catch (error) {
+                        console.error("Failed to check email:", error);
+                        errorMessage += 'An error occurred while checking the email. Please try again.\n';
                         errorCount++;
                     }
                     break;
@@ -131,7 +143,7 @@ const RegisterPage: React.FC = () => {
             const createdAddress = await createAddress(newAddress);
             if (createdAddress) {
                 newCustomer.addressID = createdAddress.id; //Right now address is created regardless of whether or not customer is. I fix later.
-                const isCreated = await register(newCustomer);
+                const isCreated = await createCustomer(newCustomer);
                 return isCreated;
             }
             return false;
@@ -154,13 +166,14 @@ const RegisterPage: React.FC = () => {
         let newErrorMessage = '';
         let errorsCount = 0;
 
-        formData.forEach((field) => {
+        const validations = formData.map(async (field) => {
             const { name, value, placeholder } = field;
-            const { errorMessage, errorCount } = validateField(name, value, placeholder);
+            const { errorMessage, errorCount } = await validateField(name, value, placeholder);
             newErrorMessage += errorMessage;
             errorsCount += errorCount;
-            console.log(errorCount); //Fix errors
         });
+
+        await Promise.all(validations);
 
         setErrorMessage(newErrorMessage);
 
@@ -170,7 +183,7 @@ const RegisterPage: React.FC = () => {
                 navigate('/');
             }
             else {
-                setErrorMessage(newErrorMessage + "This email has already been used to make an account. Please use another one.\n");
+                setErrorMessage(newErrorMessage + "Unknown error occured while trying to make your account. Please try again.\n");
             }
         }
     };

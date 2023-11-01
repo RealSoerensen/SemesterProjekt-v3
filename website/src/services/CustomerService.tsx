@@ -20,18 +20,30 @@ export async function updateCustomer(customer: Customer): Promise<boolean> {
     }
 }
 
-export async function createCustomer(customer: Customer): Promise<boolean> {
+export async function createCustomer(customer: Customer): Promise<Customer | null> {
     try {
-        const response = await axios.post(`${url}`, customer);
+        const response = await axios.post(`${url}`, customer, {
+            withCredentials: true,
+        });
 
         if (response.status === 200) {
-            return true;
+            return response.data;
         } else {
-            return false;
+            return null;
         }
     }
     catch (e) {
         console.error(e);
-        return false;
+        return null;
     }
 }
+
+export async function checkEmailExists(email: string): Promise<boolean> {
+    const response = await fetch(`${url}/CheckEmailExists/${email}`);
+    if (response.ok) {
+      const exists = await response.json();
+      return exists;
+    } else {
+      throw new Error('Failed to check email');
+    }
+  }
