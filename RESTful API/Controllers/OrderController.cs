@@ -84,7 +84,6 @@ public class OrderController : ControllerBase
     {
         try
         {
-            Console.WriteLine("creating order");
             var order = new Order(customerID);
             try
             {
@@ -95,15 +94,10 @@ public class OrderController : ControllerBase
                 return BadRequest("Order creation failed - DB ERROR");
             }
 
-            Console.WriteLine("order created");
-
             if (order.Id == null) return BadRequest("Order creation failed - DB ERROR");
-            Console.WriteLine("order id checked");
 
             foreach (var orderline in orderlines)
             {
-                Console.WriteLine("Creating: " + orderline.OrderID);
-                Console.WriteLine("Price: " + orderline.PriceAtTimeOfOrder);
                 orderline.OrderID = (long)order.Id;
                 try
                 {
