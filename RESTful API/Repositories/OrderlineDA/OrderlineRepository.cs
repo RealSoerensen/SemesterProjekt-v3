@@ -21,7 +21,7 @@ public class OrderlineRepository : IOrderlineDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity) VALUES (@OrderId, @ProductId, @Quantity);";
+            var sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity, PriceAtTimeOfOrder) VALUES (@OrderId, @ProductId, @Quantity, @PriceAtTimeOfOrder);";
             dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
         }

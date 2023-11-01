@@ -5,13 +5,13 @@ namespace Models;
 public class Order
 {
     public long? Id { get; set; }
-    public DateTime DateTime { get; set; } = DateTime.Now;
+    public DateTime Date { get; set; } = DateTime.Now;
     public long CustomerID { get; set; }
 
     public Order(DateTime date, long id, long customerID)
     {
         Id = id;
-        DateTime = date;
+        Date = date;
         CustomerID = customerID;
     }
 
