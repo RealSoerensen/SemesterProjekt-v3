@@ -16,7 +16,7 @@ interface OrderCardProps {
 
 const OrderCard: FC<OrderCardProps> = ({ completeOrder, index }) => {
     return (
-        <div className="col-sm-12 col-md-4 justify-content-center" key={index}>
+        <div className="col-sm-12 col-md-4 justify-content-center">
             <div className="card m-1">
                 <div className="card-body">
                     <p>Ordrenummer: {completeOrder.order.id}</p>
@@ -40,11 +40,11 @@ const OrderCard: FC<OrderCardProps> = ({ completeOrder, index }) => {
                 <div className="collapse" id={`collapse${index}`}>
                     <hr />
                     <div className="row">
-                        {Array.from(completeOrder.products.values()).map((product: Product, index: number) => {
+                        {Array.from(completeOrder.products.values()).map((product: Product, innerIndex: number) => {
                             const orderline = completeOrder.orderlines.get(product.id);
                             if (!(orderline && product)) return null;
                             return (
-                                <div className="col-12" key={index}>
+                                <div className="col-12" key={innerIndex}>
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col-4">
@@ -66,5 +66,6 @@ const OrderCard: FC<OrderCardProps> = ({ completeOrder, index }) => {
         </div>
     );
 };
+
 
 export default OrderCard;

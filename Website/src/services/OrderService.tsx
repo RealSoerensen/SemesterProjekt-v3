@@ -1,6 +1,7 @@
 import axios from "axios";
 import baseURL from "./Constants";
 import Order from "../models/Order";
+import Orderline from "../models/Orderline";
 
 const url = `${baseURL}/api/Order`;
 
@@ -10,8 +11,8 @@ export async function getOrdersFromCustomer(id: number): Promise<Order[]> {
 
         if (response.status === 200) {
             const orders: Order[] = response.data.map((order: any) => {
-                let date = order.dateTime.split('T')[0];
-                let time = order.dateTime.split('T')[1].split('.')[0];
+                const date = order.date.split('T')[0];
+                const time = order.date.split('T')[1].split('.')[0];
                 return new Order(order.id, date, time, order.customerEmail);
             });
             return orders;
@@ -22,5 +23,16 @@ export async function getOrdersFromCustomer(id: number): Promise<Order[]> {
     catch (e) {
         console.error(e);
         return [];
+    }
+}
+
+export async function createOrder(customerID: number, orderlines: Orderline[]): Promise<boolean> {
+    try {
+        const response = await axios.post(`${url}/CreateWithID/${customerID}`, orderlines);
+        return response.status === 200;
+    }
+    catch (e) {
+        console.error(e);
+        return false;
     }
 }

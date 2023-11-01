@@ -25,7 +25,7 @@ class CompleteOrder {
         this.orderlines.forEach((orderline) => {
             total += orderline.quantity * orderline.priceAtTimeOfOrder;
         });
-        return total;
+        return Math.round(total * 100) / 100;
     }
 }
 

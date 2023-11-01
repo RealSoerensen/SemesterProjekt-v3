@@ -14,6 +14,7 @@ import Category from "./pages/CategoryPage";
 import ForgotPassword from "./pages/auth/ForgotPasswordPage";
 import LogoutPage from "./pages/auth/LogoutPage";
 import { CartProvider } from "./contexts/CartContext";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="*" element={<NotFoundPage />} />

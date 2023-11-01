@@ -2,28 +2,17 @@ import { useContext } from 'react';
 import './CartPage.css';
 import { CartContext, CartItem } from '../../contexts/CartContext';
 import Image from '../../components/Image';
+import { calculateTotal, addItem, removeItem } from '../../utils/CartUtil';
 import { getProductById } from '../../services/ProductService';
-import Orderline from '../../models/Orderline';
-import { calculateTotal } from '../../utils/CartUtil';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
     const { cart, setCart } = useContext(CartContext)
 
-    const removeItem = (productID: number) => {
-        const newCart = cart.filter((item: CartItem) => item.orderline.productID !== productID);
-        setCart(newCart);
-    }
-
-    const addItem = () => {
-        const newCart = [...cart];
+    const addItemToCart = () => {
         for (let i = 1; i < 9; i++) {
-            getProductById(i).then((product) => {
-                const orderline = new Orderline(1, product.id, 1, product.salePrice);
-                const cartItem = new CartItem(product, orderline);
-                newCart.push(cartItem);
-            });
+            getProductById(i).then((product) => addItem(product, cart, setCart));
         }
-        setCart(newCart);
     }
 
     const updateQuantity = (productID: number, value: string) => {
@@ -86,7 +75,7 @@ const CartPage = () => {
                                                     </td>
                                                     <td>{Math.round(item.product.salePrice * item.orderline.quantity * 100) / 100} kr</td>
                                                     <td>
-                                                        <button className="btn btn-danger" onClick={() => removeItem(item.orderline.productID)}>X</button>
+                                                        <button className="btn btn-danger" onClick={() => removeItem(item.orderline.productID, cart, setCart)}>X</button>
                                                     </td>
                                                 </tr>
                                             )
@@ -102,10 +91,10 @@ const CartPage = () => {
                     </div>
                     <div className="row">
                         <div className="col-md-12">
-                            <button className='btn btn-primary m-1'>Gå til betaling</button>
+                            <Link to="/checkout" className="btn btn-primary m-1">Gå til betaling</Link>
                         </div>
                         <div className="col-md-12">
-                            <button className='btn btn-secondary m-1' onClick={addItem}>Tilføj flere produkter</button>
+                            <button className='btn btn-secondary m-1' onClick={addItemToCart}>Tilføj flere produkter</button>
                         </div>
                     </div>
                 </div>
