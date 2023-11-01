@@ -66,7 +66,7 @@ public class AddressController : ControllerBase
             return BadRequest("Address creation failed - DB ERROR");
         }
 
-        return createdAddress == null ? BadRequest("Address creation failed - Unable to create in DB") : Ok(createdAddress);
+        return createdAddress.Id == null ? BadRequest("Address creation failed - Unable to create in DB") : Ok(createdAddress);
     }
 
     // PUT api/<AddressController>/5

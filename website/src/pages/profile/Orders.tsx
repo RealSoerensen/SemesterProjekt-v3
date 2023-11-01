@@ -3,10 +3,11 @@ import Order from "../../models/Order";
 import { AuthContext } from "../../contexts/AuthContext";
 import { getOrdersFromCustomer } from "../../services/OrderService";
 import { getOrderslinesFromOrderID } from "../../services/OrderlineService";
+import { getProductById } from "../../services/ProductService";
 import Orderline from "../../models/Orderline";
 import Product from "../../models/Product";
-import { getProductById } from "../../services/ProductService";
-import Image from "../../components/Image";
+import OrderCard from "../../components/OrderCard";
+import LoadingSpinner from "../../components/Spinner";
 
 class CompleteOrder {
     order: Order;
@@ -30,29 +31,33 @@ class CompleteOrder {
 
 const Orders = () => {
     const [completeOrders, setCompleteOrders] = useState<CompleteOrder[]>([]);
-    const [isLoading, setIsLoading] = useState(true); // State for loading indicator
+    const [isLoading, setIsLoading] = useState(true);
     const { customer } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchOrders = async () => {
             if (customer) {
-                setIsLoading(true); // Set loading to true before fetching
+                setIsLoading(true);
+                try {
+                    const customerOrders = await getOrdersFromCustomer(customer.id);
+                    const updatedCompleteOrders = await Promise.all(
+                        customerOrders.map(async (order) => {
+                            const orderlines = await getOrderslinesFromOrderID(order.id);
+                            const completeProducts = await Promise.all(
+                                orderlines.map(async (orderline: Orderline) => await getProductById(orderline.productID))
+                            );
 
-                const customerOrders = await getOrdersFromCustomer(customer.id);
+                            return new CompleteOrder(order, orderlines, completeProducts);
+                        })
+                    );
 
-                const updatedCompleteOrders = await Promise.all(
-                    customerOrders.map(async (order) => {
-                        const orderlines = await getOrderslinesFromOrderID(order.id);
-                        const completeProducts = await Promise.all(
-                            orderlines.map(async (orderline: Orderline) => await getProductById(orderline.productID))
-                        );
-
-                        return new CompleteOrder(order, orderlines, completeProducts);
-                    })
-                );
-
-                setCompleteOrders(updatedCompleteOrders);
-                setIsLoading(false); // Set loading to false after fetching
+                    setCompleteOrders(updatedCompleteOrders);
+                } catch (error) {
+                    // Handle any errors here
+                    console.error("Error fetching orders:", error);
+                } finally {
+                    setIsLoading(false);
+                }
             }
         };
 
@@ -64,68 +69,15 @@ const Orders = () => {
             <h1>Dine bestillinger</h1>
             <div className="row">
                 {isLoading ? (
-                    <div className="d-flex justify-content-center">
-                        <div className="spinner-grow" role="status">
-                            <span className="sr-only"></span>
-                        </div>
-                    </div>
-                )
-                    : completeOrders.map((completeOrder, index) => (
-                        <div className="col-sm-12 col-md-4 justify-content-center" key={index}>
-                            <div className="card m-1">
-                                <div className="card-body">
-                                    <p>Ordrenummer: {completeOrder.order.id}</p>
-                                    <p>Oprettet: {completeOrder.order.date.toDateString()}</p>
-                                    <p>Pris: {completeOrder.totalPrice()} kr.</p>
-                                </div>
-                                <hr />
-                                <div className="text-center mb-3">
-                                    <button
-                                        className="btn btn-primary"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target={`#collapse${index}`}
-                                        aria-expanded="false"
-                                        aria-controls={`collapse${index}`}
-                                    >
-                                        Vis bestilling
-                                    </button>
-                                </div>
-
-                                <div className="collapse" id={`collapse${index}`}>
-                                    <hr />
-                                    <div className="row">
-                                        {Array.from(completeOrder.products.values()).map((product: Product, index: number) => {
-                                            const orderline = completeOrder.orderlines.get(product.id);
-                                            if (orderline && product) {
-                                                return (
-                                                    <div className="col-12" key={index}>
-                                                        <div className="card-body">
-                                                            <div className="row">
-                                                                <div className="col-4">
-                                                                    <Image image={product.image} imageTitle={product.name} className="img-fluid" />
-                                                                </div>
-                                                                <div className="col-8">
-                                                                    <p className="fw-bold">{product.name}</p>
-                                                                    <p className="fw-bold">{orderline.quantity} stk.</p>
-                                                                    <p className="fw-bold">{orderline.priceAtTimeOfOrder} kr.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            }
-                                            return null;
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                    <LoadingSpinner />
+                ) : (
+                    completeOrders.map((completeOrder, index) => (
+                        <OrderCard completeOrder={completeOrder} index={index} />
+                    ))
+                )}
             </div>
         </div>
     );
 };
-
 
 export default Orders;

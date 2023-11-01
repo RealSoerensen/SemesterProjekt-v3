@@ -49,7 +49,9 @@ const CartPage = () => {
             <div className="row">
                 <div className="col-md-12">
                     {
-                        cart.length === 0 ? <p>Din kurv er tom</p> :
+                        cart.length === 0 ?
+                            <p>Din kurv er tom</p>
+                            :
                             <table className="table">
                                 <thead>
                                     <tr>
