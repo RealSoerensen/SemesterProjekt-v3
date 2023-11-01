@@ -15,6 +15,7 @@ import balls from '../content/images/Balls.jpg';
 import shoes from '../content/images/shoes.jpg';
 import clothes from '../content/images/shirt.jpg';
 import bags from '../content/images/bag.jpg';
+import LoadingSpinner from '../components/Spinner';
 
 const HomePage: React.FC = () => {
 
@@ -29,7 +30,7 @@ const HomePage: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [bestSellers, setBestSellers] = useState<Product[]>([]);
     const [shuffledBestSellers, setShuffledBestSellers] = useState<Product[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const shuffled = [...categories].sort(() => Math.random() - 0.5);
@@ -40,7 +41,9 @@ const HomePage: React.FC = () => {
     }, [categories]);
 
     useEffect(() => {
-        getAllProducts()?.then((data) => setProducts(data),);
+        setIsLoading(true);
+        getAllProducts()?.then((data) => setProducts(data));
+        setIsLoading(false);
     }, []);
 
     useEffect(() => {
@@ -50,6 +53,7 @@ const HomePage: React.FC = () => {
     }, [products]);
 
     useEffect(() => {
+        setIsLoading(true);
         if (products?.length !== bestSellers?.length) {
             return;
         }
@@ -87,13 +91,9 @@ const HomePage: React.FC = () => {
                 </h2>
                 {
                     isLoading ? (
-                        <div className="d-flex justify-content-center">
-                            <div className="spinner-grow" role="status">
-                                <span className="sr-only"></span>
-                            </div>
-                        </div>
+                        <LoadingSpinner />
                     ) : shuffledBestSellers.map((product, index) => (
-                        <div className='col-lg-3 col-md-3 col-sm-6 d-flex justify-center mb-1' key={index}>
+                        <div className='col-lg-3 col-md-3 col-sm-6 d-flex justify-center mb-5' key={index}>
                             <ProductShowcase product={product} />
                         </div>
                     ))

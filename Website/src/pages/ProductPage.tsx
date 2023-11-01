@@ -7,6 +7,7 @@ import ProductShowcase from "../components/ProductShowcase";
 import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
 import { addItem, calculateProcentDifference } from "../utils/CartUtil";
+import LoadingSpinner from "../components/Spinner";
 
 
 const ProductPage = () => {
@@ -14,39 +15,42 @@ const ProductPage = () => {
     const [product, setProduct] = useState<Product | null>(null);
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
     const { cart, setCart } = useContext(CartContext);
-
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        setIsLoading(true);
         if (id) {
             getProductById(parseInt(id)).then((product) => setProduct(product));
+            setIsLoading(false);
         }
     }, [id]);
-    useEffect(() => {
-        if (product?.category)
-            getProductsByCategory(product?.category).then((products) => setRelatedProducts(products));
-    }, [product])
-
 
     useEffect(() => {
-        for (let i = 0; i < relatedProducts.length; i++) {
-            if (relatedProducts[i].id === product?.id) {
-                const updatedArray = relatedProducts.filter((product) => product.id !== relatedProducts[i].id);
-                setRelatedProducts(updatedArray);
-            }
+        setIsLoading(true);
+        if (product?.category) {
+            getProductsByCategory(product.category)
+                .then((products) => {
+                    const updatedProducts = products.filter((p: Product) => p.id !== product.id);
+                    setRelatedProducts(updatedProducts);
+                });
+            setIsLoading(false);
         }
-    }, [relatedProducts, product])
+    }, [product]);
+
+    if (isLoading) return (<div className="container"><LoadingSpinner /></div>)
+
     if (!product) return (<div>Produktet findes ikke</div>)
 
     return (
         <div className="container">
             <div className="row mt-5">
                 <div className="col-6">
-                    <Image image={product?.image} imageTitle={product?.name} className="img-fluid" />
+                    <Image image={product.image} imageTitle={product.name} className="img-fluid" />
                 </div>
                 <div className="col-4">
-                    <h1>{product?.name}</h1>
-                    <p>Brand: {product?.brand}</p>
-                    <p>{product?.description}</p>
+                    <h1>{product.name}</h1>
+                    <p>{product.brand}</p>
+                    <p>{product.description}</p>
                 </div>
                 <div className="col-2">
                     <div className="border rounded p-3">
@@ -59,12 +63,11 @@ const ProductPage = () => {
                         }
                         <button className="btn btn-primary mx-auto" onClick={() => addItem(product, cart, setCart)}>Tilføj til kurv</button>
                     </div>
-
                 </div>
-                <div className="col-12 m-5">
+                <div className="col-12 mt-5">
                     <h2>Relaterede produkter</h2>
                     {
-                        relatedProducts?.length > 0 ?
+                        relatedProducts.length > 0 ?
                             <>{
                                 relatedProducts.map((product, index) => {
                                     return (
@@ -75,7 +78,7 @@ const ProductPage = () => {
                     }
 
                 </div>
-                <div className="col-12 m-5">
+                <div className="col-12 mt-5">
                     <h2>Reviews</h2>
                 </div>
             </div>
