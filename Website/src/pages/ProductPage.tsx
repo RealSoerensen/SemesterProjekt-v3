@@ -44,7 +44,7 @@ const ProductPage = () => {
     return (
         <div className="container">
             <div className="row mt-5">
-                <div className="col-6">
+                <div className="col-md-6 col-sm-3">
                     <Image image={product.image} imageTitle={product.name} className="img-fluid" />
                 </div>
                 <div className="col-4">
@@ -52,7 +52,7 @@ const ProductPage = () => {
                     <p>{product.brand}</p>
                     <p>{product.description}</p>
                 </div>
-                <div className="col-2">
+                <div className="col-md-2 col-sm-6">
                     <div className="border rounded p-3">
                         {
                             product.salePrice === product.normalPrice ? <p className="">{product.salePrice} kr.</p> :
