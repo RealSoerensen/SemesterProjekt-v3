@@ -11,6 +11,8 @@ type Props = {
 const Cart: React.FC<Props> = (props) => {
     const { cart, setCart } = useContext(CartContext);
 
+    const totalItems = cart.reduce((accum, item) => accum + item.orderline.quantity, 0);
+
     const removeItem = (event: React.MouseEvent, item: CartItem) => {
         event.stopPropagation();
         const newCart = [...cart];
@@ -24,7 +26,7 @@ const Cart: React.FC<Props> = (props) => {
     return (
         <div className={`dropdown m-1 d-inline ${props.HideClass}`}>
             <button className="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Kurv <span className="badge bg-secondary">{cart.length}</span>
+                Kurv <span className="badge bg-secondary">{totalItems}</span>
             </button>
             <ul className="dropdown-menu" style={{ width: 400, translate: '-50%', }}>
                 {

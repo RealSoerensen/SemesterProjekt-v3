@@ -125,7 +125,7 @@ const RegisterPage: React.FC = () => {
             city: city,
             zip: zip,
             houseNumber: houseNumber,
-            id: 0
+            id: 0 // Placeholder, changed upon creation in database.
         };
 
         const newCustomer: Customer = {
@@ -135,14 +135,14 @@ const RegisterPage: React.FC = () => {
             phoneNo: phoneNo,
             password: password,
             addressID: newAddress.id,
-            registerDate: new Date(),  // Placeholder
-            id: 0  // Placeholder
+            registerDate: new Date(),  // Placeholder, changed upon creation.
+            id: 0  // Placeholder, changed upon creation in database.
         };
 
         try {
             const createdAddress = await createAddress(newAddress);
             if (createdAddress) {
-                newCustomer.addressID = createdAddress.id; //Right now address is created regardless of whether or not customer is. I fix later.
+                newCustomer.addressID = createdAddress.id;
                 const isCreated = await createCustomer(newCustomer);
                 return isCreated;
             }
