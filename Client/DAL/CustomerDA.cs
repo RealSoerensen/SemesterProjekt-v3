@@ -1,5 +1,6 @@
-﻿using System.Net.Http.Json;
-using Models;
+﻿using Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Client.DAL;
 
@@ -10,45 +11,94 @@ internal class CustomerDA : ICRUD<Customer>
 
     public Customer? Create(Customer obj)
     {
-        var response = _client.PostAsJsonAsync(URL, obj).Result;
-        if (response.IsSuccessStatusCode)
+        try
         {
-            return response.Content.ReadFromJsonAsync<Customer>().Result;
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+            var response = _client.PostAsync(URL, content).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<Customer>(jsonResponse);
+            }
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
         return null;
     }
 
     public bool Update(Customer obj)
     {
-        var response = _client.PutAsJsonAsync(URL, obj).Result;
-        return response.IsSuccessStatusCode;
+        try
+        {
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+            var response = _client.PutAsync(URL + "/" + obj.ID, content).Result;
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public Customer? Get(long id)
     {
-        var response = _client.GetAsync(URL + "/" + id).Result;
-        if (response.IsSuccessStatusCode)
+        try
         {
-            return response.Content.ReadFromJsonAsync<Customer>().Result;
+            var response = _client.GetAsync(URL + "/" + id).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<Customer>(jsonResponse);
+            }
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
         return null;
     }
 
     public List<Customer> GetAll()
     {
-        var response = _client.GetAsync(URL).Result;
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var result = response.Content.ReadFromJsonAsync<List<Customer>>().Result;
-            if (result != null)
-                return result;
+            var response = _client.GetAsync(URL).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<List<Customer>>(jsonResponse);
+
+                if (result != null)
+                    return result;
+            }
         }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
         return new List<Customer>();
     }
 
     public bool Delete(long id)
     {
-        var response = _client.DeleteAsync(URL + "/" + id).Result;
-        return response.IsSuccessStatusCode;
+        try
+        {
+            var response = _client.DeleteAsync(URL + "/" + id).Result;
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Data;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using RESTful_API.Repositories;
+using System.Data;
 
 namespace ApiTests;
 

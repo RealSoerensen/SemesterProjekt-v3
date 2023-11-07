@@ -1,5 +1,7 @@
-﻿namespace Client {
-    partial class CustomersPanel {
+﻿namespace Client
+{
+    partial class CustomersPanel
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -22,51 +26,68 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
+            components = new System.ComponentModel.Container();
             panel1 = new Panel();
-            comboBox2 = new ComboBox();
-            comboBox1 = new ComboBox();
+            filterBox = new ComboBox();
+            sortBox = new ComboBox();
             labelCustomersTxt = new Label();
             buttonSearch = new Button();
-            textBoxSearchbar = new TextBox();
+            textboxSearch = new TextBox();
             panel2 = new Panel();
             buttonDelete = new Button();
             buttonEdit = new Button();
-            button1 = new Button();
+            buttonCreate = new Button();
+            customerGrid = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
+            bindingSource1 = new BindingSource(components);
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)customerGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(comboBox2);
-            panel1.Controls.Add(comboBox1);
+            panel1.Controls.Add(filterBox);
+            panel1.Controls.Add(sortBox);
             panel1.Controls.Add(labelCustomersTxt);
             panel1.Controls.Add(buttonSearch);
-            panel1.Controls.Add(textBoxSearchbar);
+            panel1.Controls.Add(textboxSearch);
             panel1.Location = new Point(4, 2);
             panel1.Name = "panel1";
             panel1.Size = new Size(757, 98);
             panel1.TabIndex = 0;
             // 
-            // comboBox2
+            // filterBox
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(314, 34);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(121, 23);
-            comboBox2.TabIndex = 4;
-            comboBox2.Text = "Filtrér";
+            filterBox.FormattingEnabled = true;
+            filterBox.Items.AddRange(new object[] { "ID", "Fornavn", "Efternavn", "Email", "Tlf. nummer" });
+            filterBox.Location = new Point(167, 34);
+            filterBox.Name = "filterBox";
+            filterBox.Size = new Size(121, 23);
+            filterBox.TabIndex = 4;
+            filterBox.Text = "Filtrér";
             // 
-            // comboBox1
+            // sortBox
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(161, 34);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(121, 23);
-            comboBox1.TabIndex = 3;
-            comboBox1.Text = "Sortér";
+            sortBox.FormattingEnabled = true;
+            sortBox.Items.AddRange(new object[] { "Flest ordre", "Færrest ordre" });
+            sortBox.Location = new Point(617, 35);
+            sortBox.Name = "sortBox";
+            sortBox.Size = new Size(121, 23);
+            sortBox.TabIndex = 3;
+            sortBox.Text = "Sortér";
+            sortBox.SelectedIndexChanged += sortBox_SelectedIndexChanged;
             // 
             // labelCustomersTxt
             // 
@@ -80,27 +101,27 @@
             // 
             // buttonSearch
             // 
-            buttonSearch.Location = new Point(677, 34);
+            buttonSearch.Location = new Point(530, 34);
             buttonSearch.Name = "buttonSearch";
             buttonSearch.Size = new Size(46, 23);
             buttonSearch.TabIndex = 1;
             buttonSearch.Text = "Søg";
             buttonSearch.UseVisualStyleBackColor = true;
-            buttonSearch.Click += button4_Click;
+            buttonSearch.Click += buttonSearch_Click;
             // 
-            // textBoxSearchbar
+            // textboxSearch
             // 
-            textBoxSearchbar.Location = new Point(454, 34);
-            textBoxSearchbar.Name = "textBoxSearchbar";
-            textBoxSearchbar.Size = new Size(221, 23);
-            textBoxSearchbar.TabIndex = 0;
+            textboxSearch.Location = new Point(307, 34);
+            textboxSearch.Name = "textboxSearch";
+            textboxSearch.Size = new Size(221, 23);
+            textboxSearch.TabIndex = 0;
             // 
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.Controls.Add(buttonDelete);
             panel2.Controls.Add(buttonEdit);
-            panel2.Controls.Add(button1);
+            panel2.Controls.Add(buttonCreate);
             panel2.Location = new Point(594, 106);
             panel2.Name = "panel2";
             panel2.Size = new Size(167, 410);
@@ -124,29 +145,97 @@
             buttonEdit.Text = "Rediger";
             buttonEdit.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // buttonCreate
             // 
-            button1.Location = new Point(18, 36);
-            button1.Name = "button1";
-            button1.Size = new Size(130, 46);
-            button1.TabIndex = 0;
-            button1.Text = "Opret";
-            button1.UseVisualStyleBackColor = true;
+            buttonCreate.Location = new Point(18, 36);
+            buttonCreate.Name = "buttonCreate";
+            buttonCreate.Size = new Size(130, 46);
+            buttonCreate.TabIndex = 0;
+            buttonCreate.Text = "Opret";
+            buttonCreate.UseVisualStyleBackColor = true;
             // 
-            // CustomersMain
+            // customerGrid
+            // 
+            customerGrid.AutoGenerateColumns = false;
+            customerGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            customerGrid.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8 });
+            customerGrid.DataSource = bindingSource1;
+            customerGrid.Location = new Point(6, 106);
+            customerGrid.Name = "customerGrid";
+            customerGrid.RowTemplate.Height = 25;
+            customerGrid.Size = new Size(575, 410);
+            customerGrid.TabIndex = 2;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.DataPropertyName = "ID";
+            dataGridViewTextBoxColumn1.HeaderText = "ID";
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.DataPropertyName = "FirstName";
+            dataGridViewTextBoxColumn2.HeaderText = "FirstName";
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.DataPropertyName = "LastName";
+            dataGridViewTextBoxColumn3.HeaderText = "LastName";
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            dataGridViewTextBoxColumn4.DataPropertyName = "AddressID";
+            dataGridViewTextBoxColumn4.HeaderText = "AddressID";
+            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewTextBoxColumn5.DataPropertyName = "Email";
+            dataGridViewTextBoxColumn5.HeaderText = "Email";
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            dataGridViewTextBoxColumn6.DataPropertyName = "PhoneNo";
+            dataGridViewTextBoxColumn6.HeaderText = "PhoneNo";
+            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            dataGridViewTextBoxColumn7.DataPropertyName = "Password";
+            dataGridViewTextBoxColumn7.HeaderText = "Password";
+            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            dataGridViewTextBoxColumn8.DataPropertyName = "RegisterDate";
+            dataGridViewTextBoxColumn8.HeaderText = "RegisterDate";
+            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            // 
+            // bindingSource1
+            // 
+            bindingSource1.DataSource = typeof(Models.Customer);
+            // 
+            // CustomersPanel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(765, 528);
             ControlBox = false;
+            Controls.Add(customerGrid);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Name = "CustomersMain";
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "CustomersPanel";
             Text = "Kunder";
             WindowState = FormWindowState.Maximized;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)customerGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);
         }
 
@@ -156,11 +245,33 @@
         private Panel panel2;
         private Button buttonDelete;
         private Button buttonEdit;
-        private Button button1;
+        private Button buttonCreate;
         private Button buttonSearch;
         private TextBox textBoxSearchbar;
         private Label labelCustomersTxt;
         private ComboBox comboBox2;
         private ComboBox comboBox1;
+        private DataGridView customerGrid;
+        private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn firstNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn lastNameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn addressIDDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn emailDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn phoneNoDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn registerDateDataGridViewTextBoxColumn;
+        private BindingSource customerBindingSource;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private BindingSource bindingSource1;
+        private ComboBox filterBox;
+        private ComboBox sortBox;
+        private TextBox textboxSearch;
     }
 }
