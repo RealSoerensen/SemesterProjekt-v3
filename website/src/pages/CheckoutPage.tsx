@@ -121,7 +121,7 @@ const CheckoutPage: React.FC = () => {
                             <Link to={`/product/${item.product.id}`} className='text-decoration-none text-dark'>
                                 <div className='row m-2'>
                                     <div className='col-sm-12 col-md-6'>
-                                        <Image image={item.product.image} imageTitle={item.product.name} className='img-fluid' />
+                                        <Image image={item.product.image} imageTitle={item.product.name} style={{ maxWidth: '40%', height: 'auto' }} className='img-fluid' />
                                     </div>
                                     <div className='col-sm-12 col-md-6'>
                                         <p>{item.product.name}</p>

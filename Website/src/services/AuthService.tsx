@@ -24,21 +24,3 @@ export async function login(email: string, password: string): Promise<Customer |
         return null;
     }
 }
-
-export async function register(customer: Customer) {
-    try {
-        const response = await axios.post(`${url}/register`, customer, {
-            withCredentials: true,
-        });
-
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            return null;
-        }
-    }
-    catch (e) {
-        console.error(e);
-        return null;
-    }
-}
