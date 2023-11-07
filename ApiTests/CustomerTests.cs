@@ -1,9 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Models;
-using RESTful_API.Controllers;
-using RESTful_API.Repositories;
-using RESTful_API.Repositories.AddressDA;
-using RESTful_API.Repositories.CustomerDA;
 using RESTful_API.Services;
 
 namespace ApiTests;

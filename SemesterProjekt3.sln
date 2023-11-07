@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTful API", "RESTful API\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{B4E7AA1D-96DD-4A08-8A1A-DCEEC1F5C3C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{F66522B2-81E4-4D47-8C37-94DBC480A535}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csproj", "{F66522B2-81E4-4D47-8C37-94DBC480A535}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,7 +18,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D4997D10-606B-4F5D-9202-B31DB5FF2465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4997D10-606B-4F5D-9202-B31DB5FF2465}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4997D10-606B-4F5D-9202-B31DB5FF2465}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4997D10-606B-4F5D-9202-B31DB5FF2465}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DD122754-E929-4630-94AF-7DB8D86AA051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

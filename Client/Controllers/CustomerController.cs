@@ -1,9 +1,4 @@
 ﻿using Client.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Models;
 
 namespace Client.Controllers;
@@ -22,12 +17,12 @@ internal class CustomerController
         return _customerDA.Create(customer);
     }
 
-    public Customer? Get(int id)
+    public Customer? Get(long id)
     {
         return _customerDA.Get(id);
     }
 
-    public List<Customer>? GetAll()
+    public List<Customer> GetAll()
     {
         return _customerDA.GetAll();
     }
