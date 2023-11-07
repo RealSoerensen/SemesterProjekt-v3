@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
+using Newtonsoft.Json.Linq;
 using RESTful_API.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,10 +12,12 @@ namespace RESTful_API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly CustomerService customerService;
+    private readonly AddressService addressService;
 
     public AuthController()
     {
         customerService = new CustomerService();
+        addressService = new AddressService();
     }
 
     [Route("login")]
@@ -48,6 +51,44 @@ public class AuthController : ControllerBase
         catch (Exception)
         {
             return StatusCode(500, "An error occurred while processing the request.");
+        }
+    }
+
+    [Route("register")]
+    [HttpPost]
+    public IActionResult Register([FromBody] JObject data)
+    {
+        if (data == null)
+        {
+            return BadRequest("Invalid input");
+        }
+
+        var customerData = data["customer"];
+        var addressData = data["address"];
+
+        if (customerData == null || addressData == null)
+        {
+            return BadRequest("Invalid input");
+        }
+
+        try
+        {
+            var customer = customerData.ToObject<Customer>();
+            var address = addressData.ToObject<Address>();
+
+            if (customer == null || address == null)
+            {
+                return BadRequest("Failed to convert to object");
+            }
+
+            // Your registration logic here
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.StackTrace);
+            return BadRequest("An error occurred during registration");
         }
     }
 

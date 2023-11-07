@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import './RegisterPage.css';
-import { createCustomer } from '../../../services/CustomerService';
-import { createAddress } from '../../../services/AddressService';
+import { register } from '../../../services/AuthService';
 import { checkEmailExists } from '../../../services/CustomerService';
 import Customer from "../../../models/Customer";
 import Address from "../../../models/Address";
@@ -37,76 +36,76 @@ const RegisterPage: React.FC = () => {
         let errorCount = 0;
 
         switch (name) {
-                case 'FirstName':
-                case 'LastName':
-                    if (value.length < 2 || value.length > 50) {
-                        errorMessage += `${placeholder} must be between 2 and 50 characters.\n`;
+            case 'FirstName':
+            case 'LastName':
+                if (value.length < 2 || value.length > 50) {
+                    errorMessage += `${placeholder} must be between 2 and 50 characters.\n`;
+                    errorCount++;
+                }
+                break;
+            case 'Email':
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(value)) {
+                    errorMessage += 'Invalid email format.\n';
+                    errorCount++;
+                }
+                try {
+                    const emailExists = await checkEmailExists(value);
+                    if (emailExists) {
+                        errorMessage += 'Email already exists.\n';
                         errorCount++;
                     }
-                    break;
-                case 'Email':
-                    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-                    if (!emailRegex.test(value)) {
-                        errorMessage += 'Invalid email format.\n';
-                        errorCount++;
-                    }
-                    try {
-                        const emailExists = await checkEmailExists(value);
-                        if(emailExists) {
-                            errorMessage += 'Email already exists.\n';
-                            errorCount++;
-                        }
-                    } catch (error) {
-                        console.error("Failed to check email:", error);
-                        errorMessage += 'An error occurred while checking the email. Please try again.\n';
-                        errorCount++;
-                    }
-                    break;
-                case "PhoneNo":
-                    if (value.length < 6 || value.length > 20) {
-                        errorMessage += `Phonenumber must be between 6 and 20 characters.\n`;
-                        errorCount++;
-                    }
-                    break;
-                case 'Password':
-                    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-                    if (!passwordRegex.test(value)) {
-                        errorMessage += 'Password must contain at least one uppercase letter, one lowercase letter, and one number, and be at least 8 characters long.\n';
-                        errorCount++;
-                    }
-                    break;
-                case "Street":
-                    if (value.length < 2 || value.length > 100) {
-                        errorMessage += `Street must be between 2 and 100 characters.\n`;
-                        errorCount++;
-                    }
-                    break;
-                case "City":
-                    if (value.length < 2 || value.length > 60) {
-                        errorMessage += `City must be between 2 and 60 characters.\n`;
-                        errorCount++;
-                    }
-                    break;
-                case "Zip":
-                    if (value.length < 1 || value.length > 10) {
-                        errorMessage += `Zip must be between 1 and 10 characters.\n`;
-                        errorCount++;
-                    }
-                    break;
-                case 'HouseNumber':
-                    if (value.length < 1 || value.length > 4) {
-                        errorMessage += `House Number must be between 1 and 4 characters\n`;
-                        errorCount++;
-                    }
-                    break;
-                default:
-                    break;
-            }
+                } catch (error) {
+                    console.error("Failed to check email:", error);
+                    errorMessage += 'An error occurred while checking the email. Please try again.\n';
+                    errorCount++;
+                }
+                break;
+            case "PhoneNo":
+                if (value.length < 6 || value.length > 20) {
+                    errorMessage += `Phonenumber must be between 6 and 20 characters.\n`;
+                    errorCount++;
+                }
+                break;
+            case 'Password':
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+                if (!passwordRegex.test(value)) {
+                    errorMessage += 'Password must contain at least one uppercase letter, one lowercase letter, and one number, and be at least 8 characters long.\n';
+                    errorCount++;
+                }
+                break;
+            case "Street":
+                if (value.length < 2 || value.length > 100) {
+                    errorMessage += `Street must be between 2 and 100 characters.\n`;
+                    errorCount++;
+                }
+                break;
+            case "City":
+                if (value.length < 2 || value.length > 60) {
+                    errorMessage += `City must be between 2 and 60 characters.\n`;
+                    errorCount++;
+                }
+                break;
+            case "Zip":
+                if (value.length < 1 || value.length > 10) {
+                    errorMessage += `Zip must be between 1 and 10 characters.\n`;
+                    errorCount++;
+                }
+                break;
+            case 'HouseNumber':
+                if (value.length < 1 || value.length > 4) {
+                    errorMessage += `House Number must be between 1 and 4 characters\n`;
+                    errorCount++;
+                }
+                break;
+            default:
+                break;
+        }
 
         return { errorMessage, errorCount };
     };
 
-    const createNewCustomerAndAddress = async (formData: FormData[]) => {
+    const registerCustomer = async (formData: FormData[]) => {
         const firstName = formData.find(f => f.name === 'FirstName')?.value;
         const lastName = formData.find(f => f.name === 'LastName')?.value;
         const email = formData.find(f => f.name === 'Email')?.value;
@@ -119,39 +118,28 @@ const RegisterPage: React.FC = () => {
         const houseNumber = formData.find(f => f.name === 'HouseNumber')?.value;
 
 
-	if (street && city && zip && houseNumber && firstName && lastName && email && phoneNo && password) {
-        const newAddress: Address = {
-            street: street,
-            city: city,
-            zip: zip,
-            houseNumber: houseNumber,
-            id: 0 // Placeholder, changed upon creation in database.
-        };
+        if (street && city && zip && houseNumber && firstName && lastName && email && phoneNo && password) {
+            const newAddress: Address = {
+                street: street,
+                city: city,
+                zip: zip,
+                houseNumber: houseNumber,
+                id: 0 // Placeholder, changed upon creation in database.
+            };
 
-        const newCustomer: Customer = {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phoneNo: phoneNo,
-            password: password,
-            addressID: newAddress.id,
-            registerDate: new Date(),  // Placeholder, changed upon creation.
-            id: 0  // Placeholder, changed upon creation in database.
-        };
+            const newCustomer: Customer = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phoneNo: phoneNo,
+                password: password,
+                addressID: newAddress.id,
+                registerDate: new Date(),  // Placeholder, changed upon creation.
+                id: 0  // Placeholder, changed upon creation in database.
+            };
 
-        try {
-            const createdAddress = await createAddress(newAddress);
-            if (createdAddress) {
-                newCustomer.addressID = createdAddress.id;
-                const isCreated = await createCustomer(newCustomer);
-                return isCreated;
-            }
-            return false;
-        } catch (error) {
-            console.error("An error occurred:", error);
-            return false;
-        }
-}
+            return await register(newCustomer, newAddress);
+        };
     };
 
     const handleChange = (index: number) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -178,7 +166,7 @@ const RegisterPage: React.FC = () => {
         setErrorMessage(newErrorMessage);
 
         if (errorsCount === 0) {
-            const isCreated = await createNewCustomerAndAddress(formData);
+            const isCreated = await registerCustomer(formData);
             if (isCreated) {
                 navigate('/');
             }
