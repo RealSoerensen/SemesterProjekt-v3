@@ -3,6 +3,7 @@ type Props = {
     image: string;
     imageTitle: string;
     className: string;
+    style?: React.CSSProperties;
 }
 
 
@@ -17,7 +18,7 @@ const Image = (props: Props) => {
         }
     }, [props.image])
     return (
-        <img className={props.className} src={image} alt={props.imageTitle} />
+        <img className={props.className} src={image} alt={props.imageTitle} style={props.style} />
     )
 }
 
