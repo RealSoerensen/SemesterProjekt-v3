@@ -81,7 +81,8 @@ public class AuthController : ControllerBase
                 return BadRequest("Failed to convert to object");
             }
 
-            // Your registration logic here
+            customer.ID = addressService.CreateAddress(address).ID;
+            customerService.CreateCustomer(customer);
 
             return Ok();
         }
