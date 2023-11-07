@@ -24,12 +24,12 @@ internal class CustomerController
 
     public Customer? Get(int id)
     {
-        return _customerDA.GetCustomerById(id);
+        return _customerDA.Get(id);
     }
 
     public List<Customer>? GetAll()
     {
-        return _customerDA.GetAllCustomers();
+        return _customerDA.GetAll();
     }
 
     public bool Update(Customer customer)
@@ -37,8 +37,8 @@ internal class CustomerController
         return _customerDA.Update(customer);
     }
 
-    public bool Delete(Customer customer)
+    public bool Delete(long id)
     {
-        return _customerDA.Delete(customer);
+        return _customerDA.Delete(id);
     }
 }
