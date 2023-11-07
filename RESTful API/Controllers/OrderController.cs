@@ -94,11 +94,11 @@ public class OrderController : ControllerBase
                 return BadRequest("Order creation failed - DB ERROR");
             }
 
-            if (order.Id == null) return BadRequest("Order creation failed - DB ERROR");
+            if (order.ID == null) return BadRequest("Order creation failed - DB ERROR");
 
             foreach (var orderline in orderlines)
             {
-                orderline.OrderID = (long)order.Id;
+                orderline.OrderID = (long)order.ID;
                 try
                 {
                     _orderlineService.CreateOrderline(orderline);
@@ -116,7 +116,7 @@ public class OrderController : ControllerBase
         }
     }
 
-    // PUT api/<OrderController>/5
+    // PUT api/<OrderController>
     [HttpPut]
     public IActionResult Update([FromBody] Order order)
     {

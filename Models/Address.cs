@@ -4,7 +4,7 @@ namespace Models;
 
 public class Address
 {
-    public long? Id { get; set; }
+    public long? ID { get; set; }
     public string Street { get; set; }
     public string City { get; set; }
     public string Zip { get; set; }
@@ -21,7 +21,7 @@ public class Address
 
     public Address(long id, string zip, string houseNumber, string city, string street)
     {
-        Id = id;
+        ID = id;
         Street = street;
         City = city;
         Zip = zip;

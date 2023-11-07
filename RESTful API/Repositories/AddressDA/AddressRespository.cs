@@ -22,7 +22,7 @@ public class AddressRespository : IAddressDA
         try
         {
             var sql = "INSERT INTO Address (street, city, zip, houseNumber) VALUES (@Street, @City, @Zip, @HouseNumber); SELECT CAST(SCOPE_IDENTITY() as bigint);";
-            obj.Id = dbConnection.QuerySingle<int>(sql, obj, transaction);
+            obj.ID = dbConnection.QuerySingle<int>(sql, obj, transaction);
             transaction.Commit();
         }
         catch (Exception)
