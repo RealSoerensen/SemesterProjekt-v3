@@ -81,7 +81,7 @@
             // sortBox
             // 
             sortBox.FormattingEnabled = true;
-            sortBox.Items.AddRange(new object[] { "Flest ordre", "Færrest ordre" });
+            sortBox.Items.AddRange(new object[] { "Dato oprettet (nyeste-ældst)", "Dato oprettet (ældst-nyeste)" });
             sortBox.Location = new Point(617, 35);
             sortBox.Name = "sortBox";
             sortBox.Size = new Size(121, 23);
@@ -135,6 +135,7 @@
             buttonDelete.TabIndex = 2;
             buttonDelete.Text = "Fjern";
             buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += buttonDelete_Click;
             // 
             // buttonEdit
             // 
@@ -144,6 +145,7 @@
             buttonEdit.TabIndex = 1;
             buttonEdit.Text = "Rediger";
             buttonEdit.UseVisualStyleBackColor = true;
+            buttonEdit.Click += buttonEdit_Click;
             // 
             // buttonCreate
             // 
@@ -156,63 +158,77 @@
             // 
             // customerGrid
             // 
+            customerGrid.AllowUserToAddRows = false;
+            customerGrid.AllowUserToDeleteRows = false;
+            customerGrid.AllowUserToResizeColumns = false;
             customerGrid.AutoGenerateColumns = false;
             customerGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             customerGrid.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8 });
             customerGrid.DataSource = bindingSource1;
+            customerGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
             customerGrid.Location = new Point(6, 106);
             customerGrid.Name = "customerGrid";
+            customerGrid.ReadOnly = true;
             customerGrid.RowTemplate.Height = 25;
             customerGrid.Size = new Size(575, 410);
             customerGrid.TabIndex = 2;
+            customerGrid.CellContentClick += customerGrid_CellContentClick;
             // 
             // dataGridViewTextBoxColumn1
             // 
             dataGridViewTextBoxColumn1.DataPropertyName = "ID";
             dataGridViewTextBoxColumn1.HeaderText = "ID";
             dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn2
             // 
             dataGridViewTextBoxColumn2.DataPropertyName = "FirstName";
             dataGridViewTextBoxColumn2.HeaderText = "FirstName";
             dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn3
             // 
             dataGridViewTextBoxColumn3.DataPropertyName = "LastName";
             dataGridViewTextBoxColumn3.HeaderText = "LastName";
             dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn4
             // 
             dataGridViewTextBoxColumn4.DataPropertyName = "AddressID";
             dataGridViewTextBoxColumn4.HeaderText = "AddressID";
             dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            dataGridViewTextBoxColumn4.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn5
             // 
             dataGridViewTextBoxColumn5.DataPropertyName = "Email";
             dataGridViewTextBoxColumn5.HeaderText = "Email";
             dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn6
             // 
             dataGridViewTextBoxColumn6.DataPropertyName = "PhoneNo";
             dataGridViewTextBoxColumn6.HeaderText = "PhoneNo";
             dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            dataGridViewTextBoxColumn6.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn7
             // 
             dataGridViewTextBoxColumn7.DataPropertyName = "Password";
             dataGridViewTextBoxColumn7.HeaderText = "Password";
             dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            dataGridViewTextBoxColumn7.ReadOnly = true;
             // 
             // dataGridViewTextBoxColumn8
             // 
             dataGridViewTextBoxColumn8.DataPropertyName = "RegisterDate";
             dataGridViewTextBoxColumn8.HeaderText = "RegisterDate";
             dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            dataGridViewTextBoxColumn8.ReadOnly = true;
             // 
             // bindingSource1
             // 
@@ -231,6 +247,7 @@
             Name = "CustomersPanel";
             Text = "Kunder";
             WindowState = FormWindowState.Maximized;
+            Load += CustomersPanel_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);

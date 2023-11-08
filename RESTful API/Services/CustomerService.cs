@@ -7,13 +7,11 @@ namespace RESTful_API.Services;
 public class CustomerService
 {
     private readonly ICustomerDA _customerDB;
-    private readonly OrderService _orderService;
 
     public CustomerService()
     {
         var connectionString = DBConnection.GetConnectionString();
         _customerDB = new CustomerRespository(connectionString);
-        _orderService = new OrderService();
     }
 
     public Customer CreateCustomer(Customer customer)
@@ -42,10 +40,14 @@ public class CustomerService
         }
     }
 
-    public bool CheckEmailExists(string email) {
-        try {
+    public bool CheckEmailExists(string email)
+    {
+        try
+        {
             return _customerDB.CheckEmailExists(email);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
             throw;
         }
@@ -68,14 +70,6 @@ public class CustomerService
     {
         try
         {
-            if (customer.ID == null) throw new Exception("Customer ID cannot be null");
-            long id = (long)customer.ID;
-            List<Order> orders = _orderService.GetOrdersByCustomerID(id);
-            foreach (var order in orders)
-            {
-                order.CustomerID = id;
-                _orderService.UpdateOrder(order);
-            }
             return _customerDB.Update(customer);
         }
         catch (Exception e)
