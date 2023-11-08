@@ -35,7 +35,7 @@ internal class CustomerDA : ICRUD<Customer>
         try
         {
             HttpContent content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
-            var response = _client.PutAsync(URL + "/" + obj.ID, content).Result;
+            var response = _client.PutAsync(URL, content).Result;
             return response.IsSuccessStatusCode;
         }
         catch (Exception e)
