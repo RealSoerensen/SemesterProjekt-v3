@@ -1,17 +1,13 @@
-namespace Client
-{
-    public partial class Main : Form
-    {
+namespace Client {
+    public partial class Main : Form {
         private readonly ProductsPanel productsPanel = new();
         private readonly CustomersPanel customersPanel = new();
 
-        public Main()
-        {
+        public Main() {
             InitializeComponent();
         }
 
-        private void buttonProducts_Click(object sender, EventArgs e)
-        {
+        private void buttonProducts_Click(object sender, EventArgs e) {
             //TEST
             customersPanel.Visible = false;
             productsPanel.TopLevel = false;
@@ -20,8 +16,7 @@ namespace Client
             productsPanel.Show();
         }
 
-        private void buttonCustomers_Click(object sender, EventArgs e)
-        {
+        private void buttonCustomers_Click(object sender, EventArgs e) {
             productsPanel.Visible = false;
             customersPanel.TopLevel = false;
             panelMain.Controls.Add(customersPanel);
