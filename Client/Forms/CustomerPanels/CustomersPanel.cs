@@ -2,14 +2,17 @@
 using Client.Forms.CustomerPanels;
 using Models;
 
-namespace Client {
-    public partial class CustomersPanel : Form {
+namespace Client
+{
+    public partial class CustomersPanel : Form
+    {
         private List<Customer> customers = new();
         private Customer? selectedCustomer;
-        private readonly CustomerController customerController;
+        private readonly CustomerController customerController = new();
+        private readonly AddressController addressController = new();
 
-        public CustomersPanel() {
-            customerController = new CustomerController();
+        public CustomersPanel()
+        {
             InitializeComponent();
         }
 
@@ -19,14 +22,17 @@ namespace Client {
             InitializeDataGridView();
         }
 
-        private void InitializeDataGridView() {
+        private void InitializeDataGridView()
+        {
             customerGrid.Name = "Customers";
             customerGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             customerGrid.DataSource = customers;
         }
 
-        private void buttonSearch_Click(object sender, EventArgs e) {
-            if (filterBox == null || textboxSearch == null) {
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            if (filterBox == null || textboxSearch == null)
+            {
                 MessageBox.Show("Vælg en søgefilter og indtast en søgeord");
                 return;
             }
@@ -59,65 +65,82 @@ namespace Client {
             }
         }
 
-        private void SearchByPhoneNo() {
+        private void SearchByPhoneNo()
+        {
             var phoneNo = textboxSearch.Text;
             var customers = this.customers.Where(customer => customer.PhoneNo.ToLower().Contains(phoneNo.ToLower())).ToList();
-            if (customers.Count > 0) {
+            if (customers.Count > 0)
+            {
                 customerGrid.DataSource = customers;
             }
-            else {
+            else
+            {
                 MessageBox.Show("Kunden blev ikke fundet");
             }
         }
 
-        private void SearchByEmail() {
+        private void SearchByEmail()
+        {
             var email = textboxSearch.Text;
             var customers = this.customers.Where(customer => customer.Email.ToLower().Contains(email.ToLower())).ToList();
-            if (customers.Count > 0) {
+            if (customers.Count > 0)
+            {
                 customerGrid.DataSource = customers;
             }
-            else {
+            else
+            {
                 MessageBox.Show("Kunden blev ikke fundet");
             }
         }
 
-        private void SearchByLastName() {
+        private void SearchByLastName()
+        {
             var lastName = textboxSearch.Text;
             var customers = this.customers.Where(customer => customer.LastName.ToLower().Contains(lastName.ToLower())).ToList();
-            if (customers.Count > 0) {
+            if (customers.Count > 0)
+            {
                 customerGrid.DataSource = customers;
             }
-            else {
+            else
+            {
                 MessageBox.Show("Kunden blev ikke fundet");
             }
         }
 
-        private void SearchByFirstName() {
+        private void SearchByFirstName()
+        {
             var firstName = textboxSearch.Text;
             var customers = this.customers.Where(customer => customer.FirstName.ToLower().Contains(firstName.ToLower())).ToList();
-            if (customers.Count > 0) {
+            if (customers.Count > 0)
+            {
                 customerGrid.DataSource = customers;
             }
-            else {
+            else
+            {
                 MessageBox.Show("Kunden blev ikke fundet");
             }
         }
 
-        private void SearchByID() {
+        private void SearchByID()
+        {
             long id = 0;
-            try {
+            try
+            {
                 id = long.Parse(textboxSearch.Text);
             }
-            catch {
+            catch
+            {
                 MessageBox.Show("ID'et indtastet er ikke et tal");
                 return;
             }
 
             var customer = customers.Single(customer => customer.ID == id);
-            if (customer != null) {
+            if (customer != null)
+            {
                 customerGrid.DataSource = new List<Customer> { customer };
             }
-            else {
+            else
+            {
                 MessageBox.Show("Kunden blev ikke fundet");
             }
         }
@@ -165,8 +188,61 @@ namespace Client {
                     row.Selected = true;
                     selectedCustomer = row.DataBoundItem as Customer;
                 }
-
             }
+        }
+
+        private void buttonCreate_Click(object sender, EventArgs e)
+        {
+            var createCustomer = new CreateCustomer();
+            createCustomer.ShowDialog();
+            if (createCustomer.DialogResult != DialogResult.OK)
+            {
+                return;
+            }
+
+            var customer = createCustomer.Customer;
+            var address = createCustomer.Address;
+
+            if (customer == null || address == null)
+            {
+                MessageBox.Show("Kunden blev ikke oprettet");
+                return;
+            }
+
+            bool created = false;
+            try
+            {
+                address = addressController.Create(address);
+                if (address == null) throw new Exception();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Kunne ikke oprette adressen i databasen");
+                return;
+            }
+
+            customer.AddressID = address.ID;
+
+            try
+            {
+                created = created && customerController.Create(customer) != null;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Kunne ikke oprette kunden i databasen");
+                return;
+            }
+
+            if (!created)
+            {
+                MessageBox.Show("Kunden blev ikke oprettet");
+                return;
+            }
+
+            customers.Add(customer);
+            customerGrid.DataSource = null;
+            customerGrid.DataSource = customers;
+            MessageBox.Show("Kunden blev oprettet");
         }
 
         private void buttonEdit_Click(object sender, EventArgs e)
@@ -185,30 +261,43 @@ namespace Client {
             }
 
             var customer = editCustomer.Customer;
-            if (customer != null)
+            var address = editCustomer.Address;
+            if (customer == null || address == null)
             {
-                bool updated = false;
-                try
-                {
-                    updated = customerController.Update(customer);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Kunne ikke opdatere kunden i databasen");
-                    return;
-                }
-
-                if (!updated)
-                {
-                    MessageBox.Show("Kunden blev ikke opdateret");
-                    return;
-                }
-                customerGrid.DataSource = null;
-                var index = customers.FindIndex(customer => customer.ID == selectedCustomer.ID);
-                customers[index] = customer;
-                customerGrid.DataSource = customers;
-                MessageBox.Show("Kunden blev opdateret");
+                MessageBox.Show("Kunden blev ikke opdateret");
+                return;
             }
+            bool updated = false;
+            try
+            {
+                updated = customerController.Update(customer);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Kunne ikke opdatere kunden i databasen");
+                return;
+            }
+
+            try
+            {
+                updated = updated && addressController.Update(address);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Kunne ikke opdatere adressen i databasen");
+                return;
+            }
+
+            if (!updated)
+            {
+                MessageBox.Show("Kunden blev ikke opdateret");
+                return;
+            }
+            customerGrid.DataSource = null;
+            var index = customers.FindIndex(customer => customer.ID == selectedCustomer.ID);
+            customers[index] = customer;
+            customerGrid.DataSource = customers;
+            MessageBox.Show("Kunden blev opdateret");
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)

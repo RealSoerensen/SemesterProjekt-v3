@@ -14,7 +14,8 @@ public class CustomerTests
     }
 
     [TestMethod]
-    public void CreateCustomer_ReturnsCustomer() {
+    public void CreateCustomer_ReturnsCustomer()
+    {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
 
@@ -40,7 +41,10 @@ public class CustomerTests
 
         // Act
         var createdCustomer = customerService.CreateCustomer(newCustomer);
+        Assert.IsNotNull(createdCustomer);
+        Assert.IsNotNull(createdCustomer.ID);
         var customer = customerService.GetCustomer((long)createdCustomer.ID);
+        Assert.IsNotNull(customer);
 
         //Assert
         Assert.AreEqual(createdCustomer.ID, customer.ID);
@@ -79,20 +83,20 @@ public class CustomerTests
     }
 
     [TestMethod]
-    public void DeleteCustomer_ReturnsTrue() {
+    public void DeleteCustomer_ReturnsTrue()
+    {
         //Arrange - Customer should already be created.
 
         //Act
         var customer = customerService.GetCustomerByEmail("TestEmail@TestEmail.com");
-        if (customer == null) Assert.Fail("No customer to delete.");
+        if (customer == null || customer.ID == null) Assert.Fail("No customer to delete.");
 
         //Assert
         long id = (long)customer.ID;
-        if (id == null) Assert.Fail("Customer to be deleted has no ID.");
+        Assert.Fail("Customer to be deleted has no ID.");
         var successfullyDeleted = customerService.DeleteCustomer(id);
         Assert.IsTrue(successfullyDeleted);
     }
-
 
     [TestMethod]
     public void DeleteCustomer_ReturnsFalse()
@@ -103,16 +107,18 @@ public class CustomerTests
     }
 
     [TestCleanup]
-    public void Cleanup() {
+    public void Cleanup()
+    {
         // Email used in the tests
         string testEmail = "TestEmail@TestEmail.com";
 
-        while(customerService.GetCustomerByEmail(testEmail) != null) {
+        while (customerService.GetCustomerByEmail(testEmail) != null)
+        {
             var customersToDelete = customerService.GetCustomerByEmail(testEmail);
-            if (customersToDelete != null) {
+            if (customersToDelete != null && customersToDelete.ID != null)
+            {
                 customerService.DeleteCustomer((long)customersToDelete.ID);
             }
         }
     }
-
 }
