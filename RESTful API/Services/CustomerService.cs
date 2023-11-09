@@ -39,11 +39,17 @@ public class CustomerService
             throw; // Rethrow the exception for higher-level error handling
         }
     }
+    public Customer? GetCustomer(long id) {
+        try {
+            return _customerDB.Get(id);
+        } catch (Exception e) {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
+    }
 
-    public bool CheckEmailExists(string email)
-    {
-        try
-        {
+    public bool CheckEmailExists(string email) {
+        try {
             return _customerDB.CheckEmailExists(email);
         }
         catch (Exception e)
@@ -79,14 +85,10 @@ public class CustomerService
         }
     }
 
-    public bool DeleteCustomer(string email)
-    {
-        try
-        {
-            return _customerDB.DeleteByEmail(email);
-        }
-        catch (Exception e)
-        {
+    public bool DeleteCustomer(long id) {
+        try {
+            return _customerDB.Delete(id);
+        } catch (Exception e) {
             Console.WriteLine(e);
             throw; // Rethrow the exception for higher-level error handling
         }

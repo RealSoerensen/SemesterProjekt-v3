@@ -109,13 +109,13 @@ public class CustomerController : ControllerBase
     }
 
     // DELETE api/<CustomerController>/email
-    [HttpDelete("{email}")]
-    public IActionResult Delete(string email)
+    [HttpDelete("{id}")]
+    public IActionResult Delete(long id)
     {
         bool isDeleted;
         try
         {
-            isDeleted = customerService.DeleteCustomer(email);
+            isDeleted = customerService.DeleteCustomer(id);
         }
         catch (Exception)
         {
