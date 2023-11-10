@@ -1,8 +1,6 @@
-﻿using Microsoft.Identity.Client;
+﻿namespace RESTful_API.Repositories;
 
-namespace RESTful_API.Repositories;
-
-public class DBConnection
+public static class DBConnection
 {
     public static string GetConnectionString()
     {

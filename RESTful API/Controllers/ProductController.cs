@@ -8,12 +8,7 @@ namespace RESTful_API.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
-    private readonly ProductService productService;
-
-    public ProductController()
-    {
-        productService = new ProductService();
-    }
+    private readonly ProductService productService = new();
 
     [HttpPost]
     public IActionResult Create([FromBody] Product product)

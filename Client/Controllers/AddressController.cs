@@ -5,12 +5,7 @@ namespace Client.Controllers;
 
 internal class AddressController
 {
-    private readonly AddressDA _addressDA;
-
-    public AddressController()
-    {
-        _addressDA = new AddressDA();
-    }
+    private readonly AddressDA _addressDA = new();
 
     public Address? Create(Address address)
     {

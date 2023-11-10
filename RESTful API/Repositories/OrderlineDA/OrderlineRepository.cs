@@ -7,7 +7,7 @@ namespace RESTful_API.Repositories.OrderlineDA;
 
 public class OrderlineRepository : IOrderlineDA
 {
-    public readonly string _connectionString;
+    private readonly string _connectionString;
 
     public OrderlineRepository(string connectionString)
     {
@@ -21,7 +21,7 @@ public class OrderlineRepository : IOrderlineDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity, PriceAtTimeOfOrder) VALUES (@OrderId, @ProductId, @Quantity, @PriceAtTimeOfOrder);";
+            const string sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity, PriceAtTimeOfOrder) VALUES (@OrderId, @ProductId, @Quantity, @PriceAtTimeOfOrder);";
             dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
         }
@@ -41,7 +41,7 @@ public class OrderlineRepository : IOrderlineDA
 
         try
         {
-            var sql = "DELETE FROM Orderline WHERE Id = @Id";
+            const string sql = "DELETE FROM Orderline WHERE Id = @Id";
             dbConnection.Execute(sql, id, transaction);
             transaction.Commit();
         }
@@ -67,7 +67,7 @@ public class OrderlineRepository : IOrderlineDA
 
         try
         {
-            var sql = "SELECT * FROM Orderline WHERE OrderID = @Id";
+            const string sql = "SELECT * FROM Orderline WHERE OrderID = @Id";
             var orderline = dbConnection.Query<Orderline>(sql, new { Id = id }, transaction).ToList();
             transaction.Commit();
             return orderline;
@@ -83,7 +83,7 @@ public class OrderlineRepository : IOrderlineDA
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        var sql = "SELECT * FROM Orderline";
+        const string sql = "SELECT * FROM Orderline";
         return dbConnection.Query<Orderline>(sql).ToList();
     }
 
@@ -95,7 +95,7 @@ public class OrderlineRepository : IOrderlineDA
 
         try
         {
-            var sql = "UPDATE Orderline SET OrderId = @OrderId, ProductId = @ProductId, Quantity = @Quantity WHERE Id = @Id";
+            const string sql = "UPDATE Orderline SET OrderId = @OrderId, ProductId = @ProductId, Quantity = @Quantity WHERE Id = @Id";
             dbConnection.Execute(sql, obj, transaction);
             transaction.Commit();
         }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using RESTful_API.Repositories;
-using RESTful_API.Repositories.AddressDA;
 using RESTful_API.Services;
 
 namespace RESTful_API.Controllers;
@@ -10,12 +8,7 @@ namespace RESTful_API.Controllers;
 [ApiController]
 public class AddressController : ControllerBase
 {
-    private readonly AddressService addressService;
-
-    public AddressController()
-    {
-        addressService = new AddressService();
-    }
+    private readonly AddressService addressService = new();
 
     // GET: api/<AddressController>
     [HttpGet]
@@ -31,7 +24,7 @@ public class AddressController : ControllerBase
             return StatusCode(500, "An error occurred while fetching the addresses.");
         }
 
-        return addresses == null ? NotFound("No addresses found") : Ok(addresses);
+        return Ok(addresses);
     }
 
     // GET api/<AddressController>/5
@@ -48,14 +41,13 @@ public class AddressController : ControllerBase
             return StatusCode(500, "An error occurred while fetching the address.");
         }
 
-        return address == null ? NotFound($"Address with id {id} was not found") : Ok(address);
+        return Ok(address);
     }
 
     // POST api/<AddressController>
     [HttpPost]
     public IActionResult Create([FromBody] Address address)
     {
-        Console.WriteLine(address);
         Address? createdAddress;
         try
         {

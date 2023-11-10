@@ -1,21 +1,11 @@
 ﻿using Client.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Models;
 
 namespace Client.Controllers;
 
 internal class OrderController
 {
-    private readonly OrderDA _orderDA;
-
-    public OrderController()
-    {
-        _orderDA = new OrderDA();
-    }
+    private readonly OrderDA _orderDA = new();
 
     public Order? Get(int id)
     {

@@ -5,12 +5,7 @@ namespace Client.Controllers;
 
 internal class ProductController
 {
-    private readonly ProductDA _productDA;
-
-    public ProductController()
-    {
-        _productDA = new ProductDA();
-    }
+    private readonly ProductDA _productDA = new();
 
     public Product? Create(Product product)
     {

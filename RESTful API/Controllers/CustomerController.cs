@@ -8,12 +8,7 @@ namespace RESTful_API.Controllers;
 [ApiController]
 public class CustomerController : ControllerBase
 {
-    private readonly CustomerService customerService;
-
-    public CustomerController()
-    {
-        customerService = new CustomerService();
-    }
+    private readonly CustomerService customerService = new();
 
     // POST api/<CustomerController>
     [HttpPost]
@@ -54,11 +49,15 @@ public class CustomerController : ControllerBase
 
     // GET api/<CustomerController>/emailExist
     [HttpGet("CheckEmailExists/{email}")]
-    public IActionResult CheckEmailExists(string email) {
+    public IActionResult CheckEmailExists(string email)
+    {
         bool emailExists;
-        try {
+        try
+        {
             emailExists = customerService.CheckEmailExists(email);
-        } catch (Exception) {
+        }
+        catch (Exception)
+        {
             return StatusCode(500, "An error occurred while checking the email.");
         }
         return Ok(emailExists);

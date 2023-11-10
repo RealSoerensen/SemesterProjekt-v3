@@ -21,16 +21,16 @@ public class AddressRespository : IAddressDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO Address (street, city, zip, houseNumber) VALUES (@Street, @City, @Zip, @HouseNumber); SELECT CAST(SCOPE_IDENTITY() as bigint);";
+            const string sql = "INSERT INTO Address (street, city, zip, houseNumber) VALUES (@Street, @City, @Zip, @HouseNumber); SELECT CAST(SCOPE_IDENTITY() as bigint);";
             obj.ID = dbConnection.QuerySingle<int>(sql, obj, transaction);
             transaction.Commit();
+            return obj;
         }
         catch (Exception)
         {
             transaction.Rollback();
             throw;
         }
-        return obj;
     }
 
     public bool Delete(long id)
@@ -41,7 +41,7 @@ public class AddressRespository : IAddressDA
 
         try
         {
-            var sql = "DELETE FROM Address WHERE Id = @Id";
+            const string sql = "DELETE FROM Address WHERE Id = @Id";
             dbConnection.Execute(sql, id, transaction);
             transaction.Commit();
         }
@@ -61,7 +61,7 @@ public class AddressRespository : IAddressDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "SELECT * FROM Address WHERE Id = @Id";
+            const string sql = "SELECT * FROM Address WHERE Id = @Id";
             var address = dbConnection.QuerySingle<Address>(sql, new { Id = id }, transaction);
             transaction.Commit();
             return address;
@@ -79,7 +79,7 @@ public class AddressRespository : IAddressDA
         dbConnection.Open();
         try
         {
-            var sql = "SELECT * FROM Address";
+            const string sql = "SELECT * FROM Address";
             var addresses = dbConnection.Query<Address>(sql).ToList();
             return addresses;
         }

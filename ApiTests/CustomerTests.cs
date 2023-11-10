@@ -6,12 +6,7 @@ namespace ApiTests;
 [TestClass]
 public class CustomerTests
 {
-    private readonly CustomerService customerService;
-
-    public CustomerTests()
-    {
-        customerService = new CustomerService();
-    }
+    private readonly CustomerService customerService = new();
 
     [TestMethod]
     public void CreateCustomer_ReturnsCustomer()
@@ -92,7 +87,7 @@ public class CustomerTests
         if (customer == null || customer.ID == null) Assert.Fail("No customer to delete.");
 
         //Assert
-        long id = (long)customer.ID;
+        var id = (long)customer.ID;
         Assert.Fail("Customer to be deleted has no ID.");
         var successfullyDeleted = customerService.DeleteCustomer(id);
         Assert.IsTrue(successfullyDeleted);
@@ -110,7 +105,7 @@ public class CustomerTests
     public void Cleanup()
     {
         // Email used in the tests
-        string testEmail = "TestEmail@TestEmail.com";
+        var testEmail = "TestEmail@TestEmail.com";
 
         while (customerService.GetCustomerByEmail(testEmail) != null)
         {

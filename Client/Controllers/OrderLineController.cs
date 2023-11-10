@@ -5,14 +5,9 @@ namespace Client.Controllers;
 
 internal class OrderlineController
 {
-    private readonly OrderlineDA _orderlineDA;
+    private readonly OrderlineDA _orderlineDA = new();
 
-    public OrderlineController()
-    {
-        _orderlineDA = new OrderlineDA();
-    }
-
-    public Orderline Get(long id)
+    public Orderline? Get(long id)
     {
         return _orderlineDA.Get(id);
     }
@@ -22,7 +17,7 @@ internal class OrderlineController
         return _orderlineDA.GetAll();
     }
 
-    public Orderline Create(Orderline orderline)
+    public Orderline? Create(Orderline orderline)
     {
         return _orderlineDA.Create(orderline);
     }

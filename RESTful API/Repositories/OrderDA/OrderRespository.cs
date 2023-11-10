@@ -21,7 +21,7 @@ public class OrderRespository : IOrderDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "INSERT INTO [Order] (CustomerID, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as bigint);";
+            const string sql = "INSERT INTO [Order] (CustomerID, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as bigint);";
             obj.ID = dbConnection.QuerySingle<int>(sql, obj, transaction);
             transaction.Commit();
         }
@@ -37,7 +37,6 @@ public class OrderRespository : IOrderDA
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
-
         try {
             var sql = "DELETE FROM [Order] WHERE Id = @Id";
             dbConnection.Execute(sql, new { Id = id }, transaction);
@@ -58,7 +57,7 @@ public class OrderRespository : IOrderDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "SELECT * FROM [Order] WHERE Id = @Id";
+            const string sql = "SELECT * FROM [Order] WHERE Id = @Id";
             var order = dbConnection.QuerySingle<Order>(sql, new { Id = id }, transaction);
             transaction.Commit();
             return order;
@@ -74,7 +73,7 @@ public class OrderRespository : IOrderDA
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        var sql = "SELECT * FROM [Order]";
+        const string sql = "SELECT * FROM [Order]";
         return dbConnection.Query<Order>(sql).ToList();
     }
 
@@ -82,7 +81,7 @@ public class OrderRespository : IOrderDA
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        var sql = "SELECT * FROM [Order] WHERE CustomerID = @ID";
+        const string sql = "SELECT * FROM [Order] WHERE CustomerID = @ID";
         return dbConnection.Query<Order>(sql, new { ID = id }).ToList();
     }
 
@@ -90,7 +89,6 @@ public class OrderRespository : IOrderDA
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
-
         try {
             var sql = "UPDATE [Order] SET CustomerId = @CustomerId, date = @OrderDate WHERE Id = @Id";
 

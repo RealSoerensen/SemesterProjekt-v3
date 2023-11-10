@@ -8,12 +8,7 @@ namespace RESTful_API.Controllers;
 [ApiController]
 public class OrderlineController : ControllerBase
 {
-    private readonly OrderlineService orderlineService;
-
-    public OrderlineController()
-    {
-        orderlineService = new OrderlineService();
-    }
+    private readonly OrderlineService orderlineService = new();
 
     [HttpPost]
     public IActionResult Create([FromBody] Orderline orderline)

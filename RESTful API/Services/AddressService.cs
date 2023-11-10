@@ -18,7 +18,7 @@ public class AddressService
     {
         try
         {
-            return _addressDB.Create(address); 
+            return _addressDB.Create(address);
         }
         catch (Exception e)
         {
@@ -59,7 +59,7 @@ public class AddressService
         {
             return _addressDB.Update(address);
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             Console.WriteLine(e);
             throw;

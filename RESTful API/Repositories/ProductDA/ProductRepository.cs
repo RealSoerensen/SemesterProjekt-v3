@@ -23,7 +23,7 @@ public class ProductRepository : IProductDA
         try
         {
             // Define the SQL query for inserting a product
-            string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category)
+            const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category)
                                     VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category)";
 
             // Execute the query and pass the product as a parameter
@@ -46,7 +46,7 @@ public class ProductRepository : IProductDA
 
         try
         {
-            var sql = "DELETE FROM Product WHERE ID = @ID";
+            const string sql = "DELETE FROM Product WHERE ID = @ID";
             dbConnection.Execute(sql, id, transaction);
             transaction.Commit();
         }
@@ -62,7 +62,7 @@ public class ProductRepository : IProductDA
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        var sql = "SELECT * FROM Product";
+        const string sql = "SELECT * FROM Product";
         return dbConnection.Query<Product>(sql).ToList();
     }
 
@@ -74,7 +74,7 @@ public class ProductRepository : IProductDA
 
         try
         {
-            string sql = @"UPDATE Product SET Description = @Description, Image = @Image, SalePrice = @SalePrice, PurchasePrice = @PurchasePrice, NormalPrice = @NormalPrice, Name = @Name, Stock = @Stock, Brand = @Brand, Category = @Category WHERE ID = @ID";
+            const string sql = @"UPDATE Product SET Description = @Description, Image = @Image, SalePrice = @SalePrice, PurchasePrice = @PurchasePrice, NormalPrice = @NormalPrice, Name = @Name, Stock = @Stock, Brand = @Brand, Category = @Category WHERE ID = @ID";
             dbConnection.Execute(sql, product, transaction);
             transaction.Commit();
         }
@@ -94,7 +94,7 @@ public class ProductRepository : IProductDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "SELECT * FROM Product WHERE ID = @ID";
+            const string sql = "SELECT * FROM Product WHERE ID = @ID";
             var product = dbConnection.QuerySingle<Product>(sql, new { ID = id }, transaction);
             transaction.Commit();
             return product;
@@ -110,7 +110,7 @@ public class ProductRepository : IProductDA
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        var sql = "SELECT * FROM Product WHERE Category = @Category";
+        const string sql = "SELECT * FROM Product WHERE Category = @Category";
         return dbConnection.Query<Product>(sql, new { Category = category }).ToList();
     }
 }
