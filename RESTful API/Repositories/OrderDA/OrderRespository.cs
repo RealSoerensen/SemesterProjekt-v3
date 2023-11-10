@@ -33,26 +33,23 @@ public class OrderRespository : IOrderDA
         return obj;
     }
 
-    public bool Delete(long id)
-    {
+    public bool Delete(long id) {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
 
-        try
-        {
+        try {
             var sql = "DELETE FROM [Order] WHERE Id = @Id";
-            dbConnection.Execute(sql, id, transaction);
+            dbConnection.Execute(sql, new { Id = id }, transaction);
             transaction.Commit();
-        }
-        catch (Exception)
-        {
+        } catch (Exception) {
             transaction.Rollback();
             throw;
         }
 
         return true;
     }
+
 
     public Order Get(long id)
     {
@@ -89,23 +86,27 @@ public class OrderRespository : IOrderDA
         return dbConnection.Query<Order>(sql, new { ID = id }).ToList();
     }
 
-    public bool Update(Order obj)
-    {
+    public bool Update(Order obj) {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
 
-        try
-        {
-            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, OrderDate = @OrderDate WHERE Id = @Id";
-            dbConnection.Execute(sql, obj, transaction);
+        try {
+            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, date = @OrderDate WHERE Id = @Id";
+
+            var parameters = new {
+                CustomerId = obj.CustomerID,
+                OrderDate = obj.Date,
+                Id = obj.ID
+            };
+
+            dbConnection.Execute(sql, parameters, transaction);
             transaction.Commit();
             return true;
-        }
-        catch (Exception)
-        {
+        } catch (Exception) {
             transaction.Rollback();
             throw;
         }
     }
+
 }
