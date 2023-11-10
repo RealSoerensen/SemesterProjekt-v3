@@ -79,7 +79,7 @@ public class OrderService
         }
     }
 
-    internal List<Order> GetOrdersByCustomerID(long id)
+    public List<Order> GetOrdersByCustomerID(long id)
     {
         try
         {
