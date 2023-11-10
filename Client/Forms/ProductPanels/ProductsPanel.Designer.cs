@@ -1,5 +1,7 @@
-﻿namespace Client {
-    partial class ProductsPanel {
+﻿namespace Client.Forms.ProductPanels
+{
+    partial class ProductsPanel
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -22,8 +26,16 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
+            components = new System.ComponentModel.Container();
             panel1 = new Panel();
+            checkBox12 = new CheckBox();
+            checkBox11 = new CheckBox();
+            checkBox10 = new CheckBox();
+            checkBox9 = new CheckBox();
+            checkBox8 = new CheckBox();
+            checkBox7 = new CheckBox();
             label2 = new Label();
             label1 = new Label();
             checkBoxBags = new CheckBox();
@@ -39,14 +51,21 @@
             buttonDelete = new Button();
             buttonEdit = new Button();
             button1 = new Button();
-            checkBox7 = new CheckBox();
-            checkBox8 = new CheckBox();
-            checkBox9 = new CheckBox();
-            checkBox10 = new CheckBox();
-            checkBox11 = new CheckBox();
-            checkBox12 = new CheckBox();
+            productGrid = new DataGridView();
+            productBindingSource = new BindingSource(components);
+            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            salePriceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            purchasePriceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            normalPriceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            stockDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            brandDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            categoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)productGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)productBindingSource).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -73,6 +92,66 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(834, 159);
             panel1.TabIndex = 0;
+            // 
+            // checkBox12
+            // 
+            checkBox12.AutoSize = true;
+            checkBox12.Location = new Point(649, 120);
+            checkBox12.Name = "checkBox12";
+            checkBox12.Size = new Size(58, 19);
+            checkBox12.TabIndex = 17;
+            checkBox12.Text = "1500+";
+            checkBox12.UseVisualStyleBackColor = true;
+            // 
+            // checkBox11
+            // 
+            checkBox11.AutoSize = true;
+            checkBox11.Location = new Point(649, 95);
+            checkBox11.Name = "checkBox11";
+            checkBox11.Size = new Size(79, 19);
+            checkBox11.TabIndex = 16;
+            checkBox11.Text = "1000-1500";
+            checkBox11.UseVisualStyleBackColor = true;
+            // 
+            // checkBox10
+            // 
+            checkBox10.AutoSize = true;
+            checkBox10.Location = new Point(557, 120);
+            checkBox10.Name = "checkBox10";
+            checkBox10.Size = new Size(73, 19);
+            checkBox10.TabIndex = 15;
+            checkBox10.Text = "500-1000";
+            checkBox10.UseVisualStyleBackColor = true;
+            // 
+            // checkBox9
+            // 
+            checkBox9.AutoSize = true;
+            checkBox9.Location = new Point(557, 95);
+            checkBox9.Name = "checkBox9";
+            checkBox9.Size = new Size(67, 19);
+            checkBox9.TabIndex = 14;
+            checkBox9.Text = "300-500";
+            checkBox9.UseVisualStyleBackColor = true;
+            // 
+            // checkBox8
+            // 
+            checkBox8.AutoSize = true;
+            checkBox8.Location = new Point(468, 120);
+            checkBox8.Name = "checkBox8";
+            checkBox8.Size = new Size(67, 19);
+            checkBox8.TabIndex = 13;
+            checkBox8.Text = "150-300";
+            checkBox8.UseVisualStyleBackColor = true;
+            // 
+            // checkBox7
+            // 
+            checkBox7.AutoSize = true;
+            checkBox7.Location = new Point(468, 95);
+            checkBox7.Name = "checkBox7";
+            checkBox7.Size = new Size(55, 19);
+            checkBox7.TabIndex = 12;
+            checkBox7.Text = "0-150";
+            checkBox7.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -218,65 +297,75 @@
             button1.Text = "Opret";
             button1.UseVisualStyleBackColor = true;
             // 
-            // checkBox7
+            // productGrid
             // 
-            checkBox7.AutoSize = true;
-            checkBox7.Location = new Point(468, 95);
-            checkBox7.Name = "checkBox7";
-            checkBox7.Size = new Size(55, 19);
-            checkBox7.TabIndex = 12;
-            checkBox7.Text = "0-150";
-            checkBox7.UseVisualStyleBackColor = true;
+            productGrid.AutoGenerateColumns = false;
+            productGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            productGrid.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, salePriceDataGridViewTextBoxColumn, purchasePriceDataGridViewTextBoxColumn, normalPriceDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, stockDataGridViewTextBoxColumn, brandDataGridViewTextBoxColumn, categoryDataGridViewTextBoxColumn });
+            productGrid.DataSource = productBindingSource;
+            productGrid.Location = new Point(4, 167);
+            productGrid.Name = "productGrid";
+            productGrid.RowTemplate.Height = 25;
+            productGrid.Size = new Size(661, 403);
+            productGrid.TabIndex = 2;
             // 
-            // checkBox8
+            // productBindingSource
             // 
-            checkBox8.AutoSize = true;
-            checkBox8.Location = new Point(468, 120);
-            checkBox8.Name = "checkBox8";
-            checkBox8.Size = new Size(67, 19);
-            checkBox8.TabIndex = 13;
-            checkBox8.Text = "150-300";
-            checkBox8.UseVisualStyleBackColor = true;
+            productBindingSource.DataSource = typeof(Models.Product);
             // 
-            // checkBox9
+            // iDDataGridViewTextBoxColumn
             // 
-            checkBox9.AutoSize = true;
-            checkBox9.Location = new Point(557, 95);
-            checkBox9.Name = "checkBox9";
-            checkBox9.Size = new Size(67, 19);
-            checkBox9.TabIndex = 14;
-            checkBox9.Text = "300-500";
-            checkBox9.UseVisualStyleBackColor = true;
+            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
             // 
-            // checkBox10
+            // descriptionDataGridViewTextBoxColumn
             // 
-            checkBox10.AutoSize = true;
-            checkBox10.Location = new Point(557, 120);
-            checkBox10.Name = "checkBox10";
-            checkBox10.Size = new Size(73, 19);
-            checkBox10.TabIndex = 15;
-            checkBox10.Text = "500-1000";
-            checkBox10.UseVisualStyleBackColor = true;
+            descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
             // 
-            // checkBox11
+            // salePriceDataGridViewTextBoxColumn
             // 
-            checkBox11.AutoSize = true;
-            checkBox11.Location = new Point(649, 95);
-            checkBox11.Name = "checkBox11";
-            checkBox11.Size = new Size(79, 19);
-            checkBox11.TabIndex = 16;
-            checkBox11.Text = "1000-1500";
-            checkBox11.UseVisualStyleBackColor = true;
+            salePriceDataGridViewTextBoxColumn.DataPropertyName = "SalePrice";
+            salePriceDataGridViewTextBoxColumn.HeaderText = "SalePrice";
+            salePriceDataGridViewTextBoxColumn.Name = "salePriceDataGridViewTextBoxColumn";
             // 
-            // checkBox12
+            // purchasePriceDataGridViewTextBoxColumn
             // 
-            checkBox12.AutoSize = true;
-            checkBox12.Location = new Point(649, 120);
-            checkBox12.Name = "checkBox12";
-            checkBox12.Size = new Size(58, 19);
-            checkBox12.TabIndex = 17;
-            checkBox12.Text = "1500+";
-            checkBox12.UseVisualStyleBackColor = true;
+            purchasePriceDataGridViewTextBoxColumn.DataPropertyName = "PurchasePrice";
+            purchasePriceDataGridViewTextBoxColumn.HeaderText = "PurchasePrice";
+            purchasePriceDataGridViewTextBoxColumn.Name = "purchasePriceDataGridViewTextBoxColumn";
+            // 
+            // normalPriceDataGridViewTextBoxColumn
+            // 
+            normalPriceDataGridViewTextBoxColumn.DataPropertyName = "NormalPrice";
+            normalPriceDataGridViewTextBoxColumn.HeaderText = "NormalPrice";
+            normalPriceDataGridViewTextBoxColumn.Name = "normalPriceDataGridViewTextBoxColumn";
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            // 
+            // stockDataGridViewTextBoxColumn
+            // 
+            stockDataGridViewTextBoxColumn.DataPropertyName = "Stock";
+            stockDataGridViewTextBoxColumn.HeaderText = "Stock";
+            stockDataGridViewTextBoxColumn.Name = "stockDataGridViewTextBoxColumn";
+            // 
+            // brandDataGridViewTextBoxColumn
+            // 
+            brandDataGridViewTextBoxColumn.DataPropertyName = "Brand";
+            brandDataGridViewTextBoxColumn.HeaderText = "Brand";
+            brandDataGridViewTextBoxColumn.Name = "brandDataGridViewTextBoxColumn";
+            // 
+            // categoryDataGridViewTextBoxColumn
+            // 
+            categoryDataGridViewTextBoxColumn.DataPropertyName = "Category";
+            categoryDataGridViewTextBoxColumn.HeaderText = "Category";
+            categoryDataGridViewTextBoxColumn.Name = "categoryDataGridViewTextBoxColumn";
             // 
             // ProductsPanel
             // 
@@ -284,15 +373,19 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 582);
             ControlBox = false;
+            Controls.Add(productGrid);
             Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ProductsPanel";
             Text = "Produkter";
             WindowState = FormWindowState.Maximized;
+            Load += ProductsPanel_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)productGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)productBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -320,5 +413,16 @@
         private CheckBox checkBox11;
         private CheckBox checkBox10;
         private CheckBox checkBox9;
+        private DataGridView productGrid;
+        private BindingSource productBindingSource;
+        private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn salePriceDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn purchasePriceDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn normalPriceDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn stockDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn brandDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn categoryDataGridViewTextBoxColumn;
     }
 }

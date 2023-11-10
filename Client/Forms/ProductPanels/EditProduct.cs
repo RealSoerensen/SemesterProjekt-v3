@@ -1,17 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Models;
 
-namespace Client.Forms.ProductPanels {
-    public partial class EditProduct : Form {
-        public EditProduct() {
-            InitializeComponent();
+namespace Client.Forms.ProductPanels;
+
+public partial class EditProduct : Form
+{
+    private readonly Product product;
+
+    public EditProduct(Product product)
+    {
+        this.product = product;
+        InitializeComponent();
+    }
+
+    public Product Product
+    {
+        get
+        {
+            return product;
         }
     }
 }

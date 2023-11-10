@@ -17,7 +17,7 @@ internal class ProductController
         return _productDA.Create(product);
     }
 
-    public List<Product>? GetAll()
+    public List<Product> GetAll()
     {
         return _productDA.GetAll();
     }
