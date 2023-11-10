@@ -80,16 +80,14 @@ public class CustomerTests
     [TestMethod]
     public void DeleteCustomer_ReturnsTrue()
     {
-        //Arrange - Customer should already be created.
+        //Arrange
+        var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
+        var createdCustomer = customerService.CreateCustomer(newCustomer);
 
         //Act
-        var customer = customerService.GetCustomerByEmail("TestEmail@TestEmail.com");
-        if (customer == null || customer.ID == null) Assert.Fail("No customer to delete.");
+        var successfullyDeleted = customerService.DeleteCustomer((long)createdCustomer.ID);
 
         //Assert
-        var id = (long)customer.ID;
-        Assert.Fail("Customer to be deleted has no ID.");
-        var successfullyDeleted = customerService.DeleteCustomer(id);
         Assert.IsTrue(successfullyDeleted);
     }
 
@@ -99,21 +97,5 @@ public class CustomerTests
         //Assert that if we try to delete a customer who does not exist we return false.
         var successfullyDeleted = customerService.DeleteCustomer(-1);
         Assert.IsFalse(successfullyDeleted);
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-        // Email used in the tests
-        var testEmail = "TestEmail@TestEmail.com";
-
-        while (customerService.GetCustomerByEmail(testEmail) != null)
-        {
-            var customersToDelete = customerService.GetCustomerByEmail(testEmail);
-            if (customersToDelete != null && customersToDelete.ID != null)
-            {
-                customerService.DeleteCustomer((long)customersToDelete.ID);
-            }
-        }
     }
 }
