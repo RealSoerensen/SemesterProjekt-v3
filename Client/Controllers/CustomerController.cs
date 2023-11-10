@@ -5,12 +5,7 @@ namespace Client.Controllers;
 
 internal class CustomerController
 {
-    private readonly CustomerDA _customerDA;
-
-    public CustomerController()
-    {
-        _customerDA = new CustomerDA();
-    }
+    private readonly CustomerDA _customerDA = new();
 
     public Customer? Create(Customer customer)
     {

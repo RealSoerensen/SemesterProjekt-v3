@@ -1,20 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Models;
-using RESTful_API.Controllers;
-using RESTful_API.Repositories;
-using RESTful_API.Repositories.OrderDA;
+﻿using RESTful_API.Controllers;
 
 namespace ApiTests;
 
 [TestClass]
 public class OrderTests
 {
-    private readonly OrderController _orderController;
-
-    public OrderTests()
-    {
-        _orderController = new OrderController();
-    }
+    private readonly OrderController _orderController = new();
 
     [TestMethod]
     public void TestCreateOrder()

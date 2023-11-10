@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using Newtonsoft.Json.Linq;
-using RESTful_API.Repositories.OrderDA;
 using RESTful_API.Services;
 
 namespace RESTful_API.Controllers;
@@ -10,14 +8,8 @@ namespace RESTful_API.Controllers;
 [ApiController]
 public class OrderController : ControllerBase
 {
-    private readonly OrderService _orderService;
-    private readonly OrderlineService _orderlineService;
-
-    public OrderController()
-    {
-        _orderService = new OrderService();
-        _orderlineService = new OrderlineService();
-    }
+    private readonly OrderService _orderService = new();
+    private readonly OrderlineService _orderlineService = new();
 
     // GET: api/<OrderController>
     [HttpGet]

@@ -11,14 +11,8 @@ namespace RESTful_API.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
-    private readonly CustomerService customerService;
-    private readonly AddressService addressService;
-
-    public AuthController()
-    {
-        customerService = new CustomerService();
-        addressService = new AddressService();
-    }
+    private readonly CustomerService customerService = new();
+    private readonly AddressService addressService = new();
 
     [Route("login")]
     [HttpGet]
@@ -33,7 +27,7 @@ public class AuthController : ControllerBase
             }
 
             // Check if the customer exists.
-            Customer? customer = customerService.GetCustomerByEmail(email);
+            var customer = customerService.GetCustomerByEmail(email);
 
             if (customer == null)
             {

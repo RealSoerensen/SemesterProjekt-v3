@@ -12,6 +12,13 @@ public partial class EditProduct : Form
         InitializeComponent();
     }
 
+    private void EditProduct_Load(object sender, EventArgs e)
+    {
+        pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
+        pictureBox.Image = product.ConvertBase64ToImage();
+    }
+
     public Product Product
     {
         get

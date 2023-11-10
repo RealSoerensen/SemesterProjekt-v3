@@ -1,4 +1,4 @@
-﻿namespace Client {
+﻿namespace Client.Forms {
     partial class Main {
         /// <summary>
         ///  Required designer variable.

@@ -52,7 +52,6 @@
             buttonEdit = new Button();
             button1 = new Button();
             productGrid = new DataGridView();
-            productBindingSource = new BindingSource(components);
             iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             salePriceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -62,6 +61,7 @@
             stockDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             brandDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             categoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            productBindingSource = new BindingSource(components);
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)productGrid).BeginInit();
@@ -287,6 +287,7 @@
             buttonEdit.TabIndex = 1;
             buttonEdit.Text = "Rediger";
             buttonEdit.UseVisualStyleBackColor = true;
+            buttonEdit.Click += buttonEdit_Click;
             // 
             // button1
             // 
@@ -308,10 +309,7 @@
             productGrid.RowTemplate.Height = 25;
             productGrid.Size = new Size(661, 403);
             productGrid.TabIndex = 2;
-            // 
-            // productBindingSource
-            // 
-            productBindingSource.DataSource = typeof(Models.Product);
+            productGrid.CellContentClick += productGrid_CellContentClick;
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -366,6 +364,10 @@
             categoryDataGridViewTextBoxColumn.DataPropertyName = "Category";
             categoryDataGridViewTextBoxColumn.HeaderText = "Category";
             categoryDataGridViewTextBoxColumn.Name = "categoryDataGridViewTextBoxColumn";
+            // 
+            // productBindingSource
+            // 
+            productBindingSource.DataSource = typeof(Models.Product);
             // 
             // ProductsPanel
             // 

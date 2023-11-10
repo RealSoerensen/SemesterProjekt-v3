@@ -1,5 +1,7 @@
-﻿namespace Client.Forms.ProductPanels {
-    partial class EditProduct {
+﻿namespace Client.Forms.ProductPanels
+{
+    partial class EditProduct
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -22,7 +26,8 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -39,7 +44,7 @@
             textBoxNormalPrice = new TextBox();
             textBoxSalesPrice = new TextBox();
             textBoxPurchasePrice = new TextBox();
-            pictureBoxImage = new PictureBox();
+            pictureBox = new PictureBox();
             buttonChoosePicture = new Button();
             label9 = new Label();
             textBoxBrand = new TextBox();
@@ -47,7 +52,7 @@
             label10 = new Label();
             textBoxDescription = new TextBox();
             label11 = new Label();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxImage).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -182,13 +187,13 @@
             textBoxPurchasePrice.Size = new Size(149, 23);
             textBoxPurchasePrice.TabIndex = 16;
             // 
-            // pictureBoxImage
+            // pictureBox
             // 
-            pictureBoxImage.Location = new Point(146, 356);
-            pictureBoxImage.Name = "pictureBoxImage";
-            pictureBoxImage.Size = new Size(149, 99);
-            pictureBoxImage.TabIndex = 17;
-            pictureBoxImage.TabStop = false;
+            pictureBox.Location = new Point(146, 356);
+            pictureBox.Name = "pictureBox";
+            pictureBox.Size = new Size(149, 99);
+            pictureBox.TabIndex = 17;
+            pictureBox.TabStop = false;
             // 
             // buttonChoosePicture
             // 
@@ -261,7 +266,7 @@
             Controls.Add(textBoxBrand);
             Controls.Add(label9);
             Controls.Add(buttonChoosePicture);
-            Controls.Add(pictureBoxImage);
+            Controls.Add(pictureBox);
             Controls.Add(textBoxPurchasePrice);
             Controls.Add(textBoxSalesPrice);
             Controls.Add(textBoxNormalPrice);
@@ -280,7 +285,8 @@
             Controls.Add(label1);
             Name = "EditProduct";
             Text = "EditProduct";
-            ((System.ComponentModel.ISupportInitialize)pictureBoxImage).EndInit();
+            Load += EditProduct_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -311,5 +317,6 @@
         private Label label10;
         private TextBox textBoxDescription;
         private Label label11;
+        private PictureBox pictureBox;
     }
 }
