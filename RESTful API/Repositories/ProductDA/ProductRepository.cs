@@ -14,29 +14,27 @@ public class ProductRepository : IProductDA
         _connectionString = connectionString;
     }
 
-    public Product Create(Product product)
-    {
+    public Product Create(Product product) {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
 
-        try
-        {
+        try {
             // Define the SQL query for inserting a product
             const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category)
-                                    VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category)";
+                                VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category)";
 
-            // Execute the query and pass the product as a parameter
-            dbConnection.Execute(insertQuery, product);
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
+            // Execute the query and pass the product and the transaction as parameters
+            dbConnection.Execute(insertQuery, product, transaction: transaction);
+            transaction.Commit(); // Commit the transaction after the insert
+        } catch (Exception) {
+            transaction.Rollback(); // Rollback the transaction if there's an error
             throw;
         }
 
         return product;
     }
+
 
     public bool Delete(long id)
     {
