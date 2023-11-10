@@ -30,12 +30,13 @@
         {
             components = new System.ComponentModel.Container();
             panel1 = new Panel();
-            checkBox12 = new CheckBox();
-            checkBox11 = new CheckBox();
-            checkBox10 = new CheckBox();
-            checkBox9 = new CheckBox();
-            checkBox8 = new CheckBox();
-            checkBox7 = new CheckBox();
+            checkBoxAccessories = new CheckBox();
+            checkBoxPrice6 = new CheckBox();
+            checkBoxPrice5 = new CheckBox();
+            checkBoxPrice4 = new CheckBox();
+            checkBoxPrice3 = new CheckBox();
+            checkBoxPrice2 = new CheckBox();
+            checkBoxPrice1 = new CheckBox();
             label2 = new Label();
             label1 = new Label();
             checkBoxBags = new CheckBox();
@@ -71,12 +72,13 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(checkBox12);
-            panel1.Controls.Add(checkBox11);
-            panel1.Controls.Add(checkBox10);
-            panel1.Controls.Add(checkBox9);
-            panel1.Controls.Add(checkBox8);
-            panel1.Controls.Add(checkBox7);
+            panel1.Controls.Add(checkBoxAccessories);
+            panel1.Controls.Add(checkBoxPrice6);
+            panel1.Controls.Add(checkBoxPrice5);
+            panel1.Controls.Add(checkBoxPrice4);
+            panel1.Controls.Add(checkBoxPrice3);
+            panel1.Controls.Add(checkBoxPrice2);
+            panel1.Controls.Add(checkBoxPrice1);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(checkBoxBags);
@@ -93,65 +95,82 @@
             panel1.Size = new Size(834, 159);
             panel1.TabIndex = 0;
             // 
-            // checkBox12
+            // checkBoxAccessories
             // 
-            checkBox12.AutoSize = true;
-            checkBox12.Location = new Point(649, 120);
-            checkBox12.Name = "checkBox12";
-            checkBox12.Size = new Size(58, 19);
-            checkBox12.TabIndex = 17;
-            checkBox12.Text = "1500+";
-            checkBox12.UseVisualStyleBackColor = true;
+            checkBoxAccessories.AutoSize = true;
+            checkBoxAccessories.Location = new Point(266, 120);
+            checkBoxAccessories.Name = "checkBoxAccessories";
+            checkBoxAccessories.Size = new Size(69, 19);
+            checkBoxAccessories.TabIndex = 18;
+            checkBoxAccessories.Text = "Tilbehør";
+            checkBoxAccessories.UseVisualStyleBackColor = true;
+            checkBoxAccessories.CheckedChanged += CheckBox_CheckedChanged;
             // 
-            // checkBox11
+            // checkBoxPrice6
             // 
-            checkBox11.AutoSize = true;
-            checkBox11.Location = new Point(649, 95);
-            checkBox11.Name = "checkBox11";
-            checkBox11.Size = new Size(79, 19);
-            checkBox11.TabIndex = 16;
-            checkBox11.Text = "1000-1500";
-            checkBox11.UseVisualStyleBackColor = true;
+            checkBoxPrice6.AutoSize = true;
+            checkBoxPrice6.Location = new Point(649, 120);
+            checkBoxPrice6.Name = "checkBoxPrice6";
+            checkBoxPrice6.Size = new Size(58, 19);
+            checkBoxPrice6.TabIndex = 17;
+            checkBoxPrice6.Text = "1500+";
+            checkBoxPrice6.UseVisualStyleBackColor = true;
+            checkBoxPrice6.CheckedChanged += CheckBox_CheckedChanged;
             // 
-            // checkBox10
+            // checkBoxPrice5
             // 
-            checkBox10.AutoSize = true;
-            checkBox10.Location = new Point(557, 120);
-            checkBox10.Name = "checkBox10";
-            checkBox10.Size = new Size(73, 19);
-            checkBox10.TabIndex = 15;
-            checkBox10.Text = "500-1000";
-            checkBox10.UseVisualStyleBackColor = true;
+            checkBoxPrice5.AutoSize = true;
+            checkBoxPrice5.Location = new Point(649, 95);
+            checkBoxPrice5.Name = "checkBoxPrice5";
+            checkBoxPrice5.Size = new Size(79, 19);
+            checkBoxPrice5.TabIndex = 16;
+            checkBoxPrice5.Text = "1000-1500";
+            checkBoxPrice5.UseVisualStyleBackColor = true;
+            checkBoxPrice5.CheckedChanged += CheckBox_CheckedChanged;
             // 
-            // checkBox9
+            // checkBoxPrice4
             // 
-            checkBox9.AutoSize = true;
-            checkBox9.Location = new Point(557, 95);
-            checkBox9.Name = "checkBox9";
-            checkBox9.Size = new Size(67, 19);
-            checkBox9.TabIndex = 14;
-            checkBox9.Text = "300-500";
-            checkBox9.UseVisualStyleBackColor = true;
+            checkBoxPrice4.AutoSize = true;
+            checkBoxPrice4.Location = new Point(557, 120);
+            checkBoxPrice4.Name = "checkBoxPrice4";
+            checkBoxPrice4.Size = new Size(73, 19);
+            checkBoxPrice4.TabIndex = 15;
+            checkBoxPrice4.Text = "500-1000";
+            checkBoxPrice4.UseVisualStyleBackColor = true;
+            checkBoxPrice4.CheckedChanged += CheckBox_CheckedChanged;
             // 
-            // checkBox8
+            // checkBoxPrice3
             // 
-            checkBox8.AutoSize = true;
-            checkBox8.Location = new Point(468, 120);
-            checkBox8.Name = "checkBox8";
-            checkBox8.Size = new Size(67, 19);
-            checkBox8.TabIndex = 13;
-            checkBox8.Text = "150-300";
-            checkBox8.UseVisualStyleBackColor = true;
+            checkBoxPrice3.AutoSize = true;
+            checkBoxPrice3.Location = new Point(557, 95);
+            checkBoxPrice3.Name = "checkBoxPrice3";
+            checkBoxPrice3.Size = new Size(67, 19);
+            checkBoxPrice3.TabIndex = 14;
+            checkBoxPrice3.Text = "300-500";
+            checkBoxPrice3.UseVisualStyleBackColor = true;
+            checkBoxPrice3.CheckedChanged += CheckBox_CheckedChanged;
             // 
-            // checkBox7
+            // checkBoxPrice2
             // 
-            checkBox7.AutoSize = true;
-            checkBox7.Location = new Point(468, 95);
-            checkBox7.Name = "checkBox7";
-            checkBox7.Size = new Size(55, 19);
-            checkBox7.TabIndex = 12;
-            checkBox7.Text = "0-150";
-            checkBox7.UseVisualStyleBackColor = true;
+            checkBoxPrice2.AutoSize = true;
+            checkBoxPrice2.Location = new Point(468, 120);
+            checkBoxPrice2.Name = "checkBoxPrice2";
+            checkBoxPrice2.Size = new Size(67, 19);
+            checkBoxPrice2.TabIndex = 13;
+            checkBoxPrice2.Text = "150-300";
+            checkBoxPrice2.UseVisualStyleBackColor = true;
+            checkBoxPrice2.CheckedChanged += CheckBox_CheckedChanged;
+            // 
+            // checkBoxPrice1
+            // 
+            checkBoxPrice1.AutoSize = true;
+            checkBoxPrice1.Location = new Point(468, 95);
+            checkBoxPrice1.Name = "checkBoxPrice1";
+            checkBoxPrice1.Size = new Size(55, 19);
+            checkBoxPrice1.TabIndex = 12;
+            checkBoxPrice1.Text = "0-150";
+            checkBoxPrice1.UseVisualStyleBackColor = true;
+            checkBoxPrice1.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // label2
             // 
@@ -182,6 +201,7 @@
             checkBoxBags.TabIndex = 8;
             checkBoxBags.Text = "Tasker";
             checkBoxBags.UseVisualStyleBackColor = true;
+            checkBoxBags.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxRacket
             // 
@@ -192,6 +212,7 @@
             checkBoxRacket.TabIndex = 7;
             checkBoxRacket.Text = "Padelbat";
             checkBoxRacket.UseVisualStyleBackColor = true;
+            checkBoxRacket.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxBalls
             // 
@@ -202,6 +223,7 @@
             checkBoxBalls.TabIndex = 6;
             checkBoxBalls.Text = "Bolde";
             checkBoxBalls.UseVisualStyleBackColor = true;
+            checkBoxBalls.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxShoes
             // 
@@ -212,6 +234,7 @@
             checkBoxShoes.TabIndex = 5;
             checkBoxShoes.Text = "Sko";
             checkBoxShoes.UseVisualStyleBackColor = true;
+            checkBoxShoes.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxClothes
             // 
@@ -222,16 +245,18 @@
             checkBoxClothes.TabIndex = 4;
             checkBoxClothes.Text = "Tøj";
             checkBoxClothes.UseVisualStyleBackColor = true;
+            checkBoxClothes.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Mest relevante", "Pris (høj-lav)", "Pris (lav-høj)", "Alfabetisk (a-å)", "Alfabetisk (å-a)" });
+            comboBox1.Items.AddRange(new object[] { "Name (a-å)", "Name (å-a)", "SalePrice (høj-lav)", "SalePrice (lav-høj)", "PurchasePrice (høj-lav)", "PurchasePrice (lav-høj)", "NormalPrice (høj-lav)", "NormalPrice (lav-høj)", "Stock (høj-lav)", "Stock (lav-høj)" });
             comboBox1.Location = new Point(617, 35);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 3;
             comboBox1.Text = "Sortér";
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // labelProductsTxt
             // 
@@ -426,5 +451,12 @@
         private DataGridViewTextBoxColumn stockDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn brandDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn categoryDataGridViewTextBoxColumn;
+        private CheckBox checkBoxAccessories;
+        private CheckBox checkBoxPrice6;
+        private CheckBox checkBoxPrice5;
+        private CheckBox checkBoxPrice4;
+        private CheckBox checkBoxPrice3;
+        private CheckBox checkBoxPrice2;
+        private CheckBox checkBoxPrice1;
     }
 }

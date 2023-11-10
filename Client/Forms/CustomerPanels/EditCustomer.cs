@@ -1,5 +1,4 @@
-﻿using Client.Controllers;
-using Models;
+﻿using Models;
 using System.Globalization;
 
 namespace Client.Forms.CustomerPanels;
@@ -7,27 +6,12 @@ namespace Client.Forms.CustomerPanels;
 public partial class EditCustomer : Form
 {
     private readonly Customer customer;
-    private readonly AddressController addressController = new();
-    private readonly Address? address;
+    private readonly Address address;
 
-    public EditCustomer(Customer customer)
+    public EditCustomer(Customer customer, Address address)
     {
         this.customer = customer;
-        try
-        {
-            var addressId = customer.AddressID!;
-            address = addressController.Get((long)addressId);
-        }
-        catch (Exception)
-        {
-            MessageBox.Show(@"Kunne ikke hente adresse");
-            Close();
-        }
-        if (address == null)
-        {
-            MessageBox.Show(@"Kunne ikke hente adresse");
-            Close();
-        }
+        this.address = address;
         InitializeComponent();
         SetCustomerInfo();
     }

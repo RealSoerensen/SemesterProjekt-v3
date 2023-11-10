@@ -133,6 +133,11 @@ public partial class CustomersPanel : Form
         customerGrid.DataSource = new List<Customer> { customer };
     }
 
+    /*
+     * Dato oprettet (nyeste-ældst)
+     * Dato oprettet (ældst-nyeste)
+     */
+
     private void sortBox_SelectedIndexChanged(object sender, EventArgs e)
     {
         var sortFilter = sortBox.SelectedIndex;
@@ -226,8 +231,34 @@ public partial class CustomersPanel : Form
             return;
         }
 
-        var editCustomer = new EditCustomer(selectedCustomer);
-        editCustomer.ShowDialog();
+        Address? selectedCustomerAddress;
+        try
+        {
+            selectedCustomerAddress = addressController.Get((long)selectedCustomer.AddressID!);
+        }
+        catch (Exception)
+        {
+            MessageBox.Show(@"Kunne ikke hente kundens adresse");
+            return;
+        }
+
+        if (selectedCustomerAddress == null)
+        {
+            MessageBox.Show(@"Kunne ikke hente kundens adresse");
+            return;
+        }
+
+        var editCustomer = new EditCustomer(selectedCustomer, selectedCustomerAddress);
+        try
+        {
+            editCustomer.ShowDialog();
+        }
+        catch (Exception)
+        {
+            MessageBox.Show(@"Kunne ikke åbne redigeringsvinduet");
+            return;
+        }
+
         if (editCustomer.DialogResult != DialogResult.OK)
         {
             return;

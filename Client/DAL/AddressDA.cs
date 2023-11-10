@@ -1,5 +1,6 @@
 ﻿using Models;
-using System.Net.Http.Json;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Client.DAL;
 
@@ -10,12 +11,11 @@ internal class AddressDA : ICRUD<Address>
 
     public Address? Create(Address obj)
     {
-        var response = _client.PostAsJsonAsync(URL, obj).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            return response.Content.ReadFromJsonAsync<Address>().Result;
-        }
-        return null;
+        var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+        var response = _client.PostAsync(URL, content).Result;
+        if (!response.IsSuccessStatusCode) return null;
+        var jsonResponse = response.Content.ReadAsStringAsync().Result;
+        return JsonConvert.DeserializeObject<Address>(jsonResponse);
     }
 
     public bool Delete(long id)
@@ -27,28 +27,24 @@ internal class AddressDA : ICRUD<Address>
     public Address? Get(long id)
     {
         var response = _client.GetAsync(URL + "/" + id).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            return response.Content.ReadFromJsonAsync<Address>().Result;
-        }
-        return null;
+        if (!response.IsSuccessStatusCode) return null;
+        var jsonResponse = response.Content.ReadAsStringAsync().Result;
+        return JsonConvert.DeserializeObject<Address>(jsonResponse);
     }
 
     public List<Address> GetAll()
     {
         var response = _client.GetAsync(URL).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            var result = response.Content.ReadFromJsonAsync<List<Address>>().Result;
-            if (result != null)
-                return result;
-        }
-        return new List<Address>();
+        if (!response.IsSuccessStatusCode) return new List<Address>();
+        var jsonResponse = response.Content.ReadAsStringAsync().Result;
+        var addressList = JsonConvert.DeserializeObject<List<Address>>(jsonResponse);
+        return addressList ?? new List<Address>();
     }
 
     public bool Update(Address obj)
     {
-        var response = _client.PutAsJsonAsync(URL, obj).Result;
+        var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+        var response = _client.PutAsync(URL, content).Result;
         return response.IsSuccessStatusCode;
     }
 }

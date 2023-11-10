@@ -309,7 +309,6 @@
         private TextBox textBoxNormalPrice;
         private TextBox textBoxSalesPrice;
         private TextBox textBoxPurchasePrice;
-        private PictureBox pictureBoxImage;
         private Button buttonChoosePicture;
         private Label label9;
         private TextBox textBoxBrand;
