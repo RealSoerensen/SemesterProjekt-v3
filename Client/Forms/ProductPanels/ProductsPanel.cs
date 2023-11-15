@@ -103,27 +103,26 @@ public partial class ProductsPanel : Form
         productGrid.DataSource = sortedProducts;
     }
 
-    private void CheckBox_CheckedChanged(object sender, EventArgs e)
-    {
+    private void CheckBox_CheckedChanged(object sender, EventArgs e) {
         var checkBoxesToCategories = new Dictionary<CheckBox, Category>
         {
-            { checkBoxRacket, Category.Bats },
-            { checkBoxBalls, Category.Balls },
-            { checkBoxShoes, Category.Shoes },
-            { checkBoxClothes, Category.Clothes },
-            { checkBoxBags, Category.Bags },
-            { checkBoxAccessories, Category.Accessories }
-        };
+        { checkBoxRacket, Category.Bats },
+        { checkBoxBalls, Category.Balls },
+        { checkBoxShoes, Category.Shoes },
+        { checkBoxClothes, Category.Clothes },
+        { checkBoxBags, Category.Bags },
+        { checkBoxAccessories, Category.Accessories }
+    };
 
         var checkBoxesToPriceRanges = new Dictionary<CheckBox, (decimal, decimal)>
         {
-            { checkBoxPrice1, (0, 150) },
-            { checkBoxPrice2, (150, 300) },
-            { checkBoxPrice3, (300, 500) },
-            { checkBoxPrice4, (500, 1000) },
-            { checkBoxPrice5, (1000, 1500) },
-            { checkBoxPrice6, (1500, decimal.MaxValue) }
-        };
+        { checkBoxPrice1, (0, 150) },
+        { checkBoxPrice2, (150, 300) },
+        { checkBoxPrice3, (300, 500) },
+        { checkBoxPrice4, (500, 1000) },
+        { checkBoxPrice5, (1000, 1500) },
+        { checkBoxPrice6, (1500, decimal.MaxValue) }
+    };
 
         var selectedCategories = checkBoxesToCategories
             .Where(kv => kv.Key.Checked)
@@ -135,17 +134,25 @@ public partial class ProductsPanel : Form
             .Select(kv => kv.Value)
             .FirstOrDefault(); // Take the first selected price range
 
-        var filteredProducts = products
-            .Where(p => selectedCategories.Contains(p.Category))
-            .ToList();
+        List<Product> filteredProducts;
 
-        if (selectedPriceRange != default)
-        {
+        // If no category is selected, display all products; otherwise, filter by selected categories.
+        if (!selectedCategories.Any()) {
+            filteredProducts = new List<Product>(products);
+        } else {
+            filteredProducts = products
+                .Where(p => selectedCategories.Contains(p.Category))
+                .ToList();
+        }
+
+        // Apply price range filter if any price range is selected.
+        if (selectedPriceRange != default) {
             filteredProducts = filteredProducts
                 .Where(p => p.SalePrice >= selectedPriceRange.Item1 && p.SalePrice <= selectedPriceRange.Item2)
                 .ToList();
         }
 
-        productGrid.DataSource = new List<Product>(filteredProducts);
+        productGrid.DataSource = filteredProducts;
     }
+
 }
