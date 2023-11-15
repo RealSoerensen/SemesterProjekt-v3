@@ -30,12 +30,18 @@ public partial class ProductsPanel : Form
         }
     }
 
-    private void InitializeDataGridView()
-    {
+    private void InitializeDataGridView() {
         productGrid.Name = "Products";
         productGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         productGrid.DataSource = products;
+
+        // Set the DataGridView to full row selection mode
+        productGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+        // Disable multi-select
+        productGrid.MultiSelect = false;
     }
+
 
     private void productGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
     {
