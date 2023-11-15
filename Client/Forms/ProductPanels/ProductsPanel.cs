@@ -57,17 +57,24 @@ public partial class ProductsPanel : Form
         return;
     }
 
-    private void buttonEdit_Click(object sender, EventArgs e)
-    {
+    private void buttonEdit_Click(object sender, EventArgs e) {
         if (selectedProduct == null) return;
+
         var editProduct = new EditProduct(selectedProduct);
         editProduct.ShowDialog();
-        if (editProduct.DialogResult != DialogResult.OK) return;
-        productController.Update(editProduct.Product);
-        var index = products.IndexOf(selectedProduct);
-        products[index] = selectedProduct;
-        productGrid.DataSource = products;
+
+        // Check if the product was updated
+        if (editProduct.DialogResult == DialogResult.OK) {
+            productController.Update(editProduct.Product);
+            RefreshProducts();
+        }
     }
+
+    private void RefreshProducts() {
+        products = productController.GetAll();
+        productGrid.DataSource = new List<Product>(products);
+    }
+
 
     // Combobox items
     /*

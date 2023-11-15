@@ -1,7 +1,5 @@
-﻿namespace Client.Forms.ProductPanels
-{
-    partial class EditProduct
-    {
+﻿namespace Client.Forms.ProductPanels {
+    partial class EditProduct {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -11,10 +9,8 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,9 +22,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
-            label1 = new Label();
+        private void InitializeComponent() {
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
@@ -38,7 +32,6 @@
             label8 = new Label();
             buttonSave = new Button();
             buttonCancel = new Button();
-            textBoxID = new TextBox();
             textBoxProductName = new TextBox();
             textBoxStock = new TextBox();
             textBoxNormalPrice = new TextBox();
@@ -55,19 +48,10 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(13, 49);
-            label1.Name = "label1";
-            label1.Size = new Size(18, 15);
-            label1.TabIndex = 0;
-            label1.Text = "ID";
-            // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(13, 87);
+            label2.Location = new Point(13, 54);
             label2.Name = "label2";
             label2.Size = new Size(75, 15);
             label2.TabIndex = 1;
@@ -76,7 +60,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(13, 199);
+            label3.Location = new Point(13, 166);
             label3.Name = "label3";
             label3.Size = new Size(53, 15);
             label3.TabIndex = 2;
@@ -85,7 +69,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(12, 160);
+            label4.Location = new Point(12, 127);
             label4.Name = "label4";
             label4.Size = new Size(66, 15);
             label4.TabIndex = 3;
@@ -94,7 +78,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(13, 493);
+            label5.Location = new Point(13, 460);
             label5.Name = "label5";
             label5.Size = new Size(68, 15);
             label5.TabIndex = 4;
@@ -103,7 +87,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(12, 232);
+            label6.Location = new Point(12, 199);
             label6.Name = "label6";
             label6.Size = new Size(51, 15);
             label6.TabIndex = 5;
@@ -112,7 +96,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(12, 121);
+            label7.Location = new Point(12, 88);
             label7.Name = "label7";
             label7.Size = new Size(80, 15);
             label7.TabIndex = 6;
@@ -121,7 +105,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(12, 424);
+            label8.Location = new Point(12, 391);
             label8.Name = "label8";
             label8.Size = new Size(84, 15);
             label8.TabIndex = 7;
@@ -129,67 +113,61 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(90, 530);
+            buttonSave.Location = new Point(90, 497);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(120, 33);
             buttonSave.TabIndex = 8;
             buttonSave.Text = "Gem Ændringer";
             buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(90, 569);
+            buttonCancel.Location = new Point(90, 536);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(120, 33);
             buttonCancel.TabIndex = 9;
             buttonCancel.Text = "Fortryd";
             buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // textBoxID
-            // 
-            textBoxID.Location = new Point(146, 46);
-            textBoxID.Name = "textBoxID";
-            textBoxID.Size = new Size(149, 23);
-            textBoxID.TabIndex = 10;
-            // 
             // textBoxProductName
             // 
-            textBoxProductName.Location = new Point(146, 84);
+            textBoxProductName.Location = new Point(146, 51);
             textBoxProductName.Name = "textBoxProductName";
             textBoxProductName.Size = new Size(149, 23);
             textBoxProductName.TabIndex = 11;
             // 
             // textBoxStock
             // 
-            textBoxStock.Location = new Point(146, 118);
+            textBoxStock.Location = new Point(146, 85);
             textBoxStock.Name = "textBoxStock";
             textBoxStock.Size = new Size(149, 23);
             textBoxStock.TabIndex = 12;
             // 
             // textBoxNormalPrice
             // 
-            textBoxNormalPrice.Location = new Point(146, 157);
+            textBoxNormalPrice.Location = new Point(146, 124);
             textBoxNormalPrice.Name = "textBoxNormalPrice";
             textBoxNormalPrice.Size = new Size(149, 23);
             textBoxNormalPrice.TabIndex = 13;
             // 
             // textBoxSalesPrice
             // 
-            textBoxSalesPrice.Location = new Point(146, 196);
+            textBoxSalesPrice.Location = new Point(146, 163);
             textBoxSalesPrice.Name = "textBoxSalesPrice";
             textBoxSalesPrice.Size = new Size(149, 23);
             textBoxSalesPrice.TabIndex = 14;
             // 
             // textBoxPurchasePrice
             // 
-            textBoxPurchasePrice.Location = new Point(146, 490);
+            textBoxPurchasePrice.Location = new Point(146, 457);
             textBoxPurchasePrice.Name = "textBoxPurchasePrice";
             textBoxPurchasePrice.Size = new Size(149, 23);
             textBoxPurchasePrice.TabIndex = 16;
             // 
             // pictureBox
             // 
-            pictureBox.Location = new Point(146, 356);
+            pictureBox.Location = new Point(146, 323);
             pictureBox.Name = "pictureBox";
             pictureBox.Size = new Size(149, 99);
             pictureBox.TabIndex = 17;
@@ -197,7 +175,7 @@
             // 
             // buttonChoosePicture
             // 
-            buttonChoosePicture.Location = new Point(146, 461);
+            buttonChoosePicture.Location = new Point(146, 428);
             buttonChoosePicture.Name = "buttonChoosePicture";
             buttonChoosePicture.Size = new Size(64, 23);
             buttonChoosePicture.TabIndex = 18;
@@ -207,7 +185,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(12, 271);
+            label9.Location = new Point(12, 238);
             label9.Name = "label9";
             label9.Size = new Size(44, 15);
             label9.TabIndex = 19;
@@ -215,7 +193,7 @@
             // 
             // textBoxBrand
             // 
-            textBoxBrand.Location = new Point(146, 268);
+            textBoxBrand.Location = new Point(146, 235);
             textBoxBrand.Name = "textBoxBrand";
             textBoxBrand.Size = new Size(149, 23);
             textBoxBrand.TabIndex = 20;
@@ -223,7 +201,7 @@
             // comboBoxCategory
             // 
             comboBoxCategory.FormattingEnabled = true;
-            comboBoxCategory.Location = new Point(146, 229);
+            comboBoxCategory.Location = new Point(146, 196);
             comboBoxCategory.Name = "comboBoxCategory";
             comboBoxCategory.Size = new Size(149, 23);
             comboBoxCategory.TabIndex = 21;
@@ -231,7 +209,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(12, 314);
+            label10.Location = new Point(12, 281);
             label10.Name = "label10";
             label10.Size = new Size(64, 15);
             label10.TabIndex = 22;
@@ -239,7 +217,7 @@
             // 
             // textBoxDescription
             // 
-            textBoxDescription.Location = new Point(146, 311);
+            textBoxDescription.Location = new Point(146, 278);
             textBoxDescription.Name = "textBoxDescription";
             textBoxDescription.Size = new Size(149, 23);
             textBoxDescription.TabIndex = 23;
@@ -258,7 +236,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(307, 614);
+            ClientSize = new Size(307, 578);
             Controls.Add(label11);
             Controls.Add(textBoxDescription);
             Controls.Add(label10);
@@ -272,7 +250,6 @@
             Controls.Add(textBoxNormalPrice);
             Controls.Add(textBoxStock);
             Controls.Add(textBoxProductName);
-            Controls.Add(textBoxID);
             Controls.Add(buttonCancel);
             Controls.Add(buttonSave);
             Controls.Add(label8);
@@ -282,7 +259,6 @@
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(label1);
             Name = "EditProduct";
             Text = "EditProduct";
             Load += EditProduct_Load;
@@ -292,8 +268,6 @@
         }
 
         #endregion
-
-        private Label label1;
         private Label label2;
         private Label label3;
         private Label label4;
@@ -303,7 +277,6 @@
         private Label label8;
         private Button buttonSave;
         private Button buttonCancel;
-        private TextBox textBoxID;
         private TextBox textBoxProductName;
         private TextBox textBoxStock;
         private TextBox textBoxNormalPrice;

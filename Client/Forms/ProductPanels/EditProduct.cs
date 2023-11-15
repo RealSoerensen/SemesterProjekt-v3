@@ -1,23 +1,20 @@
-﻿using Models;
+﻿using Client.Controllers;
+using Models;
 using System.Globalization;
 
 namespace Client.Forms.ProductPanels;
 
-public partial class EditProduct : Form
-{
+public partial class EditProduct : Form {
     private readonly Product product;
 
-    public EditProduct(Product product)
-    {
+    public EditProduct(Product product) {
         this.product = product;
         InitializeComponent();
     }
 
-    private void EditProduct_Load(object sender, EventArgs e)
-    {
+    private void EditProduct_Load(object sender, EventArgs e) {
         pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
         pictureBox.Image = product.ConvertBase64ToImage();
-        textBoxID.Text = product.ID.ToString();
         textBoxProductName.Text = product.Name;
         textBoxBrand.Text = product.Brand;
         textBoxDescription.Text = product.Description;
@@ -30,11 +27,19 @@ public partial class EditProduct : Form
         comboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
     }
 
-    public Product Product
-    {
-        get
-        {
-            product.ID = long.Parse(textBoxID.Text);
+    private void buttonSave_Click(object sender, EventArgs e) {
+        var productController = new ProductController();
+        productController.Update(Product);
+
+        // Set the DialogResult to OK to indicate successful save
+        this.DialogResult = DialogResult.OK;
+
+        // Close the form
+        this.Close();
+    }
+
+    public Product Product {
+        get {
             product.Brand = textBoxBrand.Text;
             product.Description = textBoxDescription.Text;
             product.Name = textBoxProductName.Text;
