@@ -13,5 +13,9 @@ namespace Client.Forms.OrderPanels {
         public OrdersPanel() {
             InitializeComponent();
         }
+
+        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e) {
+
+        }
     }
 }
