@@ -15,6 +15,7 @@ public class Product
     public long Stock { get; set; }
     public string Brand { get; set; }
     public Category Category { get; set; }
+    public bool Inactive { get; set; } = false;
 
     [JsonConstructor]
     public Product(string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, int stock, string brand, int category)
@@ -30,7 +31,7 @@ public class Product
         Category = (Category)category;
     }
 
-    public Product(long ID, string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, long stock, string brand, int category)
+    public Product(long ID, string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, long stock, string brand, int category, bool inactive)
     {
         this.ID = ID;
         Description = description;
@@ -42,6 +43,7 @@ public class Product
         Stock = stock;
         Brand = brand;
         Category = (Category)category;
+        Inactive = inactive;
     }
 
     public Image? ConvertBase64ToImage()

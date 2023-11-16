@@ -23,8 +23,8 @@ public class ProductRepository : IProductDA
         try
         {
             // Define the SQL query for inserting a product
-            const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category)
-                                VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category)";
+            const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category, Inactive)
+                                VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category, @Inactive)";
 
             // Execute the query and pass the product and the transaction as parameters
             dbConnection.Execute(insertQuery, product, transaction: transaction);
@@ -76,7 +76,7 @@ public class ProductRepository : IProductDA
 
         try
         {
-            const string sql = @"UPDATE Product SET Description = @Description, Image = @Image, SalePrice = @SalePrice, PurchasePrice = @PurchasePrice, NormalPrice = @NormalPrice, Name = @Name, Stock = @Stock, Brand = @Brand, Category = @Category WHERE ID = @ID";
+            const string sql = @"UPDATE Product SET Description = @Description, Image = @Image, SalePrice = @SalePrice, PurchasePrice = @PurchasePrice, NormalPrice = @NormalPrice, Name = @Name, Stock = @Stock, Brand = @Brand, Category = @Category Inactive = @Inactive WHERE ID = @ID";
             dbConnection.Execute(sql, product, transaction);
             transaction.Commit();
         }
