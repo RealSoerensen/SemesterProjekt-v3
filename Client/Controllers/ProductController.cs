@@ -33,6 +33,9 @@ internal class ProductController
     }
 
     public string ConvertImageToBase64(Image image) {
+        if (image == null) {
+            return String.Empty;
+        }
         using (MemoryStream ms = new MemoryStream()) {
             // Assuming the image format is PNG
             image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);

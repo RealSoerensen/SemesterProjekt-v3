@@ -11,6 +11,11 @@ public partial class Main : Form
     public Main()
     {
         InitializeComponent();
+        this.Load += Main_Load;
+    }
+
+    private void Main_Load(object sender, EventArgs e) {
+        buttonProducts_Click(this, EventArgs.Empty);
     }
 
     private void buttonProducts_Click(object sender, EventArgs e)
