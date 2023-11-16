@@ -25,6 +25,7 @@
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             panel1 = new Panel();
+            label3 = new Label();
             checkBoxAccessories = new CheckBox();
             checkBoxPrice6 = new CheckBox();
             checkBoxPrice5 = new CheckBox();
@@ -44,7 +45,6 @@
             buttonSearch = new Button();
             textBoxSearchbar = new TextBox();
             panel2 = new Panel();
-            buttonDelete = new Button();
             buttonEdit = new Button();
             button1 = new Button();
             productGrid = new DataGridView();
@@ -67,6 +67,7 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(label3);
             panel1.Controls.Add(checkBoxAccessories);
             panel1.Controls.Add(checkBoxPrice6);
             panel1.Controls.Add(checkBoxPrice5);
@@ -89,6 +90,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(834, 159);
             panel1.TabIndex = 0;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 14.25F);
+            label3.Location = new Point(612, 33);
+            label3.Name = "label3";
+            label3.Size = new Size(67, 25);
+            label3.TabIndex = 19;
+            label3.Text = "Sortér:";
             // 
             // checkBoxAccessories
             // 
@@ -244,13 +255,13 @@
             // 
             // comboBox1
             // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Name (a-å)", "Name (å-a)", "SalePrice (høj-lav)", "SalePrice (lav-høj)", "PurchasePrice (høj-lav)", "PurchasePrice (lav-høj)", "NormalPrice (høj-lav)", "NormalPrice (lav-høj)", "Stock (høj-lav)", "Stock (lav-høj)" });
-            comboBox1.Location = new Point(617, 35);
+            comboBox1.Items.AddRange(new object[] { "Name (a-å)", "Name (å-a)", "SalePrice (høj-lav)", "SalePrice (lav-høj)", "PurchasePrice (høj-lav)", "PurchasePrice (lav-høj)", "NormalPrice (høj-lav)", "NormalPrice (lav-høj)", "Stock (høj-lav)", "Stock (lav-høj)", "Inaktiv (true-false)", "Inaktiv (false-true)" });
+            comboBox1.Location = new Point(685, 35);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 3;
-            comboBox1.Text = "Sortér";
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // labelProductsTxt
@@ -282,23 +293,12 @@
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(buttonDelete);
             panel2.Controls.Add(buttonEdit);
             panel2.Controls.Add(button1);
             panel2.Location = new Point(671, 167);
             panel2.Name = "panel2";
             panel2.Size = new Size(167, 403);
             panel2.TabIndex = 1;
-            // 
-            // buttonDelete
-            // 
-            buttonDelete.Location = new Point(18, 197);
-            buttonDelete.Name = "buttonDelete";
-            buttonDelete.Size = new Size(130, 46);
-            buttonDelete.TabIndex = 2;
-            buttonDelete.Text = "Fjern";
-            buttonDelete.UseVisualStyleBackColor = true;
-            buttonDelete.Click += buttonDelete_Click;
             // 
             // buttonEdit
             // 
@@ -331,7 +331,6 @@
             productGrid.RowTemplate.Height = 25;
             productGrid.Size = new Size(661, 403);
             productGrid.TabIndex = 2;
-            productGrid.CellContentClick += productGrid_CellContentClick;
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -417,7 +416,6 @@
 
         private Panel panel1;
         private Panel panel2;
-        private Button buttonDelete;
         private Button buttonEdit;
         private Button button1;
         private Button buttonSearch;
@@ -455,5 +453,6 @@
         private CheckBox checkBoxPrice3;
         private CheckBox checkBoxPrice2;
         private CheckBox checkBoxPrice1;
+        private Label label3;
     }
 }

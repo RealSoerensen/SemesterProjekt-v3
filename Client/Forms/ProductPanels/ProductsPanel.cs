@@ -11,6 +11,8 @@ public partial class ProductsPanel : Form {
     public ProductsPanel() {
         InitializeComponent();
         InitializeDataGridView();
+        productGrid.SelectionChanged += new EventHandler(productGrid_SelectionChanged);
+        productGrid.CellFormatting += new DataGridViewCellFormattingEventHandler(productGrid_CellFormatting);
     }
 
     private void ProductsPanel_Load(object sender, EventArgs e) {
@@ -36,14 +38,13 @@ public partial class ProductsPanel : Form {
         productGrid.MultiSelect = false;
     }
 
-
-    private void productGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {
-        // Select the whole row on click
-        if (e.RowIndex < 0) return;
-        var row = productGrid.Rows[e.RowIndex];
-        row.Selected = true;
-        selectedProduct = row.DataBoundItem as Product;
+    private void productGrid_SelectionChanged(object sender, EventArgs e) {
+        if (productGrid.SelectedRows.Count > 0) {
+            var selectedRow = productGrid.SelectedRows[0];
+            selectedProduct = selectedRow.DataBoundItem as Product;
+        }
     }
+
 
     private void buttonEdit_Click(object sender, EventArgs e) {
         if (selectedProduct == null) return;
@@ -54,6 +55,8 @@ public partial class ProductsPanel : Form {
         // Check if the product was updated
         if (editProduct.DialogResult == DialogResult.OK) {
             RefreshProducts();
+        } else {
+            MessageBox.Show("Kunne ikke opdatere produkt");
         }
     }
 
@@ -95,6 +98,8 @@ public partial class ProductsPanel : Form {
             7 => sortedProducts.OrderBy(product => product.NormalPrice).ToList(),
             8 => sortedProducts.OrderByDescending(product => product.Stock).ToList(),
             9 => sortedProducts.OrderBy(product => product.Stock).ToList(),
+            10 => sortedProducts.OrderByDescending(product => product.Inactive).ToList(),
+            11 => sortedProducts.OrderBy(product => product.Inactive).ToList(),
             _ => sortedProducts
         };
         productGrid.DataSource = sortedProducts;
@@ -152,6 +157,19 @@ public partial class ProductsPanel : Form {
         productGrid.DataSource = filteredProducts;
     }
 
+    private void productGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+        var product = productGrid.Rows[e.RowIndex].DataBoundItem as Product;
+        if (product != null) {
+            if (product.Inactive) {
+                productGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.DarkGray;
+            } else {
+                productGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = productGrid.DefaultCellStyle.BackColor;
+            }
+        }
+    }
+
+
+
     private void btnCreateProduct_Click(object sender, EventArgs e) {
         var createProduct = new CreateProduct();
         createProduct.ShowDialog();
@@ -161,28 +179,4 @@ public partial class ProductsPanel : Form {
             RefreshProducts();
         }
     }
-
-    private void buttonDelete_Click(object sender, EventArgs e) {
-        if (selectedProduct == null) return;
-
-        // Ask the user for confirmation before deletion
-        var confirmationResult = MessageBox.Show(
-            "Er du sikker på at du vil gøre " + selectedProduct.Name + " inaktiv?",
-            "Fjern Bekræftelse",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question);
-
-        // Check the user's response
-        if (confirmationResult == DialogResult.Yes) {
-            var result = productController.Delete((long)selectedProduct.ID);
-
-            if (result) {
-                MessageBox.Show("Produkt fjernet.");
-                RefreshProducts();
-            } else {
-                MessageBox.Show("Fejl: Produkt blev ikke fjernet.");
-            }
-        }
-    }
-
 }

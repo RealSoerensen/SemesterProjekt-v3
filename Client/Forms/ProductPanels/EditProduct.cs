@@ -23,12 +23,22 @@ public partial class EditProduct : Form {
         textBoxPurchasePrice.Text = product.PurchasePrice.ToString(CultureInfo.CurrentCulture);
         textBoxSalesPrice.Text = product.SalePrice.ToString(CultureInfo.CurrentCulture);
         textBoxStock.Text = product.Stock.ToString();
+
         comboBoxCategory.DataSource = Enum.GetValues(typeof(Category));
         comboBoxCategory.SelectedItem = product.Category;
         comboBoxCategory.DropDownStyle = ComboBoxStyle.DropDownList;
+
+        comboBoxInactive.DataSource = new List<bool> { true, false };
+        comboBoxInactive.SelectedItem = product.Inactive;
+        comboBoxInactive.DropDownStyle = ComboBoxStyle.DropDownList;
     }
 
+
     private void buttonSave_Click(object sender, EventArgs e) {
+        if (!ValidateProductInput()) {
+            return;
+        }
+
         var result = productController.Update(Product);
 
         if (result) {
@@ -65,7 +75,46 @@ public partial class EditProduct : Form {
             product.SalePrice = decimal.Parse(textBoxSalesPrice.Text);
             product.Stock = long.Parse(textBoxStock.Text);
             product.Category = (Category)comboBoxCategory.SelectedItem;
+            product.Inactive = (bool)comboBoxInactive.SelectedValue;
             return product;
         }
+    }
+
+    private bool ValidateProductInput() {
+        if (string.IsNullOrWhiteSpace(textBoxProductName.Text)) {
+            MessageBox.Show("Produktnavn er påkrævet.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(textBoxBrand.Text)) {
+            MessageBox.Show("Mærke er påkrævet.");
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(textBoxDescription.Text)) {
+            MessageBox.Show("Beskrivelse er påkrævet.");
+            return false;
+        }
+        if (!decimal.TryParse(textBoxSalesPrice.Text, out decimal salePrice) || salePrice <= 0) {
+            MessageBox.Show("Ugyldig salgspris. Det skal være et positivt tal.");
+            return false;
+        }
+        if (!decimal.TryParse(textBoxPurchasePrice.Text, out decimal purchasePrice) || purchasePrice <= 0) {
+            MessageBox.Show("Ugyldig købspris. Det skal være et positivt tal.");
+            return false;
+        }
+        if (!decimal.TryParse(textBoxNormalPrice.Text, out decimal normalPrice) || normalPrice <= 0) {
+            MessageBox.Show("Ugyldig normalpris. Det skal være et positivt tal.");
+            return false;
+        }
+        if (!long.TryParse(textBoxStock.Text, out long stock) || stock < 0) {
+            MessageBox.Show("Ugyldig lagerantal. Det kan ikke være negativt.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void removePictureButton_Click(object sender, EventArgs e) {
+        product.Image = "";
+        pictureBox.Image = null;
     }
 }

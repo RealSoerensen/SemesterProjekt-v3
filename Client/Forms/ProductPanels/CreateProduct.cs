@@ -26,8 +26,6 @@ namespace Client.Forms.ProductPanels {
 
         public Product Product {
             get {
-                // Assuming Product constructor parameters: 
-                // description, image (as base64), sales price, purchase price, normal price, product name, stock, brand, category
                 var imageBase64 = productController.ConvertImageToBase64(pictureBoxImage.Image);
                 var salesPrice = decimal.Parse(textBoxSalesPrice.Text);
                 var purchasePrice = decimal.Parse(textBoxPurchasePrice.Text);
@@ -65,6 +63,10 @@ namespace Client.Forms.ProductPanels {
         }
 
         private void buttonCreate_Click(object sender, EventArgs e) {
+            if(!ValidateProductInput()) {
+                return;
+            }
+
             var product = productController.Create(Product);
 
             if (product != null) {
@@ -74,5 +76,41 @@ namespace Client.Forms.ProductPanels {
                 this.DialogResult = DialogResult.TryAgain;
             }
         }
+
+        private bool ValidateProductInput() {
+            if (string.IsNullOrWhiteSpace(textBoxProductName.Text)) {
+                MessageBox.Show("Produktnavn er påkrævet.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(textBoxBrand.Text)) {
+                MessageBox.Show("Mærke er påkrævet.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(textBoxDescription.Text)) {
+                MessageBox.Show("Beskrivelse er påkrævet.");
+                return false;
+            }
+            if (!decimal.TryParse(textBoxSalesPrice.Text, out decimal salePrice) || salePrice <= 0) {
+                MessageBox.Show("Ugyldig salgspris. Det skal være et positivt tal.");
+                return false;
+            }
+            if (!decimal.TryParse(textBoxPurchasePrice.Text, out decimal purchasePrice) || purchasePrice <= 0) {
+                MessageBox.Show("Ugyldig købspris. Det skal være et positivt tal.");
+                return false;
+            }
+            if (!decimal.TryParse(textBoxNormalPrice.Text, out decimal normalPrice) || normalPrice <= 0) {
+                MessageBox.Show("Ugyldig normalpris. Det skal være et positivt tal.");
+                return false;
+            }
+            if (!long.TryParse(textBoxStock.Text, out long stock) || stock < 0) {
+                MessageBox.Show("Ugyldig lagerantal. Det kan ikke være negativt.");
+                return false;
+            }
+
+            return true;
+        }
+
+
+
     }
 }

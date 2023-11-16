@@ -45,6 +45,9 @@
             label10 = new Label();
             textBoxDescription = new TextBox();
             label11 = new Label();
+            label1 = new Label();
+            comboBoxInactive = new ComboBox();
+            removePictureButton = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -113,7 +116,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(90, 497);
+            buttonSave.Location = new Point(90, 550);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(120, 33);
             buttonSave.TabIndex = 8;
@@ -123,7 +126,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(90, 536);
+            buttonCancel.Location = new Point(90, 589);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(120, 33);
             buttonCancel.TabIndex = 9;
@@ -233,11 +236,41 @@
             label11.TabIndex = 24;
             label11.Text = "Rediger Produktoplysninger";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 503);
+            label1.Name = "label1";
+            label1.Size = new Size(109, 15);
+            label1.TabIndex = 25;
+            label1.Text = "Er produkt inaktivt?";
+            // 
+            // comboBoxInactive
+            // 
+            comboBoxInactive.FormattingEnabled = true;
+            comboBoxInactive.Location = new Point(146, 500);
+            comboBoxInactive.Name = "comboBoxInactive";
+            comboBoxInactive.Size = new Size(149, 23);
+            comboBoxInactive.TabIndex = 26;
+            // 
+            // removePictureButton
+            // 
+            removePictureButton.Location = new Point(216, 428);
+            removePictureButton.Name = "removePictureButton";
+            removePictureButton.Size = new Size(64, 23);
+            removePictureButton.TabIndex = 27;
+            removePictureButton.Text = "Fjern";
+            removePictureButton.UseVisualStyleBackColor = true;
+            removePictureButton.Click += removePictureButton_Click;
+            // 
             // EditProduct
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(307, 578);
+            ClientSize = new Size(307, 644);
+            Controls.Add(removePictureButton);
+            Controls.Add(comboBoxInactive);
+            Controls.Add(label1);
             Controls.Add(label11);
             Controls.Add(textBoxDescription);
             Controls.Add(label10);
@@ -291,5 +324,8 @@
         private TextBox textBoxDescription;
         private Label label11;
         private PictureBox pictureBox;
+        private Label label1;
+        private ComboBox comboBoxInactive;
+        private Button removePictureButton;
     }
 }
