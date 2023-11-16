@@ -3,27 +3,21 @@ using Models;
 
 namespace Client.Forms.ProductPanels;
 
-public partial class ProductsPanel : Form
-{
+public partial class ProductsPanel : Form {
     private readonly ProductController productController = new();
     private List<Product> products = new();
     private Product? selectedProduct;
 
-    public ProductsPanel()
-    {
+    public ProductsPanel() {
         InitializeComponent();
         InitializeDataGridView();
     }
 
-    private void ProductsPanel_Load(object sender, EventArgs e)
-    {
-        try
-        {
+    private void ProductsPanel_Load(object sender, EventArgs e) {
+        try {
             products = productController.GetAll();
             productGrid.DataSource = products;
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             MessageBox.Show(@"Kunne ikke hente produkter");
             Console.WriteLine(ex);
             Close();
@@ -43,18 +37,12 @@ public partial class ProductsPanel : Form
     }
 
 
-    private void productGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    {
+    private void productGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {
         // Select the whole row on click
         if (e.RowIndex < 0) return;
         var row = productGrid.Rows[e.RowIndex];
         row.Selected = true;
         selectedProduct = row.DataBoundItem as Product;
-    }
-
-    private void btnCreateProduct_Click(object sender, EventArgs e)
-    {
-        return;
     }
 
     private void buttonEdit_Click(object sender, EventArgs e) {
@@ -65,7 +53,6 @@ public partial class ProductsPanel : Form
 
         // Check if the product was updated
         if (editProduct.DialogResult == DialogResult.OK) {
-            productController.Update(editProduct.Product);
             RefreshProducts();
         }
     }
@@ -90,17 +77,14 @@ public partial class ProductsPanel : Form
      * Stock (lav-høj)
     */
 
-    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-    {
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
         var sortFilter = comboBox1.SelectedIndex;
-        if (productGrid.DataSource is not List<Product> sortedProducts)
-        {
+        if (productGrid.DataSource is not List<Product> sortedProducts) {
             MessageBox.Show(@"Der er ingen kunder at sortere");
             return;
         }
 
-        sortedProducts = sortFilter switch
-        {
+        sortedProducts = sortFilter switch {
             0 => sortedProducts.OrderBy(product => product.Name).ToList(),
             1 => sortedProducts.OrderByDescending(product => product.Name).ToList(),
             2 => sortedProducts.OrderByDescending(product => product.SalePrice).ToList(),
@@ -166,6 +150,39 @@ public partial class ProductsPanel : Form
         }
 
         productGrid.DataSource = filteredProducts;
+    }
+
+    private void btnCreateProduct_Click(object sender, EventArgs e) {
+        var createProduct = new CreateProduct();
+        createProduct.ShowDialog();
+
+        // Check if the product was updated
+        if (createProduct.DialogResult == DialogResult.OK) {
+            RefreshProducts();
+        }
+    }
+
+    private void buttonDelete_Click(object sender, EventArgs e) {
+        if (selectedProduct == null) return;
+
+        // Ask the user for confirmation before deletion
+        var confirmationResult = MessageBox.Show(
+            "Er du sikker på at du vil gøre " + selectedProduct.Name + " inaktiv?",
+            "Fjern Bekræftelse",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question);
+
+        // Check the user's response
+        if (confirmationResult == DialogResult.Yes) {
+            var result = productController.Delete((long)selectedProduct.ID);
+
+            if (result) {
+                MessageBox.Show("Produkt fjernet.");
+                RefreshProducts();
+            } else {
+                MessageBox.Show("Fejl: Produkt blev ikke fjernet.");
+            }
+        }
     }
 
 }

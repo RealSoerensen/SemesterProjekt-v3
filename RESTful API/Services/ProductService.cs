@@ -70,7 +70,9 @@ public class ProductService
     {
         try
         {
-            return productRepository.Delete(id);
+            var productToDelete = GetProductByID(id);
+            productToDelete.Inactive = true;
+            return productToDelete.Inactive;
         }
         catch (Exception e)
         {

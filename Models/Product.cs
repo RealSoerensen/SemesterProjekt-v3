@@ -29,9 +29,10 @@ public class Product
         Stock = stock;
         Brand = brand;
         Category = (Category)category;
+        Inactive = false;
     }
 
-    public Product(long ID, string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, long stock, string brand, int category, bool inactive)
+    public Product(long ID, string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, long stock, string brand, int category)
     {
         this.ID = ID;
         Description = description;
@@ -43,7 +44,7 @@ public class Product
         Stock = stock;
         Brand = brand;
         Category = (Category)category;
-        Inactive = inactive;
+        Inactive = false;
     }
 
     public Image? ConvertBase64ToImage()
