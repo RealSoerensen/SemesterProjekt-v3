@@ -24,7 +24,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:long}")]
     public IActionResult Get(long id)
     {
         Product product;
@@ -87,8 +87,8 @@ public class ProductController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    [HttpDelete("{id:long}")]
+    public IActionResult Delete(long id)
     {
         bool isDeleted;
         try

@@ -181,6 +181,7 @@
             buttonChoosePicture.TabIndex = 18;
             buttonChoosePicture.Text = "Vælg";
             buttonChoosePicture.UseVisualStyleBackColor = true;
+            buttonChoosePicture.Click += buttonChoosePicture_Click;
             // 
             // label9
             // 
@@ -225,7 +226,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            label11.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
             label11.Location = new Point(12, 9);
             label11.Name = "label11";
             label11.Size = new Size(266, 25);

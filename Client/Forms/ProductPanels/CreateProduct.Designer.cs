@@ -202,6 +202,7 @@
             buttonChoosePicture.TabIndex = 31;
             buttonChoosePicture.Text = "Vælg";
             buttonChoosePicture.UseVisualStyleBackColor = true;
+            buttonChoosePicture.Click += buttonChoosePicture_Click;
             // 
             // buttonCreate
             // 
@@ -211,6 +212,7 @@
             buttonCreate.TabIndex = 32;
             buttonCreate.Text = "Opret";
             buttonCreate.UseVisualStyleBackColor = true;
+            buttonCreate.Click += buttonCreate_Click;
             // 
             // buttonCancel
             // 
@@ -224,7 +226,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label10.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold);
             label10.Location = new Point(21, 9);
             label10.Name = "label10";
             label10.Size = new Size(155, 30);

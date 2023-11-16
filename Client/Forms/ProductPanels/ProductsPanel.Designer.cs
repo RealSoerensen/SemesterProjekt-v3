@@ -1,7 +1,5 @@
-﻿namespace Client.Forms.ProductPanels
-{
-    partial class ProductsPanel
-    {
+﻿namespace Client.Forms.ProductPanels {
+    partial class ProductsPanel {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -11,10 +9,8 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,8 +22,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             panel1 = new Panel();
             checkBoxAccessories = new CheckBox();
@@ -175,7 +170,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Font = new Font("Segoe UI", 14.25F);
             label2.Location = new Point(404, 95);
             label2.Name = "label2";
             label2.Size = new Size(47, 25);
@@ -185,7 +180,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Font = new Font("Segoe UI", 14.25F);
             label1.Location = new Point(3, 95);
             label1.Name = "label1";
             label1.Size = new Size(65, 25);
@@ -261,7 +256,7 @@
             // labelProductsTxt
             // 
             labelProductsTxt.AutoSize = true;
-            labelProductsTxt.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            labelProductsTxt.Font = new Font("Segoe UI", 20F);
             labelProductsTxt.Location = new Point(3, 20);
             labelProductsTxt.Name = "labelProductsTxt";
             labelProductsTxt.Size = new Size(133, 37);
@@ -303,6 +298,7 @@
             buttonDelete.TabIndex = 2;
             buttonDelete.Text = "Fjern";
             buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += buttonDelete_Click;
             // 
             // buttonEdit
             // 
@@ -322,6 +318,7 @@
             button1.TabIndex = 0;
             button1.Text = "Opret";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += btnCreateProduct_Click;
             // 
             // productGrid
             // 

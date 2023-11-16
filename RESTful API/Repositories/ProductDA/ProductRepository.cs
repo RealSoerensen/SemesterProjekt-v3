@@ -23,8 +23,8 @@ public class ProductRepository : IProductDA
         try
         {
             // Define the SQL query for inserting a product
-            const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category)
-                                VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category)";
+            const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category, Inactive)
+                                VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category, @Inactive)";
 
             // Execute the query and pass the product and the transaction as parameters
             dbConnection.Execute(insertQuery, product, transaction: transaction);
@@ -39,26 +39,6 @@ public class ProductRepository : IProductDA
         return product;
     }
 
-
-    public bool Delete(long id)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-
-        try
-        {
-            const string sql = "DELETE FROM Product WHERE ID = @ID";
-            dbConnection.Execute(sql, id, transaction);
-            transaction.Commit();
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
-        return true;
-    }
 
     public List<Product> GetAll()
     {
@@ -114,5 +94,9 @@ public class ProductRepository : IProductDA
         dbConnection.Open();
         const string sql = "SELECT * FROM Product WHERE Category = @Category";
         return dbConnection.Query<Product>(sql, new { Category = category }).ToList();
+    }
+
+    bool ICRUD<Product>.Delete(long id) {
+        throw new NotImplementedException();
     }
 }

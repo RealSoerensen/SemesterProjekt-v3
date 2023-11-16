@@ -6,6 +6,7 @@ namespace Client.Forms.ProductPanels;
 
 public partial class EditProduct : Form {
     private readonly Product product;
+    private ProductController productController = new();
 
     public EditProduct(Product product) {
         this.product = product;
@@ -28,14 +29,29 @@ public partial class EditProduct : Form {
     }
 
     private void buttonSave_Click(object sender, EventArgs e) {
-        var productController = new ProductController();
-        productController.Update(Product);
+        var result = productController.Update(Product);
 
-        // Set the DialogResult to OK to indicate successful save
-        this.DialogResult = DialogResult.OK;
+        if (result) {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        } else {
+            this.DialogResult = DialogResult.TryAgain;
+        }
+    }
 
-        // Close the form
-        this.Close();
+    private void buttonChoosePicture_Click(object sender, EventArgs e) {
+        using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
+            openFileDialog.Title = "Select a Product Image";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                Image originalImage = Image.FromFile(openFileDialog.FileName);
+                pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+
+                // Now you can use the resized image
+                pictureBox.Image = originalImage;
+            }
+        }
     }
 
     public Product Product {
@@ -43,6 +59,7 @@ public partial class EditProduct : Form {
             product.Brand = textBoxBrand.Text;
             product.Description = textBoxDescription.Text;
             product.Name = textBoxProductName.Text;
+            product.Image = productController.ConvertImageToBase64(pictureBox.Image);
             product.NormalPrice = decimal.Parse(textBoxNormalPrice.Text);
             product.PurchasePrice = decimal.Parse(textBoxPurchasePrice.Text);
             product.SalePrice = decimal.Parse(textBoxSalesPrice.Text);
