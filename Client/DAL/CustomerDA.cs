@@ -45,25 +45,21 @@ internal class CustomerDA : ICRUD<Customer>
         }
     }
 
-    public Customer? Get(long id)
-    {
-        try
-        {
-            var response = _client.GetAsync(URL + "/" + id).Result;
-            if (response.IsSuccessStatusCode)
-            {
+    public Customer? Get(long id) {
+        try {
+            var response = _client.GetAsync(URL + "/GetByID/" + id).Result;
+            if (response.IsSuccessStatusCode) {
                 var jsonResponse = response.Content.ReadAsStringAsync().Result;
                 return JsonConvert.DeserializeObject<Customer>(jsonResponse);
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Console.WriteLine(e);
             throw;
         }
 
         return null;
     }
+
 
     public List<Customer> GetAll()
     {

@@ -53,6 +53,7 @@
             buttonOrders.TabIndex = 3;
             buttonOrders.Text = "Ordre";
             buttonOrders.UseVisualStyleBackColor = true;
+            buttonOrders.Click += buttonOrders_Click;
             // 
             // buttonCustomers
             // 
