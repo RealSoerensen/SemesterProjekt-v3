@@ -24,6 +24,8 @@
         /// </summary>
         private void InitializeComponent() {
             panel1 = new Panel();
+            checkBox2 = new CheckBox();
+            checkBox1 = new CheckBox();
             checkBoxPrice6 = new CheckBox();
             checkBoxPrice5 = new CheckBox();
             checkBoxPrice4 = new CheckBox();
@@ -37,19 +39,16 @@
             textBoxSearchbar = new TextBox();
             panel2 = new Panel();
             buttonDetails = new Button();
-            dataGridView1 = new DataGridView();
+            orderGrid = new DataGridView();
             OrderID = new DataGridViewTextBoxColumn();
             Date = new DataGridViewTextBoxColumn();
-            TimeOfDay = new DataGridViewTextBoxColumn();
             Customer = new DataGridViewTextBoxColumn();
             NumberOfOrderlines = new DataGridViewTextBoxColumn();
             NumberOfProducts = new DataGridViewTextBoxColumn();
             PriceOfOrder = new DataGridViewTextBoxColumn();
-            checkBox1 = new CheckBox();
-            checkBox2 = new CheckBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)orderGrid).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -72,6 +71,26 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(837, 159);
             panel1.TabIndex = 1;
+            // 
+            // checkBox2
+            // 
+            checkBox2.AutoSize = true;
+            checkBox2.Location = new Point(449, 126);
+            checkBox2.Name = "checkBox2";
+            checkBox2.Size = new Size(58, 19);
+            checkBox2.TabIndex = 19;
+            checkBox2.Text = "3500+";
+            checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(449, 101);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(79, 19);
+            checkBox1.TabIndex = 18;
+            checkBox1.Text = "3000-3500";
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // checkBoxPrice6
             // 
@@ -137,7 +156,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Font = new Font("Segoe UI", 14.25F);
             label2.Location = new Point(8, 102);
             label2.Name = "label2";
             label2.Size = new Size(124, 25);
@@ -157,7 +176,7 @@
             // labelOrdersTxt
             // 
             labelOrdersTxt.AutoSize = true;
-            labelOrdersTxt.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            labelOrdersTxt.Font = new Font("Segoe UI", 20F);
             labelOrdersTxt.Location = new Point(3, 20);
             labelOrdersTxt.Name = "labelOrdersTxt";
             labelOrdersTxt.Size = new Size(94, 37);
@@ -198,15 +217,15 @@
             buttonDetails.Text = "Se detaljer på ordren";
             buttonDetails.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // orderGrid
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { OrderID, Date, TimeOfDay, Customer, NumberOfOrderlines, NumberOfProducts, PriceOfOrder });
-            dataGridView1.Location = new Point(3, 167);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(664, 403);
-            dataGridView1.TabIndex = 3;
+            orderGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            orderGrid.Columns.AddRange(new DataGridViewColumn[] { OrderID, Date, Customer, NumberOfOrderlines, NumberOfProducts, PriceOfOrder });
+            orderGrid.Location = new Point(3, 167);
+            orderGrid.Name = "orderGrid";
+            orderGrid.RowTemplate.Height = 25;
+            orderGrid.Size = new Size(664, 403);
+            orderGrid.TabIndex = 3;
             // 
             // OrderID
             // 
@@ -221,13 +240,6 @@
             Date.Name = "Date";
             Date.ReadOnly = true;
             Date.Width = 70;
-            // 
-            // TimeOfDay
-            // 
-            TimeOfDay.HeaderText = "Time of Day";
-            TimeOfDay.Name = "TimeOfDay";
-            TimeOfDay.ReadOnly = true;
-            TimeOfDay.Width = 70;
             // 
             // Customer
             // 
@@ -257,42 +269,23 @@
             PriceOfOrder.ReadOnly = true;
             PriceOfOrder.Width = 80;
             // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(449, 101);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(79, 19);
-            checkBox1.TabIndex = 18;
-            checkBox1.Text = "3000-3500";
-            checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox2
-            // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(449, 126);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(58, 19);
-            checkBox2.TabIndex = 19;
-            checkBox2.Text = "3500+";
-            checkBox2.UseVisualStyleBackColor = true;
-            // 
             // OrdersPanel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 582);
             ControlBox = false;
-            Controls.Add(dataGridView1);
+            Controls.Add(orderGrid);
             Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Name = "OrdersPanel";
             Text = "OrdersPanel";
+            Load += OrdersPanel_Load_1;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)orderGrid).EndInit();
             ResumeLayout(false);
         }
 
@@ -312,7 +305,7 @@
         private TextBox textBoxSearchbar;
         private Panel panel2;
         private Button buttonDetails;
-        private DataGridView dataGridView1;
+        private DataGridView orderGrid;
         private DataGridViewTextBoxColumn OrderID;
         private DataGridViewTextBoxColumn Date;
         private DataGridViewTextBoxColumn TimeOfDay;

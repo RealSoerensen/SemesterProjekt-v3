@@ -27,7 +27,7 @@ public class CustomerController : ControllerBase
 
     // GET api/<CustomerController>/email
     [HttpGet("{email}")]
-    public IActionResult Get(string email)
+    public IActionResult GetByEmail(string email)
     {
         Customer? customer;
         try
@@ -42,6 +42,22 @@ public class CustomerController : ControllerBase
         if (customer == null)
         {
             return NotFound($"Customer with email {email} was not found");
+        }
+
+        return Ok(customer);
+    }
+
+    [HttpGet("GetByID/{id}")]
+    public IActionResult GetById(long id) {
+        Customer? customer;
+        try {
+            customer = customerService.GetCustomer(id);
+        } catch (Exception) {
+            return StatusCode(500, "An error occurred while fetching the customer.");
+        }
+
+        if (customer == null) {
+            return NotFound($"Customer {id} was not found");
         }
 
         return Ok(customer);

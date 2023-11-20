@@ -7,12 +7,12 @@ internal class OrderlineController
 {
     private readonly OrderlineDA _orderlineDA = new();
 
-    public Orderline? Get(long id)
+    public List<Orderline> Get(long id)
     {
         return _orderlineDA.Get(id);
     }
 
-    public List<Orderline> GetALl()
+    public List<Orderline> GetAll()
     {
         return _orderlineDA.GetAll();
     }

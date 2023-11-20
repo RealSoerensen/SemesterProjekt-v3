@@ -24,12 +24,12 @@ internal class OrderlineDA : ICRUD<Orderline>
         return response.IsSuccessStatusCode;
     }
 
-    public Orderline? Get(long id)
+    public List<Orderline> Get(long id)
     {
         var response = _client.GetAsync(URL + "/" + id).Result;
         if (response.IsSuccessStatusCode)
         {
-            return response.Content.ReadFromJsonAsync<Orderline>().Result;
+            return response.Content.ReadFromJsonAsync<List<Orderline>>().Result;
         }
         return null;
     }
@@ -50,5 +50,9 @@ internal class OrderlineDA : ICRUD<Orderline>
     {
         var response = _client.PutAsJsonAsync(URL, obj).Result;
         return response.IsSuccessStatusCode;
+    }
+
+    Orderline? ICRUD<Orderline>.Get(long id) {
+        throw new NotImplementedException();
     }
 }

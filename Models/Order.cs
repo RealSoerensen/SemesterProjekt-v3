@@ -17,4 +17,8 @@ public class Order
     {
         CustomerID = customerID;
     }
+
+    public Order() {
+        
+    }
 }
