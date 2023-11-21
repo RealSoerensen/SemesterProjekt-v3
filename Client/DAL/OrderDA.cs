@@ -8,47 +8,35 @@ internal class OrderDA : ICRUD<Order>
     private readonly string URL = Connection.BaseURL() + "api/Order";
     private readonly HttpClient _client = new();
 
-    public Order? Create(Order obj)
+    public async Task<Order?> Create(Order obj)
     {
-        var response = _client.PostAsJsonAsync(URL, obj).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            return response.Content.ReadFromJsonAsync<Order>().Result;
-        }
-        return null;
+        var response = await _client.PostAsJsonAsync(URL, obj);
+        return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<Order>() : null;
     }
 
-    public bool Delete(long id)
+    public async Task<bool> Delete(long id)
     {
-        var response = _client.DeleteAsync(URL + "/" + id).Result;
+        var response = await _client.DeleteAsync(URL + "/" + id);
         return response.IsSuccessStatusCode;
     }
 
-    public Order? Get(long id)
+    public async Task<Order?> Get(long id)
     {
-        var response = _client.GetAsync(URL + "/" + id).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            return response.Content.ReadFromJsonAsync<Order>().Result;
-        }
-        return null;
+        var response = await _client.GetAsync(URL + "/" + id);
+        return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<Order>() : null;
     }
 
-    public List<Order> GetAll()
+    public async Task<List<Order>> GetAll()
     {
-        var response = _client.GetAsync(URL).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            var result = response.Content.ReadFromJsonAsync<List<Order>>().Result;
-            if (result != null)
-                return result;
-        }
-        return new List<Order>();
+        var response = await _client.GetAsync(URL);
+        if (!response.IsSuccessStatusCode) return new List<Order>();
+        var result = await response.Content.ReadFromJsonAsync<List<Order>>();
+        return result ?? new List<Order>();
     }
 
-    public bool Update(Order obj)
+    public async Task<bool> Update(Order obj)
     {
-        var response = _client.PutAsJsonAsync(URL, obj).Result;
+        var response = await _client.PutAsJsonAsync(URL, obj);
         return response.IsSuccessStatusCode;
     }
 }

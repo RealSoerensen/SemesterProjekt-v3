@@ -4,7 +4,7 @@ namespace Models;
 
 public class Customer
 {
-    public long? ID { get; set; }
+    public long ID { get; set; } = 0;
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public long? AddressID { get; set; }

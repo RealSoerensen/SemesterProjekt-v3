@@ -14,7 +14,7 @@ public class CustomerRespository : ICustomerDA
         _connectionString = connectionString;
     }
 
-    public Customer Create(Customer obj)
+    public async Task<Customer> Create(Customer obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -29,7 +29,7 @@ public class CustomerRespository : ICustomerDA
             VALUES (@FirstName, @LastName, @AddressId, @Email, @PhoneNo, @Password, @RegisterDate)";
 
             // Execute the query and store the returned ID in a variable
-            var customerId = dbConnection.ExecuteScalar<long>(insertCustomerQuery, obj, transaction);
+            var customerId = await dbConnection.ExecuteScalarAsync<long>(insertCustomerQuery, obj, transaction);
 
             // Commit the transaction as the insert was successful
             transaction.Commit();
@@ -48,7 +48,7 @@ public class CustomerRespository : ICustomerDA
         }
     }
 
-    public bool Delete(long id)
+    public async Task<bool> Delete(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -57,7 +57,7 @@ public class CustomerRespository : ICustomerDA
         try
         {
             const string sql = "DELETE FROM Customer WHERE Id = @Id";
-            var rowsAffected = dbConnection.Execute(sql, new { Id = id }, transaction: transaction);
+            var rowsAffected = await dbConnection.ExecuteAsync(sql, new { Id = id }, transaction: transaction);
             transaction.Commit();
             return rowsAffected > 0;
         }
@@ -68,7 +68,7 @@ public class CustomerRespository : ICustomerDA
         }
     }
 
-    public Customer Get(long id)
+    public async Task<Customer> Get(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -76,7 +76,7 @@ public class CustomerRespository : ICustomerDA
         try
         {
             const string sql = "SELECT * FROM [Customer] WHERE ID = @ID";
-            var customer = dbConnection.QuerySingle<Customer>(sql, new { ID = id }, transaction);
+            var customer = await dbConnection.QuerySingleAsync<Customer>(sql, new { ID = id }, transaction);
             transaction.Commit();
             return customer;
         }
@@ -87,24 +87,25 @@ public class CustomerRespository : ICustomerDA
         }
     }
 
-    public List<Customer> GetAll()
+    public async Task<List<Customer>> GetAll()
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         const string sql = "SELECT * FROM Customer";
-        return dbConnection.Query<Customer>(sql).ToList();
+        var customerList = await dbConnection.QueryAsync<Customer>(sql);
+        return customerList.ToList();
     }
 
-    public Customer? GetByEmail(string email)
+    public async Task<Customer?> GetByEmail(string email)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
 
         const string sql = "SELECT * FROM Customer WHERE Email = @Email";
-        return dbConnection.QueryFirstOrDefault<Customer>(sql, new { Email = email });
+        return await dbConnection.QueryFirstOrDefaultAsync<Customer>(sql, new { Email = email });
     }
 
-    public bool Update(Customer obj)
+    public async Task<bool> Update(Customer obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -113,27 +114,26 @@ public class CustomerRespository : ICustomerDA
         try
         {
             const string sql = "UPDATE Customer SET FirstName = @FirstName, LastName = @LastName, AddressId = @AddressId, Email = @Email, PhoneNo = @PhoneNo, Password = @Password WHERE Id = @Id";
-            dbConnection.Execute(sql, obj, transaction);
+            await dbConnection.ExecuteAsync(sql, obj, transaction);
             transaction.Commit();
+            return true;
         }
         catch (Exception)
         {
             transaction.Rollback();
             throw;
         }
-
-        return true;
     }
 
-    public bool CheckEmailExists(string email)
+    public async Task<bool> CheckEmailExists(string email)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
 
         const string sql = "SELECT TOP 1 Email FROM Customer WHERE Email = @Email";
 
-        var result = dbConnection.Query<string>(sql, new { Email = email }).FirstOrDefault();
+        var result = await dbConnection.QueryAsync<string>(sql, new { Email = email });
 
-        return result != null;
+        return result.FirstOrDefault() != null;
     }
 }

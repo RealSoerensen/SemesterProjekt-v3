@@ -14,11 +14,11 @@ public class OrderlineService
         orderlineRepository = new OrderlineRepository(connectionString);
     }
 
-    public Orderline CreateOrderline(Orderline orderline)
+    public async Task<Orderline> CreateOrderline(Orderline orderline)
     {
         try
         {
-            return orderlineRepository.Create(orderline);
+            return await orderlineRepository.Create(orderline);
         }
         catch (Exception e)
         {
@@ -27,11 +27,11 @@ public class OrderlineService
         }
     }
 
-    public List<Orderline> GetOrderlineById(long id)
+    public async Task<List<Orderline>> GetOrderlineById(long id)
     {
         try
         {
-            return orderlineRepository.GetOrderlines(id);
+            return await orderlineRepository.GetOrderlines(id);
         }
         catch (Exception e)
         {
@@ -40,11 +40,11 @@ public class OrderlineService
         }
     }
 
-    public List<Orderline> GetAllOrderlines()
+    public async Task<List<Orderline>> GetAllOrderlines()
     {
         try
         {
-            return orderlineRepository.GetAll();
+            return await orderlineRepository.GetAll();
         }
         catch (Exception e)
         {
@@ -53,11 +53,11 @@ public class OrderlineService
         }
     }
 
-    public bool UpdateOrderline(Orderline orderline)
+    public async Task<bool> UpdateOrderline(Orderline orderline)
     {
         try
         {
-            return orderlineRepository.Update(orderline);
+            return await orderlineRepository.Update(orderline);
         }
         catch (Exception e)
         {
@@ -66,11 +66,11 @@ public class OrderlineService
         }
     }
 
-    public bool DeleteOrderline(long id)
+    public async Task<bool> DeleteOrderline(long id)
     {
         try
         {
-            return orderlineRepository.Delete(id);
+            return await orderlineRepository.Delete(id);
         }
         catch (Exception e)
         {

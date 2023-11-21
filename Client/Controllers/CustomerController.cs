@@ -7,27 +7,27 @@ internal class CustomerController
 {
     private readonly CustomerDA _customerDA = new();
 
-    public Customer? Create(Customer customer)
+    public Task<Customer?> Create(Customer customer)
     {
         return _customerDA.Create(customer);
     }
 
-    public Customer? Get(long id)
+    public Task<Customer?> Get(long id)
     {
         return _customerDA.Get(id);
     }
 
-    public List<Customer> GetAll()
+    public Task<List<Customer>> GetAll()
     {
         return _customerDA.GetAll();
     }
 
-    public bool Update(Customer customer)
+    public Task<bool> Update(Customer customer)
     {
         return _customerDA.Update(customer);
     }
 
-    public bool Delete(long id)
+    public Task<bool> Delete(long id)
     {
         return _customerDA.Delete(id);
     }

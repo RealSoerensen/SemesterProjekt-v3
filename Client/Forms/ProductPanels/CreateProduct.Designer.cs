@@ -222,6 +222,7 @@
             buttonCancel.TabIndex = 33;
             buttonCancel.Text = "Annuller";
             buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // label10
             // 

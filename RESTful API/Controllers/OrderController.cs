@@ -13,12 +13,12 @@ public class OrderController : ControllerBase
 
     // GET: api/<OrderController>
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
         List<Order> orders;
         try
         {
-            orders = _orderService.GetAllOrders();
+            orders = await _orderService.GetAllOrders();
         }
         catch (Exception)
         {
@@ -35,12 +35,12 @@ public class OrderController : ControllerBase
 
     // GET api/<OrderController>/5
     [HttpGet("{id:int}")]
-    public IActionResult Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
         Order? order;
         try
         {
-            order = _orderService.GetOrder(id);
+            order = await _orderService.GetOrder(id);
         }
         catch (Exception)
         {
@@ -57,11 +57,11 @@ public class OrderController : ControllerBase
 
     // POST api/<OrderController>
     [HttpPost]
-    public IActionResult Create([FromBody] Order order)
+    public async Task<IActionResult> Create([FromBody] Order order)
     {
         try
         {
-            var createdOrder = _orderService.CreateOrder(order);
+            var createdOrder = await _orderService.CreateOrder(order);
             return Ok(createdOrder != null);
         }
         catch (Exception)
@@ -72,28 +72,28 @@ public class OrderController : ControllerBase
 
     [HttpPost]
     [Route("CreateWithID/{customerID:int}")]
-    public IActionResult CreateWithID(int customerID, [FromBody] Orderline[] orderlines)
+    public async Task<IActionResult> CreateWithID(int customerID, [FromBody] Orderline[] orderlines)
     {
         try
         {
             var order = new Order(customerID);
             try
             {
-                order = _orderService.CreateOrder(order);
+                order = await _orderService.CreateOrder(order);
             }
             catch (Exception)
             {
                 return BadRequest("Order creation failed - DB ERROR");
             }
 
-            if (order.ID == null) return BadRequest("Order creation failed - DB ERROR");
+            if (order.ID == 0) return BadRequest("Order creation failed - DB ERROR");
 
             foreach (var orderline in orderlines)
             {
-                orderline.OrderID = (long)order.ID;
+                orderline.OrderID = order.ID;
                 try
                 {
-                    _orderlineService.CreateOrderline(orderline);
+                    await _orderlineService.CreateOrderline(orderline);
                 }
                 catch (Exception)
                 {
@@ -110,12 +110,12 @@ public class OrderController : ControllerBase
 
     // PUT api/<OrderController>
     [HttpPut]
-    public IActionResult Update([FromBody] Order order)
+    public async Task<IActionResult> Update([FromBody] Order order)
     {
         bool isUpdated;
         try
         {
-            isUpdated = _orderService.UpdateOrder(order);
+            isUpdated = await _orderService.UpdateOrder(order);
         }
         catch (Exception)
 
@@ -133,12 +133,12 @@ public class OrderController : ControllerBase
 
     // DELETE api/<OrderController>/5
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         bool isDeleted;
         try
         {
-            isDeleted = _orderService.DeleteOrder(id);
+            isDeleted = await _orderService.DeleteOrder(id);
         }
         catch (Exception)
         {
@@ -155,21 +155,16 @@ public class OrderController : ControllerBase
 
     // GET api/<OrderController>/customer/id
     [HttpGet("customer/{id:int}")]
-    public IActionResult GetOrdersByCustomerID(long id)
+    public async Task<IActionResult> GetOrdersByCustomerID(long id)
     {
         List<Order> orders;
         try
         {
-            orders = _orderService.GetOrdersByCustomerID(id);
+            orders = await _orderService.GetOrdersByCustomerID(id);
         }
         catch (Exception)
         {
             return BadRequest("Order retrieval failed - DB ERROR");
-        }
-
-        if (orders == null)
-        {
-            return NotFound("No orders found");
         }
 
         return Ok(orders);

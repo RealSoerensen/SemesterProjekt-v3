@@ -9,13 +9,13 @@ public class CustomerTests
     private readonly CustomerService customerService = new();
 
     [TestMethod]
-    public void CreateCustomer_ReturnsCustomer()
+    public async void CreateCustomer_ReturnsCustomer()
     {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
 
         // Act
-        var createdCustomer = customerService.CreateCustomer(newCustomer);
+        var createdCustomer = await customerService.CreateCustomer(newCustomer);
 
         // Assert
         Assert.IsNotNull(createdCustomer);
@@ -29,16 +29,16 @@ public class CustomerTests
     }
 
     [TestMethod]
-    public void GetCustomer_ReturnsCustomer()
+    public async void GetCustomer_ReturnsCustomer()
     {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
 
         // Act
-        var createdCustomer = customerService.CreateCustomer(newCustomer);
+        var createdCustomer = await customerService.CreateCustomer(newCustomer);
         Assert.IsNotNull(createdCustomer);
         Assert.IsNotNull(createdCustomer.ID);
-        var customer = customerService.GetCustomer((long)createdCustomer.ID);
+        var customer = await customerService.GetCustomer((long)createdCustomer.ID);
         Assert.IsNotNull(customer);
 
         //Assert
@@ -58,18 +58,18 @@ public class CustomerTests
     }
 
     [TestMethod]
-    public void UpdateCustomer_ReturnsTrue()
+    public async void UpdateCustomer_ReturnsTrue()
     {
         //Arrange
         var customer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var createdCustomer = customerService.CreateCustomer(customer);
+        var createdCustomer = await customerService.CreateCustomer(customer);
         var updatedFirstName = "UpdatedTestFirstName";
         var updatedLastName = "UpdatedTestLastName";
 
         //Act
         createdCustomer.FirstName = updatedFirstName;
         createdCustomer.LastName = updatedLastName;
-        var isCustomerUpdated = customerService.UpdateCustomer(createdCustomer);
+        var isCustomerUpdated = await customerService.UpdateCustomer(createdCustomer);
 
         //Assert
         Assert.IsTrue(isCustomerUpdated);
@@ -78,24 +78,24 @@ public class CustomerTests
     }
 
     [TestMethod]
-    public void DeleteCustomer_ReturnsTrue()
+    public async void DeleteCustomer_ReturnsTrue()
     {
         //Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var createdCustomer = customerService.CreateCustomer(newCustomer);
+        var createdCustomer = await customerService.CreateCustomer(newCustomer);
 
         //Act
-        var successfullyDeleted = customerService.DeleteCustomer((long)createdCustomer.ID);
+        var successfullyDeleted = await customerService.DeleteCustomer(createdCustomer.ID);
 
         //Assert
         Assert.IsTrue(successfullyDeleted);
     }
 
     [TestMethod]
-    public void DeleteCustomer_ReturnsFalse()
+    public async void DeleteCustomer_ReturnsFalse()
     {
         //Assert that if we try to delete a customer who does not exist we return false.
-        var successfullyDeleted = customerService.DeleteCustomer(-1);
+        var successfullyDeleted = await customerService.DeleteCustomer(-1);
         Assert.IsFalse(successfullyDeleted);
     }
 }

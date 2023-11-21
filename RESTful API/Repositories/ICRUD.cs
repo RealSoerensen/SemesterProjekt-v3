@@ -2,13 +2,13 @@
 
 public interface ICRUD<C> where C : class
 {
-    C Create(C obj);
+    Task<C> Create(C obj);
 
-    C Get(long id);
+    Task<C> Get(long id);
 
-    List<C> GetAll();
+    Task<List<C>> GetAll();
 
-    bool Update(C obj);
+    Task<bool> Update(C obj);
 
-    bool Delete(long id);
+    Task<bool> Delete(long id);
 }

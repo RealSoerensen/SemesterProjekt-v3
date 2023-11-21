@@ -14,7 +14,7 @@ public class ProductRepository : IProductDA
         _connectionString = connectionString;
     }
 
-    public Product Create(Product product)
+    public async Task<Product> Create(Product product)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -27,7 +27,7 @@ public class ProductRepository : IProductDA
                                 VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category, @Inactive)";
 
             // Execute the query and pass the product and the transaction as parameters
-            dbConnection.Execute(insertQuery, product, transaction: transaction);
+            await dbConnection.ExecuteAsync(insertQuery, product, transaction: transaction);
             transaction.Commit(); // Commit the transaction after the insert
         }
         catch (Exception)
@@ -40,15 +40,16 @@ public class ProductRepository : IProductDA
     }
 
 
-    public List<Product> GetAll()
+    public async Task<List<Product>> GetAll()
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         const string sql = "SELECT * FROM Product";
-        return dbConnection.Query<Product>(sql).ToList();
+        var productList = await dbConnection.QueryAsync<Product>(sql);
+        return productList.ToList();
     }
 
-    public bool Update(Product product)
+    public async Task<bool> Update(Product product)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -57,19 +58,18 @@ public class ProductRepository : IProductDA
         try
         {
             const string sql = @"UPDATE Product SET Description = @Description, Image = @Image, SalePrice = @SalePrice, PurchasePrice = @PurchasePrice, NormalPrice = @NormalPrice, Name = @Name, Stock = @Stock, Brand = @Brand, Category = @Category, Inactive = @Inactive WHERE ID = @ID";
-            dbConnection.Execute(sql, product, transaction);
+            await dbConnection.ExecuteAsync(sql, product, transaction);
             transaction.Commit();
+            return true;
         }
         catch (Exception)
         {
             transaction.Rollback();
             throw;
         }
-
-        return true;
     }
 
-    public Product Get(long id)
+    public async Task<Product> Get(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -77,7 +77,7 @@ public class ProductRepository : IProductDA
         try
         {
             const string sql = "SELECT * FROM Product WHERE ID = @ID";
-            var product = dbConnection.QuerySingle<Product>(sql, new { ID = id }, transaction);
+            var product = await dbConnection.QuerySingleAsync<Product>(sql, new { ID = id }, transaction);
             transaction.Commit();
             return product;
         }
@@ -88,15 +88,32 @@ public class ProductRepository : IProductDA
         }
     }
 
-    public List<Product> GetProductsByCategory(int category)
+    public async Task<List<Product>> GetProductsByCategory(int category)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         const string sql = "SELECT * FROM Product WHERE Category = @Category";
-        return dbConnection.Query<Product>(sql, new { Category = category }).ToList();
+        var productList = await dbConnection.QueryAsync<Product>(sql, new { Category = category });
+        return productList.ToList();
     }
 
-    bool ICRUD<Product>.Delete(long id) {
-        throw new NotImplementedException();
+    public async Task<bool> Delete(long id)
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        using var transaction = dbConnection.BeginTransaction();
+
+        try
+        {
+            const string sql = "DELETE FROM Product WHERE ID = @ID";
+            await dbConnection.ExecuteAsync(sql, new { ID = id }, transaction);
+            transaction.Commit();
+            return true;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 }

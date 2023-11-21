@@ -14,11 +14,11 @@ public class AddressService
         _addressDB = new AddressRespository(connectionString);
     }
 
-    public Address CreateAddress(Address address)
+    public async Task<Address> CreateAddress(Address address)
     {
         try
         {
-            return _addressDB.Create(address);
+            return await _addressDB.Create(address);
         }
         catch (Exception e)
         {
@@ -27,11 +27,11 @@ public class AddressService
         }
     }
 
-    public Address GetAddress(long id)
+    public async Task<Address> GetAddress(long id)
     {
         try
         {
-            return _addressDB.Get(id);
+            return await _addressDB.Get(id);
         }
         catch (Exception e)
         {
@@ -40,11 +40,11 @@ public class AddressService
         }
     }
 
-    public List<Address> GetAllAddresses()
+    public async Task<List<Address>> GetAllAddresses()
     {
         try
         {
-            return _addressDB.GetAll();
+            return await _addressDB.GetAll();
         }
         catch (Exception e)
         {
@@ -53,11 +53,11 @@ public class AddressService
         }
     }
 
-    public bool UpdateAddress(Address address)
+    public async Task<bool> UpdateAddress(Address address)
     {
         try
         {
-            return _addressDB.Update(address);
+            return await _addressDB.Update(address);
         }
         catch (Exception e)
         {
@@ -66,11 +66,11 @@ public class AddressService
         }
     }
 
-    public bool DeleteAddress(long id)
+    public async Task<bool> DeleteAddress(long id)
     {
         try
         {
-            return _addressDB.Delete(id);
+            return await _addressDB.Delete(id);
         }
         catch (Exception e)
         {

@@ -11,11 +11,11 @@ public class OrderlineController : ControllerBase
     private readonly OrderlineService orderlineService = new();
 
     [HttpPost]
-    public IActionResult Create([FromBody] Orderline orderline)
+    public async Task<IActionResult> Create([FromBody] Orderline orderline)
     {
         try
         {
-            var createdOrderline = orderlineService.CreateOrderline(orderline);
+            var createdOrderline = await orderlineService.CreateOrderline(orderline);
             return Ok(createdOrderline);
         }
         catch (Exception)
@@ -25,12 +25,12 @@ public class OrderlineController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult Get(long id)
+    public async Task<IActionResult> Get(long id)
     {
         List<Orderline> orderlines;
         try
         {
-            orderlines = orderlineService.GetOrderlineById(id);
+            orderlines = await orderlineService.GetOrderlineById(id);
         }
         catch (Exception)
         {
@@ -46,12 +46,12 @@ public class OrderlineController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
         List<Orderline> orderlines;
         try
         {
-            orderlines = orderlineService.GetAllOrderlines();
+            orderlines = await orderlineService.GetAllOrderlines();
         }
         catch (Exception)
         {
@@ -67,12 +67,12 @@ public class OrderlineController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update([FromBody] Orderline orderline)
+    public async Task<IActionResult> Update([FromBody] Orderline orderline)
     {
         bool isUpdated;
         try
         {
-            isUpdated = orderlineService.UpdateOrderline(orderline);
+            isUpdated = await orderlineService.UpdateOrderline(orderline);
         }
         catch (Exception)
         {
@@ -88,12 +88,12 @@ public class OrderlineController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         bool isDeleted;
         try
         {
-            isDeleted = orderlineService.DeleteOrderline(id);
+            isDeleted = await orderlineService.DeleteOrderline(id);
         }
         catch (Exception)
         {

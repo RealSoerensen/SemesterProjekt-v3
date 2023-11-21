@@ -9,42 +9,36 @@ internal class ProductDA : ICRUD<Product>
     private readonly string URL = Connection.BaseURL() + "api/Product";
     private readonly HttpClient _client = new();
 
-    public Product? Create(Product obj)
+    public async Task<Product?> Create(Product obj)
     {
-        var response = _client.PostAsJsonAsync(URL, obj).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            var jsonResponse = response.Content.ReadAsStringAsync().Result;
-            return JsonConvert.DeserializeObject<Product>(jsonResponse);
-        }
-        return null;
+        var response = await _client.PostAsJsonAsync(URL, obj);
+        if (!response.IsSuccessStatusCode) return null;
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<Product>(jsonResponse);
     }
 
-    public bool Delete(long id)
+    public async Task<bool> Delete(long id)
     {
-        var response = _client.DeleteAsync(URL + "/" + id).Result;
+        var response = await _client.DeleteAsync(URL + "/" + id);
         return response.IsSuccessStatusCode;
     }
 
-    public Product? Get(long id)
+    public async Task<Product?> Get(long id)
     {
-        var response = _client.GetAsync(URL + "/" + id).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            var jsonResponse = response.Content.ReadAsStringAsync().Result;
-            return JsonConvert.DeserializeObject<Product>(jsonResponse);
-        }
-        return null;
+        var response = await _client.GetAsync(URL + "/" + id);
+        if (!response.IsSuccessStatusCode) return null;
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<Product>(jsonResponse);
     }
 
-    public List<Product> GetAll()
+    public async Task<List<Product>> GetAll()
     {
         try
         {
-            var response = _client.GetAsync(URL).Result;
+            var response = await _client.GetAsync(URL);
             if (response.IsSuccessStatusCode)
             {
-                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+                var jsonResponse = await response.Content.ReadAsStringAsync();
                 var productList = JsonConvert.DeserializeObject<List<Product>>(jsonResponse);
                 if (productList != null) return productList;
             }
@@ -57,9 +51,9 @@ internal class ProductDA : ICRUD<Product>
         return new List<Product>();
     }
 
-    public bool Update(Product obj)
+    public async Task<bool> Update(Product obj)
     {
-        var response = _client.PutAsJsonAsync(URL, obj).Result;
+        var response = await _client.PutAsJsonAsync(URL, obj);
         return response.IsSuccessStatusCode;
     }
 }

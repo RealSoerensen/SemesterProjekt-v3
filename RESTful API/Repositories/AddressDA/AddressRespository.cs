@@ -14,7 +14,7 @@ public class AddressRespository : IAddressDA
         _connectionString = connectionString;
     }
 
-    public Address Create(Address obj)
+    public async Task<Address> Create(Address obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -22,7 +22,7 @@ public class AddressRespository : IAddressDA
         try
         {
             const string sql = "INSERT INTO Address (street, city, zip, houseNumber) VALUES (@Street, @City, @Zip, @HouseNumber); SELECT CAST(SCOPE_IDENTITY() as bigint);";
-            obj.ID = dbConnection.QuerySingle<int>(sql, obj, transaction);
+            obj.ID = await dbConnection.ExecuteScalarAsync<long>(sql, obj, transaction);
             transaction.Commit();
             return obj;
         }
@@ -33,7 +33,7 @@ public class AddressRespository : IAddressDA
         }
     }
 
-    public bool Delete(long id)
+    public async Task<bool> Delete(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -42,7 +42,7 @@ public class AddressRespository : IAddressDA
         try
         {
             const string sql = "DELETE FROM Address WHERE Id = @Id";
-            dbConnection.Execute(sql, id, transaction);
+            await dbConnection.ExecuteAsync(sql, id, transaction);
             transaction.Commit();
         }
         catch (Exception)
@@ -54,7 +54,7 @@ public class AddressRespository : IAddressDA
         return true;
     }
 
-    public Address Get(long id)
+    public async Task<Address> Get(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -62,7 +62,7 @@ public class AddressRespository : IAddressDA
         try
         {
             const string sql = "SELECT * FROM Address WHERE Id = @Id";
-            var address = dbConnection.QuerySingle<Address>(sql, new { Id = id }, transaction);
+            var address = await dbConnection.QuerySingleAsync<Address>(sql, new { Id = id }, transaction);
             transaction.Commit();
             return address;
         }
@@ -73,23 +73,16 @@ public class AddressRespository : IAddressDA
         }
     }
 
-    public List<Address> GetAll()
+    public async Task<List<Address>> GetAll()
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        try
-        {
-            const string sql = "SELECT * FROM Address";
-            var addresses = dbConnection.Query<Address>(sql).ToList();
-            return addresses;
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        const string sql = "SELECT * FROM Address";
+        var addresses = await dbConnection.QueryAsync<Address>(sql);
+        return addresses.ToList();
     }
 
-    public bool Update(Address obj)
+    public async Task<bool> Update(Address obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -97,8 +90,8 @@ public class AddressRespository : IAddressDA
 
         try
         {
-            var sql = "UPDATE Address SET street = @Street, city = @City, zipCode = @Zip, houseNumber = @HouseNumber WHERE Id = @Id";
-            dbConnection.Execute(sql, obj, transaction);
+            const string sql = "UPDATE Address SET street = @Street, city = @City, zipCode = @Zip, houseNumber = @HouseNumber WHERE Id = @Id";
+            await dbConnection.ExecuteAsync(sql, obj, transaction);
             transaction.Commit();
         }
         catch (Exception)

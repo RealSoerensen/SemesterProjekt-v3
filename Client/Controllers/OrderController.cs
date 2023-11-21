@@ -7,27 +7,27 @@ internal class OrderController
 {
     private readonly OrderDA _orderDA = new();
 
-    public Order? Get(int id)
+    public Task<Order?> Get(long id)
     {
         return _orderDA.Get(id);
     }
 
-    public List<Order>? GetAll()
+    public Task<List<Order>> GetAll()
     {
         return _orderDA.GetAll();
     }
 
-    public Order? Create(Order order)
+    public Task<Order?> Create(Order order)
     {
         return _orderDA.Create(order);
     }
 
-    public bool Delete(long id)
+    public Task<bool> Delete(long id)
     {
         return _orderDA.Delete(id);
     }
 
-    public bool Update(Order order)
+    public Task<bool> Update(Order order)
     {
         return _orderDA.Update(order);
     }

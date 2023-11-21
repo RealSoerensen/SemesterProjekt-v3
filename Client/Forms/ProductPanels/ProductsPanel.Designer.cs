@@ -406,6 +406,8 @@
             Text = "Produkter";
             WindowState = FormWindowState.Maximized;
             Load += ProductsPanel_Load;
+            productGrid.SelectionChanged += productGrid_SelectionChanged;
+            productGrid.CellFormatting += productGrid_CellFormatting;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -430,12 +432,6 @@
         private Label label1;
         private CheckBox checkBoxBags;
         private Label label2;
-        private CheckBox checkBox8;
-        private CheckBox checkBox7;
-        private CheckBox checkBox12;
-        private CheckBox checkBox11;
-        private CheckBox checkBox10;
-        private CheckBox checkBox9;
         private DataGridView productGrid;
         private BindingSource productBindingSource;
         private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;

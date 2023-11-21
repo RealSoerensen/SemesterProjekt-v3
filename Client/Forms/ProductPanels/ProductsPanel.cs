@@ -3,31 +3,35 @@ using Models;
 
 namespace Client.Forms.ProductPanels;
 
-public partial class ProductsPanel : Form {
+public partial class ProductsPanel : Form
+{
     private readonly ProductController productController = new();
     private List<Product> products = new();
     private Product? selectedProduct;
 
-    public ProductsPanel() {
+    public ProductsPanel()
+    {
         InitializeComponent();
         InitializeDataGridView();
-        productGrid.SelectionChanged += new EventHandler(productGrid_SelectionChanged);
-        productGrid.CellFormatting += new DataGridViewCellFormattingEventHandler(productGrid_CellFormatting);
-        productGrid.CellDoubleClick += new DataGridViewCellEventHandler(productGrid_CellDoubleClick);
     }
 
-    private void ProductsPanel_Load(object sender, EventArgs e) {
-        try {
-            products = productController.GetAll();
+    private async void ProductsPanel_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            products = await productController.GetAll();
             productGrid.DataSource = products;
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             MessageBox.Show(@"Kunne ikke hente produkter");
             Console.WriteLine(ex);
             Close();
         }
     }
 
-    private void InitializeDataGridView() {
+    private void InitializeDataGridView()
+    {
         productGrid.Name = "Products";
         productGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         productGrid.DataSource = products;
@@ -39,56 +43,84 @@ public partial class ProductsPanel : Form {
         productGrid.MultiSelect = false;
     }
 
-    private void productGrid_SelectionChanged(object sender, EventArgs e) {
-        if (productGrid.SelectedRows.Count > 0) {
-            var selectedRow = productGrid.SelectedRows[0];
-            selectedProduct = selectedRow.DataBoundItem as Product;
-        }
+    private void productGrid_SelectionChanged(object sender, EventArgs e)
+    {
+        if (productGrid.SelectedRows.Count <= 0) return;
+        var selectedRow = productGrid.SelectedRows[0];
+        selectedProduct = selectedRow.DataBoundItem as Product;
     }
 
 
-    private void buttonEdit_Click(object sender, EventArgs e) {
+    private void buttonEdit_Click(object sender, EventArgs e)
+    {
         if (selectedProduct == null) return;
 
         var editProduct = new EditProduct(selectedProduct);
         editProduct.ShowDialog();
 
         // Check if the product was updated
-        if (editProduct.DialogResult == DialogResult.OK) {
+        if (editProduct.DialogResult == DialogResult.OK)
+        {
             RefreshProducts();
         }
     }
 
-    private void RefreshProducts() {
+    private async void RefreshProducts()
+    {
         var firstDisplayedScrollingRowIndex = productGrid.FirstDisplayedScrollingRowIndex;
         var selectedRowIndex = -1;
-        if (productGrid.SelectedRows.Count > 0) {
+        if (productGrid.SelectedRows.Count > 0)
+        {
             selectedRowIndex = productGrid.SelectedRows[0].Index;
         }
 
-        products = productController.GetAll();
-        productGrid.DataSource = new List<Product>(products);
+        productGrid.DataSource = null;
+        products = await productController.GetAll();
+        productGrid.DataSource = products;
 
-        try {
-            if (firstDisplayedScrollingRowIndex >= 0) {
+        try
+        {
+            if (firstDisplayedScrollingRowIndex >= 0)
+            {
                 productGrid.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex;
             }
-            if (selectedRowIndex >= 0 && selectedRowIndex < productGrid.Rows.Count) {
+            if (selectedRowIndex >= 0 && selectedRowIndex < productGrid.Rows.Count)
+            {
                 productGrid.Rows[selectedRowIndex].Selected = true;
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             MessageBox.Show("Error while trying to restore grid position and selection: " + ex.Message);
         }
     }
 
-    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
+
+    // Combobox items
+    /*
+     * Name (a-å)
+     * Name (å-a)
+     * SalePrice (høj-lav)
+     * SalePrice (lav-høj)
+     * PurchasePrice (høj-lav)
+     * PurchasePrice (lav-høj)
+     * NormalPrice (høj-lav)
+     * NormalPrice (lav-høj)
+     * Stock (høj-lav)
+     * Stock (lav-høj)
+    */
+
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
         var sortFilter = comboBox1.SelectedIndex;
-        if (productGrid.DataSource is not List<Product> sortedProducts) {
+        if (productGrid.DataSource is not List<Product> sortedProducts)
+        {
             MessageBox.Show(@"Der er ingen kunder at sortere");
             return;
         }
 
-        sortedProducts = sortFilter switch {
+        sortedProducts = sortFilter switch
+        {
             0 => sortedProducts.OrderBy(product => product.Name).ToList(),
             1 => sortedProducts.OrderByDescending(product => product.Name).ToList(),
             2 => sortedProducts.OrderByDescending(product => product.SalePrice).ToList(),
@@ -106,7 +138,8 @@ public partial class ProductsPanel : Form {
         productGrid.DataSource = sortedProducts;
     }
 
-    private void CheckBox_CheckedChanged(object sender, EventArgs e) {
+    private void CheckBox_CheckedChanged(object sender, EventArgs e)
+    {
         var checkBoxesToCategories = new Dictionary<CheckBox, Category>
         {
         { checkBoxRacket, Category.Bats },
@@ -140,16 +173,20 @@ public partial class ProductsPanel : Form {
         List<Product> filteredProducts;
 
         // If no category is selected, display all products; otherwise, filter by selected categories.
-        if (!selectedCategories.Any()) {
+        if (!selectedCategories.Any())
+        {
             filteredProducts = new List<Product>(products);
-        } else {
+        }
+        else
+        {
             filteredProducts = products
                 .Where(p => selectedCategories.Contains(p.Category))
                 .ToList();
         }
 
         // Apply price range filter if any price range is selected.
-        if (selectedPriceRange != default) {
+        if (selectedPriceRange != default)
+        {
             filteredProducts = filteredProducts
                 .Where(p => p.SalePrice >= selectedPriceRange.Item1 && p.SalePrice <= selectedPriceRange.Item2)
                 .ToList();
@@ -158,12 +195,17 @@ public partial class ProductsPanel : Form {
         productGrid.DataSource = filteredProducts;
     }
 
-    private void productGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+    private void productGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+    {
         var product = productGrid.Rows[e.RowIndex].DataBoundItem as Product;
-        if (product != null) {
-            if (product.Inactive) {
+        if (product != null)
+        {
+            if (product.Inactive)
+            {
                 productGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.DarkGray;
-            } else {
+            }
+            else
+            {
                 productGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = productGrid.DefaultCellStyle.BackColor;
             }
 
@@ -175,31 +217,37 @@ public partial class ProductsPanel : Form {
 
 
 
-    private void btnCreateProduct_Click(object sender, EventArgs e) {
+    private void btnCreateProduct_Click(object sender, EventArgs e)
+    {
         var createProduct = new CreateProduct();
         createProduct.ShowDialog();
 
         // Check if the product was updated
-        if (createProduct.DialogResult == DialogResult.OK) {
+        if (createProduct.DialogResult == DialogResult.OK)
+        {
             RefreshProducts();
         }
     }
 
-    private void productGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-        if (e.RowIndex >= 0) {
+    private void productGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    {
+        if (e.RowIndex >= 0)
+        {
             if (selectedProduct == null) return;
 
             var editProduct = new EditProduct(selectedProduct);
             editProduct.ShowDialog();
 
             // Check if the product was updated
-            if (editProduct.DialogResult == DialogResult.OK) {
+            if (editProduct.DialogResult == DialogResult.OK)
+            {
                 RefreshProducts();
             }
         }
     }
 
-    private void FilterProducts() {
+    private void FilterProducts()
+    {
         var searchValue = textBoxSearchbar.Text.ToLower();
 
         var filteredProducts = products.Where(p =>
@@ -210,19 +258,21 @@ public partial class ProductsPanel : Form {
 
 
 
-    private bool FuzzyMatch(string text, string searchTerm) {
-        if (string.IsNullOrEmpty(searchTerm)) {
+    private bool FuzzyMatch(string text, string searchTerm)
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
             return true;
         }
 
         var searchTextIndex = 0;
 
-        foreach (var charFromText in text) {
-            if (searchTerm[searchTextIndex] == charFromText) {
-                searchTextIndex++;
-                if (searchTextIndex == searchTerm.Length) {
-                    return true;
-                }
+        foreach (var charFromText in text.Where(charFromText => searchTerm[searchTextIndex] == charFromText))
+        {
+            searchTextIndex++;
+            if (searchTextIndex == searchTerm.Length)
+            {
+                return true;
             }
         }
 
@@ -231,7 +281,8 @@ public partial class ProductsPanel : Form {
 
 
 
-    private void textBoxSearchbar_TextChanged(object sender, EventArgs e) {
+    private void textBoxSearchbar_TextChanged(object sender, EventArgs e)
+    {
         FilterProducts();
     }
 }

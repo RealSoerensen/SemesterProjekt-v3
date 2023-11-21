@@ -12,11 +12,11 @@ public class CustomerController : ControllerBase
 
     // POST api/<CustomerController>
     [HttpPost]
-    public IActionResult Create([FromBody] Customer customer)
+    public async Task<IActionResult> Create([FromBody] Customer customer)
     {
         try
         {
-            var createdCustomer = customerService.CreateCustomer(customer);
+            var createdCustomer = await customerService.CreateCustomer(customer);
             return Ok(createdCustomer);
         }
         catch (Exception)
@@ -27,12 +27,12 @@ public class CustomerController : ControllerBase
 
     // GET api/<CustomerController>/email
     [HttpGet("{email}")]
-    public IActionResult GetByEmail(string email)
+    public async Task<IActionResult> GetByEmail(string email)
     {
         Customer? customer;
         try
         {
-            customer = customerService.GetCustomerByEmail(email);
+            customer = await customerService.GetCustomerByEmail(email);
         }
         catch (Exception)
         {
@@ -48,15 +48,20 @@ public class CustomerController : ControllerBase
     }
 
     [HttpGet("GetByID/{id}")]
-    public IActionResult GetById(long id) {
+    public async Task<IActionResult> GetById(long id)
+    {
         Customer? customer;
-        try {
-            customer = customerService.GetCustomer(id);
-        } catch (Exception) {
+        try
+        {
+            customer = await customerService.GetCustomer(id);
+        }
+        catch (Exception)
+        {
             return StatusCode(500, "An error occurred while fetching the customer.");
         }
 
-        if (customer == null) {
+        if (customer == null)
+        {
             return NotFound($"Customer {id} was not found");
         }
 
@@ -65,12 +70,12 @@ public class CustomerController : ControllerBase
 
     // GET api/<CustomerController>/emailExist
     [HttpGet("CheckEmailExists/{email}")]
-    public IActionResult CheckEmailExists(string email)
+    public async Task<IActionResult> CheckEmailExists(string email)
     {
         bool emailExists;
         try
         {
-            emailExists = customerService.CheckEmailExists(email);
+            emailExists = await customerService.CheckEmailExists(email);
         }
         catch (Exception)
         {
@@ -81,12 +86,12 @@ public class CustomerController : ControllerBase
 
     // GET: api/<CustomerController>
     [HttpGet] // Get all customers
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
         List<Customer> customers;
         try
         {
-            customers = customerService.GetAllCustomers();
+            customers = await customerService.GetAllCustomers();
         }
         catch (Exception)
         {
@@ -103,12 +108,12 @@ public class CustomerController : ControllerBase
 
     // PUT api/<CustomerController>
     [HttpPut]
-    public IActionResult Update([FromBody] Customer customer)
+    public async Task<IActionResult> Update([FromBody] Customer customer)
     {
         bool isUpdated;
         try
         {
-            isUpdated = customerService.UpdateCustomer(customer);
+            isUpdated = await customerService.UpdateCustomer(customer);
         }
         catch (Exception)
         {
@@ -125,12 +130,12 @@ public class CustomerController : ControllerBase
 
     // DELETE api/<CustomerController>/email
     [HttpDelete("{id}")]
-    public IActionResult Delete(long id)
+    public async Task<IActionResult> Delete(long id)
     {
         bool isDeleted;
         try
         {
-            isDeleted = customerService.DeleteCustomer(id);
+            isDeleted = await customerService.DeleteCustomer(id);
         }
         catch (Exception)
         {

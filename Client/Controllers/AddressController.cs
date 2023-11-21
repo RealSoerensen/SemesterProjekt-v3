@@ -7,27 +7,27 @@ internal class AddressController
 {
     private readonly AddressDA _addressDA = new();
 
-    public Address? Create(Address address)
+    public Task<Address?> Create(Address address)
     {
         return _addressDA.Create(address);
     }
 
-    public Address? Get(long Id)
+    public Task<Address?> Get(long Id)
     {
         return _addressDA.Get(Id);
     }
 
-    public List<Address> GetAll()
+    public Task<List<Address>> GetAll()
     {
         return _addressDA.GetAll();
     }
 
-    public bool Update(Address address)
+    public Task<bool> Update(Address address)
     {
         return _addressDA.Update(address);
     }
 
-    public bool Delete(Address adress)
+    public Task<bool> Delete(Address adress)
     {
         return _addressDA.Update(adress);
     }

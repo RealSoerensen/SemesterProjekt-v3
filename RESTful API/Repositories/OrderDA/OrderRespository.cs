@@ -14,7 +14,7 @@ public class OrderRespository : IOrderDA
         _connectionString = connectionString;
     }
 
-    public Order Create(Order obj)
+    public async Task<Order> Create(Order obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -22,7 +22,7 @@ public class OrderRespository : IOrderDA
         try
         {
             const string sql = "INSERT INTO [Order] (CustomerID, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as bigint);";
-            obj.ID = dbConnection.QuerySingle<int>(sql, obj, transaction);
+            obj.ID = await dbConnection.QuerySingleAsync<int>(sql, obj, transaction);
             transaction.Commit();
         }
         catch (Exception)
@@ -33,15 +33,15 @@ public class OrderRespository : IOrderDA
         return obj;
     }
 
-    public bool Delete(long id)
+    public async Task<bool> Delete(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "DELETE FROM [Order] WHERE Id = @Id";
-            dbConnection.Execute(sql, new { Id = id }, transaction);
+            const string sql = "DELETE FROM [Order] WHERE Id = @Id";
+            await dbConnection.ExecuteAsync(sql, new { Id = id }, transaction);
             transaction.Commit();
         }
         catch (Exception)
@@ -54,7 +54,7 @@ public class OrderRespository : IOrderDA
     }
 
 
-    public Order Get(long id)
+    public async Task<Order> Get(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -62,7 +62,7 @@ public class OrderRespository : IOrderDA
         try
         {
             const string sql = "SELECT * FROM [Order] WHERE Id = @Id";
-            var order = dbConnection.QuerySingle<Order>(sql, new { Id = id }, transaction);
+            var order = await dbConnection.QuerySingleAsync<Order>(sql, new { Id = id }, transaction);
             transaction.Commit();
             return order;
         }
@@ -73,30 +73,32 @@ public class OrderRespository : IOrderDA
         }
     }
 
-    public List<Order> GetAll()
+    public async Task<List<Order>> GetAll()
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         const string sql = "SELECT * FROM [Order]";
-        return dbConnection.Query<Order>(sql).ToList();
+        var orderList = await dbConnection.QueryAsync<Order>(sql);
+        return orderList.ToList(); ;
     }
 
-    public List<Order> GetOrdersByCustomerID(long id)
+    public async Task<List<Order>> GetOrdersByCustomerID(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         const string sql = "SELECT * FROM [Order] WHERE CustomerID = @ID";
-        return dbConnection.Query<Order>(sql, new { ID = id }).ToList();
+        var orderList = await dbConnection.QueryAsync<Order>(sql, new { ID = id });
+        return orderList.ToList();
     }
 
-    public bool Update(Order obj)
+    public async Task<bool> Update(Order obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            var sql = "UPDATE [Order] SET CustomerId = @CustomerId, date = @OrderDate WHERE Id = @Id";
+            const string sql = "UPDATE [Order] SET CustomerId = @CustomerId, date = @OrderDate WHERE Id = @Id";
 
             var parameters = new
             {
@@ -105,7 +107,7 @@ public class OrderRespository : IOrderDA
                 Id = obj.ID
             };
 
-            dbConnection.Execute(sql, parameters, transaction);
+            await dbConnection.ExecuteAsync(sql, parameters, transaction);
             transaction.Commit();
             return true;
         }
@@ -115,5 +117,4 @@ public class OrderRespository : IOrderDA
             throw;
         }
     }
-
 }

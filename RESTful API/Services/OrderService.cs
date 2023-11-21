@@ -14,11 +14,11 @@ public class OrderService
         _orderDB = new OrderRespository(connectionString);
     }
 
-    public Order CreateOrder(Order order)
+    public async Task<Order> CreateOrder(Order order)
     {
         try
         {
-            return _orderDB.Create(order);
+            return await _orderDB.Create(order);
         }
         catch (Exception e)
         {
@@ -27,11 +27,11 @@ public class OrderService
         }
     }
 
-    public Order GetOrder(long id)
+    public async Task<Order> GetOrder(long id)
     {
         try
         {
-            return _orderDB.Get(id);
+            return await _orderDB.Get(id);
         }
         catch (Exception e)
         {
@@ -40,11 +40,11 @@ public class OrderService
         }
     }
 
-    public List<Order> GetAllOrders()
+    public async Task<List<Order>> GetAllOrders()
     {
         try
         {
-            return _orderDB.GetAll();
+            return await _orderDB.GetAll();
         }
         catch (Exception e)
         {
@@ -53,11 +53,11 @@ public class OrderService
         }
     }
 
-    public bool UpdateOrder(Order order)
+    public async Task<bool> UpdateOrder(Order order)
     {
         try
         {
-            return _orderDB.Update(order);
+            return await _orderDB.Update(order);
         }
         catch (Exception e)
         {
@@ -66,11 +66,11 @@ public class OrderService
         }
     }
 
-    public bool DeleteOrder(long id)
+    public async Task<bool> DeleteOrder(long id)
     {
         try
         {
-            return _orderDB.Delete(id);
+            return await _orderDB.Delete(id);
         }
         catch (Exception e)
         {
@@ -79,11 +79,11 @@ public class OrderService
         }
     }
 
-    public List<Order> GetOrdersByCustomerID(long id)
+    public async Task<List<Order>> GetOrdersByCustomerID(long id)
     {
         try
         {
-            return _orderDB.GetOrdersByCustomerID(id);
+            return await _orderDB.GetOrdersByCustomerID(id);
         }
         catch (Exception e)
         {

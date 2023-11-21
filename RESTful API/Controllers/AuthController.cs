@@ -16,7 +16,7 @@ public class AuthController : ControllerBase
 
     [Route("login")]
     [HttpGet]
-    public IActionResult Login(string email, string password)
+    public async Task<IActionResult> Login(string email, string password)
     {
         try
         {
@@ -27,7 +27,7 @@ public class AuthController : ControllerBase
             }
 
             // Check if the customer exists.
-            var customer = customerService.GetCustomerByEmail(email);
+            var customer = await customerService.GetCustomerByEmail(email);
 
             if (customer == null)
             {
@@ -50,7 +50,7 @@ public class AuthController : ControllerBase
 
     [Route("register")]
     [HttpPost]
-    public IActionResult Register([FromBody] JObject data)
+    public async Task<IActionResult> Register([FromBody] JObject? data)
     {
         if (data == null)
         {
@@ -75,8 +75,9 @@ public class AuthController : ControllerBase
                 return BadRequest("Failed to convert to object");
             }
 
-            customer.ID = addressService.CreateAddress(address).ID;
-            customerService.CreateCustomer(customer);
+            address = await addressService.CreateAddress(address);
+            customer.AddressID = address.ID;
+            await customerService.CreateCustomer(customer);
 
             return Ok();
         }

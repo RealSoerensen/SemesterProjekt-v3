@@ -1,32 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Client.Controllers;
-using Client.DAL;
+﻿using Client.Controllers;
 using Models;
 
-namespace Client.Forms.OrderPanels {
-    public partial class OrdersPanel : Form {
-        private List<Order> orders = new();
+namespace Client.Forms.OrderPanels
+{
+    public partial class OrdersPanel : Form
+    {
         private Order? selectedOrder;
         private readonly OrderController orderController = new();
         private readonly CustomerController customerController = new();
         private readonly OrderlineController orderlineController = new();
-        public OrdersPanel() {
+        public OrdersPanel()
+        {
             InitializeComponent();
             InitializeDataGridView();
         }
 
-        private void InitializeDataGridView() {
+        private void InitializeDataGridView()
+        {
             orderGrid.Name = "Orders";
             orderGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            orderGrid.DataSource = orders;
 
             // Set the DataGridView to full row selection mode
             orderGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -35,61 +27,105 @@ namespace Client.Forms.OrderPanels {
             orderGrid.MultiSelect = false;
         }
 
-        private void orderGrid_SelectionChanged(object sender, EventArgs e) {
-            if (orderGrid.SelectedRows.Count > 0) {
-                var selectedRow = orderGrid.SelectedRows[0];
-                selectedOrder = selectedRow.DataBoundItem as Order;
+        private void orderGrid_SelectionChanged(object sender, EventArgs e)
+        {
+            if (orderGrid.SelectedRows.Count <= 0) return;
+            var selectedRow = orderGrid.SelectedRows[0];
+            selectedOrder = selectedRow.DataBoundItem as Order;
+        }
+
+        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void OrdersPanel_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                await PopulateDataGridViewAsync();
             }
-        }
-
-        private void RefreshOrders() {
-            
-        }
-
-        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e) {
-
-        }
-
-        private void OrdersPanel_Load_1(object sender, EventArgs e) {
-            try {
-                orders = orderController.GetAll();
-
-                PopulateDataGridView();
-
-            } catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(@"Kunne ikke hente ordre");
                 Console.WriteLine(ex);
                 Close();
             }
         }
 
-        private void PopulateDataGridView() {
-            orderGrid.DataSource = null;
-            foreach (var order in orders) {
-                int rowIndex = orderGrid.Rows.Add();
-                orderGrid.Rows[rowIndex].Cells["OrderID"].Value = order.ID;
-                orderGrid.Rows[rowIndex].Cells["Date"].Value = order.Date;
+        private async Task<List<OrderViewModel>> PrepareOrdersData(List<Order> orders)
+        {
+            var ordersData = new List<OrderViewModel>();
 
-                Customer customerOnOrder = customerController.Get(order.CustomerID);
+            foreach (var order in orders)
+            {
+                var orderViewModel = new OrderViewModel
+                {
+                    OrderID = (long)order.ID,
+                    Date = order.Date
 
-                if (customerOnOrder != null) {
-                    orderGrid.Rows[rowIndex].Cells["Customer"].Value = customerOnOrder.FirstName + " " + customerOnOrder.LastName;
+                };
+
+                var customerTask = customerController.Get(order.CustomerID);
+                var orderTask = orderController.Get((long)order.ID);
+                var orderLinesTask = orderlineController.Get((long)order.ID);
+
+                await Task.WhenAll(customerTask, orderTask, orderLinesTask);
+
+                var fetchedCustomer = await customerTask;
+                var fetchedOrder = await orderTask;
+                var orderlines = await orderLinesTask;
+
+                if (fetchedCustomer != null)
+                {
+                    orderViewModel.Customer = fetchedCustomer.FirstName + " " + fetchedCustomer.LastName;
                 }
 
-                var orderlines = orderlineController.Get((long)order.ID);
+                if (fetchedOrder != null)
+                {
+                    orderViewModel.NumberOfOrderlines = (int)fetchedOrder.ID;
+                }
 
-                orderGrid.Rows[rowIndex].Cells["NumberOfOrderlines"].Value = orderlines.Count;
-
+                // decimal with 2 decimals
+                var totalPrice = 0m;
                 var amountOfProducts = 0;
-                decimal totalPrice = 0;
-                foreach (var orderline in orderlines) {
-                    amountOfProducts += orderline.Quantity;
-                    totalPrice += orderline.Quantity * orderline.PriceAtTimeOfOrder;
+
+                if (orderlines != null)
+                {
+                    foreach (var orderline in orderlines)
+                    {
+                        totalPrice += orderline.PriceAtTimeOfOrder;
+                        amountOfProducts += orderline.Quantity;
+                    }
                 }
 
-                orderGrid.Rows[rowIndex].Cells["NumberOfProducts"].Value = amountOfProducts;
-                orderGrid.Rows[rowIndex].Cells["PriceOfOrder"].Value = totalPrice;
+                orderViewModel.NumberOfProducts = amountOfProducts;
+                orderViewModel.PriceOfOrder = totalPrice;
+                // Populate other properties similarly
+
+                ordersData.Add(orderViewModel);
             }
+
+            return ordersData;
+        }
+
+        private async Task PopulateDataGridViewAsync()
+        {
+            orderGrid.DataSource = null;
+            var orders = await orderController.GetAll();
+            var ordersData = await PrepareOrdersData(orders);
+            orderGrid.DataSource = ordersData;
+        }
+
+        public class OrderViewModel
+        {
+            public long OrderID { get; set; }
+            public string? Customer { get; set; }
+            public DateTime Date { get; set; }
+            public int NumberOfOrderlines { get; set; }
+            public int NumberOfProducts { get; set; }
+            public decimal PriceOfOrder { get; set; }
+            // Other properties related to order view model
         }
     }
 }

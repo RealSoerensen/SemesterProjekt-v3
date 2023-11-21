@@ -15,9 +15,9 @@ public partial class CustomersPanel : Form
         InitializeComponent();
     }
 
-    private void CustomersPanel_Load(object sender, EventArgs e)
+    private async void CustomersPanel_Load(object sender, EventArgs e)
     {
-        customers = customerController.GetAll();
+        customers = await customerController.GetAll();
         InitializeDataGridView();
     }
 
@@ -175,7 +175,7 @@ public partial class CustomersPanel : Form
         selectedCustomer = row.DataBoundItem as Customer;
     }
 
-    private void buttonCreate_Click(object sender, EventArgs e)
+    private async void buttonCreate_Click(object sender, EventArgs e)
     {
         var createCustomer = new CreateCustomer();
         createCustomer.ShowDialog();
@@ -190,7 +190,7 @@ public partial class CustomersPanel : Form
         var created = false;
         try
         {
-            address = addressController.Create(address);
+            address = await addressController.Create(address);
             if (address == null) throw new Exception();
         }
         catch (Exception)
@@ -203,7 +203,7 @@ public partial class CustomersPanel : Form
 
         try
         {
-            created = created && customerController.Create(customer) != null;
+            created = created && await customerController.Create(customer) != null;
         }
         catch (Exception)
         {
@@ -223,7 +223,7 @@ public partial class CustomersPanel : Form
         MessageBox.Show(@"Kunden blev oprettet");
     }
 
-    private void buttonEdit_Click(object sender, EventArgs e)
+    private async void buttonEdit_Click(object sender, EventArgs e)
     {
         if (selectedCustomer == null)
         {
@@ -234,7 +234,7 @@ public partial class CustomersPanel : Form
         Address? selectedCustomerAddress;
         try
         {
-            selectedCustomerAddress = addressController.Get((long)selectedCustomer.AddressID!);
+            selectedCustomerAddress = await addressController.Get((long)selectedCustomer.AddressID!);
         }
         catch (Exception)
         {
@@ -270,7 +270,7 @@ public partial class CustomersPanel : Form
         bool updated;
         try
         {
-            updated = customerController.Update(customer);
+            updated = await customerController.Update(customer);
         }
         catch (Exception)
         {
@@ -280,7 +280,7 @@ public partial class CustomersPanel : Form
 
         try
         {
-            updated = updated && addressController.Update(address);
+            updated = updated && await addressController.Update(address);
         }
         catch (Exception)
         {
@@ -300,7 +300,7 @@ public partial class CustomersPanel : Form
         MessageBox.Show(@"Kunden blev opdateret");
     }
 
-    private void buttonDelete_Click(object sender, EventArgs e)
+    private async void buttonDelete_Click(object sender, EventArgs e)
     {
         if (selectedCustomer == null)
         {
@@ -308,7 +308,7 @@ public partial class CustomersPanel : Form
             return;
         }
 
-        var deleted = customerController.Delete((long)selectedCustomer.ID!);
+        var deleted = await customerController.Delete((long)selectedCustomer.ID!);
         if (deleted)
         {
             customers.Remove(selectedCustomer);

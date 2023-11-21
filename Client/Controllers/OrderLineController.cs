@@ -7,27 +7,27 @@ internal class OrderlineController
 {
     private readonly OrderlineDA _orderlineDA = new();
 
-    public List<Orderline> Get(long id)
+    public Task<List<Orderline>?> Get(long id)
     {
-        return _orderlineDA.Get(id);
+        return _orderlineDA.GetOrderlines(id);
     }
 
-    public List<Orderline> GetAll()
+    public Task<List<Orderline>> GetAll()
     {
         return _orderlineDA.GetAll();
     }
 
-    public Orderline? Create(Orderline orderline)
+    public Task<Orderline?> Create(Orderline orderline)
     {
         return _orderlineDA.Create(orderline);
     }
 
-    public bool Delete(long id)
+    public Task<bool> Delete(long id)
     {
         return _orderlineDA.Delete(id);
     }
 
-    public bool Update(Orderline orderline)
+    public Task<bool> Update(Orderline orderline)
     {
         return _orderlineDA.Update(orderline);
     }

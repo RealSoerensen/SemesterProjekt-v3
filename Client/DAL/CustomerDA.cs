@@ -9,15 +9,15 @@ internal class CustomerDA : ICRUD<Customer>
     private readonly string URL = Connection.BaseURL() + "api/Customer";
     private readonly HttpClient _client = new();
 
-    public Customer? Create(Customer obj)
+    public async Task<Customer?> Create(Customer obj)
     {
         try
         {
             HttpContent content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
-            var response = _client.PostAsync(URL, content).Result;
+            var response = await _client.PostAsync(URL, content);
             if (response.IsSuccessStatusCode)
             {
-                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+                var jsonResponse = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Customer>(jsonResponse);
             }
         }
@@ -30,12 +30,12 @@ internal class CustomerDA : ICRUD<Customer>
         return null;
     }
 
-    public bool Update(Customer obj)
+    public async Task<bool> Update(Customer obj)
     {
         try
         {
             HttpContent content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
-            var response = _client.PutAsync(URL, content).Result;
+            var response = await _client.PutAsync(URL, content);
             return response.IsSuccessStatusCode;
         }
         catch (Exception e)
@@ -45,14 +45,19 @@ internal class CustomerDA : ICRUD<Customer>
         }
     }
 
-    public Customer? Get(long id) {
-        try {
-            var response = _client.GetAsync(URL + "/GetByID/" + id).Result;
-            if (response.IsSuccessStatusCode) {
-                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+    public async Task<Customer?> Get(long id)
+    {
+        try
+        {
+            var response = await _client.GetAsync(URL + "/GetByID/" + id);
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Customer>(jsonResponse);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
             throw;
         }
@@ -61,14 +66,14 @@ internal class CustomerDA : ICRUD<Customer>
     }
 
 
-    public List<Customer> GetAll()
+    public async Task<List<Customer>> GetAll()
     {
         try
         {
-            var response = _client.GetAsync(URL).Result;
+            var response = await _client.GetAsync(URL);
             if (response.IsSuccessStatusCode)
             {
-                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+                var jsonResponse = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<List<Customer>>(jsonResponse);
 
                 if (result != null)
@@ -84,11 +89,11 @@ internal class CustomerDA : ICRUD<Customer>
         return new List<Customer>();
     }
 
-    public bool Delete(long id)
+    public async Task<bool> Delete(long id)
     {
         try
         {
-            var response = _client.DeleteAsync(URL + "/" + id).Result;
+            var response = await _client.DeleteAsync(URL + "/" + id);
             return response.IsSuccessStatusCode;
         }
         catch (Exception e)

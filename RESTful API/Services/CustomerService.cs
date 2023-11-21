@@ -14,11 +14,11 @@ public class CustomerService
         _customerDB = new CustomerRespository(connectionString);
     }
 
-    public Customer CreateCustomer(Customer customer)
+    public async Task<Customer> CreateCustomer(Customer customer)
     {
         try
         {
-            return _customerDB.Create(customer);
+            return await _customerDB.Create(customer);
         }
         catch (Exception e)
         {
@@ -27,11 +27,11 @@ public class CustomerService
         }
     }
 
-    public Customer? GetCustomerByEmail(string email)
+    public async Task<Customer?> GetCustomerByEmail(string email)
     {
         try
         {
-            return _customerDB.GetByEmail(email);
+            return await _customerDB.GetByEmail(email);
         }
         catch (Exception e)
         {
@@ -40,11 +40,11 @@ public class CustomerService
         }
     }
 
-    public Customer? GetCustomer(long id)
+    public async Task<Customer?> GetCustomer(long id)
     {
         try
         {
-            return _customerDB.Get(id);
+            return await _customerDB.Get(id);
         }
         catch (Exception e)
         {
@@ -53,11 +53,11 @@ public class CustomerService
         }
     }
 
-    public bool CheckEmailExists(string email)
+    public async Task<bool> CheckEmailExists(string email)
     {
         try
         {
-            return _customerDB.CheckEmailExists(email);
+            return await _customerDB.CheckEmailExists(email);
         }
         catch (Exception e)
         {
@@ -66,11 +66,11 @@ public class CustomerService
         }
     }
 
-    public List<Customer> GetAllCustomers()
+    public async Task<List<Customer>> GetAllCustomers()
     {
         try
         {
-            return _customerDB.GetAll();
+            return await _customerDB.GetAll();
         }
         catch (Exception e)
         {
@@ -79,11 +79,11 @@ public class CustomerService
         }
     }
 
-    public bool UpdateCustomer(Customer customer)
+    public async Task<bool> UpdateCustomer(Customer customer)
     {
         try
         {
-            return _customerDB.Update(customer);
+            return await _customerDB.Update(customer);
         }
         catch (Exception e)
         {
@@ -92,11 +92,11 @@ public class CustomerService
         }
     }
 
-    public bool DeleteCustomer(long id)
+    public async Task<bool> DeleteCustomer(long id)
     {
         try
         {
-            return _customerDB.Delete(id);
+            return await _customerDB.Delete(id);
         }
         catch (Exception e)
         {

@@ -1,5 +1,7 @@
-﻿namespace Client.Forms.OrderPanels {
-    partial class OrdersPanel {
+﻿namespace Client.Forms.OrderPanels
+{
+    partial class OrdersPanel
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -22,7 +26,8 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             panel1 = new Panel();
             checkBox2 = new CheckBox();
             checkBox1 = new CheckBox();
@@ -220,12 +225,12 @@
             // orderGrid
             // 
             orderGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            orderGrid.Columns.AddRange(new DataGridViewColumn[] { OrderID, Date, Customer, NumberOfOrderlines, NumberOfProducts, PriceOfOrder });
             orderGrid.Location = new Point(3, 167);
             orderGrid.Name = "orderGrid";
             orderGrid.RowTemplate.Height = 25;
             orderGrid.Size = new Size(664, 403);
             orderGrid.TabIndex = 3;
+            orderGrid.SelectionChanged += orderGrid_SelectionChanged;
             // 
             // OrderID
             // 
@@ -281,7 +286,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "OrdersPanel";
             Text = "OrdersPanel";
-            Load += OrdersPanel_Load_1;
+            Load += OrdersPanel_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
@@ -308,7 +313,6 @@
         private DataGridView orderGrid;
         private DataGridViewTextBoxColumn OrderID;
         private DataGridViewTextBoxColumn Date;
-        private DataGridViewTextBoxColumn TimeOfDay;
         private DataGridViewTextBoxColumn Customer;
         private DataGridViewTextBoxColumn NumberOfOrderlines;
         private DataGridViewTextBoxColumn NumberOfProducts;

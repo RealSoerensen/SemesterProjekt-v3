@@ -4,16 +4,19 @@ using System.Globalization;
 
 namespace Client.Forms.ProductPanels;
 
-public partial class EditProduct : Form {
+public partial class EditProduct : Form
+{
     private readonly Product product;
     private ProductController productController = new();
 
-    public EditProduct(Product product) {
+    public EditProduct(Product product)
+    {
         this.product = product;
         InitializeComponent();
     }
 
-    private void EditProduct_Load(object sender, EventArgs e) {
+    private void EditProduct_Load(object sender, EventArgs e)
+    {
         pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
         pictureBox.Image = product.ConvertBase64ToImage();
         textBoxProductName.Text = product.Name;
@@ -34,28 +37,36 @@ public partial class EditProduct : Form {
     }
 
 
-    private void buttonSave_Click(object sender, EventArgs e) {
-        if (!ValidateProductInput()) {
+    private async void buttonSave_Click(object sender, EventArgs e)
+    {
+        if (!ValidateProductInput())
+        {
             return;
         }
 
-        var result = productController.Update(Product);
+        var result = await productController.Update(Product);
 
-        if (result) {
+        if (result)
+        {
             this.DialogResult = DialogResult.OK;
             this.Close();
-        } else {
+        }
+        else
+        {
             this.DialogResult = DialogResult.TryAgain;
         }
     }
 
-    private void buttonChoosePicture_Click(object sender, EventArgs e) {
-        using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
+    private void buttonChoosePicture_Click(object sender, EventArgs e)
+    {
+        using (var openFileDialog = new OpenFileDialog())
+        {
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
             openFileDialog.Title = "Select a Product Image";
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK) {
-                Image originalImage = Image.FromFile(openFileDialog.FileName);
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var originalImage = Image.FromFile(openFileDialog.FileName);
                 pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
                 // Now you can use the resized image
@@ -64,12 +75,14 @@ public partial class EditProduct : Form {
         }
     }
 
-    public Product Product {
-        get {
+    public Product Product
+    {
+        get
+        {
             product.Brand = textBoxBrand.Text;
             product.Description = textBoxDescription.Text;
             product.Name = textBoxProductName.Text;
-            product.Image = productController.ConvertImageToBase64(pictureBox.Image);
+            product.Image = ProductController.ConvertImageToBase64(pictureBox.Image);
             product.NormalPrice = decimal.Parse(textBoxNormalPrice.Text);
             product.PurchasePrice = decimal.Parse(textBoxPurchasePrice.Text);
             product.SalePrice = decimal.Parse(textBoxSalesPrice.Text);
@@ -80,45 +93,55 @@ public partial class EditProduct : Form {
         }
     }
 
-    private bool ValidateProductInput() {
-        if (string.IsNullOrWhiteSpace(textBoxProductName.Text)) {
-            MessageBox.Show("Produktnavn er påkrævet.");
+    private bool ValidateProductInput()
+    {
+        if (string.IsNullOrWhiteSpace(textBoxProductName.Text))
+        {
+            MessageBox.Show(@"Produktnavn er påkrævet.");
             return false;
         }
-        if (string.IsNullOrWhiteSpace(textBoxBrand.Text)) {
-            MessageBox.Show("Mærke er påkrævet.");
+        if (string.IsNullOrWhiteSpace(textBoxBrand.Text))
+        {
+            MessageBox.Show(@"Mærke er påkrævet.");
             return false;
         }
-        if (string.IsNullOrWhiteSpace(textBoxDescription.Text)) {
-            MessageBox.Show("Beskrivelse er påkrævet.");
+        if (string.IsNullOrWhiteSpace(textBoxDescription.Text))
+        {
+            MessageBox.Show(@"Beskrivelse er påkrævet.");
             return false;
         }
-        if (!decimal.TryParse(textBoxSalesPrice.Text, out decimal salePrice) || salePrice <= 0) {
-            MessageBox.Show("Ugyldig salgspris. Det skal være et positivt tal.");
+        if (!decimal.TryParse(textBoxSalesPrice.Text, out var salePrice) || salePrice <= 0)
+        {
+            MessageBox.Show(@"Ugyldig salgspris. Det skal være et positivt tal.");
             return false;
         }
-        if (!decimal.TryParse(textBoxPurchasePrice.Text, out decimal purchasePrice) || purchasePrice <= 0) {
-            MessageBox.Show("Ugyldig købspris. Det skal være et positivt tal.");
+        if (!decimal.TryParse(textBoxPurchasePrice.Text, out var purchasePrice) || purchasePrice <= 0)
+        {
+            MessageBox.Show(@"Ugyldig købspris. Det skal være et positivt tal.");
             return false;
         }
-        if (!decimal.TryParse(textBoxNormalPrice.Text, out decimal normalPrice) || normalPrice <= 0) {
-            MessageBox.Show("Ugyldig normalpris. Det skal være et positivt tal.");
+        if (!decimal.TryParse(textBoxNormalPrice.Text, out var normalPrice) || normalPrice <= 0)
+        {
+            MessageBox.Show(@"Ugyldig normalpris. Det skal være et positivt tal.");
             return false;
         }
-        if (!long.TryParse(textBoxStock.Text, out long stock) || stock < 0) {
-            MessageBox.Show("Ugyldig lagerantal. Det kan ikke være negativt.");
+        if (!long.TryParse(textBoxStock.Text, out var stock) || stock < 0)
+        {
+            MessageBox.Show(@"Ugyldig lagerantal. Det kan ikke være negativt.");
             return false;
         }
 
         return true;
     }
 
-    private void removePictureButton_Click(object sender, EventArgs e) {
+    private void removePictureButton_Click(object sender, EventArgs e)
+    {
         product.Image = "";
         pictureBox.Image = null;
     }
 
-    private void buttonCancel_Click(object sender, EventArgs e) {
+    private void buttonCancel_Click(object sender, EventArgs e)
+    {
         this.Close();
     }
 }

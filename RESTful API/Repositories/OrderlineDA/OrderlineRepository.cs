@@ -14,7 +14,7 @@ public class OrderlineRepository : IOrderlineDA
         _connectionString = connectionString;
     }
 
-    public Orderline Create(Orderline obj)
+    public async Task<Orderline> Create(Orderline obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -22,7 +22,7 @@ public class OrderlineRepository : IOrderlineDA
         try
         {
             const string sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity, PriceAtTimeOfOrder) VALUES (@OrderId, @ProductId, @Quantity, @PriceAtTimeOfOrder);";
-            dbConnection.Execute(sql, obj, transaction);
+            await dbConnection.ExecuteAsync(sql, obj, transaction);
             transaction.Commit();
         }
         catch (Exception)
@@ -33,7 +33,7 @@ public class OrderlineRepository : IOrderlineDA
         return obj;
     }
 
-    public bool Delete(long id)
+    public async Task<bool> Delete(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -42,7 +42,7 @@ public class OrderlineRepository : IOrderlineDA
         try
         {
             const string sql = "DELETE FROM Orderline WHERE Id = @Id";
-            dbConnection.Execute(sql, id, transaction);
+            await dbConnection.ExecuteAsync(sql, id, transaction);
             transaction.Commit();
         }
         catch (Exception)
@@ -54,12 +54,12 @@ public class OrderlineRepository : IOrderlineDA
         return true;
     }
 
-    public Orderline Get(long id)
+    public Task<Orderline> Get(long id)
     {
         throw new NotImplementedException();
     }
 
-    public List<Orderline> GetOrderlines(long id)
+    public async Task<List<Orderline>> GetOrderlines(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -68,9 +68,9 @@ public class OrderlineRepository : IOrderlineDA
         try
         {
             const string sql = "SELECT * FROM Orderline WHERE OrderID = @Id";
-            var orderline = dbConnection.Query<Orderline>(sql, new { Id = id }, transaction).ToList();
+            var orderline = await dbConnection.QueryAsync<Orderline>(sql, new { Id = id }, transaction);
             transaction.Commit();
-            return orderline;
+            return orderline.ToList(); ;
         }
         catch (Exception)
         {
@@ -79,15 +79,16 @@ public class OrderlineRepository : IOrderlineDA
         }
     }
 
-    public List<Orderline> GetAll()
+    public async Task<List<Orderline>> GetAll()
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
         const string sql = "SELECT * FROM Orderline";
-        return dbConnection.Query<Orderline>(sql).ToList();
+        var orderLineList = await dbConnection.QueryAsync<Orderline>(sql);
+        return orderLineList.ToList();
     }
 
-    public bool Update(Orderline obj)
+    public async Task<bool> Update(Orderline obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -96,14 +97,15 @@ public class OrderlineRepository : IOrderlineDA
         try
         {
             const string sql = "UPDATE Orderline SET OrderId = @OrderId, ProductId = @ProductId, Quantity = @Quantity WHERE Id = @Id";
-            dbConnection.Execute(sql, obj, transaction);
+            await dbConnection.ExecuteAsync(sql, obj, transaction);
             transaction.Commit();
+            return true;
+
         }
         catch (Exception)
         {
             transaction.Rollback();
             throw;
         }
-        return true;
     }
 }

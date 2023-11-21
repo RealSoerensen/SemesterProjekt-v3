@@ -97,6 +97,7 @@
             ClientSize = new Size(1069, 589);
             Controls.Add(panelMain);
             Controls.Add(panelMenu);
+            Load += Main_Load;
             Name = "Main";
             Text = "Form1";
             panelMenu.ResumeLayout(false);

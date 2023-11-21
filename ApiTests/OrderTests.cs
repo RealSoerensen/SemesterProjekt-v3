@@ -1,9 +1,4 @@
-
-﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using RESTful_API.Controllers;
-using RESTful_API.Repositories;
-using RESTful_API.Repositories.OrderDA;
 using RESTful_API.Services;
 
 namespace ApiTests;
@@ -25,11 +20,11 @@ public class OrderTests
     {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var createdCustomer = customerService.CreateCustomer(newCustomer);
+        var createdCustomer = customerService.CreateCustomer(newCustomer).Result;
         var newOrder = new Order((long)createdCustomer.ID);
 
         // Act
-        var createdOrder = orderService.CreateOrder(newOrder);
+        var createdOrder = orderService.CreateOrder(newOrder).Result;
 
         // Assert
         Assert.IsNotNull(createdOrder);
@@ -40,47 +35,47 @@ public class OrderTests
     {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var createdCustomer = customerService.CreateCustomer(newCustomer);
+        var createdCustomer = customerService.CreateCustomer(newCustomer).Result;
         var newOrder = new Order((long)createdCustomer.ID);
-        var createdOrder = orderService.CreateOrder(newOrder);
+        var createdOrder = orderService.CreateOrder(newOrder).Result;
 
         // Act
-        var order = orderService.GetOrder((long)createdOrder.ID);
+        var order = orderService.GetOrder((long)createdOrder.ID).Result;
 
         // Assert
-        Assert.IsNotNull(createdOrder);
+        Assert.IsNotNull(order);
     }
 
     [TestMethod]
-    public void TestGetAllOrders()
+    public async void TestGetAllOrders()
     {
         // Arrange - Creates an order to make sure there is one in the system.
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var createdCustomer = customerService.CreateCustomer(newCustomer);
+        var createdCustomer = await customerService.CreateCustomer(newCustomer);
         var newOrder = new Order((long)createdCustomer.ID);
-        orderService.CreateOrder(newOrder);
+        await orderService.CreateOrder(newOrder);
 
         // Act
-        var allOrders = orderService.GetAllOrders();
+        var allOrders = await orderService.GetAllOrders();
 
         // Assert
         Assert.IsNotNull(allOrders);
     }
 
     [TestMethod]
-    public void TestUpdateOrder()
+    public async void TestUpdateOrder()
     {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var customerOne = customerService.CreateCustomer(newCustomer);
+        var customerOne = await customerService.CreateCustomer(newCustomer);
         var order = new Order((long)customerOne.ID);
-        orderService.CreateOrder(order);
+        await orderService.CreateOrder(order);
 
 
         // Act
-        var customerTwo = customerService.CreateCustomer(newCustomer);
+        var customerTwo = await customerService.CreateCustomer(newCustomer);
         var updatedOrder = new Order((long)customerTwo.ID);
-        var isOrderUpdated = orderService.UpdateOrder(updatedOrder);
+        var isOrderUpdated = await orderService.UpdateOrder(updatedOrder);
 
         // Assert
         Assert.IsTrue(isOrderUpdated);
@@ -88,35 +83,43 @@ public class OrderTests
     }
 
     [TestMethod]
-    public void TestDeleteOrder()
+    public async void TestDeleteOrder()
     {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var createdCustomer = customerService.CreateCustomer(newCustomer);
+        var createdCustomer = await customerService.CreateCustomer(newCustomer);
         var newOrder = new Order((long)createdCustomer.ID);
-        var createdOrder = orderService.CreateOrder(newOrder);
+        var createdOrder = await orderService.CreateOrder(newOrder);
 
         // Act
-        var isOrderDeleted = orderService.DeleteOrder((long)createdOrder.ID);
+        var isOrderDeleted = await orderService.DeleteOrder((long)createdOrder.ID);
 
         //Assert
         Assert.IsTrue(isOrderDeleted);
     }
 
     [TestCleanup]
-    public void Cleanup() {
-        var testEmail = "TestEmail@TestEmail.com"; // Email used in the tests
+    public async void Cleanup()
+    {
+        const string testEmail = "TestEmail@TestEmail.com"; // Email used in the tests
 
-        while (customerService.GetCustomerByEmail(testEmail) != null) {
-            var customerToDelete = customerService.GetCustomerByEmail(testEmail);
+        while (await customerService.GetCustomerByEmail(testEmail) != null)
+        {
+            var customerToDelete = await customerService.GetCustomerByEmail(testEmail);
 
-            var ordersToDelete = orderService.GetOrdersByCustomerID((long)customerToDelete.ID);
-
-            foreach(Order order in ordersToDelete) {
-                orderService.DeleteOrder((long)order.ID);
+            if (customerToDelete == null)
+            {
+                continue;
             }
 
-            customerService.DeleteCustomer((long)customerToDelete.ID);
+            var ordersToDelete = await orderService.GetOrdersByCustomerID(customerToDelete.ID);
+
+            foreach (var order in ordersToDelete)
+            {
+                await orderService.DeleteOrder(order.ID);
+            }
+
+            await customerService.DeleteCustomer(customerToDelete.ID);
         }
     }
 }

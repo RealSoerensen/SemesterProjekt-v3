@@ -14,11 +14,11 @@ public class ProductService
         productRepository = new ProductRepository(connectionString);
     }
 
-    public Product CreateProduct(Product product)
+    public async Task<Product> CreateProduct(Product product)
     {
         try
         {
-            return productRepository.Create(product);
+            return await productRepository.Create(product);
         }
         catch (Exception e)
         {
@@ -27,11 +27,11 @@ public class ProductService
         }
     }
 
-    public Product GetProductByID(long id)
+    public async Task<Product> GetProductByID(long id)
     {
         try
         {
-            return productRepository.Get(id);
+            return await productRepository.Get(id);
         }
         catch (Exception e)
         {
@@ -40,11 +40,11 @@ public class ProductService
         }
     }
 
-    public List<Product> GetAllProducts()
+    public async Task<List<Product>> GetAllProducts()
     {
         try
         {
-            return productRepository.GetAll();
+            return await productRepository.GetAll();
         }
         catch (Exception e)
         {
@@ -53,11 +53,11 @@ public class ProductService
         }
     }
 
-    public bool UpdateProduct(Product product)
+    public async Task<bool> UpdateProduct(Product product)
     {
         try
         {
-            return productRepository.Update(product);
+            return await productRepository.Update(product);
         }
         catch (Exception e)
         {
@@ -66,11 +66,11 @@ public class ProductService
         }
     }
 
-    public bool DeleteProduct(long id)
+    public async Task<bool> DeleteProduct(long id)
     {
         try
         {
-            var productToDelete = GetProductByID(id);
+            var productToDelete = await GetProductByID(id);
             productToDelete.Inactive = true;
             return productToDelete.Inactive;
         }
@@ -81,11 +81,11 @@ public class ProductService
         }
     }
 
-    public List<Product> GetProductsByCategory(int category)
+    public async Task<List<Product>> GetProductsByCategory(int category)
     {
         try
         {
-            return productRepository.GetProductsByCategory(category);
+            return await productRepository.GetProductsByCategory(category);
         }
         catch (Exception e)
         {

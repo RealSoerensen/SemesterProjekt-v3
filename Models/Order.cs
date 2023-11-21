@@ -2,7 +2,7 @@
 
 public class Order
 {
-    public long? ID { get; set; }
+    public long ID { get; set; } = 0;
     public DateTime Date { get; set; } = DateTime.Now;
     public long CustomerID { get; set; }
 
@@ -18,7 +18,8 @@ public class Order
         CustomerID = customerID;
     }
 
-    public Order() {
-        
+    public Order()
+    {
+
     }
 }

@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Models;
+﻿using Models;
 using RESTful_API.Services;
 
 namespace ApiTests;
 
 [TestClass]
-public class ProductTests {
+public class ProductTests
+{
     private readonly ProductService productService;
 
-    public ProductTests() {
+    public ProductTests()
+    {
         productService = new();
     }
 
     [TestMethod]
-    public void ShouldCreateProduct() {
+    public void ShouldCreateProduct()
+    {
         //Arrange
         var newProduct = new Product("TestDesc", "TestImage", 10, 10, 10, "TestName", 10, "TestBrand", 0);
 
@@ -29,14 +27,15 @@ public class ProductTests {
     }
 
     [TestMethod]
-    public void ShouldUpdateProduct() {
+    public void ShouldUpdateProduct()
+    {
         //Arrange
         var newProduct = new Product("TestDesc", "TestImage", 10, 10, 10, "TestName", 10, "TestBrand", 0);
-        var createdProduct = productService.CreateProduct(newProduct);
+        var createdProduct = productService.CreateProduct(newProduct).Result;
 
         //Act
         createdProduct.Description = "UpdatedTestDesc";
-        var isProductUpdated = productService.UpdateProduct(createdProduct);
+        var isProductUpdated = productService.UpdateProduct(createdProduct).Result;
 
         //Assert
         Assert.IsTrue(isProductUpdated);
@@ -44,10 +43,11 @@ public class ProductTests {
     }
 
     [TestMethod]
-    public void ShouldGetProduct() {
+    public void ShouldGetProduct()
+    {
         //Arrange
         var newProduct = new Product("TestDesc", "TestImage", 10, 10, 10, "TestName", 10, "TestBrand", 0);
-        var createdProduct = productService.CreateProduct(newProduct);
+        var createdProduct = productService.CreateProduct(newProduct).Result;
 
         //Act
 
@@ -57,10 +57,11 @@ public class ProductTests {
     }
 
     [TestMethod]
-    public void ShouldGetAllProducts() {
+    public void ShouldGetAllProducts()
+    {
         //Arrange
         var newProduct = new Product("TestDesc", "TestImage", 10, 10, 10, "TestName", 10, "TestBrand", 0);
-        var createdProduct = productService.CreateProduct(newProduct);
+        var createdProduct = productService.CreateProduct(newProduct).Result;
 
         //Act
 
@@ -70,10 +71,11 @@ public class ProductTests {
     }
 
     [TestMethod]
-    public void ShouldDeleteProduct() {
+    public void ShouldDeleteProduct()
+    {
         //Arrange
         var newProduct = new Product("TestDesc", "TestImage", 10, 10, 10, "TestName", 10, "TestBrand", 0);
-        var createdProduct = productService.CreateProduct(newProduct);
+        var createdProduct = productService.CreateProduct(newProduct).Result;
 
         //Act
 

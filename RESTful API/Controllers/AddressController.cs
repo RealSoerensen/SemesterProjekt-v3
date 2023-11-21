@@ -12,12 +12,12 @@ public class AddressController : ControllerBase
 
     // GET: api/<AddressController>
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
         List<Address> addresses;
         try
         {
-            addresses = addressService.GetAllAddresses();
+            addresses = await addressService.GetAllAddresses();
         }
         catch (Exception)
         {
@@ -29,12 +29,12 @@ public class AddressController : ControllerBase
 
     // GET api/<AddressController>/5
     [HttpGet("{id:int}")]
-    public IActionResult Get(int id)
+    public async Task<IActionResult> Get(int id)
     {
         Address? address;
         try
         {
-            address = addressService.GetAddress(id);
+            address = await addressService.GetAddress(id);
         }
         catch (Exception)
         {
@@ -46,12 +46,12 @@ public class AddressController : ControllerBase
 
     // POST api/<AddressController>
     [HttpPost]
-    public IActionResult Create([FromBody] Address address)
+    public async Task<IActionResult> Create([FromBody] Address address)
     {
         Address? createdAddress;
         try
         {
-            createdAddress = addressService.CreateAddress(address);
+            createdAddress = await addressService.CreateAddress(address);
         }
         catch (Exception)
         {
@@ -63,12 +63,12 @@ public class AddressController : ControllerBase
 
     // PUT api/<AddressController>/5
     [HttpPut]
-    public IActionResult Update([FromBody] Address address)
+    public async Task<IActionResult> Update([FromBody] Address address)
     {
         bool updatedAddress;
         try
         {
-            updatedAddress = addressService.UpdateAddress(address);
+            updatedAddress = await addressService.UpdateAddress(address);
         }
         catch (Exception)
         {
@@ -80,12 +80,12 @@ public class AddressController : ControllerBase
 
     // DELETE api/<AddressController>/5
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         bool deletedAddress;
         try
         {
-            deletedAddress = addressService.DeleteAddress(id);
+            deletedAddress = await addressService.DeleteAddress(id);
         }
         catch (Exception)
         {

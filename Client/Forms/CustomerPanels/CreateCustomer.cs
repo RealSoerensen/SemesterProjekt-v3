@@ -1,5 +1,4 @@
 ﻿using Client.Controllers;
-using Client.DAL;
 using Models;
 
 namespace Client.Forms.CustomerPanels;
@@ -11,7 +10,7 @@ public partial class CreateCustomer : Form
         InitializeComponent();
     }
 
-    private void btnCreate_Click(object sender, EventArgs e)
+    private async void btnCreate_Click(object sender, EventArgs e)
     {
         // Get customer and address from the form
         var customer = this.Customer;
@@ -21,7 +20,7 @@ public partial class CreateCustomer : Form
             !IsPasswordValid(customer.Password, tbPasswordConfirm.Text) ||
             !IsEmailValid(customer.Email))
         {
-            MessageBox.Show("Please check your input. Ensure all fields are correctly filled.");
+            MessageBox.Show(@"Please check your input. Ensure all fields are correctly filled.");
             return;
         }
 
@@ -31,7 +30,7 @@ public partial class CreateCustomer : Form
         var AddressController = new AddressController();
 
         // First, create the address
-        var createdAddress = AddressController.Create(address);
+        var createdAddress = await AddressController.Create(address);
         if (createdAddress != null && createdAddress.ID.HasValue)
         {
             // Set the AddressID of the customer
@@ -41,12 +40,12 @@ public partial class CreateCustomer : Form
             var createdCustomer = customerController.Create(customer);
             if (createdCustomer != null)
             {
-                MessageBox.Show("Customer and Address created successfully!");
+                MessageBox.Show(@"Customer and Address created successfully!");
                 return;
             }
         }
 
-        MessageBox.Show("Failed to create Customer and Address.");
+        MessageBox.Show(@"Failed to create Customer and Address.");
         DialogResult = DialogResult.Cancel;
     }
 

@@ -8,51 +8,40 @@ internal class OrderlineDA : ICRUD<Orderline>
     private readonly string URL = Connection.BaseURL() + "api/Orderline";
     private readonly HttpClient _client = new();
 
-    public Orderline? Create(Orderline obj)
+    public async Task<Orderline?> Create(Orderline obj)
     {
-        var response = _client.PostAsJsonAsync(URL, obj).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            return response.Content.ReadFromJsonAsync<Orderline>().Result;
-        }
-        return null;
+        var response = await _client.PostAsJsonAsync(URL, obj);
+        return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<Orderline>() : null;
     }
 
-    public bool Delete(long id)
+    public async Task<bool> Delete(long id)
     {
-        var response = _client.DeleteAsync(URL + "/" + id).Result;
+        var response = await _client.DeleteAsync(URL + "/" + id);
         return response.IsSuccessStatusCode;
     }
 
-    public List<Orderline> Get(long id)
+    public async Task<List<Orderline>?> GetOrderlines(long id)
     {
-        var response = _client.GetAsync(URL + "/" + id).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            return response.Content.ReadFromJsonAsync<List<Orderline>>().Result;
-        }
-        return null;
+        var response = await _client.GetAsync(URL + "/" + id);
+        return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<List<Orderline>>() : new List<Orderline>();
     }
 
-    public List<Orderline> GetAll()
+    public async Task<List<Orderline>> GetAll()
     {
-        var response = _client.GetAsync(URL).Result;
-        if (response.IsSuccessStatusCode)
-        {
-            var result = response.Content.ReadFromJsonAsync<List<Orderline>>().Result;
-            if (result != null)
-                return result;
-        }
-        return new List<Orderline>();
+        var response = await _client.GetAsync(URL);
+        if (!response.IsSuccessStatusCode) return new List<Orderline>();
+        var result = await response.Content.ReadFromJsonAsync<List<Orderline>>();
+        return result ?? new List<Orderline>();
     }
 
-    public bool Update(Orderline obj)
+    public async Task<bool> Update(Orderline obj)
     {
-        var response = _client.PutAsJsonAsync(URL, obj).Result;
+        var response = await _client.PutAsJsonAsync(URL, obj);
         return response.IsSuccessStatusCode;
     }
 
-    Orderline? ICRUD<Orderline>.Get(long id) {
+    public Task<Orderline?> Get(long id)
+    {
         throw new NotImplementedException();
     }
 }

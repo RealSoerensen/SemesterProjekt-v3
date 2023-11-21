@@ -11,11 +11,11 @@ public class ProductController : ControllerBase
     private readonly ProductService productService = new();
 
     [HttpPost]
-    public IActionResult Create([FromBody] Product product)
+    public async Task<IActionResult> Create([FromBody] Product product)
     {
         try
         {
-            var createdProduct = productService.CreateProduct(product);
+            var createdProduct = await productService.CreateProduct(product);
             return Ok(createdProduct);
         }
         catch (Exception)
@@ -25,33 +25,28 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id:long}")]
-    public IActionResult Get(long id)
+    public async Task<IActionResult> Get(long id)
     {
         Product product;
         try
         {
-            product = productService.GetProductByID(id);
+            product = await productService.GetProductByID(id);
         }
         catch (Exception)
         {
             return StatusCode(500, "An error occurred while fetching the product.");
         }
 
-        if (product == null)
-        {
-            return NotFound($"Product with SN {id} was not found");
-        }
-
         return Ok(product);
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
         List<Product> products;
         try
         {
-            products = productService.GetAllProducts();
+            products = await productService.GetAllProducts();
         }
         catch (Exception)
         {
@@ -67,12 +62,12 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult Update([FromBody] Product product)
+    public async Task<IActionResult> Update([FromBody] Product product)
     {
         bool isUpdated;
         try
         {
-            isUpdated = productService.UpdateProduct(product);
+            isUpdated = await productService.UpdateProduct(product);
         }
         catch (Exception)
         {
@@ -88,12 +83,12 @@ public class ProductController : ControllerBase
     }
 
     [HttpDelete("{id:long}")]
-    public IActionResult Delete(long id)
+    public async Task<IActionResult> Delete(long id)
     {
         bool isDeleted;
         try
         {
-            isDeleted = productService.DeleteProduct(id);
+            isDeleted = await productService.DeleteProduct(id);
         }
         catch (Exception)
         {
@@ -109,12 +104,12 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("category/{categoryId:int}")]
-    public IActionResult GetByCategory(int categoryId)
+    public async Task<IActionResult> GetByCategory(int categoryId)
     {
         List<Product> products;
         try
         {
-            products = productService.GetProductsByCategory(categoryId);
+            products = await productService.GetProductsByCategory(categoryId);
         }
         catch (Exception)
         {
