@@ -132,6 +132,7 @@
             buttonCancel.TabIndex = 9;
             buttonCancel.Text = "Fortryd";
             buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // textBoxProductName
             // 

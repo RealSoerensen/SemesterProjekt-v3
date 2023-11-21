@@ -13,6 +13,7 @@ public partial class ProductsPanel : Form {
         InitializeDataGridView();
         productGrid.SelectionChanged += new EventHandler(productGrid_SelectionChanged);
         productGrid.CellFormatting += new DataGridViewCellFormattingEventHandler(productGrid_CellFormatting);
+        productGrid.CellDoubleClick += new DataGridViewCellEventHandler(productGrid_CellDoubleClick);
     }
 
     private void ProductsPanel_Load(object sender, EventArgs e) {
@@ -55,30 +56,30 @@ public partial class ProductsPanel : Form {
         // Check if the product was updated
         if (editProduct.DialogResult == DialogResult.OK) {
             RefreshProducts();
-        } else {
-            MessageBox.Show("Kunne ikke opdatere produkt");
         }
     }
 
     private void RefreshProducts() {
+        var firstDisplayedScrollingRowIndex = productGrid.FirstDisplayedScrollingRowIndex;
+        var selectedRowIndex = -1;
+        if (productGrid.SelectedRows.Count > 0) {
+            selectedRowIndex = productGrid.SelectedRows[0].Index;
+        }
+
         products = productController.GetAll();
         productGrid.DataSource = new List<Product>(products);
+
+        try {
+            if (firstDisplayedScrollingRowIndex >= 0) {
+                productGrid.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex;
+            }
+            if (selectedRowIndex >= 0 && selectedRowIndex < productGrid.Rows.Count) {
+                productGrid.Rows[selectedRowIndex].Selected = true;
+            }
+        } catch (Exception ex) {
+            MessageBox.Show("Error while trying to restore grid position and selection: " + ex.Message);
+        }
     }
-
-
-    // Combobox items
-    /*
-     * Name (a-å)
-     * Name (å-a)
-     * SalePrice (høj-lav)
-     * SalePrice (lav-høj)
-     * PurchasePrice (høj-lav)
-     * PurchasePrice (lav-høj)
-     * NormalPrice (høj-lav)
-     * NormalPrice (lav-høj)
-     * Stock (høj-lav)
-     * Stock (lav-høj)
-    */
 
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
         var sortFilter = comboBox1.SelectedIndex;
@@ -165,6 +166,10 @@ public partial class ProductsPanel : Form {
             } else {
                 productGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = productGrid.DefaultCellStyle.BackColor;
             }
+
+            product.NormalPrice = decimal.Round(product.NormalPrice, 2, MidpointRounding.AwayFromZero);
+            product.SalePrice = decimal.Round(product.SalePrice, 2, MidpointRounding.AwayFromZero);
+            product.PurchasePrice = decimal.Round(product.PurchasePrice, 2, MidpointRounding.AwayFromZero);
         }
     }
 
@@ -178,5 +183,55 @@ public partial class ProductsPanel : Form {
         if (createProduct.DialogResult == DialogResult.OK) {
             RefreshProducts();
         }
+    }
+
+    private void productGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+        if (e.RowIndex >= 0) {
+            if (selectedProduct == null) return;
+
+            var editProduct = new EditProduct(selectedProduct);
+            editProduct.ShowDialog();
+
+            // Check if the product was updated
+            if (editProduct.DialogResult == DialogResult.OK) {
+                RefreshProducts();
+            }
+        }
+    }
+
+    private void FilterProducts() {
+        var searchValue = textBoxSearchbar.Text.ToLower();
+
+        var filteredProducts = products.Where(p =>
+            FuzzyMatch(p.Name.ToLower(), searchValue)).ToList();
+
+        productGrid.DataSource = filteredProducts;
+    }
+
+
+
+    private bool FuzzyMatch(string text, string searchTerm) {
+        if (string.IsNullOrEmpty(searchTerm)) {
+            return true;
+        }
+
+        var searchTextIndex = 0;
+
+        foreach (var charFromText in text) {
+            if (searchTerm[searchTextIndex] == charFromText) {
+                searchTextIndex++;
+                if (searchTextIndex == searchTerm.Length) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+
+    private void textBoxSearchbar_TextChanged(object sender, EventArgs e) {
+        FilterProducts();
     }
 }

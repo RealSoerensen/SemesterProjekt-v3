@@ -76,22 +76,20 @@ namespace Client.Forms.OrderPanels {
                     orderGrid.Rows[rowIndex].Cells["Customer"].Value = customerOnOrder.FirstName + " " + customerOnOrder.LastName;
                 }
 
-                orderGrid.Rows[rowIndex].Cells["NumberOfOrderlines"].Value = orderlineController.Get((long)order.ID).Count;
+                var orderlines = orderlineController.Get((long)order.ID);
+
+                orderGrid.Rows[rowIndex].Cells["NumberOfOrderlines"].Value = orderlines.Count;
 
                 var amountOfProducts = 0;
                 decimal totalPrice = 0;
-                foreach (var orderline in  orderlineController.Get((long)order.ID)) {
+                foreach (var orderline in orderlines) {
                     amountOfProducts += orderline.Quantity;
                     totalPrice += orderline.Quantity * orderline.PriceAtTimeOfOrder;
                 }
 
                 orderGrid.Rows[rowIndex].Cells["NumberOfProducts"].Value = amountOfProducts;
                 orderGrid.Rows[rowIndex].Cells["PriceOfOrder"].Value = totalPrice;
-                // Populate other cells similarly
-                // For data not in Order object, use your methods to retrieve it
             }
         }
-
-
     }
 }
