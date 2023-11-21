@@ -308,15 +308,32 @@ public partial class CustomersPanel : Form
             return;
         }
 
-        var deleted = customerController.Delete((long)selectedCustomer.ID!);
-        if (deleted)
+        // Anonymize the customer's personal data
+        AnonymizeCustomerData(selectedCustomer);
+
+        // Update the customer with anonymized data
+        var updated = customerController.Update(selectedCustomer);
+        if (updated)
         {
-            customers.Remove(selectedCustomer);
+            MessageBox.Show(@"Kundens personlige data er blevet fjernet");
+            // Refresh the data grid or perform necessary UI updates
+            customerGrid.DataSource = null;
             customerGrid.DataSource = customers;
         }
         else
         {
-            MessageBox.Show(@"Kunden blev ikke slettet");
+            MessageBox.Show(@"Kunden blev ikke opdateret");
         }
     }
+
+    private void AnonymizeCustomerData(Customer customer)
+    {
+        // Replace personal data with null or anonymized values
+        customer.FirstName = "Anonym";
+        customer.LastName = "Anonym";
+        customer.Email = "Anonym" + customer.ID?.ToString() + "@example.com";
+        customer.PhoneNo = "00000000";
+        customer.Password = customer.ID?.ToString();         
+    }
+
 }
