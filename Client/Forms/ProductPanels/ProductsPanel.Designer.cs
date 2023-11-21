@@ -42,7 +42,6 @@
             checkBoxClothes = new CheckBox();
             comboBox1 = new ComboBox();
             labelProductsTxt = new Label();
-            buttonSearch = new Button();
             textBoxSearchbar = new TextBox();
             panel2 = new Panel();
             buttonEdit = new Button();
@@ -58,6 +57,7 @@
             brandDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             categoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             productBindingSource = new BindingSource(components);
+            label4 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)productGrid).BeginInit();
@@ -67,6 +67,7 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(checkBoxAccessories);
             panel1.Controls.Add(checkBoxPrice6);
@@ -84,7 +85,6 @@
             panel1.Controls.Add(checkBoxClothes);
             panel1.Controls.Add(comboBox1);
             panel1.Controls.Add(labelProductsTxt);
-            panel1.Controls.Add(buttonSearch);
             panel1.Controls.Add(textBoxSearchbar);
             panel1.Location = new Point(4, 2);
             panel1.Name = "panel1";
@@ -274,21 +274,13 @@
             labelProductsTxt.TabIndex = 2;
             labelProductsTxt.Text = "Produkter";
             // 
-            // buttonSearch
-            // 
-            buttonSearch.Location = new Point(530, 34);
-            buttonSearch.Name = "buttonSearch";
-            buttonSearch.Size = new Size(46, 23);
-            buttonSearch.TabIndex = 1;
-            buttonSearch.Text = "Søg";
-            buttonSearch.UseVisualStyleBackColor = true;
-            // 
             // textBoxSearchbar
             // 
             textBoxSearchbar.Location = new Point(307, 34);
             textBoxSearchbar.Name = "textBoxSearchbar";
             textBoxSearchbar.Size = new Size(221, 23);
             textBoxSearchbar.TabIndex = 0;
+            textBoxSearchbar.TextChanged += textBoxSearchbar_TextChanged;
             // 
             // panel2
             // 
@@ -390,6 +382,16 @@
             // 
             productBindingSource.DataSource = typeof(Models.Product);
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 14.25F);
+            label4.Location = new Point(253, 33);
+            label4.Name = "label4";
+            label4.Size = new Size(48, 25);
+            label4.TabIndex = 20;
+            label4.Text = "Søg:";
+            // 
             // ProductsPanel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -418,7 +420,6 @@
         private Panel panel2;
         private Button buttonEdit;
         private Button button1;
-        private Button buttonSearch;
         private TextBox textBoxSearchbar;
         private Label labelProductsTxt;
         private ComboBox comboBox1;
@@ -454,5 +455,6 @@
         private CheckBox checkBoxPrice2;
         private CheckBox checkBoxPrice1;
         private Label label3;
+        private Label label4;
     }
 }

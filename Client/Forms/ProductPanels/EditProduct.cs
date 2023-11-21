@@ -117,4 +117,8 @@ public partial class EditProduct : Form {
         product.Image = "";
         pictureBox.Image = null;
     }
+
+    private void buttonCancel_Click(object sender, EventArgs e) {
+        this.Close();
+    }
 }
