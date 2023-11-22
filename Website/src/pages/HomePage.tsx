@@ -48,23 +48,17 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         if (products?.length > 0) {
-            setBestSellers(products)
+            const noInactiveProducts = products.filter((product) => !product.inactive);
+            setBestSellers(noInactiveProducts)
         }
     }, [products]);
 
     useEffect(() => {
         setIsLoading(true);
-        if (products?.length !== bestSellers?.length) {
-            return;
-        }
-        const shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
-        const selectedItems = shuffled.slice(0, 4);
-        if (selectedItems.length > 4) {
-            selectedItems.pop();
-        }
-        setShuffledBestSellers([])
-        for (let i = 0; i < selectedItems.length; i++) {
-            setShuffledBestSellers((prev) => [...prev, selectedItems[i]]);
+        if (bestSellers?.length > 0) {
+            let shuffled = [...bestSellers].sort(() => Math.random() - 0.5);
+            shuffled = shuffled.slice(0, 4);
+            setShuffledBestSellers(shuffled);
         }
         setIsLoading(false);
     }, [products, bestSellers])

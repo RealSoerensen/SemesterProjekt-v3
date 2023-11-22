@@ -30,7 +30,7 @@ const ProductPage = () => {
         if (product?.category) {
             getProductsByCategory(product.category)
                 .then((products) => {
-                    const updatedProducts = products.filter((p: Product) => p.id !== product.id);
+                    const updatedProducts = products.filter((p: Product) => p.id !== product.id && !p.inactive);
                     setRelatedProducts(updatedProducts);
                 });
             setIsLoading(false);
@@ -55,28 +55,41 @@ const ProductPage = () => {
                 <div className="col-md-2 col-sm-6">
                     <div className="border rounded p-3">
                         {
-                            product.salePrice === product.normalPrice ? <p className="">{product.salePrice} kr.</p> :
-                                <div className="mb-2">
-                                    <p className=""><del>{product.normalPrice} kr.</del> {product.salePrice} kr.</p>
-                                    <p className="">Du sparer {calculateProcentDifference(product)}%</p>
-                                </div>
+                            product.inactive ? <p>Produktet er udløbet</p> : (
+                                product.salePrice === product.normalPrice ? (
+                                    <div>
+                                        <p className="">{product.salePrice} kr.</p>
+                                        <button className="btn btn-primary mx-auto" onClick={() => addItem(product, cart, setCart)}>Tilføj til kurv</button>
+                                    </div>
+                                ) : (
+                                    <div className="mb-2">
+                                        <p className=""><del>{product.normalPrice} kr.</del> {product.salePrice} kr.</p>
+                                        <p className="">Du sparer {calculateProcentDifference(product)}%</p>
+                                        <button className="btn btn-primary mx-auto" onClick={() => addItem(product, cart, setCart)}>Tilføj til kurv</button>
+                                    </div>
+                                )
+                            )
                         }
-                        <button className="btn btn-primary mx-auto" onClick={() => addItem(product, cart, setCart)}>Tilføj til kurv</button>
                     </div>
                 </div>
                 <div className="col-12 mt-5">
                     <h2>Relaterede produkter</h2>
-                    {
-                        relatedProducts.length > 0 ?
-                            <>{
-                                relatedProducts.map((product, index) => {
-                                    return (
-                                        <ProductShowcase key={index} product={product} />
-                                    )
-                                })
-                            }</> : <p>Der er ingen relaterede produkter</p>
-                    }
-
+                    <div className="row">
+                        {
+                            relatedProducts.length > 0 ?
+                                (
+                                    relatedProducts.map((product, index) => {
+                                        return (
+                                            <div className="col-sm-6 col-md-4 col-xl-3 d-flex justify-content-center m-1" key={index}>
+                                                <ProductShowcase key={index} product={product} />
+                                            </div>
+                                        )
+                                    })
+                                ) : (
+                                    <p>Der er ingen relaterede produkter</p>
+                                )
+                        }
+                    </div>
                 </div>
                 <div className="col-12 mt-5">
                     <h2>Reviews</h2>

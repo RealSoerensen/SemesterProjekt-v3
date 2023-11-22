@@ -34,9 +34,10 @@ const CategoryPage: React.FC = () => {
                     <p>Der er ingen produkter i denne kategori</p>
                     :
                     products.map((product) => (
-                        <div className="col-sm-6 col-md-4 col-xl-3 d-flex justify-content-center m-1" key={product.id}>
-                            <ProductShowcase product={product} />
-                        </div>
+                        product.inactive ? null :
+                            <div className="col-sm-6 col-md-4 col-xl-3 d-flex justify-content-center m-1" key={product.id}>
+                                <ProductShowcase product={product} />
+                            </div>
                     ))}
             </div>
         </div>

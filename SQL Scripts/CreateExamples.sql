@@ -20,7 +20,7 @@ SELECT TOP 25
 FROM [Address];
 
 -- Inserting Products
-INSERT INTO [Product] ([description], [image], [salePrice], [purchasePrice], [normalPrice], [name], [stock], [brand], [category])
+INSERT INTO [Product] ([description], [image], [salePrice], [purchasePrice], [normalPrice], [name], [stock], [brand], [category], [inactive])
 SELECT TOP 50
     'Description' + CAST(ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS VARCHAR(10)),
     'ImageURL' + CAST(ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS VARCHAR(10)),
@@ -30,15 +30,15 @@ SELECT TOP 50
     'Product' + CAST(ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS VARCHAR(10)),
     CAST(100 + (ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) % 50) AS BIGINT),
     'Brand' + CAST(ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS VARCHAR(10)),
-    (ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) % 6),
-	CASE WHEN ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) % 5 = 0 THEN 1 ELSE 0 END
-
+    (ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) % 5) + 1,
+	ABS(CHECKSUM(NEWID())) % 2
 FROM sys.objects;
 
 -- Inserting Orders and Orderlines
 DECLARE @CustomerID BIGINT;
 DECLARE @OrderID BIGINT;
 DECLARE @ProductID BIGINT;
+DECLARE @RandomStatus INT;
 
 DECLARE @RandomOrderLineCount INT;
 DECLARE @RandomProductCount INT;
@@ -51,9 +51,13 @@ BEGIN
     SET @OrderID = 1;
     WHILE @OrderID <= 5
     BEGIN
+
+		-- Generate a random status (0-3) for each order
+        SET @RandomStatus = ABS(CHECKSUM(NEWID())) % 4;
+
         -- Insert Orders
-        INSERT INTO [Order] ([date], [customerID])
-        VALUES (GETDATE(), @CustomerID);
+        INSERT INTO [Order] ([date], [customerID], [status])
+        VALUES (GETDATE(), @CustomerID, @RandomStatus);  -- 0 represents the 'Pending' status
 
         -- Generate a random number of orderlines (1-5) for each order
         SET @RandomOrderLineCount = (ABS(CHECKSUM(NEWID())) % 5) + 1;
@@ -81,3 +85,4 @@ BEGIN
 
     SET @CustomerID = @CustomerID + 1;
 END
+
