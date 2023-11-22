@@ -95,21 +95,6 @@ public partial class ProductsPanel : Form
         }
     }
 
-
-    // Combobox items
-    /*
-     * Name (a-å)
-     * Name (å-a)
-     * SalePrice (høj-lav)
-     * SalePrice (lav-høj)
-     * PurchasePrice (høj-lav)
-     * PurchasePrice (lav-høj)
-     * NormalPrice (høj-lav)
-     * NormalPrice (lav-høj)
-     * Stock (høj-lav)
-     * Stock (lav-høj)
-    */
-
     private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
     {
         var sortFilter = comboBox1.SelectedIndex;

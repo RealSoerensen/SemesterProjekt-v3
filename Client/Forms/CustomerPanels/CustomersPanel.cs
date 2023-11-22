@@ -166,13 +166,10 @@ public partial class CustomersPanel : Form
         return customersToSort.OrderBy(customer => customer.RegisterDate).ToList();
     }
 
-    private void customerGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-    {
-        // Select the whole row on click
-        if (e.RowIndex < 0) return;
-        var row = customerGrid.Rows[e.RowIndex];
-        row.Selected = true;
-        selectedCustomer = row.DataBoundItem as Customer;
+    private void customerGrid_SelectionChanged(object sender, EventArgs e) {
+        if (customerGrid.SelectedRows.Count <= 0) return;
+        var selectedRow = customerGrid.SelectedRows[0];
+        selectedCustomer = selectedRow.DataBoundItem as Customer;
     }
 
     private async void buttonCreate_Click(object sender, EventArgs e)

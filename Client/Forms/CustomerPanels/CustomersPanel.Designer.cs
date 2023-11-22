@@ -173,7 +173,9 @@
             customerGrid.RowTemplate.Height = 25;
             customerGrid.Size = new Size(575, 410);
             customerGrid.TabIndex = 2;
-            customerGrid.CellContentClick += customerGrid_CellContentClick;
+            customerGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            customerGrid.MultiSelect = false;
+            customerGrid.SelectionChanged += customerGrid_SelectionChanged;
             // 
             // dataGridViewTextBoxColumn1
             // 
