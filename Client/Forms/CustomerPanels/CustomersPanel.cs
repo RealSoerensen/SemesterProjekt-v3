@@ -94,65 +94,56 @@ public partial class CustomersPanel : Form {
         MessageBox.Show(@"Kunden blev oprettet");
     }
 
-    private async void buttonEdit_Click(object sender, EventArgs e) {
-        if (selectedCustomer == null) {
-            MessageBox.Show(@"Vælg en kunde");
+    private async void buttonEdit_Click(object sender, EventArgs e)
+    {
+        if (selectedCustomer == null)
+        {
+            MessageBox.Show("Vælg en kunde");
             return;
         }
 
-        Address? selectedCustomerAddress;
-        try {
-            selectedCustomerAddress = await addressController.Get((long)selectedCustomer.AddressID!);
-        } catch (Exception) {
-            MessageBox.Show(@"Kunne ikke hente kundens adresse");
-            return;
-        }
+        try
+        {
+            var selectedCustomerAddress = await addressController.Get((long)selectedCustomer.AddressID!);
+            if (selectedCustomerAddress == null)
+            {
+                MessageBox.Show("Kunne ikke hente kundens adresse");
+                return;
+            }
 
-        if (selectedCustomerAddress == null) {
-            MessageBox.Show(@"Kunne ikke hente kundens adresse");
-            return;
-        }
-
-        var editCustomer = new EditCustomer(selectedCustomer, selectedCustomerAddress);
-        try {
+            var editCustomer = new EditCustomer(selectedCustomer, selectedCustomerAddress);
             editCustomer.ShowDialog();
-        } catch (Exception) {
-            MessageBox.Show(@"Kunne ikke åbne redigeringsvinduet");
-            return;
-        }
 
-        if (editCustomer.DialogResult != DialogResult.OK) {
-            return;
+            if (editCustomer.DialogResult == DialogResult.OK)
+            {
+                var customer = editCustomer.Customer;
+                var address = editCustomer.Address;
+                Console.WriteLine(customer);
+                Console.WriteLine(address);
+                bool customerUpdated = await customerController.Update(customer);
+                bool addressUpdated = await addressController.Update(address);
+                Console.WriteLine('');
+                if (customerUpdated && addressUpdated)
+                {
+                    customerGrid.DataSource = null;
+                    var index = customers.FindIndex(c => c.ID == selectedCustomer.ID);
+                    customers[index] = customer;
+                    customerGrid.DataSource = customers;
+                    MessageBox.Show("Kunden blev opdateret");
+                }
+                else
+                {
+                    MessageBox.Show("Kunden blev ikke opdateret");
+                }
+            }
         }
-
-        var customer = editCustomer.Customer;
-        var address = editCustomer.Address;
-
-        bool updated;
-        try {
-            updated = await customerController.Update(customer);
-        } catch (Exception) {
-            MessageBox.Show(@"Kunne ikke opdatere kunden i databasen");
-            return;
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Fejl: {ex.Message}");
         }
-
-        try {
-            updated = updated && await addressController.Update(address);
-        } catch (Exception) {
-            MessageBox.Show(@"Kunne ikke opdatere adressen i databasen");
-            return;
-        }
-
-        if (!updated) {
-            MessageBox.Show(@"Kunden blev ikke opdateret");
-            return;
-        }
-        customerGrid.DataSource = null;
-        var index = customers.FindIndex(c => c.ID == selectedCustomer.ID);
-        customers[index] = customer;
-        customerGrid.DataSource = customers;
-        MessageBox.Show(@"Kunden blev opdateret");
     }
+
+
 
     private async void buttonDelete_Click(object sender, EventArgs e)
     {
