@@ -209,6 +209,7 @@
             buttonDetails.TabIndex = 2;
             buttonDetails.Text = "Se detaljer på ordren";
             buttonDetails.UseVisualStyleBackColor = true;
+            buttonDetails.Click += buttonDetails_Click;
             // 
             // orderGrid
             // 
