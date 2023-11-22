@@ -1,34 +1,39 @@
 ﻿using Client.Controllers;
-using Client.DAL;
 using Models;
 
 namespace Client.Forms.CustomerPanels;
 
-public partial class CustomersPanel : Form {
+public partial class CustomersPanel : Form
+{
     private List<Customer> customers = new();
     private Customer? selectedCustomer;
     private readonly CustomerController customerController = new();
     private readonly AddressController addressController = new();
 
-    public CustomersPanel() {
+    public CustomersPanel()
+    {
         InitializeComponent();
     }
 
-    private async void CustomersPanel_Load(object sender, EventArgs e) {
+    private async void CustomersPanel_Load(object sender, EventArgs e)
+    {
         customers = await customerController.GetAll();
         InitializeDataGridView();
     }
 
-    private void InitializeDataGridView() {
+    private void InitializeDataGridView()
+    {
         customerGrid.Name = "Customers";
         customerGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         customerGrid.DataSource = customers;
     }
 
-    private async void RefreshCustomers() {
+    private async void RefreshCustomers()
+    {
         var firstDisplayedScrollingRowIndex = customerGrid.FirstDisplayedScrollingRowIndex;
         var selectedRowIndex = -1;
-        if (customerGrid.SelectedRows.Count > 0) {
+        if (customerGrid.SelectedRows.Count > 0)
+        {
             selectedRowIndex = customerGrid.SelectedRows[0].Index;
         }
 
@@ -36,28 +41,36 @@ public partial class CustomersPanel : Form {
         customers = await customerController.GetAll();
         customerGrid.DataSource = customers;
 
-        try {
-            if (firstDisplayedScrollingRowIndex >= 0) {
+        try
+        {
+            if (firstDisplayedScrollingRowIndex >= 0)
+            {
                 customerGrid.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex;
             }
-            if (selectedRowIndex >= 0 && selectedRowIndex < customerGrid.Rows.Count) {
+            if (selectedRowIndex >= 0 && selectedRowIndex < customerGrid.Rows.Count)
+            {
                 customerGrid.Rows[selectedRowIndex].Selected = true;
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             MessageBox.Show("Error while trying to restore grid position and selection: " + ex.Message);
         }
     }
 
-    private void customerGrid_SelectionChanged(object sender, EventArgs e) {
+    private void customerGrid_SelectionChanged(object sender, EventArgs e)
+    {
         if (customerGrid.SelectedRows.Count <= 0) return;
         var selectedRow = customerGrid.SelectedRows[0];
         selectedCustomer = selectedRow.DataBoundItem as Customer;
     }
 
-    private async void buttonCreate_Click(object sender, EventArgs e) {
+    private async void buttonCreate_Click(object sender, EventArgs e)
+    {
         var createCustomer = new CreateCustomer();
         createCustomer.ShowDialog();
-        if (createCustomer.DialogResult != DialogResult.OK) {
+        if (createCustomer.DialogResult != DialogResult.OK)
+        {
             RefreshCustomers();
             return;
         }
@@ -66,24 +79,31 @@ public partial class CustomersPanel : Form {
         var address = createCustomer.Address;
 
         var created = false;
-        try {
+        try
+        {
             address = await addressController.Create(address);
             if (address == null) throw new Exception();
-        } catch (Exception) {
+        }
+        catch (Exception)
+        {
             MessageBox.Show(@"Kunne ikke oprette adressen i databasen");
             return;
         }
 
         customer.AddressID = address.ID;
 
-        try {
+        try
+        {
             created = created && await customerController.Create(customer) != null;
-        } catch (Exception) {
+        }
+        catch (Exception)
+        {
             MessageBox.Show(@"Kunne ikke oprette kunden i databasen");
             return;
         }
 
-        if (!created) {
+        if (!created)
+        {
             MessageBox.Show(@"Kunden blev ikke oprettet");
             return;
         }
@@ -114,27 +134,24 @@ public partial class CustomersPanel : Form {
             var editCustomer = new EditCustomer(selectedCustomer, selectedCustomerAddress);
             editCustomer.ShowDialog();
 
-            if (editCustomer.DialogResult == DialogResult.OK)
+            if (editCustomer.DialogResult != DialogResult.OK) return;
+            var customer = editCustomer.Customer;
+            var address = editCustomer.Address;
+            Console.WriteLine(customer);
+            Console.WriteLine(address);
+            bool customerUpdated = await customerController.Update(customer);
+            bool addressUpdated = await addressController.Update(address);
+            if (customerUpdated && addressUpdated)
             {
-                var customer = editCustomer.Customer;
-                var address = editCustomer.Address;
-                Console.WriteLine(customer);
-                Console.WriteLine(address);
-                bool customerUpdated = await customerController.Update(customer);
-                bool addressUpdated = await addressController.Update(address);
-                Console.WriteLine('');
-                if (customerUpdated && addressUpdated)
-                {
-                    customerGrid.DataSource = null;
-                    var index = customers.FindIndex(c => c.ID == selectedCustomer.ID);
-                    customers[index] = customer;
-                    customerGrid.DataSource = customers;
-                    MessageBox.Show("Kunden blev opdateret");
-                }
-                else
-                {
-                    MessageBox.Show("Kunden blev ikke opdateret");
-                }
+                customerGrid.DataSource = null;
+                var index = customers.FindIndex(c => c.ID == selectedCustomer.ID);
+                customers[index] = customer;
+                customerGrid.DataSource = customers;
+                MessageBox.Show("Kunden blev opdateret");
+            }
+            else
+            {
+                MessageBox.Show("Kunden blev ikke opdateret");
             }
         }
         catch (Exception ex)
@@ -181,7 +198,8 @@ public partial class CustomersPanel : Form {
         customer.Password = customer.ID.ToString();
     }
 
-    private void textboxSearch_TextChanged(object sender, EventArgs e) {
+    private void textboxSearch_TextChanged(object sender, EventArgs e)
+    {
         var searchValue = textboxSearch.Text.ToLower();
 
         var filteredCustomers = customers.Where(c =>
@@ -194,17 +212,22 @@ public partial class CustomersPanel : Form {
         customerGrid.DataSource = filteredCustomers;
     }
 
-    private bool FuzzyMatch(string text, string searchTerm) {
-        if (string.IsNullOrEmpty(searchTerm)) {
+    private bool FuzzyMatch(string text, string searchTerm)
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
             return true;
         }
 
         var searchTextIndex = 0;
 
-        foreach (var charFromText in text) {
-            if (searchTerm[searchTextIndex] == charFromText) {
+        foreach (var charFromText in text)
+        {
+            if (searchTerm[searchTextIndex] == charFromText)
+            {
                 searchTextIndex++;
-                if (searchTextIndex == searchTerm.Length) {
+                if (searchTextIndex == searchTerm.Length)
+                {
                     return true;
                 }
             }
@@ -213,14 +236,17 @@ public partial class CustomersPanel : Form {
         return false;
     }
 
-    private void sortBox_SelectedIndexChanged(object sender, EventArgs e) {
+    private void sortBox_SelectedIndexChanged(object sender, EventArgs e)
+    {
         var sortFilter = sortBox.SelectedIndex;
-        if (customerGrid.DataSource is not List<Customer> sortedCustomers) {
+        if (customerGrid.DataSource is not List<Customer> sortedCustomers)
+        {
             MessageBox.Show(@"Der er ingen kunder at sortere");
             return;
         }
 
-        sortedCustomers = sortFilter switch {
+        sortedCustomers = sortFilter switch
+        {
             0 => sortedCustomers.OrderBy(product => product.FirstName).ToList(),
             1 => sortedCustomers.OrderByDescending(product => product.FirstName).ToList(),
             2 => sortedCustomers.OrderBy(product => product.LastName).ToList(),
