@@ -154,19 +154,40 @@ public partial class CustomersPanel : Form {
         MessageBox.Show(@"Kunden blev opdateret");
     }
 
-    private async void buttonDelete_Click(object sender, EventArgs e) {
-        if (selectedCustomer == null) {
+    private async void buttonDelete_Click(object sender, EventArgs e)
+    {
+        if (selectedCustomer == null)
+        {
             MessageBox.Show(@"Vælg en kunde");
             return;
         }
 
-        var deleted = await customerController.Delete((long)selectedCustomer.ID!);
-        if (deleted) {
-            customers.Remove(selectedCustomer);
+        // Anonymize the customer's personal data
+        AnonymizeCustomerData(selectedCustomer);
+
+        // Update the customer with anonymized data
+        var updated = await customerController.Update(selectedCustomer);
+        if (updated)
+        {
+            MessageBox.Show(@"Kundens personlige data er blevet fjernet");
+            // Refresh the data grid or perform necessary UI updates
+            customerGrid.DataSource = null;
             customerGrid.DataSource = customers;
-        } else {
-            MessageBox.Show(@"Kunden blev ikke slettet");
         }
+        else
+        {
+            MessageBox.Show(@"Kunden blev ikke opdateret");
+        }
+    }
+
+    private void AnonymizeCustomerData(Customer customer)
+    {
+        // Replace personal data with null or anonymized values
+        customer.FirstName = "Anonym";
+        customer.LastName = "Anonym";
+        customer.Email = "Anonym" + customer.ID.ToString() + "@example.com";
+        customer.PhoneNo = "00000000";
+        customer.Password = customer.ID.ToString();
     }
 
     private void textboxSearch_TextChanged(object sender, EventArgs e) {
