@@ -41,6 +41,7 @@ public partial class CreateCustomer : Form
             if (createdCustomer != null)
             {
                 MessageBox.Show(@"Customer and Address created successfully!");
+                this.Close();
                 return;
             }
         }

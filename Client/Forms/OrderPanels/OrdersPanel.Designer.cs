@@ -1,7 +1,5 @@
-﻿namespace Client.Forms.OrderPanels
-{
-    partial class OrdersPanel
-    {
+﻿namespace Client.Forms.OrderPanels {
+    partial class OrdersPanel {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -11,10 +9,8 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,8 +22,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             panel1 = new Panel();
             checkBox2 = new CheckBox();
             checkBox1 = new CheckBox();
@@ -40,7 +35,6 @@
             label2 = new Label();
             comboBox1 = new ComboBox();
             labelOrdersTxt = new Label();
-            buttonSearch = new Button();
             textBoxSearchbar = new TextBox();
             panel2 = new Panel();
             buttonDetails = new Button();
@@ -51,6 +45,8 @@
             NumberOfOrderlines = new DataGridViewTextBoxColumn();
             NumberOfProducts = new DataGridViewTextBoxColumn();
             PriceOfOrder = new DataGridViewTextBoxColumn();
+            label3 = new Label();
+            label4 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)orderGrid).BeginInit();
@@ -59,6 +55,8 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(label3);
             panel1.Controls.Add(checkBox2);
             panel1.Controls.Add(checkBox1);
             panel1.Controls.Add(checkBoxPrice6);
@@ -70,7 +68,6 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(comboBox1);
             panel1.Controls.Add(labelOrdersTxt);
-            panel1.Controls.Add(buttonSearch);
             panel1.Controls.Add(textBoxSearchbar);
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
@@ -170,13 +167,13 @@
             // 
             // comboBox1
             // 
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Name (a-å)", "Name (å-a)", "SalePrice (høj-lav)", "SalePrice (lav-høj)", "PurchasePrice (høj-lav)", "PurchasePrice (lav-høj)", "NormalPrice (høj-lav)", "NormalPrice (lav-høj)", "Stock (høj-lav)", "Stock (lav-høj)" });
-            comboBox1.Location = new Point(617, 35);
+            comboBox1.Location = new Point(688, 35);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 3;
-            comboBox1.Text = "Sortér";
             // 
             // labelOrdersTxt
             // 
@@ -187,15 +184,6 @@
             labelOrdersTxt.Size = new Size(94, 37);
             labelOrdersTxt.TabIndex = 2;
             labelOrdersTxt.Text = "Ordrer";
-            // 
-            // buttonSearch
-            // 
-            buttonSearch.Location = new Point(530, 34);
-            buttonSearch.Name = "buttonSearch";
-            buttonSearch.Size = new Size(46, 23);
-            buttonSearch.TabIndex = 1;
-            buttonSearch.Text = "Søg";
-            buttonSearch.UseVisualStyleBackColor = true;
             // 
             // textBoxSearchbar
             // 
@@ -274,6 +262,26 @@
             PriceOfOrder.ReadOnly = true;
             PriceOfOrder.Width = 80;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 14.25F);
+            label3.Location = new Point(615, 33);
+            label3.Name = "label3";
+            label3.Size = new Size(67, 25);
+            label3.TabIndex = 20;
+            label3.Text = "Sortér:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 14.25F);
+            label4.Location = new Point(253, 30);
+            label4.Name = "label4";
+            label4.Size = new Size(48, 25);
+            label4.TabIndex = 21;
+            label4.Text = "Søg:";
+            // 
             // OrdersPanel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -306,7 +314,6 @@
         private Label label2;
         private ComboBox comboBox1;
         private Label labelOrdersTxt;
-        private Button buttonSearch;
         private TextBox textBoxSearchbar;
         private Panel panel2;
         private Button buttonDetails;
@@ -319,5 +326,7 @@
         private DataGridViewTextBoxColumn PriceOfOrder;
         private CheckBox checkBox2;
         private CheckBox checkBox1;
+        private Label label3;
+        private Label label4;
     }
 }

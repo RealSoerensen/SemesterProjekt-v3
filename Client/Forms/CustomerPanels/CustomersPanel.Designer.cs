@@ -1,7 +1,5 @@
-﻿namespace Client.Forms.CustomerPanels
-{
-    partial class CustomersPanel
-    {
+﻿namespace Client.Forms.CustomerPanels {
+    partial class CustomersPanel {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -11,10 +9,8 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -26,14 +22,13 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             panel1 = new Panel();
-            filterBox = new ComboBox();
+            label3 = new Label();
+            label4 = new Label();
             sortBox = new ComboBox();
             labelCustomersTxt = new Label();
-            buttonSearch = new Button();
             textboxSearch = new TextBox();
             panel2 = new Panel();
             buttonDelete = new Button();
@@ -58,56 +53,56 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(filterBox);
+            panel1.Controls.Add(label3);
+            panel1.Controls.Add(label4);
             panel1.Controls.Add(sortBox);
             panel1.Controls.Add(labelCustomersTxt);
-            panel1.Controls.Add(buttonSearch);
             panel1.Controls.Add(textboxSearch);
             panel1.Location = new Point(4, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(757, 98);
+            panel1.Size = new Size(827, 98);
             panel1.TabIndex = 0;
             // 
-            // filterBox
+            // label3
             // 
-            filterBox.FormattingEnabled = true;
-            filterBox.Items.AddRange(new object[] { "ID", "Fornavn", "Efternavn", "Email", "Tlf. nummer" });
-            filterBox.Location = new Point(167, 34);
-            filterBox.Name = "filterBox";
-            filterBox.Size = new Size(121, 23);
-            filterBox.TabIndex = 4;
-            filterBox.Text = "Filtrér";
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 14.25F);
+            label3.Location = new Point(614, 32);
+            label3.Name = "label3";
+            label3.Size = new Size(67, 25);
+            label3.TabIndex = 22;
+            label3.Text = "Sortér:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 14.25F);
+            label4.Location = new Point(253, 32);
+            label4.Name = "label4";
+            label4.Size = new Size(48, 25);
+            label4.TabIndex = 21;
+            label4.Text = "Søg:";
             // 
             // sortBox
             // 
+            sortBox.DropDownStyle = ComboBoxStyle.DropDownList;
             sortBox.FormattingEnabled = true;
-            sortBox.Items.AddRange(new object[] { "Dato oprettet (nyeste-ældst)", "Dato oprettet (ældst-nyeste)" });
-            sortBox.Location = new Point(617, 35);
+            sortBox.Items.AddRange(new object[] { "Fornavn (a-å)", "Fornavn (å-a)", "Efternavn (a-å)", "Efternavn (å-a)", "Dato oprettet (nyeste-ældst)", "Dato oprettet (ældst-nyeste)" });
+            sortBox.Location = new Point(687, 32);
             sortBox.Name = "sortBox";
             sortBox.Size = new Size(121, 23);
             sortBox.TabIndex = 3;
-            sortBox.Text = "Sortér";
             sortBox.SelectedIndexChanged += sortBox_SelectedIndexChanged;
             // 
             // labelCustomersTxt
             // 
             labelCustomersTxt.AutoSize = true;
-            labelCustomersTxt.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            labelCustomersTxt.Font = new Font("Segoe UI", 20F);
             labelCustomersTxt.Location = new Point(3, 20);
             labelCustomersTxt.Name = "labelCustomersTxt";
             labelCustomersTxt.Size = new Size(102, 37);
             labelCustomersTxt.TabIndex = 2;
             labelCustomersTxt.Text = "Kunder";
-            // 
-            // buttonSearch
-            // 
-            buttonSearch.Location = new Point(530, 34);
-            buttonSearch.Name = "buttonSearch";
-            buttonSearch.Size = new Size(46, 23);
-            buttonSearch.TabIndex = 1;
-            buttonSearch.Text = "Søg";
-            buttonSearch.UseVisualStyleBackColor = true;
-            buttonSearch.Click += buttonSearch_Click;
             // 
             // textboxSearch
             // 
@@ -115,6 +110,7 @@
             textboxSearch.Name = "textboxSearch";
             textboxSearch.Size = new Size(221, 23);
             textboxSearch.TabIndex = 0;
+            textboxSearch.TextChanged += textboxSearch_TextChanged;
             // 
             // panel2
             // 
@@ -122,9 +118,9 @@
             panel2.Controls.Add(buttonDelete);
             panel2.Controls.Add(buttonEdit);
             panel2.Controls.Add(buttonCreate);
-            panel2.Location = new Point(594, 106);
+            panel2.Location = new Point(673, 106);
             panel2.Name = "panel2";
-            panel2.Size = new Size(167, 410);
+            panel2.Size = new Size(158, 464);
             panel2.TabIndex = 1;
             // 
             // buttonDelete
@@ -168,13 +164,13 @@
             customerGrid.DataSource = bindingSource1;
             customerGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
             customerGrid.Location = new Point(6, 106);
+            customerGrid.MultiSelect = false;
             customerGrid.Name = "customerGrid";
             customerGrid.ReadOnly = true;
             customerGrid.RowTemplate.Height = 25;
-            customerGrid.Size = new Size(575, 410);
-            customerGrid.TabIndex = 2;
             customerGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            customerGrid.MultiSelect = false;
+            customerGrid.Size = new Size(661, 464);
+            customerGrid.TabIndex = 2;
             customerGrid.SelectionChanged += customerGrid_SelectionChanged;
             // 
             // dataGridViewTextBoxColumn1
@@ -241,7 +237,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(765, 528);
+            ClientSize = new Size(843, 582);
             ControlBox = false;
             Controls.Add(customerGrid);
             Controls.Add(panel2);
@@ -266,7 +262,6 @@
         private Button buttonDelete;
         private Button buttonEdit;
         private Button buttonCreate;
-        private Button buttonSearch;
         private Label labelCustomersTxt;
         private DataGridView customerGrid;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -278,8 +273,9 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private BindingSource bindingSource1;
-        private ComboBox filterBox;
         private ComboBox sortBox;
         private TextBox textboxSearch;
+        private Label label4;
+        private Label label3;
     }
 }
