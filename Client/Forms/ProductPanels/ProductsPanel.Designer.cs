@@ -323,6 +323,11 @@
             productGrid.RowTemplate.Height = 25;
             productGrid.Size = new Size(661, 403);
             productGrid.TabIndex = 2;
+            productGrid.Name = "Products";
+            productGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            productGrid.DataSource = products;
+            productGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            productGrid.MultiSelect = false;
             // 
             // iDDataGridViewTextBoxColumn
             // 

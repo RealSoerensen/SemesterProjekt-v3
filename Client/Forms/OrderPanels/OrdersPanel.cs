@@ -1,22 +1,18 @@
 ﻿using Client.Controllers;
 using Models;
 
-namespace Client.Forms.OrderPanels
-{
-    public partial class OrdersPanel : Form
-    {
+namespace Client.Forms.OrderPanels {
+    public partial class OrdersPanel : Form {
         private Order? selectedOrder;
         private readonly OrderController orderController = new();
         private readonly CustomerController customerController = new();
         private readonly OrderlineController orderlineController = new();
-        public OrdersPanel()
-        {
+        public OrdersPanel() {
             InitializeComponent();
             InitializeDataGridView();
         }
 
-        private void InitializeDataGridView()
-        {
+        private void InitializeDataGridView() {
             orderGrid.Name = "Orders";
             orderGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
@@ -27,40 +23,31 @@ namespace Client.Forms.OrderPanels
             orderGrid.MultiSelect = false;
         }
 
-        private void orderGrid_SelectionChanged(object sender, EventArgs e)
-        {
+        private void orderGrid_SelectionChanged(object sender, EventArgs e) {
             if (orderGrid.SelectedRows.Count <= 0) return;
             var selectedRow = orderGrid.SelectedRows[0];
             selectedOrder = selectedRow.DataBoundItem as Order;
         }
 
-        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e)
-        {
+        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e) {
 
         }
 
-        private async void OrdersPanel_Load(object sender, EventArgs e)
-        {
-            try
-            {
+        private async void OrdersPanel_Load(object sender, EventArgs e) {
+            try {
                 await PopulateDataGridViewAsync();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 MessageBox.Show(@"Kunne ikke hente ordre");
                 Console.WriteLine(ex);
                 Close();
             }
         }
 
-        private async Task<List<OrderViewModel>> PrepareOrdersData(List<Order> orders)
-        {
+        private async Task<List<OrderViewModel>> PrepareOrdersData(List<Order> orders) {
             var ordersData = new List<OrderViewModel>();
 
-            foreach (var order in orders)
-            {
-                var orderViewModel = new OrderViewModel
-                {
+            foreach (var order in orders) {
+                var orderViewModel = new OrderViewModel {
                     OrderID = (long)order.ID,
                     Date = order.Date
 
@@ -76,13 +63,11 @@ namespace Client.Forms.OrderPanels
                 var fetchedOrder = await orderTask;
                 var orderlines = await orderLinesTask;
 
-                if (fetchedCustomer != null)
-                {
+                if (fetchedCustomer != null) {
                     orderViewModel.Customer = fetchedCustomer.FirstName + " " + fetchedCustomer.LastName;
                 }
 
-                if (fetchedOrder != null)
-                {
+                if (fetchedOrder != null) {
                     orderViewModel.NumberOfOrderlines = (int)fetchedOrder.ID;
                 }
 
@@ -90,10 +75,8 @@ namespace Client.Forms.OrderPanels
                 var totalPrice = 0m;
                 var amountOfProducts = 0;
 
-                if (orderlines != null)
-                {
-                    foreach (var orderline in orderlines)
-                    {
+                if (orderlines != null) {
+                    foreach (var orderline in orderlines) {
                         totalPrice += orderline.PriceAtTimeOfOrder;
                         amountOfProducts += orderline.Quantity;
                     }
@@ -109,16 +92,14 @@ namespace Client.Forms.OrderPanels
             return ordersData;
         }
 
-        private async Task PopulateDataGridViewAsync()
-        {
+        private async Task PopulateDataGridViewAsync() {
             orderGrid.DataSource = null;
             var orders = await orderController.GetAll();
             var ordersData = await PrepareOrdersData(orders);
             orderGrid.DataSource = ordersData;
         }
 
-        public class OrderViewModel
-        {
+        public class OrderViewModel {
             public long OrderID { get; set; }
             public string? Customer { get; set; }
             public DateTime Date { get; set; }

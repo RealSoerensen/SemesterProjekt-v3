@@ -12,7 +12,6 @@ public partial class ProductsPanel : Form
     public ProductsPanel()
     {
         InitializeComponent();
-        InitializeDataGridView();
     }
 
     private async void ProductsPanel_Load(object sender, EventArgs e)
@@ -28,19 +27,6 @@ public partial class ProductsPanel : Form
             Console.WriteLine(ex);
             Close();
         }
-    }
-
-    private void InitializeDataGridView()
-    {
-        productGrid.Name = "Products";
-        productGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        productGrid.DataSource = products;
-
-        // Set the DataGridView to full row selection mode
-        productGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-        // Disable multi-select
-        productGrid.MultiSelect = false;
     }
 
     private void productGrid_SelectionChanged(object sender, EventArgs e)
@@ -100,7 +86,7 @@ public partial class ProductsPanel : Form
         var sortFilter = comboBox1.SelectedIndex;
         if (productGrid.DataSource is not List<Product> sortedProducts)
         {
-            MessageBox.Show(@"Der er ingen kunder at sortere");
+            MessageBox.Show(@"Der er ingen produkter at sortere");
             return;
         }
 
@@ -123,8 +109,7 @@ public partial class ProductsPanel : Form
         productGrid.DataSource = sortedProducts;
     }
 
-    private void CheckBox_CheckedChanged(object sender, EventArgs e)
-    {
+    private void CheckBox_CheckedChanged(object sender, EventArgs e) {
         var checkBoxesToCategories = new Dictionary<CheckBox, Category>
         {
         { checkBoxRacket, Category.Bats },
@@ -144,6 +129,27 @@ public partial class ProductsPanel : Form
         { checkBoxPrice5, (1000, 1500) },
         { checkBoxPrice6, (1500, decimal.MaxValue) }
     };
+
+        CheckBox senderCheckBox = sender as CheckBox;
+
+        // Check which dictionary the senderCheckBox belongs to and uncheck others in that dictionary
+        if (checkBoxesToCategories.ContainsKey(senderCheckBox)) {
+            if (senderCheckBox.Checked) {
+                foreach (var checkBox in checkBoxesToCategories.Keys) {
+                    if (checkBox != senderCheckBox) {
+                        checkBox.Checked = false;
+                    }
+                }
+            }
+        } else if (checkBoxesToPriceRanges.ContainsKey(senderCheckBox)) {
+            if (senderCheckBox.Checked) {
+                foreach (var checkBox in checkBoxesToPriceRanges.Keys) {
+                    if (checkBox != senderCheckBox) {
+                        checkBox.Checked = false;
+                    }
+                }
+            }
+        }
 
         var selectedCategories = checkBoxesToCategories
             .Where(kv => kv.Key.Checked)
@@ -231,17 +237,6 @@ public partial class ProductsPanel : Form
         }
     }
 
-    private void FilterProducts()
-    {
-        var searchValue = textBoxSearchbar.Text.ToLower();
-
-        var filteredProducts = products.Where(p =>
-            FuzzyMatch(p.Name.ToLower(), searchValue)).ToList();
-
-        productGrid.DataSource = filteredProducts;
-    }
-
-
 
     private bool FuzzyMatch(string text, string searchTerm)
     {
@@ -264,10 +259,13 @@ public partial class ProductsPanel : Form
         return false;
     }
 
-
-
     private void textBoxSearchbar_TextChanged(object sender, EventArgs e)
     {
-        FilterProducts();
+        var searchValue = textBoxSearchbar.Text.ToLower();
+
+        var filteredProducts = products.Where(p =>
+            FuzzyMatch(p.Name.ToLower(), searchValue)).ToList();
+
+        productGrid.DataSource = filteredProducts;
     }
 }
