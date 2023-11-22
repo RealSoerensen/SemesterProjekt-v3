@@ -93,7 +93,7 @@ const HomePage: React.FC = () => {
                     isLoading ? (
                         <LoadingSpinner />
                     ) : shuffledBestSellers.map((product, index) => (
-                        <div className='col-lg-3 col-md-3 col-sm-6 d-flex justify-center mb-5' key={index}>
+                        <div className='col-lg-3 col-sm-6 col-md-3  d-flex justify-center mb-5' key={index}>
                             <ProductShowcase product={product} />
                         </div>
                     ))

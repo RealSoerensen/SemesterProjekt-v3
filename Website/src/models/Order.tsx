@@ -1,15 +1,18 @@
+import Status from "./OrderStatus";
 class Order {
     id: number;
     date: Date;
     time: string;
-    customerId: number;
+    customerID: number;
+    status: Status
 
 
-    constructor(id: number, date: string, time: string, customerId: number) {
+    constructor(id: number, date: string, time: string, customerID: number, status: Status) {
         this.id = id;
         this.date = new Date(date);
         this.time = time;
-        this.customerId = customerId;
+        this.customerID = customerID;
+        this.status = status;
     }
 }
 

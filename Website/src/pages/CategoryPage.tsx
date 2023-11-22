@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getProductsByCategory } from "../services/ProductService";
 import Product from "../models/Product";
 import ProductShowcase from "../components/ProductShowcase";
+import { categoryToString } from "../models/Category";
 
 const CategoryPage: React.FC = () => {
     const { category } = useParams<{ category: string }>();
@@ -16,7 +17,13 @@ const CategoryPage: React.FC = () => {
     }, [category]);
 
 
-    const categoryString = category === "0" ? "Bats" : category === "1" ? "Sko" : category === "2" ? "Bolde" : category === "3" ? "Tøj" : category === "4" ? "Tasker" : category === "5" ? "Tilbehør" : "Ukendt";
+    if (!category) {
+        return (
+            <div className="container"><h1>Ukendt kategori</h1></div>
+        );
+    }
+
+    let categoryString = categoryToString(parseInt(category));
 
     return (
         <div className="container">

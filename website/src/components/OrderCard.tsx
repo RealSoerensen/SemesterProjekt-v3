@@ -3,6 +3,7 @@ import Order from "../models/Order";
 import Orderline from "../models/Orderline";
 import Product from "../models/Product";
 import Image from "./Image";
+import { statusToString } from "../models/OrderStatus";
 
 interface OrderCardProps {
     completeOrder: {
@@ -22,6 +23,7 @@ const OrderCard: FC<OrderCardProps> = ({ completeOrder, index }) => {
                     <p>Ordrenummer: {completeOrder.order.id}</p>
                     <p>Oprettet: {completeOrder.order.date.toDateString()}</p>
                     <p>Pris: {completeOrder.totalPrice()} kr.</p>
+                    <p>Status: {statusToString(completeOrder.order.status)}</p>
                 </div>
                 <hr />
                 <div className="text-center mb-3">
