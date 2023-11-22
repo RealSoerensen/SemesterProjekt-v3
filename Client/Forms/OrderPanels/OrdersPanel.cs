@@ -47,6 +47,7 @@ namespace Client.Forms.OrderPanels
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 MessageBox.Show(@"Kunne ikke hente ordre");
                 Close();
             }

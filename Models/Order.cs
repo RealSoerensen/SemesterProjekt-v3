@@ -1,8 +1,10 @@
-﻿namespace Models;
+﻿using Newtonsoft.Json;
+
+namespace Models;
 
 public class Order
 {
-    public long ID { get; set; } = 0;
+    public long ID { get; set; }
     public DateTime Date { get; set; } = DateTime.Now;
     public long CustomerID { get; set; }
     public Status Status { get; set; } = Status.Pending;
@@ -15,13 +17,9 @@ public class Order
         Status = status;
     }
 
+    [JsonConstructor]
     public Order(long customerID)
     {
         CustomerID = customerID;
-    }
-
-    public Order()
-    {
-
     }
 }
