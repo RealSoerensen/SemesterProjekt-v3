@@ -65,7 +65,6 @@ namespace Client.Forms.OrderPanels
                 var fetchedCustomer = customers.FirstOrDefault(c => c.ID == order.CustomerID);
                 var fetchedOrderlines = orderlines.Where(o => o.OrderID == order.ID).ToList();
 
-
                 if (fetchedCustomer != null)
                 {
                     orderViewModel.Customer = fetchedCustomer;

@@ -109,7 +109,8 @@ public partial class ProductsPanel : Form
         productGrid.DataSource = sortedProducts;
     }
 
-    private void CheckBox_CheckedChanged(object sender, EventArgs e) {
+    private void CheckBox_CheckedChanged(object sender, EventArgs e)
+    {
         var checkBoxesToCategories = new Dictionary<CheckBox, Category>
         {
         { checkBoxRacket, Category.Bats },
@@ -133,20 +134,23 @@ public partial class ProductsPanel : Form
         CheckBox senderCheckBox = sender as CheckBox;
 
         // Check which dictionary the senderCheckBox belongs to and uncheck others in that dictionary
-        if (checkBoxesToCategories.ContainsKey(senderCheckBox)) {
-            if (senderCheckBox.Checked) {
-                foreach (var checkBox in checkBoxesToCategories.Keys) {
-                    if (checkBox != senderCheckBox) {
-                        checkBox.Checked = false;
-                    }
+        if (checkBoxesToCategories.ContainsKey(senderCheckBox))
+        {
+            if (senderCheckBox.Checked)
+            {
+                foreach (var checkBox in checkBoxesToCategories.Keys.Where(checkBox => checkBox != senderCheckBox))
+                {
+                    checkBox.Checked = false;
                 }
             }
-        } else if (checkBoxesToPriceRanges.ContainsKey(senderCheckBox)) {
-            if (senderCheckBox.Checked) {
-                foreach (var checkBox in checkBoxesToPriceRanges.Keys) {
-                    if (checkBox != senderCheckBox) {
-                        checkBox.Checked = false;
-                    }
+        }
+        else if (checkBoxesToPriceRanges.ContainsKey(senderCheckBox))
+        {
+            if (senderCheckBox.Checked)
+            {
+                foreach (var checkBox in checkBoxesToPriceRanges.Keys.Where(checkBox => checkBox != senderCheckBox))
+                {
+                    checkBox.Checked = false;
                 }
             }
         }
@@ -189,21 +193,12 @@ public partial class ProductsPanel : Form
     private void productGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
     {
         var product = productGrid.Rows[e.RowIndex].DataBoundItem as Product;
-        if (product != null)
-        {
-            if (product.Inactive)
-            {
-                productGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.DarkGray;
-            }
-            else
-            {
-                productGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = productGrid.DefaultCellStyle.BackColor;
-            }
+        if (product == null) return;
+        productGrid.Rows[e.RowIndex].DefaultCellStyle.BackColor = product.Inactive ? Color.DarkGray : productGrid.DefaultCellStyle.BackColor;
 
-            product.NormalPrice = decimal.Round(product.NormalPrice, 2, MidpointRounding.AwayFromZero);
-            product.SalePrice = decimal.Round(product.SalePrice, 2, MidpointRounding.AwayFromZero);
-            product.PurchasePrice = decimal.Round(product.PurchasePrice, 2, MidpointRounding.AwayFromZero);
-        }
+        product.NormalPrice = decimal.Round(product.NormalPrice, 2, MidpointRounding.AwayFromZero);
+        product.SalePrice = decimal.Round(product.SalePrice, 2, MidpointRounding.AwayFromZero);
+        product.PurchasePrice = decimal.Round(product.PurchasePrice, 2, MidpointRounding.AwayFromZero);
     }
 
 
@@ -220,20 +215,17 @@ public partial class ProductsPanel : Form
         }
     }
 
-    private void productGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+    private void productGrid_CellDoubleClick(object sender, EventArgs e)
     {
-        if (e.RowIndex >= 0)
+        if (selectedProduct == null) return;
+
+        var editProduct = new EditProduct(selectedProduct);
+        editProduct.ShowDialog();
+
+        // Check if the product was updated
+        if (editProduct.DialogResult == DialogResult.OK)
         {
-            if (selectedProduct == null) return;
-
-            var editProduct = new EditProduct(selectedProduct);
-            editProduct.ShowDialog();
-
-            // Check if the product was updated
-            if (editProduct.DialogResult == DialogResult.OK)
-            {
-                RefreshProducts();
-            }
+            RefreshProducts();
         }
     }
 
@@ -247,7 +239,7 @@ public partial class ProductsPanel : Form
 
         var searchTextIndex = 0;
 
-        foreach (var charFromText in text.Where(charFromText => searchTerm[searchTextIndex] == charFromText))
+        foreach (var _ in text.Where(charFromText => searchTerm[searchTextIndex] == charFromText))
         {
             searchTextIndex++;
             if (searchTextIndex == searchTerm.Length)

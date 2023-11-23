@@ -328,6 +328,7 @@
             productGrid.DataSource = products;
             productGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             productGrid.MultiSelect = false;
+            productGrid.DoubleClick += productGrid_CellDoubleClick;
             // 
             // iDDataGridViewTextBoxColumn
             // 
