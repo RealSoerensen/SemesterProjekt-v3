@@ -72,7 +72,9 @@ const Orders = () => {
                     <LoadingSpinner />
                 ) : (
                     completeOrders.map((completeOrder, index) => (
-                        <OrderCard completeOrder={completeOrder} index={index} />
+                        <div className="col-4" key={index}>
+                            <OrderCard completeOrder={completeOrder} index={index} />
+                        </div>
                     ))
                 )}
             </div>

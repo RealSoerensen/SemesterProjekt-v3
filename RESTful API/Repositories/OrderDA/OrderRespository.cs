@@ -21,7 +21,7 @@ public class OrderRespository : IOrderDA
         using var transaction = dbConnection.BeginTransaction();
         try
         {
-            const string sql = "INSERT INTO [Order] (CustomerID, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as bigint);";
+            const string sql = "INSERT INTO [Order] (CustomerId, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as int)";
             obj.ID = await dbConnection.QuerySingleAsync<int>(sql, obj, transaction);
             transaction.Commit();
         }

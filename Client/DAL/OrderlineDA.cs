@@ -1,5 +1,6 @@
 ﻿using Models;
-using System.Net.Http.Json;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Client.DAL;
 
@@ -10,8 +11,11 @@ internal class OrderlineDA : ICRUD<Orderline>
 
     public async Task<Orderline?> Create(Orderline obj)
     {
-        var response = await _client.PostAsJsonAsync(URL, obj);
-        return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<Orderline>() : null;
+        HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync(URL, httpContent);
+        if (!response.IsSuccessStatusCode) return null;
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<Orderline>(jsonResponse);
     }
 
     public async Task<bool> Delete(long id)
@@ -23,20 +27,24 @@ internal class OrderlineDA : ICRUD<Orderline>
     public async Task<List<Orderline>?> GetOrderlines(long id)
     {
         var response = await _client.GetAsync(URL + "/" + id);
-        return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<List<Orderline>>() : new List<Orderline>();
+        if (!response.IsSuccessStatusCode) return null;
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        return JsonConvert.DeserializeObject<List<Orderline>>(jsonResponse);
     }
 
     public async Task<List<Orderline>> GetAll()
     {
         var response = await _client.GetAsync(URL);
         if (!response.IsSuccessStatusCode) return new List<Orderline>();
-        var result = await response.Content.ReadFromJsonAsync<List<Orderline>>();
-        return result ?? new List<Orderline>();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var list = JsonConvert.DeserializeObject<List<Orderline>>(jsonResponse);
+        return list ?? new List<Orderline>();
     }
 
     public async Task<bool> Update(Orderline obj)
     {
-        var response = await _client.PutAsJsonAsync(URL, obj);
+        HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+        var response = await _client.PutAsync(URL, httpContent);
         return response.IsSuccessStatusCode;
     }
 

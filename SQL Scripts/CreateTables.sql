@@ -20,7 +20,8 @@ CREATE TABLE [Customer] (
 CREATE TABLE [Order] (
 	[date] datetime,
 	[ID] bigint PRIMARY KEY IDENTITY(1, 1),
-	[customerID] bigint FOREIGN KEY REFERENCES [Customer]([ID])
+	[customerID] bigint FOREIGN KEY REFERENCES [Customer]([ID]),
+	[status] int
 );
 
 CREATE TABLE [Product] (
@@ -33,8 +34,7 @@ CREATE TABLE [Product] (
 	[name] varchar(50),
 	[stock] bigint,
 	[brand] varchar(100),
-	[category] int,
-	[inactive] bit
+	[category] int
 );
 
 CREATE TABLE [Orderline] (

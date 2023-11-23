@@ -1,6 +1,6 @@
 ﻿using Models;
 using Newtonsoft.Json;
-using System.Net.Http.Json;
+using System.Text;
 
 namespace Client.DAL;
 
@@ -11,7 +11,8 @@ internal class ProductDA : ICRUD<Product>
 
     public async Task<Product?> Create(Product obj)
     {
-        var response = await _client.PostAsJsonAsync(URL, obj);
+        HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+        var response = await _client.PostAsync(URL, httpContent);
         if (!response.IsSuccessStatusCode) return null;
         var jsonResponse = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<Product>(jsonResponse);
@@ -39,8 +40,8 @@ internal class ProductDA : ICRUD<Product>
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                var productList = JsonConvert.DeserializeObject<List<Product>>(jsonResponse);
-                if (productList != null) return productList;
+                var list = JsonConvert.DeserializeObject<List<Product>>(jsonResponse);
+                return list ?? new List<Product>();
             }
         }
         catch (Exception e)
@@ -53,7 +54,8 @@ internal class ProductDA : ICRUD<Product>
 
     public async Task<bool> Update(Product obj)
     {
-        var response = await _client.PutAsJsonAsync(URL, obj);
+        HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+        var response = await _client.PutAsync(URL, httpContent);
         return response.IsSuccessStatusCode;
     }
 }

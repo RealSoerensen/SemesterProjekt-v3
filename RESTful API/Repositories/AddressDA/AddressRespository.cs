@@ -90,7 +90,7 @@ public class AddressRespository : IAddressDA
 
         try
         {
-            const string sql = "UPDATE Address SET street = @Street, city = @City, zipCode = @Zip, houseNumber = @HouseNumber WHERE Id = @Id";
+            const string sql = "UPDATE Address SET street = @Street, city = @City, zip = @Zip, houseNumber = @HouseNumber WHERE Id = @Id";
             await dbConnection.ExecuteAsync(sql, obj, transaction);
             transaction.Commit();
         }

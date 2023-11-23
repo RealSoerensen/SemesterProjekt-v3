@@ -28,7 +28,7 @@ namespace Client.Forms.ProductPanels
                 var purchasePrice = decimal.Parse(textBoxPurchasePrice.Text);
                 var normalPrice = decimal.Parse(textBoxNormalPrice.Text);
                 var stock = int.Parse(textBoxStock.Text);
-                var categoryIntValue = (int)(Category)Enum.Parse(typeof(Category), comboBoxCategory.Text);
+                var category = (Category)Enum.Parse(typeof(Category), comboBoxCategory.Text);
 
                 return new Product(
                     textBoxDescription.Text,
@@ -39,7 +39,7 @@ namespace Client.Forms.ProductPanels
                     textBoxProductName.Text,
                     stock,
                     textBoxBrand.Text,
-                    categoryIntValue
+                    category
                 );
             }
         }

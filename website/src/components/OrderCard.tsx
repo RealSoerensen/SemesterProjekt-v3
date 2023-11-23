@@ -3,6 +3,8 @@ import Order from "../models/Order";
 import Orderline from "../models/Orderline";
 import Product from "../models/Product";
 import Image from "./Image";
+import { statusToString } from "../models/OrderStatus";
+import { Link } from "react-router-dom";
 
 interface OrderCardProps {
     completeOrder: {
@@ -16,12 +18,13 @@ interface OrderCardProps {
 
 const OrderCard: FC<OrderCardProps> = ({ completeOrder, index }) => {
     return (
-        <div className="col-sm-12 col-md-4 justify-content-center">
+        <div>
             <div className="card m-1">
                 <div className="card-body">
                     <p>Ordrenummer: {completeOrder.order.id}</p>
                     <p>Oprettet: {completeOrder.order.date.toDateString()}</p>
                     <p>Pris: {completeOrder.totalPrice()} kr.</p>
+                    <p>Status: {statusToString(completeOrder.order.status)}</p>
                 </div>
                 <hr />
                 <div className="text-center mb-3">
@@ -48,7 +51,9 @@ const OrderCard: FC<OrderCardProps> = ({ completeOrder, index }) => {
                                     <div className="card-body">
                                         <div className="row">
                                             <div className="col-4">
-                                                <Image image={product.image} imageTitle={product.name} className="img-fluid" />
+                                                <Link to={`/product/${product.id}`} className="text-decoration-none text-dark">
+                                                    <Image image={product.image} imageTitle={product.name} className="img-fluid" />
+                                                </Link>
                                             </div>
                                             <div className="col-8">
                                                 <p className="fw-bold">{product.name}</p>

@@ -25,11 +25,6 @@ public class OrderController : ControllerBase
             return BadRequest("Order retrieval failed - DB ERROR");
         }
 
-        if (orders == null)
-        {
-            return NotFound("No orders found");
-        }
-
         return Ok(orders);
     }
 
@@ -47,11 +42,6 @@ public class OrderController : ControllerBase
             return BadRequest("Order retrieval failed - DB ERROR");
         }
 
-        if (order == null)
-        {
-            return NotFound();
-        }
-
         return Ok(order);
     }
 
@@ -62,7 +52,7 @@ public class OrderController : ControllerBase
         try
         {
             var createdOrder = await _orderService.CreateOrder(order);
-            return Ok(createdOrder != null);
+            return Ok(createdOrder);
         }
         catch (Exception)
         {

@@ -18,7 +18,7 @@ public class Product
     public bool Inactive { get; set; }
 
     [JsonConstructor]
-    public Product(string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, int stock, string brand, int category)
+    public Product(string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, int stock, string brand, Category category)
     {
         Description = description;
         Image = image;
@@ -28,10 +28,10 @@ public class Product
         Name = name;
         Stock = stock;
         Brand = brand;
-        Category = (Category)category;
+        Category = category;
     }
 
-    public Product(long ID, string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, long stock, string brand, int category, bool inactive)
+    public Product(long ID, string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, long stock, string brand, Category category, bool inactive)
     {
         this.ID = ID;
         Description = description;
@@ -42,7 +42,7 @@ public class Product
         Name = name;
         Stock = stock;
         Brand = brand;
-        Category = (Category)category;
+        Category = category;
         Inactive = inactive;
     }
 

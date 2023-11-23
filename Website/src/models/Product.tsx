@@ -11,8 +11,9 @@ class Product {
     normalPrice: number;
     brand: string;
     category: Category;
+    inactive: boolean;
 
-    constructor(description: string, id: number, image: string, category: number, name: string, stock: number, salePrice: number, purchasePrice: number, normalPrice: number, brand: string) {
+    constructor(description: string, id: number, image: string, category: number, name: string, stock: number, salePrice: number, purchasePrice: number, normalPrice: number, brand: string, inactive: boolean) {
         this.description = description;
         this.id = id;
         this.image = image;
@@ -23,6 +24,7 @@ class Product {
         this.purchasePrice = purchasePrice;
         this.normalPrice = normalPrice;
         this.brand = brand;
+        this.inactive = inactive;
     }
 }
 
