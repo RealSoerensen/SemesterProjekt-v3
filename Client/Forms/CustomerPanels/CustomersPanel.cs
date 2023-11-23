@@ -164,14 +164,6 @@ public partial class CustomersPanel : Form
             MessageBox.Show(@"Vælg en kunde");
             return;
         }
-
-        Address? selectedCustomerAddress;
-        try {
-            selectedCustomerAddress = await addressController.Get((long)selectedCustomer.AddressID!);
-        } catch (Exception) {
-            MessageBox.Show(@"Kunne ikke hente kundens adresse");
-            return;
-        // Delete the customer's personal data
         DeleteCustomerData(selectedCustomer);
 
         // Update the customer with removed data
@@ -181,6 +173,10 @@ public partial class CustomersPanel : Form
             MessageBox.Show(@"Kundens personlige data er blevet fjernet");
             // Refresh the data grid or perform necessary UI updates
             RefreshCustomers();
+        }
+        else
+        {
+            MessageBox.Show(@"Der skete en fejl, kundens personlige data er ikke blevet fjernet");
         }
     }
 
