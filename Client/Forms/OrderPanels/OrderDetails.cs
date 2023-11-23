@@ -13,9 +13,12 @@ namespace Client.Forms.OrderPanels
             labelOrderID.Text = orderViewModel.OrderID.ToString();
             labelDate.Text = orderViewModel.Date.ToString();
             labelOrderPrice.Text = orderViewModel.PriceOfOrder.ToString();
-            labelFirstName.Text = orderViewModel.Customer.FirstName;
-            labelLastName.Text = orderViewModel.Customer.LastName;
-            labelCustomerID.Text = orderViewModel.Customer.ID.ToString();
+            if (orderViewModel.Customer != null)
+            {
+                labelFirstName.Text = orderViewModel.Customer.FirstName;
+                labelLastName.Text = orderViewModel.Customer.LastName;
+                labelCustomerID.Text = orderViewModel.Customer.ID.ToString();
+            }
 
             dataGridView1.DataSource = orderViewModel.Orderlines;
         }
