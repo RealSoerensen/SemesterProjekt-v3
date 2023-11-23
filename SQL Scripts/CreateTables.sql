@@ -34,8 +34,7 @@ CREATE TABLE [Product] (
 	[name] varchar(50),
 	[stock] bigint,
 	[brand] varchar(100),
-	[category] int,
-	[inactive] bit
+	[category] int
 );
 
 CREATE TABLE [Orderline] (

@@ -24,8 +24,6 @@
         /// </summary>
         private void InitializeComponent() {
             panel1 = new Panel();
-            label4 = new Label();
-            label3 = new Label();
             checkBox2 = new CheckBox();
             checkBox1 = new CheckBox();
             checkBoxPrice6 = new CheckBox();
@@ -47,6 +45,8 @@
             NumberOfOrderlines = new DataGridViewTextBoxColumn();
             NumberOfProducts = new DataGridViewTextBoxColumn();
             PriceOfOrder = new DataGridViewTextBoxColumn();
+            label3 = new Label();
+            label4 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)orderGrid).BeginInit();
@@ -74,26 +74,6 @@
             panel1.Size = new Size(837, 159);
             panel1.TabIndex = 1;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 14.25F);
-            label4.Location = new Point(253, 30);
-            label4.Name = "label4";
-            label4.Size = new Size(48, 25);
-            label4.TabIndex = 21;
-            label4.Text = "Søg:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 14.25F);
-            label3.Location = new Point(615, 33);
-            label3.Name = "label3";
-            label3.Size = new Size(67, 25);
-            label3.TabIndex = 20;
-            label3.Text = "Sortér:";
-            // 
             // checkBox2
             // 
             checkBox2.AutoSize = true;
@@ -103,7 +83,6 @@
             checkBox2.TabIndex = 19;
             checkBox2.Text = "3500+";
             checkBox2.UseVisualStyleBackColor = true;
-            checkBox2.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBox1
             // 
@@ -114,7 +93,6 @@
             checkBox1.TabIndex = 18;
             checkBox1.Text = "3000-3500";
             checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxPrice6
             // 
@@ -125,7 +103,6 @@
             checkBoxPrice6.TabIndex = 17;
             checkBoxPrice6.Text = "2500-3000";
             checkBoxPrice6.UseVisualStyleBackColor = true;
-            checkBoxPrice6.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxPrice5
             // 
@@ -136,7 +113,6 @@
             checkBoxPrice5.TabIndex = 16;
             checkBoxPrice5.Text = "2000-2500";
             checkBoxPrice5.UseVisualStyleBackColor = true;
-            checkBoxPrice5.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxPrice4
             // 
@@ -147,7 +123,6 @@
             checkBoxPrice4.TabIndex = 15;
             checkBoxPrice4.Text = "1500-2000";
             checkBoxPrice4.UseVisualStyleBackColor = true;
-            checkBoxPrice4.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxPrice3
             // 
@@ -158,7 +133,6 @@
             checkBoxPrice3.TabIndex = 14;
             checkBoxPrice3.Text = "1000-1500";
             checkBoxPrice3.UseVisualStyleBackColor = true;
-            checkBoxPrice3.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // checkBoxPrice2
             // 
@@ -169,7 +143,7 @@
             checkBoxPrice2.TabIndex = 13;
             checkBoxPrice2.Text = "500-1000";
             checkBoxPrice2.UseVisualStyleBackColor = true;
-            checkBoxPrice2.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxPrice2.CheckedChanged += checkBoxPrice2_CheckedChanged;
             // 
             // checkBoxPrice1
             // 
@@ -180,7 +154,6 @@
             checkBoxPrice1.TabIndex = 12;
             checkBoxPrice1.Text = "0-500";
             checkBoxPrice1.UseVisualStyleBackColor = true;
-            checkBoxPrice1.CheckedChanged += CheckBox_CheckedChanged;
             // 
             // label2
             // 
@@ -218,7 +191,6 @@
             textBoxSearchbar.Name = "textBoxSearchbar";
             textBoxSearchbar.Size = new Size(221, 23);
             textBoxSearchbar.TabIndex = 0;
-            textBoxSearchbar.TextChanged += textBoxSearchbar_TextChanged_1;
             // 
             // panel2
             // 
@@ -291,6 +263,26 @@
             PriceOfOrder.ReadOnly = true;
             PriceOfOrder.Width = 80;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 14.25F);
+            label3.Location = new Point(615, 33);
+            label3.Name = "label3";
+            label3.Size = new Size(67, 25);
+            label3.TabIndex = 20;
+            label3.Text = "Sortér:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 14.25F);
+            label4.Location = new Point(253, 30);
+            label4.Name = "label4";
+            label4.Size = new Size(48, 25);
+            label4.TabIndex = 21;
+            label4.Text = "Søg:";
+            // 
             // OrdersPanel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -319,6 +311,7 @@
         private CheckBox checkBoxPrice4;
         private CheckBox checkBoxPrice3;
         private CheckBox checkBoxPrice2;
+        private CheckBox checkBoxPrice1;
         private Label label2;
         private ComboBox comboBox1;
         private Label labelOrdersTxt;
@@ -336,6 +329,5 @@
         private CheckBox checkBox1;
         private Label label3;
         private Label label4;
-        private CheckBox checkBoxPrice1;
     }
 }
