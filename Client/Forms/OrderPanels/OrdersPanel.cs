@@ -1,18 +1,22 @@
 ﻿using Client.Controllers;
 using Models;
 
-namespace Client.Forms.OrderPanels {
-    public partial class OrdersPanel : Form {
-        private Order? selectedOrder;
+namespace Client.Forms.OrderPanels
+{
+    public partial class OrdersPanel : Form
+    {
+        private OrderViewModel? selectedOrder;
         private readonly OrderController orderController = new();
         private readonly CustomerController customerController = new();
         private readonly OrderlineController orderlineController = new();
-        public OrdersPanel() {
+        public OrdersPanel()
+        {
             InitializeComponent();
             InitializeDataGridView();
         }
 
-        private void InitializeDataGridView() {
+        private void InitializeDataGridView()
+        {
             orderGrid.Name = "Orders";
             orderGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
@@ -23,18 +27,22 @@ namespace Client.Forms.OrderPanels {
             orderGrid.MultiSelect = false;
         }
 
-        private void orderGrid_SelectionChanged(object sender, EventArgs e) {
+        private void orderGrid_SelectionChanged(object sender, EventArgs e)
+        {
             if (orderGrid.SelectedRows.Count <= 0) return;
             var selectedRow = orderGrid.SelectedRows[0];
-            selectedOrder = selectedRow.DataBoundItem as Order;
+            selectedOrder = selectedRow.DataBoundItem as OrderViewModel;
         }
 
-        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e) {
+        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
 
-        private async void OrdersPanel_Load(object sender, EventArgs e) {
-            try {
+        private async void OrdersPanel_Load(object sender, EventArgs e)
+        {
+            try
+            {
                 await PopulateDataGridViewAsync();
             }
             catch (Exception ex)
@@ -45,10 +53,12 @@ namespace Client.Forms.OrderPanels {
             }
         }
 
-        private async Task<List<OrderViewModel>> PrepareOrdersData(List<Order> orders) {
+        private async Task<List<OrderViewModel>> PrepareOrdersData(List<Order> orders)
+        {
             var ordersData = new List<OrderViewModel>();
 
-            foreach (var order in orders) {
+            foreach (var order in orders)
+            {
                 var orderViewModel = new OrderViewModel
                 {
                     OrderID = (long)order.ID,
@@ -66,20 +76,29 @@ namespace Client.Forms.OrderPanels {
                 var fetchedOrder = await orderTask;
                 var orderlines = await orderLinesTask;
 
-                if (fetchedCustomer != null) {
-                    orderViewModel.Customer = fetchedCustomer.FirstName + " " + fetchedCustomer.LastName;
+                if (fetchedCustomer != null)
+                {
+                    orderViewModel.Customer = fetchedCustomer;
                 }
 
-                if (fetchedOrder != null) {
-                    orderViewModel.NumberOfOrderlines = (int)fetchedOrder.ID;
+                if (fetchedOrder != null)
+                {
+                    orderViewModel.NumberOfOrderlines = orderlines.Count;
+                }
+
+                if (orderlines != null)
+                {
+                    orderViewModel.Orderlines = orderlines;
                 }
 
                 // decimal with 2 decimals
                 var totalPrice = 0m;
                 var amountOfProducts = 0;
 
-                if (orderlines != null) {
-                    foreach (var orderline in orderlines) {
+                if (orderlines != null)
+                {
+                    foreach (var orderline in orderlines)
+                    {
                         totalPrice += orderline.PriceAtTimeOfOrder;
                         amountOfProducts += orderline.Quantity;
                     }
@@ -95,44 +114,38 @@ namespace Client.Forms.OrderPanels {
             return ordersData;
         }
 
-        private async Task PopulateDataGridViewAsync() {
+        private async Task PopulateDataGridViewAsync()
+        {
             orderGrid.DataSource = null;
             var orders = await orderController.GetAll();
             var ordersData = await PrepareOrdersData(orders);
             orderGrid.DataSource = ordersData;
         }
 
-        public class OrderViewModel {
+        public class OrderViewModel
+        {
             public long OrderID { get; set; }
-            public string? Customer { get; set; }
+            public Customer? Customer { get; set; }
             public DateTime Date { get; set; }
             public int NumberOfOrderlines { get; set; }
             public int NumberOfProducts { get; set; }
             public decimal PriceOfOrder { get; set; }
             // Other properties related to order view model
+            public List<Orderline> Orderlines { get; set; }
+
         }
 
-        private void buttonDetails_Click(object sender, EventArgs e) {
+        private void buttonDetails_Click(object sender, EventArgs e)
+        {
 
-            if (orderGrid.SelectedRows.Count <= 0) return;
-            var selectedRow = orderGrid.SelectedRows[0];
-            selectedOrder = selectedRow.DataBoundItem as Order;
-
-            if (selectedRow == null) {
+            if (selectedOrder == null)
+            {
                 MessageBox.Show("Vælg en ordre");
                 return;
             }
 
-            var orderViewModel = new OrderViewModel();
-            orderViewModel.OrderID = (long)selectedRow.Cells[0].Value;
-            orderViewModel.Customer = (string)selectedRow.Cells[1].Value;
-            orderViewModel.Date = (DateTime)selectedRow.Cells[2].Value;
-            orderViewModel.PriceOfOrder = (decimal)selectedRow.Cells[5].Value;
-            
 
-
-
-            var orderDetails = new OrderDetails(orderViewModel);
+            var orderDetails = new OrderDetails(selectedOrder);
             orderDetails.ShowDialog();
         }
     }
