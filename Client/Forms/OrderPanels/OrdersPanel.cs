@@ -56,52 +56,37 @@ namespace Client.Forms.OrderPanels
         private async Task<List<OrderViewModel>> PrepareOrdersData(List<Order> orders)
         {
             var ordersData = new List<OrderViewModel>();
+            var customers = await customerController.GetAll();
+            var orderlines = await orderlineController.GetAll();
 
             foreach (var order in orders)
             {
                 var orderViewModel = new OrderViewModel
                 {
-                    OrderID = (long)order.ID,
+                    OrderID = order.ID,
                     Date = order.Date
-
                 };
 
-                var customerTask = customerController.Get(order.CustomerID);
-                var orderTask = orderController.Get(order.ID);
-                var orderLinesTask = orderlineController.Get(order.ID);
+                var fetchedCustomer = customers.FirstOrDefault(c => c.ID == order.CustomerID);
+                var fetchedOrderlines = orderlines.Where(o => o.OrderID == order.ID).ToList();
 
-                await Task.WhenAll(customerTask, orderTask, orderLinesTask);
-
-                var fetchedCustomer = await customerTask;
-                var fetchedOrder = await orderTask;
-                var orderlines = await orderLinesTask;
 
                 if (fetchedCustomer != null)
                 {
                     orderViewModel.Customer = fetchedCustomer;
                 }
 
-                if (fetchedOrder != null)
-                {
-                    orderViewModel.NumberOfOrderlines = orderlines.Count;
-                }
-
-                if (orderlines != null)
-                {
-                    orderViewModel.Orderlines = orderlines;
-                }
 
                 // decimal with 2 decimals
                 var totalPrice = 0m;
                 var amountOfProducts = 0;
 
-                if (orderlines != null)
+                orderViewModel.Orderlines = fetchedOrderlines;
+                orderViewModel.NumberOfOrderlines = fetchedOrderlines.Count;
+                foreach (var orderline in fetchedOrderlines)
                 {
-                    foreach (var orderline in orderlines)
-                    {
-                        totalPrice += orderline.PriceAtTimeOfOrder;
-                        amountOfProducts += orderline.Quantity;
-                    }
+                    totalPrice += orderline.PriceAtTimeOfOrder;
+                    amountOfProducts += orderline.Quantity;
                 }
 
                 orderViewModel.NumberOfProducts = amountOfProducts;
@@ -122,28 +107,13 @@ namespace Client.Forms.OrderPanels
             orderGrid.DataSource = ordersData;
         }
 
-        public class OrderViewModel
-        {
-            public long OrderID { get; set; }
-            public Customer? Customer { get; set; }
-            public DateTime Date { get; set; }
-            public int NumberOfOrderlines { get; set; }
-            public int NumberOfProducts { get; set; }
-            public decimal PriceOfOrder { get; set; }
-            // Other properties related to order view model
-            public List<Orderline> Orderlines { get; set; }
-
-        }
-
         private void buttonDetails_Click(object sender, EventArgs e)
         {
-
             if (selectedOrder == null)
             {
                 MessageBox.Show("Vælg en ordre");
                 return;
             }
-
 
             var orderDetails = new OrderDetails(selectedOrder);
             orderDetails.ShowDialog();
