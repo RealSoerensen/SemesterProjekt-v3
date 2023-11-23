@@ -15,15 +15,12 @@ import ForgotPassword from "./pages/auth/ForgotPasswordPage";
 import LogoutPage from "./pages/auth/LogoutPage";
 import { CartProvider } from "./contexts/CartContext";
 import CheckoutPage from "./pages/CheckoutPage";
-import Categories from "./pages/Categories";
-import { CategoryProvider } from "./contexts/CategoryContext";
 
 function App() {
   return (
     <BrowserRouter>
       <CartProvider>
         <AuthProvider>
-          <CategoryProvider>
           <Nav />
 
           <div className="container-fluid" style={{ minHeight: "100vh" }}>
@@ -42,12 +39,10 @@ function App() {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="*" element={<NotFoundPage />} />
-              <Route path="/category" element={<Categories/>} />
             </Routes>
           </div>
 
           <Footer />
-          </CategoryProvider>
         </AuthProvider>
       </CartProvider>
     </BrowserRouter>
