@@ -143,7 +143,6 @@
             checkBoxPrice2.TabIndex = 13;
             checkBoxPrice2.Text = "500-1000";
             checkBoxPrice2.UseVisualStyleBackColor = true;
-            checkBoxPrice2.CheckedChanged += checkBoxPrice2_CheckedChanged;
             // 
             // checkBoxPrice1
             // 

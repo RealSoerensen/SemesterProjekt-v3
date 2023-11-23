@@ -34,11 +34,6 @@ namespace Client.Forms.OrderPanels
             selectedOrder = selectedRow.DataBoundItem as OrderViewModel;
         }
 
-        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private async void OrdersPanel_Load(object sender, EventArgs e)
         {
             try
@@ -70,12 +65,10 @@ namespace Client.Forms.OrderPanels
                 var fetchedCustomer = customers.FirstOrDefault(c => c.ID == order.CustomerID);
                 var fetchedOrderlines = orderlines.Where(o => o.OrderID == order.ID).ToList();
 
-
                 if (fetchedCustomer != null)
                 {
                     orderViewModel.Customer = fetchedCustomer;
                 }
-
 
                 // decimal with 2 decimals
                 var totalPrice = 0m;
