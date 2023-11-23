@@ -34,4 +34,9 @@ public class Customer
         Password = password;
         RegisterDate = registerDate;
     }
+
+    public override string ToString()
+    {
+        return FirstName + " " + LastName;
+    }
 }
