@@ -88,24 +88,87 @@ public partial class CustomersPanel : Form {
             return;
         }
 
-        customers.Add(customer);
-        customerGrid.DataSource = null;
-        customerGrid.DataSource = customers;
+        RefreshCustomers();
         MessageBox.Show(@"Kunden blev oprettet");
     }
 
+<<<<<<< Updated upstream
     private async void buttonEdit_Click(object sender, EventArgs e) {
         if (selectedCustomer == null) {
+=======
+    private async void buttonEdit_Click(object sender, EventArgs e)
+    {
+        if (selectedCustomer == null)
+        {
+            MessageBox.Show("Vælg en kunde");
+            return;
+        }
+
+        try
+        {
+            var selectedCustomerAddress = await addressController.Get((long)selectedCustomer.AddressID!);
+            if (selectedCustomerAddress == null)
+            {
+                MessageBox.Show("Kunne ikke hente kundens adresse");
+                return;
+            }
+
+            var editCustomer = new EditCustomer(selectedCustomer, selectedCustomerAddress);
+            editCustomer.ShowDialog();
+
+            if (editCustomer.DialogResult != DialogResult.OK) return;
+            var customer = editCustomer.Customer;
+            var address = editCustomer.Address;
+            Console.WriteLine(customer);
+            Console.WriteLine(address);
+            bool customerUpdated = await customerController.Update(customer);
+            bool addressUpdated = await addressController.Update(address);
+            if (customerUpdated && addressUpdated)
+            {
+                RefreshCustomers();
+                MessageBox.Show("Kunden blev opdateret");
+            }
+            else
+            {
+                MessageBox.Show("Kunden blev ikke opdateret");
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Fejl: {ex.Message}");
+        }
+    }
+
+
+
+    private async void buttonDelete_Click(object sender, EventArgs e)
+    {
+        if (selectedCustomer == null)
+        {
+>>>>>>> Stashed changes
             MessageBox.Show(@"Vælg en kunde");
             return;
         }
 
+<<<<<<< Updated upstream
         Address? selectedCustomerAddress;
         try {
             selectedCustomerAddress = await addressController.Get((long)selectedCustomer.AddressID!);
         } catch (Exception) {
             MessageBox.Show(@"Kunne ikke hente kundens adresse");
             return;
+=======
+        // Anonymize the customer's personal data
+        DeleteCustomerData(selectedCustomer);
+
+        // Update the customer with anonymized data
+        var updated = await customerController.Update(selectedCustomer);
+        if (updated)
+        {
+            MessageBox.Show(@"Kundens personlige data er blevet fjernet");
+            // Refresh the data grid or perform necessary UI updates
+            RefreshCustomers();
+>>>>>>> Stashed changes
         }
 
         if (selectedCustomerAddress == null) {
@@ -169,7 +232,23 @@ public partial class CustomersPanel : Form {
         }
     }
 
+<<<<<<< Updated upstream
     private void textboxSearch_TextChanged(object sender, EventArgs e) {
+=======
+    private void DeleteCustomerData(Customer customer)
+    {
+        // Replace personal data with null or empty values
+        customer.FirstName = "";
+        customer.LastName = "";
+        customer.Email = "";
+        customer.PhoneNo = "";
+        customer.Password = "";
+        customer.AddressID = null;
+    }
+
+    private void textboxSearch_TextChanged(object sender, EventArgs e)
+    {
+>>>>>>> Stashed changes
         var searchValue = textboxSearch.Text.ToLower();
 
         var filteredCustomers = customers.Where(c =>
