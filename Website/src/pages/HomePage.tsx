@@ -10,22 +10,12 @@ import ProductShowcase from '../components/ProductShowcase';
 
 //images
 import frontpageImage from '../content/images/frontpageImage.jpg';
-import bats from '../content/images/bat.jpg';
-import balls from '../content/images/Balls.jpg';
-import shoes from '../content/images/shoes.jpg';
-import clothes from '../content/images/shirt.jpg';
-import bags from '../content/images/bag.jpg';
 import LoadingSpinner from '../components/Spinner';
+import { useCategory } from '../contexts/CategoryContext';
 
 const HomePage: React.FC = () => {
+    const { categories, setCategories } = useCategory();
 
-    const [categories] = useState<CustomCard[]>([
-        new CustomCard(bats, 'Bat', "Vælg fra en bred vifte af bat", "category/" + Category.Bats),
-        new CustomCard(balls, 'Bolde', "Bolde til padel og strandtennis", "category/" + Category.Balls),
-        new CustomCard(shoes, 'Sko', "Sko til padel og strandtennis", "category/" + Category.Shoes),
-        new CustomCard(clothes, 'Tøj', "Tøj til padel og strandtennis", "category/" + Category.Clothes),
-        new CustomCard(bags, 'Tasker', "Taske til padel og strandtennis", "category/" + Category.Bags)
-    ]);
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [bestSellers, setBestSellers] = useState<Product[]>([]);

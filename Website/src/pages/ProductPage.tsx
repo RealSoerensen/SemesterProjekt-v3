@@ -16,7 +16,8 @@ const ProductPage = () => {
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
     const { cart, setCart } = useContext(CartContext);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [sliceNum, setSliceNum] = useState(4)
+    const [buttonText, setButtonText] = useState('')
     useEffect(() => {
         setIsLoading(true);
         if (id) {
@@ -36,6 +37,23 @@ const ProductPage = () => {
             setIsLoading(false);
         }
     }, [product]);
+    useEffect(()=>{
+        if(relatedProducts.length>4){
+            setButtonText('Vis Flere')
+        }
+    },[relatedProducts])
+    const showmore = () => {
+        if(relatedProducts.length >sliceNum){
+            setSliceNum(sliceNum+4)
+        }
+        if(relatedProducts.length+4 >sliceNum){
+            setButtonText('Vis Færre')
+        }
+        if(buttonText=="Vis Færre"){
+            setSliceNum(4)
+            setButtonText('Vis Flere')
+        }
+    }
 
     if (isLoading) return (<div className="container"><LoadingSpinner /></div>)
 
@@ -65,7 +83,7 @@ const ProductPage = () => {
                                     <div className="mb-2">
                                         <p className=""><del>{product.normalPrice} kr.</del> {product.salePrice} kr.</p>
                                         <p className="">Du sparer {calculateProcentDifference(product)}%</p>
-                                        <button className="btn btn-primary mx-auto" onClick={() => addItem(product, cart, setCart)}>Tilføj til kurv</button>
+                                        <button className="btn btn-primary mx-auto " onClick={() => addItem(product, cart, setCart)}>Tilføj til kurv</button>
                                     </div>
                                 )
                             )
@@ -77,14 +95,23 @@ const ProductPage = () => {
                     <div className="row">
                         {
                             relatedProducts.length > 0 ?
-                                (
-                                    relatedProducts.map((product, index) => {
+                                ( <>
+                                {
+                                    relatedProducts.slice(0,sliceNum).map((product, index) => {
                                         return (
-                                            <div className="col-sm-6 col-md-4 col-xl-3 d-flex justify-content-center m-1" key={index}>
+                                            <div className="col-sm-6 col-md-3 mb-4" key={index}>
                                                 <ProductShowcase key={index} product={product} />
                                             </div>
                                         )
-                                    })
+                                    })}
+                                    {
+                                        relatedProducts.length >4 ? (
+                                        <div className="col-12 d-flex justify-content-center">
+                                            <button onClick={showmore} className="btn btn-primary mx-auto mt-4" style={{width:100}}>{buttonText}</button>
+                                        </div> ): 
+                                        (<></>)
+                                    }
+                                    </>
                                 ) : (
                                     <p>Der er ingen relaterede produkter</p>
                                 )

@@ -29,6 +29,12 @@ const Nav = () => {
                 <div className={expandNavBarMobile ? "navbar-collapse " : " collapse navbar-collapse"}>
                     <ul className="navbar-nav">
                         <li>
+                            <Link to="category" className='text-decoration-none text-dark d-flex justify-content-center  mx-3 my-2'>Categories</Link>
+                        </li>
+                        <li>
+                            <Link to="About" className='text-decoration-none text-dark d-flex justify-content-center mx-auto my-2'>About</Link>
+                        </li>
+                        <li>
                             <LoginButtons HideClass='d-inline d-lg-none d-flex align-items-center justify-content-center' />
                         </li>
                     </ul>
