@@ -1,22 +1,19 @@
 ﻿using Client.Controllers;
+using Client.DAL;
 using Models;
 
-namespace Client.Forms.OrderPanels
-{
-    public partial class OrdersPanel : Form
-    {
+namespace Client.Forms.OrderPanels {
+    public partial class OrdersPanel : Form {
         private OrderViewModel? selectedOrder;
         private readonly OrderController orderController = new();
         private readonly CustomerController customerController = new();
         private readonly OrderlineController orderlineController = new();
-        public OrdersPanel()
-        {
+        public OrdersPanel() {
             InitializeComponent();
             InitializeDataGridView();
         }
 
-        private void InitializeDataGridView()
-        {
+        private void InitializeDataGridView() {
             orderGrid.Name = "Orders";
             orderGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
@@ -27,86 +24,53 @@ namespace Client.Forms.OrderPanels
             orderGrid.MultiSelect = false;
         }
 
-        private void orderGrid_SelectionChanged(object sender, EventArgs e)
-        {
+        private void orderGrid_SelectionChanged(object sender, EventArgs e) {
             if (orderGrid.SelectedRows.Count <= 0) return;
             var selectedRow = orderGrid.SelectedRows[0];
             selectedOrder = selectedRow.DataBoundItem as OrderViewModel;
         }
 
-        private void checkBoxPrice2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void OrdersPanel_Load(object sender, EventArgs e)
-        {
-            try
-            {
+        private async void OrdersPanel_Load(object sender, EventArgs e) {
+            try {
                 await PopulateDataGridViewAsync();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Console.WriteLine(ex);
                 MessageBox.Show(@"Kunne ikke hente ordre");
                 Close();
             }
         }
 
-        private async Task<List<OrderViewModel>> PrepareOrdersData(List<Order> orders)
-        {
+        private async Task<List<OrderViewModel>> PrepareOrdersData(List<Order> orders) {
             var ordersData = new List<OrderViewModel>();
+            var customers = await customerController.GetAll();
+            var orderlines = await orderlineController.GetAll();
 
-            foreach (var order in orders)
-            {
-                var orderViewModel = new OrderViewModel
-                {
-                    OrderID = (long)order.ID,
+            foreach (var order in orders) {
+                var orderViewModel = new OrderViewModel {
+                    OrderID = order.ID,
                     Date = order.Date
-
                 };
 
-                var customerTask = customerController.Get(order.CustomerID);
-                var orderTask = orderController.Get(order.ID);
-                var orderLinesTask = orderlineController.Get(order.ID);
+                var fetchedCustomer = customers.FirstOrDefault(c => c.ID == order.CustomerID);
+                var fetchedOrderlines = orderlines.Where(o => o.OrderID == order.ID).ToList();
 
-                await Task.WhenAll(customerTask, orderTask, orderLinesTask);
-
-                var fetchedCustomer = await customerTask;
-                var fetchedOrder = await orderTask;
-                var orderlines = await orderLinesTask;
-
-                if (fetchedCustomer != null)
-                {
+                if (fetchedCustomer != null) {
                     orderViewModel.Customer = fetchedCustomer;
-                }
-
-                if (fetchedOrder != null)
-                {
-                    orderViewModel.NumberOfOrderlines = orderlines.Count;
-                }
-
-                if (orderlines != null)
-                {
-                    orderViewModel.Orderlines = orderlines;
                 }
 
                 // decimal with 2 decimals
                 var totalPrice = 0m;
                 var amountOfProducts = 0;
 
-                if (orderlines != null)
-                {
-                    foreach (var orderline in orderlines)
-                    {
-                        totalPrice += orderline.PriceAtTimeOfOrder;
-                        amountOfProducts += orderline.Quantity;
-                    }
+                orderViewModel.Orderlines = fetchedOrderlines;
+                orderViewModel.NumberOfOrderlines = fetchedOrderlines.Count;
+                foreach (var orderline in fetchedOrderlines) {
+                    totalPrice += orderline.PriceAtTimeOfOrder * orderline.Quantity;
+                    amountOfProducts += orderline.Quantity;
                 }
 
                 orderViewModel.NumberOfProducts = amountOfProducts;
-                orderViewModel.PriceOfOrder = totalPrice;
-                // Populate other properties similarly
+                orderViewModel.PriceOfOrder = decimal.Round(totalPrice, 2, MidpointRounding.AwayFromZero);
 
                 ordersData.Add(orderViewModel);
             }
@@ -114,39 +78,100 @@ namespace Client.Forms.OrderPanels
             return ordersData;
         }
 
-        private async Task PopulateDataGridViewAsync()
-        {
+        private async Task PopulateDataGridViewAsync() {
             orderGrid.DataSource = null;
             var orders = await orderController.GetAll();
             var ordersData = await PrepareOrdersData(orders);
             orderGrid.DataSource = ordersData;
         }
 
-        public class OrderViewModel
-        {
-            public long OrderID { get; set; }
-            public Customer? Customer { get; set; }
-            public DateTime Date { get; set; }
-            public int NumberOfOrderlines { get; set; }
-            public int NumberOfProducts { get; set; }
-            public decimal PriceOfOrder { get; set; }
-            // Other properties related to order view model
-            public List<Orderline> Orderlines { get; set; }
-
-        }
-
-        private void buttonDetails_Click(object sender, EventArgs e)
-        {
-
-            if (selectedOrder == null)
-            {
+        private void buttonDetails_Click(object sender, EventArgs e) {
+            if (selectedOrder == null) {
                 MessageBox.Show("Vælg en ordre");
                 return;
             }
 
-
             var orderDetails = new OrderDetails(selectedOrder);
             orderDetails.ShowDialog();
         }
+
+        private async void CheckBox_CheckedChanged(object sender, EventArgs e) {
+            var checkBoxesToPriceRanges = new Dictionary<CheckBox, (decimal, decimal)>
+            {
+                { checkBoxPrice1, (0, 500) },
+                { checkBoxPrice2, (500, 1000) },
+                { checkBoxPrice3, (1000, 1500) },
+                { checkBoxPrice4, (1500, 2000) },
+                { checkBoxPrice5, (2000, 2500) },
+                { checkBoxPrice6, (2500, 3000) },
+                { checkBox1, (3000, 3500) },
+                { checkBox2, (3500, decimal.MaxValue) }
+            };
+
+            CheckBox senderCheckBox = sender as CheckBox;
+            if (checkBoxesToPriceRanges.ContainsKey(senderCheckBox)) {
+                if (senderCheckBox.Checked) {
+                    foreach (var checkBox in checkBoxesToPriceRanges.Keys) {
+                        if (checkBox != senderCheckBox) {
+                            checkBox.Checked = false;
+                        }
+                    }
+                }
+            }
+
+            var selectedPriceRange = checkBoxesToPriceRanges
+                .Where(kv => kv.Key.Checked)
+                .Select(kv => kv.Value)
+                .FirstOrDefault(); // Take the first selected price range
+
+            orderGrid.DataSource = null;
+            var orders = await orderController.GetAll();
+            var ordersData = await PrepareOrdersData(orders);
+
+            List<OrderViewModel> filteredOrders = new List<OrderViewModel>(ordersData);
+
+            // Apply price range filter if any price range is selected.
+            if (selectedPriceRange != default) {
+                filteredOrders = filteredOrders
+                    .Where(p => p.PriceOfOrder >= selectedPriceRange.Item1 && p.PriceOfOrder <= selectedPriceRange.Item2)
+                    .ToList();
+            }
+
+            orderGrid.DataSource = filteredOrders;
+        }
+
+        private bool FuzzyMatch(string text, string searchTerm) {
+            if (string.IsNullOrEmpty(searchTerm)) {
+                return true;
+            }
+
+            var searchTextIndex = 0;
+
+            foreach (var charFromText in text.Where(charFromText => searchTerm[searchTextIndex] == charFromText)) {
+                searchTextIndex++;
+                if (searchTextIndex == searchTerm.Length) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private async void textBoxSearchbar_TextChanged_1(object sender, EventArgs e)
+        {
+            orderGrid.DataSource = null;
+            var orders = await orderController.GetAll();
+            var ordersData = await PrepareOrdersData(orders);
+
+            var searchValue = textBoxSearchbar.Text.ToLower();
+
+            var filteredOrders = string.IsNullOrWhiteSpace(searchValue)
+                ? ordersData // If search value is empty, don't filter, include all orders
+                : ordersData.Where(p => p.Customer != null &&
+                                        FuzzyMatch(p.Customer.FirstName.ToLower() + " " + p.Customer.LastName.ToLower(), searchValue)).ToList();
+
+            orderGrid.DataSource = filteredOrders;
+        }
+
     }
 }

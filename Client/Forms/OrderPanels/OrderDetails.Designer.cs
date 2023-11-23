@@ -1,5 +1,7 @@
-﻿namespace Client.Forms.OrderPanels {
-    partial class OrderDetails {
+﻿namespace Client.Forms.OrderPanels
+{
+    partial class OrderDetails
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -22,7 +26,8 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             label1 = new Label();
             label2 = new Label();
             labelOrderID = new Label();
@@ -44,6 +49,8 @@
             buttonClose = new Button();
             label8 = new Label();
             labelOrderPrice = new Label();
+            label10 = new Label();
+            labelCity = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -106,7 +113,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(14, 198);
+            label5.Location = new Point(12, 208);
             label5.Name = "label5";
             label5.Size = new Size(53, 15);
             label5.TabIndex = 6;
@@ -115,7 +122,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(14, 227);
+            label6.Location = new Point(12, 254);
             label6.Name = "label6";
             label6.Size = new Size(60, 15);
             label6.TabIndex = 7;
@@ -124,7 +131,7 @@
             // labelFirstName
             // 
             labelFirstName.AutoSize = true;
-            labelFirstName.Location = new Point(117, 198);
+            labelFirstName.Location = new Point(115, 208);
             labelFirstName.Name = "labelFirstName";
             labelFirstName.Size = new Size(79, 15);
             labelFirstName.TabIndex = 8;
@@ -133,7 +140,7 @@
             // labelLastName
             // 
             labelLastName.AutoSize = true;
-            labelLastName.Location = new Point(117, 227);
+            labelLastName.Location = new Point(115, 254);
             labelLastName.Name = "labelLastName";
             labelLastName.Size = new Size(77, 15);
             labelLastName.TabIndex = 9;
@@ -142,10 +149,10 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(287, 12);
+            dataGridView1.Location = new Point(267, 12);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(313, 261);
+            dataGridView1.Size = new Size(333, 311);
             dataGridView1.TabIndex = 10;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -185,7 +192,7 @@
             // labelCustomerID
             // 
             labelCustomerID.AutoSize = true;
-            labelCustomerID.Location = new Point(117, 174);
+            labelCustomerID.Location = new Point(115, 174);
             labelCustomerID.Name = "labelCustomerID";
             labelCustomerID.Size = new Size(88, 15);
             labelCustomerID.TabIndex = 12;
@@ -194,7 +201,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(14, 258);
+            label9.Location = new Point(14, 337);
             label9.Name = "label9";
             label9.Size = new Size(51, 15);
             label9.TabIndex = 13;
@@ -203,7 +210,7 @@
             // labelAddress
             // 
             labelAddress.AutoSize = true;
-            labelAddress.Location = new Point(117, 258);
+            labelAddress.Location = new Point(115, 337);
             labelAddress.Name = "labelAddress";
             labelAddress.Size = new Size(66, 15);
             labelAddress.TabIndex = 14;
@@ -211,7 +218,7 @@
             // 
             // buttonClose
             // 
-            buttonClose.Location = new Point(14, 301);
+            buttonClose.Location = new Point(14, 403);
             buttonClose.Name = "buttonClose";
             buttonClose.Size = new Size(160, 43);
             buttonClose.TabIndex = 15;
@@ -221,7 +228,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(426, 286);
+            label8.Location = new Point(423, 337);
             label8.Name = "label8";
             label8.Size = new Size(61, 15);
             label8.TabIndex = 16;
@@ -230,17 +237,37 @@
             // labelOrderPrice
             // 
             labelOrderPrice.AutoSize = true;
-            labelOrderPrice.Location = new Point(515, 286);
+            labelOrderPrice.Location = new Point(515, 337);
             labelOrderPrice.Name = "labelOrderPrice";
             labelOrderPrice.Size = new Size(85, 15);
             labelOrderPrice.TabIndex = 17;
             labelOrderPrice.Text = "*ORDERPRICE*";
             // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(14, 295);
+            label10.Name = "label10";
+            label10.Size = new Size(23, 15);
+            label10.TabIndex = 18;
+            label10.Text = "By:";
+            // 
+            // labelCity
+            // 
+            labelCity.AutoSize = true;
+            labelCity.Location = new Point(115, 295);
+            labelCity.Name = "labelCity";
+            labelCity.Size = new Size(41, 15);
+            labelCity.TabIndex = 19;
+            labelCity.Text = "*CITY*";
+            // 
             // OrderDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(612, 369);
+            ClientSize = new Size(612, 473);
+            Controls.Add(labelCity);
+            Controls.Add(label10);
             Controls.Add(labelOrderPrice);
             Controls.Add(label8);
             Controls.Add(buttonClose);
@@ -289,5 +316,7 @@
         private Button buttonClose;
         private Label label8;
         private Label labelOrderPrice;
+        private Label label10;
+        private Label labelCity;
     }
 }

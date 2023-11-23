@@ -108,9 +108,7 @@ public partial class CustomersPanel : Form
             return;
         }
 
-        customers.Add(customer);
-        customerGrid.DataSource = null;
-        customerGrid.DataSource = customers;
+        RefreshCustomers();
         MessageBox.Show(@"Kunden blev oprettet");
     }
 
@@ -143,10 +141,7 @@ public partial class CustomersPanel : Form
             bool addressUpdated = await addressController.Update(address);
             if (customerUpdated && addressUpdated)
             {
-                customerGrid.DataSource = null;
-                var index = customers.FindIndex(c => c.ID == selectedCustomer.ID);
-                customers[index] = customer;
-                customerGrid.DataSource = customers;
+                RefreshCustomers();
                 MessageBox.Show("Kunden blev opdateret");
             }
             else
@@ -169,35 +164,34 @@ public partial class CustomersPanel : Form
             MessageBox.Show(@"Vælg en kunde");
             return;
         }
+        DeleteCustomerData(selectedCustomer);
 
-        // Anonymize the customer's personal data
-        AnonymizeCustomerData(selectedCustomer);
-
-        // Update the customer with anonymized data
+        // Update the customer with removed data
         var updated = await customerController.Update(selectedCustomer);
         if (updated)
         {
             MessageBox.Show(@"Kundens personlige data er blevet fjernet");
             // Refresh the data grid or perform necessary UI updates
-            customerGrid.DataSource = null;
-            customerGrid.DataSource = customers;
+            RefreshCustomers();
         }
         else
         {
-            MessageBox.Show(@"Kunden blev ikke opdateret");
+            MessageBox.Show(@"Der skete en fejl, kundens personlige data er ikke blevet fjernet");
         }
     }
 
-    private void AnonymizeCustomerData(Customer customer)
-    {
-        // Replace personal data with null or anonymized values
-        customer.FirstName = "Anonym";
-        customer.LastName = "Anonym";
-        customer.Email = "Anonym" + customer.ID.ToString() + "@example.com";
-        customer.PhoneNo = "00000000";
-        customer.Password = customer.ID.ToString();
-    }
 
+    private void DeleteCustomerData(Customer customer)
+    {
+        // Replace personal data with null or empty values
+        customer.FirstName = "";
+        customer.LastName = "";
+        customer.Email = "";
+        customer.PhoneNo = "";
+        customer.Password = "";
+        customer.AddressID = null;
+    }
+    
     private void textboxSearch_TextChanged(object sender, EventArgs e)
     {
         var searchValue = textboxSearch.Text.ToLower();

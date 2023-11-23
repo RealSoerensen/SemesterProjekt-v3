@@ -91,10 +91,11 @@ public class CustomerRespository : ICustomerDA
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        const string sql = "SELECT * FROM Customer";
-        var customerList = await dbConnection.QueryAsync<Customer>(sql);
+        const string sql = "SELECT * FROM Customer WHERE FirstName <> @DeletedCustomer";
+        var customerList = await dbConnection.QueryAsync<Customer>(sql, new { DeletedCustomer = "" });
         return customerList.ToList();
     }
+
 
     public async Task<Customer?> GetByEmail(string email)
     {
