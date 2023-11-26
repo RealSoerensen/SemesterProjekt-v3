@@ -1,5 +1,6 @@
 ﻿using Client.Controllers;
 using Client.DAL;
+using Client.Forms.ProductPanels;
 using Models;
 
 namespace Client.Forms.OrderPanels {
@@ -157,8 +158,7 @@ namespace Client.Forms.OrderPanels {
             return false;
         }
 
-        private async void textBoxSearchbar_TextChanged_1(object sender, EventArgs e)
-        {
+        private async void textBoxSearchbar_TextChanged_1(object sender, EventArgs e) {
             orderGrid.DataSource = null;
             var orders = await orderController.GetAll();
             var ordersData = await PrepareOrdersData(orders);
@@ -173,5 +173,35 @@ namespace Client.Forms.OrderPanels {
             orderGrid.DataSource = filteredOrders;
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var sortFilter = comboBox1.SelectedIndex;
+            if (orderGrid.DataSource is not List<OrderViewModel> sortedOrders)
+            {
+                MessageBox.Show(@"Der er ingen ordre at sortere");
+                return;
+            }
+
+            sortedOrders = sortFilter switch
+            {
+                0 => sortedOrders.OrderBy(order => order.Date).ToList(),
+                1 => sortedOrders.OrderByDescending(order => order.Date).ToList(),
+                2 => sortedOrders.OrderByDescending(order => order.NumberOfOrderlines).ToList(),
+                3 => sortedOrders.OrderBy(order => order.NumberOfOrderlines).ToList(),
+                4 => sortedOrders.OrderByDescending(order => order.NumberOfProducts).ToList(),
+                5 => sortedOrders.OrderBy(order => order.NumberOfProducts).ToList(),
+                6 => sortedOrders.OrderByDescending(order => order.PriceOfOrder).ToList(),
+                7 => sortedOrders.OrderBy(order => order.PriceOfOrder).ToList(),
+                _ => sortedOrders
+            };
+            orderGrid.DataSource = sortedOrders;
+        }
+
+        private void orderGrid_CellDoubleClick(object sender, EventArgs e)
+        {
+            if (selectedOrder == null) return;
+            var orderDetails = new OrderDetails(selectedOrder);
+            orderDetails.ShowDialog();
+        }
     }
 }

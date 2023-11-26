@@ -194,13 +194,15 @@
             // 
             // comboBox1
             // 
+            comboBox1.BackColor = SystemColors.Window;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Name (a-å)", "Name (å-a)", "SalePrice (høj-lav)", "SalePrice (lav-høj)", "PurchasePrice (høj-lav)", "PurchasePrice (lav-høj)", "NormalPrice (høj-lav)", "NormalPrice (lav-høj)", "Stock (høj-lav)", "Stock (lav-høj)" });
+            comboBox1.Items.AddRange(new object[] { "Dato (ny-gammel)", "Data (gammel-ny)", "Ordrelinjer (mange-få)", "Ordrelinjer (få-mange)", "Produkter (mange-få)", "Produkter (få-mange)", "Pris (høj-lav)", "Pris (lav-høj)" });
             comboBox1.Location = new Point(688, 35);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 3;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // labelOrdersTxt
             // 
@@ -248,6 +250,7 @@
             orderGrid.Size = new Size(664, 403);
             orderGrid.TabIndex = 3;
             orderGrid.SelectionChanged += orderGrid_SelectionChanged;
+            orderGrid.DoubleClick += orderGrid_CellDoubleClick;
             // 
             // OrderID
             // 

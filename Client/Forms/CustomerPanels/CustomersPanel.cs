@@ -1,4 +1,5 @@
 ﻿using Client.Controllers;
+using Client.Forms.ProductPanels;
 using Models;
 
 namespace Client.Forms.CustomerPanels;
@@ -114,6 +115,11 @@ public partial class CustomersPanel : Form
 
     private async void buttonEdit_Click(object sender, EventArgs e)
     {
+        EditMethod();
+    }
+
+    private async void EditMethod()
+    {
         if (selectedCustomer == null)
         {
             MessageBox.Show("Vælg en kunde");
@@ -154,8 +160,6 @@ public partial class CustomersPanel : Form
             MessageBox.Show($"Fejl: {ex.Message}");
         }
     }
-
-
 
     private async void buttonDelete_Click(object sender, EventArgs e)
     {
@@ -252,4 +256,8 @@ public partial class CustomersPanel : Form
         customerGrid.DataSource = sortedCustomers;
     }
 
+    private void customerGrid_CellDoubleClick(object sender, EventArgs e)
+    {
+        EditMethod();
+    }
 }
