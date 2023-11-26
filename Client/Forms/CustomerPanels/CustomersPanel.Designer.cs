@@ -172,6 +172,7 @@
             customerGrid.Size = new Size(661, 464);
             customerGrid.TabIndex = 2;
             customerGrid.SelectionChanged += customerGrid_SelectionChanged;
+            customerGrid.DoubleClick += customerGrid_CellDoubleClick;
             // 
             // dataGridViewTextBoxColumn1
             // 
