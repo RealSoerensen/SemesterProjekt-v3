@@ -39,7 +39,6 @@ namespace Client.Forms.OrderPanels
             {
                 var product = await productController.Get(orderline.ProductID);
                 products.Add(product);
-                Console.WriteLine(product);
             }
             productGridView.DataSource = products;
         }
