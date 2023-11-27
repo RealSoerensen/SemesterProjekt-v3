@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             label1 = new Label();
             label2 = new Label();
             labelOrderID = new Label();
@@ -38,10 +39,7 @@
             label6 = new Label();
             labelFirstName = new Label();
             labelLastName = new Label();
-            dataGridView1 = new DataGridView();
-            ProductID = new DataGridViewTextBoxColumn();
-            ProductName = new DataGridViewTextBoxColumn();
-            ProductPrice = new DataGridViewTextBoxColumn();
+            productGridView = new DataGridView();
             label7 = new Label();
             labelCustomerID = new Label();
             label9 = new Label();
@@ -51,7 +49,20 @@
             labelOrderPrice = new Label();
             label10 = new Label();
             labelCity = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            productBindingSource = new BindingSource(components);
+            iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            imageDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            salePriceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            purchasePriceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            normalPriceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            stockDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            brandDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            categoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            inactiveDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)productGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)productBindingSource).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -146,39 +157,18 @@
             labelLastName.TabIndex = 9;
             labelLastName.Text = "*LASTNAME*";
             // 
-            // dataGridView1
+            // productGridView
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(267, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(333, 311);
-            dataGridView1.TabIndex = 10;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // ProductID
-            // 
-            ProductID.Frozen = true;
-            ProductID.HeaderText = "Product ID";
-            ProductID.Name = "ProductID";
-            ProductID.ReadOnly = true;
-            ProductID.Width = 90;
-            // 
-            // ProductName
-            // 
-            ProductName.Frozen = true;
-            ProductName.HeaderText = "Product";
-            ProductName.Name = "ProductName";
-            ProductName.ReadOnly = true;
-            ProductName.Width = 120;
-            // 
-            // ProductPrice
-            // 
-            ProductPrice.Frozen = true;
-            ProductPrice.HeaderText = "Price";
-            ProductPrice.Name = "ProductPrice";
-            ProductPrice.ReadOnly = true;
-            ProductPrice.Width = 60;
+            productGridView.AutoGenerateColumns = false;
+            productGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            productGridView.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, imageDataGridViewTextBoxColumn, salePriceDataGridViewTextBoxColumn, purchasePriceDataGridViewTextBoxColumn, normalPriceDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, stockDataGridViewTextBoxColumn, brandDataGridViewTextBoxColumn, categoryDataGridViewTextBoxColumn, inactiveDataGridViewCheckBoxColumn });
+            productGridView.DataSource = productBindingSource;
+            productGridView.Location = new Point(267, 12);
+            productGridView.Name = "productGridView";
+            productGridView.RowTemplate.Height = 25;
+            productGridView.Size = new Size(333, 311);
+            productGridView.TabIndex = 10;
+            productGridView.CellContentClick += ProductGridViewCellContentClick;
             // 
             // label7
             // 
@@ -261,6 +251,76 @@
             labelCity.TabIndex = 19;
             labelCity.Text = "*CITY*";
             // 
+            // productBindingSource
+            // 
+            productBindingSource.DataSource = typeof(Models.Product);
+            // 
+            // iDDataGridViewTextBoxColumn
+            // 
+            iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            // 
+            // imageDataGridViewTextBoxColumn
+            // 
+            imageDataGridViewTextBoxColumn.DataPropertyName = "Image";
+            imageDataGridViewTextBoxColumn.HeaderText = "Image";
+            imageDataGridViewTextBoxColumn.Name = "imageDataGridViewTextBoxColumn";
+            // 
+            // salePriceDataGridViewTextBoxColumn
+            // 
+            salePriceDataGridViewTextBoxColumn.DataPropertyName = "SalePrice";
+            salePriceDataGridViewTextBoxColumn.HeaderText = "SalePrice";
+            salePriceDataGridViewTextBoxColumn.Name = "salePriceDataGridViewTextBoxColumn";
+            // 
+            // purchasePriceDataGridViewTextBoxColumn
+            // 
+            purchasePriceDataGridViewTextBoxColumn.DataPropertyName = "PurchasePrice";
+            purchasePriceDataGridViewTextBoxColumn.HeaderText = "PurchasePrice";
+            purchasePriceDataGridViewTextBoxColumn.Name = "purchasePriceDataGridViewTextBoxColumn";
+            // 
+            // normalPriceDataGridViewTextBoxColumn
+            // 
+            normalPriceDataGridViewTextBoxColumn.DataPropertyName = "NormalPrice";
+            normalPriceDataGridViewTextBoxColumn.HeaderText = "NormalPrice";
+            normalPriceDataGridViewTextBoxColumn.Name = "normalPriceDataGridViewTextBoxColumn";
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            // 
+            // stockDataGridViewTextBoxColumn
+            // 
+            stockDataGridViewTextBoxColumn.DataPropertyName = "Stock";
+            stockDataGridViewTextBoxColumn.HeaderText = "Stock";
+            stockDataGridViewTextBoxColumn.Name = "stockDataGridViewTextBoxColumn";
+            // 
+            // brandDataGridViewTextBoxColumn
+            // 
+            brandDataGridViewTextBoxColumn.DataPropertyName = "Brand";
+            brandDataGridViewTextBoxColumn.HeaderText = "Brand";
+            brandDataGridViewTextBoxColumn.Name = "brandDataGridViewTextBoxColumn";
+            // 
+            // categoryDataGridViewTextBoxColumn
+            // 
+            categoryDataGridViewTextBoxColumn.DataPropertyName = "Category";
+            categoryDataGridViewTextBoxColumn.HeaderText = "Category";
+            categoryDataGridViewTextBoxColumn.Name = "categoryDataGridViewTextBoxColumn";
+            // 
+            // inactiveDataGridViewCheckBoxColumn
+            // 
+            inactiveDataGridViewCheckBoxColumn.DataPropertyName = "Inactive";
+            inactiveDataGridViewCheckBoxColumn.HeaderText = "Inactive";
+            inactiveDataGridViewCheckBoxColumn.Name = "inactiveDataGridViewCheckBoxColumn";
+            // 
             // OrderDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -275,7 +335,7 @@
             Controls.Add(label9);
             Controls.Add(labelCustomerID);
             Controls.Add(label7);
-            Controls.Add(dataGridView1);
+            Controls.Add(productGridView);
             Controls.Add(labelLastName);
             Controls.Add(labelFirstName);
             Controls.Add(label6);
@@ -288,7 +348,8 @@
             Controls.Add(label1);
             Name = "OrderDetails";
             Text = "OrderDetails";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)productGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)productBindingSource).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -305,7 +366,7 @@
         private Label label6;
         private Label labelFirstName;
         private Label labelLastName;
-        private DataGridView dataGridView1;
+        private DataGridView productGridView;
         private Label label7;
         private Label labelCustomerID;
         private Label label9;
@@ -318,5 +379,17 @@
         private Label labelOrderPrice;
         private Label label10;
         private Label labelCity;
+        private DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn imageDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn salePriceDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn purchasePriceDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn normalPriceDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn stockDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn brandDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn categoryDataGridViewTextBoxColumn;
+        private DataGridViewCheckBoxColumn inactiveDataGridViewCheckBoxColumn;
+        private BindingSource productBindingSource;
     }
 }
