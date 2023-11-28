@@ -32,7 +32,7 @@ CREATE TABLE [Product] (
 	[purchasePrice] money,
 	[normalPrice] money,
 	[name] varchar(50),
-	[stock] bigint,
+	[stock] bigint CHECK (stock >= 0),
 	[brand] varchar(100),
 	[category] int,
 	[inactive] bit
