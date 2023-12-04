@@ -16,28 +16,30 @@ public class OrderTests
     }
 
     [TestMethod]
-    public void TestCreateOrder()
+    public async void TestCreateOrder()
     {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var createdCustomer = customerService.CreateCustomer(newCustomer).Result;
+        var createdCustomer = await customerService.CreateCustomer(newCustomer);
         var newOrder = new Order((long)createdCustomer.ID);
 
         // Act
-        var createdOrder = orderService.CreateOrder(newOrder).Result;
+        // TODO: Fix this test
+        var createdOrder = orderService.CreateOrder(newOrder, null);
 
         // Assert
         Assert.IsNotNull(createdOrder);
     }
 
     [TestMethod]
-    public void TestGetOrder()
+    public async void TestGetOrder()
     {
         // Arrange
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
-        var createdCustomer = customerService.CreateCustomer(newCustomer).Result;
+        var createdCustomer = await customerService.CreateCustomer(newCustomer);
         var newOrder = new Order((long)createdCustomer.ID);
-        var createdOrder = orderService.CreateOrder(newOrder).Result;
+        // TODO: Fix this test
+        var createdOrder = await orderService.CreateOrder(newOrder, null);
 
         // Act
         var order = orderService.GetOrder((long)createdOrder.ID).Result;
@@ -53,7 +55,8 @@ public class OrderTests
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
         var createdCustomer = await customerService.CreateCustomer(newCustomer);
         var newOrder = new Order((long)createdCustomer.ID);
-        await orderService.CreateOrder(newOrder);
+        // TODO: Fix this test
+        var createdOrder = await orderService.CreateOrder(newOrder, null);
 
         // Act
         var allOrders = await orderService.GetAllOrders();
@@ -69,7 +72,8 @@ public class OrderTests
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
         var customerOne = await customerService.CreateCustomer(newCustomer);
         var order = new Order((long)customerOne.ID);
-        await orderService.CreateOrder(order);
+        // TODO: Fix this test
+        var createdOrder = await orderService.CreateOrder(order, null);
 
 
         // Act
@@ -89,7 +93,8 @@ public class OrderTests
         var newCustomer = new Customer("TestFirstName", "TestLastName", "TestEmail@TestEmail.com", "TestPassword", "00000000");
         var createdCustomer = await customerService.CreateCustomer(newCustomer);
         var newOrder = new Order((long)createdCustomer.ID);
-        var createdOrder = await orderService.CreateOrder(newOrder);
+        // TODO: Fix this test
+        var createdOrder = await orderService.CreateOrder(newOrder, null);
 
         // Act
         var isOrderDeleted = await orderService.DeleteOrder((long)createdOrder.ID);

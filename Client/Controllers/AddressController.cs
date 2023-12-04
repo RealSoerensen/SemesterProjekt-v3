@@ -17,11 +17,6 @@ internal class AddressController
         return _addressDA.Get(Id);
     }
 
-    public Task<List<Address>> GetAll()
-    {
-        return _addressDA.GetAll();
-    }
-
     public Task<bool> Update(Address address)
     {
         return _addressDA.Update(address);

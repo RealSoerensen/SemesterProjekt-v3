@@ -37,19 +37,19 @@ const ProductPage = () => {
             setIsLoading(false);
         }
     }, [product]);
-    useEffect(()=>{
-        if(relatedProducts.length>4){
+    useEffect(() => {
+        if (relatedProducts.length > 4) {
             setButtonText('Vis Flere')
         }
-    },[relatedProducts])
+    }, [relatedProducts])
     const showmore = () => {
-        if(relatedProducts.length >sliceNum){
-            setSliceNum(sliceNum+4)
+        if (relatedProducts.length > sliceNum) {
+            setSliceNum(sliceNum + 4)
         }
-        if(relatedProducts.length+4 >sliceNum){
+        if (relatedProducts.length + 4 > sliceNum) {
             setButtonText('Vis Færre')
         }
-        if(buttonText=="Vis Færre"){
+        if (buttonText === "Vis Færre") {
             setSliceNum(4)
             setButtonText('Vis Flere')
         }
@@ -68,6 +68,7 @@ const ProductPage = () => {
                 <div className="col-4">
                     <h1>{product.name}</h1>
                     <p>{product.brand}</p>
+                    <p>På lager: {product.stock}</p>
                     <p>{product.description}</p>
                 </div>
                 <div className="col-md-2 col-sm-6">
@@ -95,23 +96,23 @@ const ProductPage = () => {
                     <div className="row">
                         {
                             relatedProducts.length > 0 ?
-                                ( <>
-                                {
-                                    relatedProducts.slice(0,sliceNum).map((product, index) => {
-                                        return (
-                                            <div className="col-sm-6 col-md-3 mb-4" key={index}>
-                                                <ProductShowcase key={index} product={product} />
-                                            </div>
-                                        )
-                                    })}
+                                (<>
                                     {
-                                        relatedProducts.length >4 ? (
-                                        <div className="col-12 d-flex justify-content-center">
-                                            <button onClick={showmore} className="btn btn-primary mx-auto mt-4" style={{width:100}}>{buttonText}</button>
-                                        </div> ): 
-                                        (<></>)
+                                        relatedProducts.slice(0, sliceNum).map((product, index) => {
+                                            return (
+                                                <div className="col-sm-6 col-md-3 mb-4" key={index}>
+                                                    <ProductShowcase key={index} product={product} />
+                                                </div>
+                                            )
+                                        })}
+                                    {
+                                        relatedProducts.length > 4 ? (
+                                            <div className="col-12 d-flex justify-content-center">
+                                                <button onClick={showmore} className="btn btn-primary mx-auto mt-4" style={{ width: 100 }}>{buttonText}</button>
+                                            </div>) :
+                                            (<></>)
                                     }
-                                    </>
+                                </>
                                 ) : (
                                     <p>Der er ingen relaterede produkter</p>
                                 )

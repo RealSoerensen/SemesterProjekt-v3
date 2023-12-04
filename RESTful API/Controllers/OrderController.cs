@@ -9,7 +9,6 @@ namespace RESTful_API.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly OrderService _orderService = new();
-    private readonly OrderlineService _orderlineService = new();
 
     // GET: api/<OrderController>
     [HttpGet]
@@ -45,21 +44,6 @@ public class OrderController : ControllerBase
         return Ok(order);
     }
 
-    // POST api/<OrderController>
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Order order)
-    {
-        try
-        {
-            var createdOrder = await _orderService.CreateOrder(order);
-            return Ok(createdOrder);
-        }
-        catch (Exception)
-        {
-            return BadRequest("Order creation failed - DB ERROR");
-        }
-    }
-
     [HttpPost]
     [Route("CreateWithID/{customerID:int}")]
     public async Task<IActionResult> CreateWithID(int customerID, [FromBody] Orderline[] orderlines)
@@ -67,34 +51,13 @@ public class OrderController : ControllerBase
         try
         {
             var order = new Order(customerID);
-            try
-            {
-                order = await _orderService.CreateOrder(order);
-            }
-            catch (Exception)
-            {
-                return BadRequest("Order creation failed - DB ERROR");
-            }
-
-            if (order.ID == 0) return BadRequest("Order creation failed - DB ERROR");
-
-            foreach (var orderline in orderlines)
-            {
-                orderline.OrderID = order.ID;
-                try
-                {
-                    await _orderlineService.CreateOrderline(orderline);
-                }
-                catch (Exception)
-                {
-                    return BadRequest("Orderline creation failed - DB ERROR");
-                }
-            }
+            order = await _orderService.CreateOrder(order, orderlines);
             return Ok(true);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return BadRequest("Order creation failed - DB ERROR");
+            // Consider logging the exception details
+            return BadRequest($"Order creation failed: {ex.Message}");
         }
     }
 
