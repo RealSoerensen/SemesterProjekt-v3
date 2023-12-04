@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CartContext, CartItem } from '../contexts/CartContext';
 import { calculateTotal } from '../utils/CartUtil';
 import Image from '../components/Image';
@@ -25,6 +26,8 @@ const CheckoutPage: React.FC = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
+
+    const navigate = useNavigate();
 
     const validateInputs = () => {
         const errors: Record<string, string> = {};
@@ -96,18 +99,23 @@ const CheckoutPage: React.FC = () => {
         setIsSubmitting(true);
         const orderlines: Orderline[] = cart.map((item: CartItem) => item.orderline);
         console.log(orderlines);
-        const createdOrder = await createOrder(customer.id, orderlines)
-        setIsSubmitting(false);
-
-        if (!createdOrder) {
-            alert('Der skete en fejl ved oprettelse af ordre');
-            return;
+        try {
+            const createdOrder = await createOrder(customer.id, orderlines)
+            if (!createdOrder) {
+                alert('Der skete en fejl ved oprettelse af ordre');
+                return;
+            }
+            alert('Din ordre er nu oprettet');
+            setCart([]);
         }
-
-        alert('Din ordre er nu oprettet');
-        window.location.href = '/';
-        setCart([])
-
+        catch (error) {
+            console.log(error);
+            alert('Der skete en fejl ved oprettelse af ordre');
+            navigate("/cart")
+        }
+        finally {
+            setIsSubmitting(false);
+        }
     };
 
 

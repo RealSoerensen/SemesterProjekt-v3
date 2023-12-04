@@ -5,7 +5,6 @@ import { getAllProducts } from '../services/ProductService';
 import { CustomCard } from '../components/Card/Card';
 import Card from '../components/Card/Card';
 import Product from '../models/Product';
-import Category from '../models/Category';
 import ProductShowcase from '../components/ProductShowcase';
 
 //images
@@ -14,7 +13,7 @@ import LoadingSpinner from '../components/Spinner';
 import { useCategory } from '../contexts/CategoryContext';
 
 const HomePage: React.FC = () => {
-    const { categories, setCategories } = useCategory();
+    const { categories } = useCategory();
 
     const [shuffledCategories, setShuffledCategories] = useState<CustomCard[]>([]);
     const [products, setProducts] = useState<Product[]>([]);

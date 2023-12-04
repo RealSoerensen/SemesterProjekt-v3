@@ -52,7 +52,7 @@ public class OrderController : ControllerBase
         {
             var order = new Order(customerID);
             order = await _orderService.CreateOrder(order, orderlines);
-            return Ok(true);
+            return Ok();
         }
         catch (Exception ex)
         {

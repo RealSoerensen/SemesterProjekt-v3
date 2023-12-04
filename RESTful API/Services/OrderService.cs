@@ -34,6 +34,10 @@ public class OrderService
 
                 // Reduce product quantity using update method in ProductService
                 var product = await _productService.GetProductByID(orderline.ProductID);
+                if (product.Stock < orderline.Quantity)
+                {
+                    throw new Exception("Not enough stock");
+                }
                 product.Stock -= orderline.Quantity;
                 await _productService.UpdateProduct(product);
             }

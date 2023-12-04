@@ -1,11 +1,10 @@
-import React from 'react'
 import Card from '../components/Card/Card';
 import { useCategory } from '../contexts/CategoryContext';
 
 type Props = {}
 
 const Categories = (props: Props) => {
-  const { categories, setCategories } = useCategory();
+  const { categories } = useCategory();
 
   return (
     <div className='container'>
