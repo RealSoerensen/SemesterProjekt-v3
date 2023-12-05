@@ -10,21 +10,6 @@ public class CustomerController : ControllerBase
 {
     private readonly CustomerService customerService = new();
 
-    // POST api/<CustomerController>
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Customer customer)
-    {
-        try
-        {
-            var createdCustomer = await customerService.CreateCustomer(customer);
-            return Ok(createdCustomer);
-        }
-        catch (Exception)
-        {
-            return BadRequest("Customer creation failed - DB ERROR");
-        }
-    }
-
     // GET api/<CustomerController>/emailExist
     [HttpGet("CheckEmailExists/{email}")]
     public async Task<IActionResult> CheckEmailExists(string email)

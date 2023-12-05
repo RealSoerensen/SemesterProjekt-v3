@@ -27,23 +27,14 @@ public partial class CreateCustomer : Form
 
         // Create instances of CustomerController and AddressDA
         var customerController = new CustomerController();
-        var AddressController = new AddressController();
 
-        // First, create the address
-        var createdAddress = await AddressController.Create(address);
-        if (createdAddress != null && createdAddress.ID.HasValue)
+        // Create the customer
+        var createdCustomer = await customerController.Create(customer, address);
+        if (createdCustomer != null)
         {
-            // Set the AddressID of the customer
-            customer.AddressID = createdAddress.ID;
-
-            // Create the customer
-            var createdCustomer = customerController.Create(customer);
-            if (createdCustomer != null)
-            {
-                MessageBox.Show(@"Customer and Address created successfully!");
-                this.Close();
-                return;
-            }
+            MessageBox.Show(@"Customer and Address created successfully!");
+            Close();
+            return;
         }
 
         MessageBox.Show(@"Failed to create Customer and Address.");

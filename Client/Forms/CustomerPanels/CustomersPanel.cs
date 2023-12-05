@@ -81,20 +81,7 @@ public partial class CustomersPanel : Form
         var created = false;
         try
         {
-            address = await addressController.Create(address);
-            if (address == null) throw new Exception();
-        }
-        catch (Exception)
-        {
-            MessageBox.Show(@"Kunne ikke oprette adressen i databasen");
-            return;
-        }
-
-        customer.AddressID = address.ID;
-
-        try
-        {
-            created = created && await customerController.Create(customer) != null;
+            created = created && await customerController.Create(customer, address) != null;
         }
         catch (Exception)
         {

@@ -3,8 +3,6 @@ using Models;
 using Newtonsoft.Json.Linq;
 using RESTful_API.Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace RESTful_API.Controllers;
 
 [Route("api/[controller]")]
@@ -75,6 +73,8 @@ public class AuthController : ControllerBase
                 return BadRequest("Failed to convert to object");
             }
 
+            customer.Password = HashPassword(customer.Password);
+
             address = await addressService.CreateAddress(address);
             customer.AddressID = address.ID;
             await customerService.CreateCustomer(customer);
@@ -87,10 +87,13 @@ public class AuthController : ControllerBase
         }
     }
 
-    private bool VerifyPassword(string enteredPassword, string hashedPassword)
+    private bool VerifyPassword(string enteredPassword, string storedHash)
     {
-        // Implement a secure password verification mechanism (e.g., using BCrypt, Argon2, etc.).
-        // Return true if the entered password matches the hashed password; otherwise, return false.
-        return enteredPassword == hashedPassword;
+        return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash);
+    }
+
+    private string HashPassword(string password)
+    {
+        return BCrypt.Net.BCrypt.HashPassword(password);
     }
 }
