@@ -42,5 +42,10 @@ namespace Client.Forms.OrderPanels
             }
             productGridView.DataSource = products;
         }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
     }
 }
