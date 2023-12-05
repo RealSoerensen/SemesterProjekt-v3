@@ -99,7 +99,7 @@
             Controls.Add(panelMenu);
             Load += Main_Load;
             Name = "Main";
-            Text = "Form1";
+            Text = "Client";
             panelMenu.ResumeLayout(false);
             ResumeLayout(false);
         }
