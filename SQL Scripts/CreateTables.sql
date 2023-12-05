@@ -11,7 +11,7 @@ CREATE TABLE [Customer] (
 	[firstName] varchar(50),
 	[lastName] varchar(50),
 	[addressID] bigint FOREIGN KEY REFERENCES [Address](ID),
-	[email] varchar(50),
+	[email] varchar(255) UNIQUE,
 	[phoneNo] varchar(50),
 	[password] varchar(30),
 	[registerDate] datetime2,
