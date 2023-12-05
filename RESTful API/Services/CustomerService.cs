@@ -83,7 +83,11 @@ public class CustomerService
     {
         try
         {
-            return await _customerDB.Update(customer);
+            if (await CheckEmailExists(customer.Email) == false)
+            {
+                return await _customerDB.Update(customer);
+            }
+            return false;
         }
         catch (Exception e)
         {
