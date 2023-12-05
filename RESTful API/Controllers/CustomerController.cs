@@ -25,49 +25,6 @@ public class CustomerController : ControllerBase
         }
     }
 
-    // GET api/<CustomerController>/email
-    [HttpGet("{email}")]
-    public async Task<IActionResult> GetByEmail(string email)
-    {
-        Customer? customer;
-        try
-        {
-            customer = await customerService.GetCustomerByEmail(email);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while fetching the customer.");
-        }
-
-        if (customer == null)
-        {
-            return NotFound($"Customer with email {email} was not found");
-        }
-
-        return Ok(customer);
-    }
-
-    [HttpGet("GetByID/{id}")]
-    public async Task<IActionResult> GetById(long id)
-    {
-        Customer? customer;
-        try
-        {
-            customer = await customerService.GetCustomer(id);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while fetching the customer.");
-        }
-
-        if (customer == null)
-        {
-            return NotFound($"Customer {id} was not found");
-        }
-
-        return Ok(customer);
-    }
-
     // GET api/<CustomerController>/emailExist
     [HttpGet("CheckEmailExists/{email}")]
     public async Task<IActionResult> CheckEmailExists(string email)
@@ -123,28 +80,6 @@ public class CustomerController : ControllerBase
         if (!isUpdated)
         {
             return BadRequest("Customer unable to update");
-        }
-
-        return Ok();
-    }
-
-    // DELETE api/<CustomerController>/email
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(long id)
-    {
-        bool isDeleted;
-        try
-        {
-            isDeleted = await customerService.DeleteCustomer(id);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while deleting the customer.");
-        }
-
-        if (!isDeleted)
-        {
-            return BadRequest("Customer deletion failed");
         }
 
         return Ok();

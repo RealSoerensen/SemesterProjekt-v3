@@ -82,27 +82,6 @@ public class ProductController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("{id:long}")]
-    public async Task<IActionResult> Delete(long id)
-    {
-        bool isDeleted;
-        try
-        {
-            isDeleted = await productService.DeleteProduct(id);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while deleting the product.");
-        }
-
-        if (!isDeleted)
-        {
-            return BadRequest("Product deletion failed");
-        }
-
-        return Ok();
-    }
-
     [HttpGet("category/{categoryId:int}")]
     public async Task<IActionResult> GetByCategory(int categoryId)
     {

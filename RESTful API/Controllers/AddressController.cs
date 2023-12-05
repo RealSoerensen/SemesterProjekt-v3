@@ -10,23 +10,6 @@ public class AddressController : ControllerBase
 {
     private readonly AddressService addressService = new();
 
-    // GET: api/<AddressController>
-    [HttpGet]
-    public async Task<IActionResult> Get()
-    {
-        List<Address> addresses;
-        try
-        {
-            addresses = await addressService.GetAllAddresses();
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while fetching the addresses.");
-        }
-
-        return Ok(addresses);
-    }
-
     // GET api/<AddressController>/5
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id)
@@ -76,22 +59,5 @@ public class AddressController : ControllerBase
         }
 
         return !updatedAddress ? BadRequest("Address update failed - Unable to update in DB") : Ok();
-    }
-
-    // DELETE api/<AddressController>/5
-    [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        bool deletedAddress;
-        try
-        {
-            deletedAddress = await addressService.DeleteAddress(id);
-        }
-        catch (Exception)
-        {
-            return BadRequest("Address deletion failed - DB ERROR");
-        }
-
-        return !deletedAddress ? BadRequest("Address deletion failed") : Ok();
     }
 }

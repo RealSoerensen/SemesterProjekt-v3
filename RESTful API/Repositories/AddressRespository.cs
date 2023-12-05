@@ -3,9 +3,9 @@ using Models;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace RESTful_API.Repositories.AddressDA;
+namespace RESTful_API.Repositories;
 
-public class AddressRespository : IAddressDA
+public class AddressRespository
 {
     private readonly string _connectionString;
 
@@ -33,27 +33,6 @@ public class AddressRespository : IAddressDA
         }
     }
 
-    public async Task<bool> Delete(long id)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-
-        try
-        {
-            const string sql = "DELETE FROM Address WHERE Id = @Id";
-            await dbConnection.ExecuteAsync(sql, id, transaction);
-            transaction.Commit();
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
-
-        return true;
-    }
-
     public async Task<Address> Get(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
@@ -71,15 +50,6 @@ public class AddressRespository : IAddressDA
             transaction.Rollback();
             throw;
         }
-    }
-
-    public async Task<List<Address>> GetAll()
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        const string sql = "SELECT * FROM Address";
-        var addresses = await dbConnection.QueryAsync<Address>(sql);
-        return addresses.ToList();
     }
 
     public async Task<bool> Update(Address obj)

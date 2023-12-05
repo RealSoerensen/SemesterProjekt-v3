@@ -131,7 +131,7 @@ public partial class ProductsPanel : Form
         { checkBoxPrice6, (1500, decimal.MaxValue) }
     };
 
-        CheckBox senderCheckBox = sender as CheckBox;
+        CheckBox? senderCheckBox = sender as CheckBox;
 
         // Check which dictionary the senderCheckBox belongs to and uncheck others in that dictionary
         if (checkBoxesToCategories.ContainsKey(senderCheckBox))

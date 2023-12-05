@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Client.DAL;
 
-internal class ProductDA : ICRUD<Product>
+internal class ProductDA
 {
     private readonly string URL = Connection.BaseURL() + "api/Product";
     private readonly HttpClient _client = new();
@@ -16,12 +16,6 @@ internal class ProductDA : ICRUD<Product>
         if (!response.IsSuccessStatusCode) return null;
         var jsonResponse = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<Product>(jsonResponse);
-    }
-
-    public async Task<bool> Delete(long id)
-    {
-        var response = await _client.DeleteAsync(URL + "/" + id);
-        return response.IsSuccessStatusCode;
     }
 
     public async Task<Product?> Get(long id)

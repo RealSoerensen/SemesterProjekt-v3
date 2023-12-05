@@ -3,9 +3,9 @@ using Models;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace RESTful_API.Repositories.ProductDA;
+namespace RESTful_API.Repositories;
 
-public class ProductRepository : IProductDA
+public class ProductRepository
 {
     private readonly string _connectionString;
 

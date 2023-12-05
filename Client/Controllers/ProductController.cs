@@ -22,11 +22,6 @@ internal class ProductController
         return _productDA.Get(id);
     }
 
-    public Task<bool> Delete(long id)
-    {
-        return _productDA.Delete(id);
-    }
-
     public Task<bool> Update(Product product)
     {
         return _productDA.Update(product);

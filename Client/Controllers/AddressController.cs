@@ -21,9 +21,4 @@ internal class AddressController
     {
         return _addressDA.Update(address);
     }
-
-    public Task<bool> Delete(Address adress)
-    {
-        return _addressDA.Update(adress);
-    }
 }

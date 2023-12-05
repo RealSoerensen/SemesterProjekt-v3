@@ -12,11 +12,6 @@ internal class CustomerController
         return _customerDA.Create(customer);
     }
 
-    public Task<Customer?> Get(long id)
-    {
-        return _customerDA.Get(id);
-    }
-
     public Task<List<Customer>> GetAll()
     {
         return _customerDA.GetAll();
@@ -25,10 +20,5 @@ internal class CustomerController
     public Task<bool> Update(Customer customer)
     {
         return _customerDA.Update(customer);
-    }
-
-    public Task<bool> Delete(long id)
-    {
-        return _customerDA.Delete(id);
     }
 }

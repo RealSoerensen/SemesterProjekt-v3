@@ -1,12 +1,11 @@
 ﻿using Models;
 using RESTful_API.Repositories;
-using RESTful_API.Repositories.OrderDA;
 
 namespace RESTful_API.Services;
 
 public class OrderService
 {
-    private readonly IOrderDA _orderDB;
+    private readonly OrderRespository _orderDB;
     private readonly OrderlineService _orderlineService = new();
     private readonly ProductService _productService = new();
 
@@ -52,51 +51,11 @@ public class OrderService
 
     }
 
-
-    public async Task<Order> GetOrder(long id)
-    {
-        try
-        {
-            return await _orderDB.Get(id);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
     public async Task<List<Order>> GetAllOrders()
     {
         try
         {
             return await _orderDB.GetAll();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
-    public async Task<bool> UpdateOrder(Order order)
-    {
-        try
-        {
-            return await _orderDB.Update(order);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
-    public async Task<bool> DeleteOrder(long id)
-    {
-        try
-        {
-            return await _orderDB.Delete(id);
         }
         catch (Exception e)
         {

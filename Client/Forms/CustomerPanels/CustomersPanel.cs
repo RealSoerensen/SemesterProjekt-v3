@@ -1,5 +1,4 @@
 ﻿using Client.Controllers;
-using Client.Forms.ProductPanels;
 using Models;
 
 namespace Client.Forms.CustomerPanels;
@@ -113,7 +112,7 @@ public partial class CustomersPanel : Form
         MessageBox.Show(@"Kunden blev oprettet");
     }
 
-    private async void buttonEdit_Click(object sender, EventArgs e)
+    private void buttonEdit_Click(object sender, EventArgs e)
     {
         EditMethod();
     }
@@ -195,7 +194,7 @@ public partial class CustomersPanel : Form
         customer.Password = "";
         customer.AddressID = null;
     }
-    
+
     private void textboxSearch_TextChanged(object sender, EventArgs e)
     {
         var searchValue = textboxSearch.Text.ToLower();

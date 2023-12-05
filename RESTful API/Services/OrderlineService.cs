@@ -1,12 +1,11 @@
 ﻿using Models;
 using RESTful_API.Repositories;
-using RESTful_API.Repositories.OrderlineDA;
 
 namespace RESTful_API.Services;
 
 public class OrderlineService
 {
-    private readonly IOrderlineDA orderlineRepository;
+    private readonly OrderlineRepository orderlineRepository;
 
     public OrderlineService()
     {
@@ -14,11 +13,11 @@ public class OrderlineService
         orderlineRepository = new OrderlineRepository(connectionString);
     }
 
-    public async Task<Orderline> CreateOrderline(Orderline orderline)
+    public async Task CreateOrderline(Orderline orderline)
     {
         try
         {
-            return await orderlineRepository.Create(orderline);
+            await orderlineRepository.Create(orderline);
         }
         catch (Exception e)
         {
@@ -45,32 +44,6 @@ public class OrderlineService
         try
         {
             return await orderlineRepository.GetAll();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw; // Rethrow the exception for higher-level error handling
-        }
-    }
-
-    public async Task<bool> UpdateOrderline(Orderline orderline)
-    {
-        try
-        {
-            return await orderlineRepository.Update(orderline);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw; // Rethrow the exception for higher-level error handling
-        }
-    }
-
-    public async Task<bool> DeleteOrderline(long id)
-    {
-        try
-        {
-            return await orderlineRepository.Delete(id);
         }
         catch (Exception e)
         {

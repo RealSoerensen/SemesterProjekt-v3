@@ -284,6 +284,7 @@
             buttonClose.TabIndex = 15;
             buttonClose.Text = "Luk";
             buttonClose.UseVisualStyleBackColor = true;
+            buttonClose.Click += buttonClose_Click;
             // 
             // label8
             // 

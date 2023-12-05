@@ -125,7 +125,7 @@ namespace Client.Forms.OrderPanels
                 { checkBox2, (3500, decimal.MaxValue) }
             };
 
-            CheckBox senderCheckBox = sender as CheckBox;
+            var senderCheckBox = sender as CheckBox;
             if (checkBoxesToPriceRanges.ContainsKey(senderCheckBox))
             {
                 if (senderCheckBox.Checked)

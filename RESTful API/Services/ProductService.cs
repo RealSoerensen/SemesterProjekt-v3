@@ -1,12 +1,11 @@
 ﻿using Models;
 using RESTful_API.Repositories;
-using RESTful_API.Repositories.ProductDA;
 
 namespace RESTful_API.Services;
 
 public class ProductService
 {
-    private readonly IProductDA productRepository;
+    private readonly ProductRepository productRepository;
 
     public ProductService()
     {
@@ -58,21 +57,6 @@ public class ProductService
         try
         {
             return await productRepository.Update(product);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw; // Rethrow the exception for higher-level error handling
-        }
-    }
-
-    public async Task<bool> DeleteProduct(long id)
-    {
-        try
-        {
-            var productToDelete = await GetProductByID(id);
-            productToDelete.Inactive = true;
-            return productToDelete.Inactive;
         }
         catch (Exception e)
         {

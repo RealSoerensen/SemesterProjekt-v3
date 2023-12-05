@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Client.DAL;
 
-internal class CustomerDA : ICRUD<Customer>
+internal class CustomerDA
 {
     private readonly string URL = Connection.BaseURL() + "api/Customer";
     private readonly HttpClient _client = new();
@@ -45,27 +45,6 @@ internal class CustomerDA : ICRUD<Customer>
         }
     }
 
-    public async Task<Customer?> Get(long id)
-    {
-        try
-        {
-            var response = await _client.GetAsync(URL + "/GetByID/" + id);
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Customer>(jsonResponse);
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-
-        return null;
-    }
-
-
     public async Task<List<Customer>> GetAll()
     {
         try
@@ -89,17 +68,4 @@ internal class CustomerDA : ICRUD<Customer>
         return new List<Customer>();
     }
 
-    public async Task<bool> Delete(long id)
-    {
-        try
-        {
-            var response = await _client.DeleteAsync(URL + "/" + id);
-            return response.IsSuccessStatusCode;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
 }

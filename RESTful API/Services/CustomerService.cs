@@ -1,12 +1,11 @@
 ﻿using Models;
 using RESTful_API.Repositories;
-using RESTful_API.Repositories.CustomerDA;
 
 namespace RESTful_API.Services;
 
 public class CustomerService
 {
-    private readonly ICustomerDA _customerDB;
+    private readonly CustomerRespository _customerDB;
 
     public CustomerService()
     {
@@ -32,19 +31,6 @@ public class CustomerService
         try
         {
             return await _customerDB.GetByEmail(email);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw; // Rethrow the exception for higher-level error handling
-        }
-    }
-
-    public async Task<Customer?> GetCustomer(long id)
-    {
-        try
-        {
-            return await _customerDB.Get(id);
         }
         catch (Exception e)
         {
@@ -88,19 +74,6 @@ public class CustomerService
                 return await _customerDB.Update(customer);
             }
             return false;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw; // Rethrow the exception for higher-level error handling
-        }
-    }
-
-    public async Task<bool> DeleteCustomer(long id)
-    {
-        try
-        {
-            return await _customerDB.Delete(id);
         }
         catch (Exception e)
         {

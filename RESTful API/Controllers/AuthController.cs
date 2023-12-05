@@ -78,7 +78,6 @@ public class AuthController : ControllerBase
             address = await addressService.CreateAddress(address);
             customer.AddressID = address.ID;
             await customerService.CreateCustomer(customer);
-
             return Ok();
         }
         catch (Exception ex)

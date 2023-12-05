@@ -3,9 +3,9 @@ using Models;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace RESTful_API.Repositories.OrderlineDA;
+namespace RESTful_API.Repositories;
 
-public class OrderlineRepository : IOrderlineDA
+public class OrderlineRepository
 {
     private readonly string _connectionString;
 
@@ -31,27 +31,6 @@ public class OrderlineRepository : IOrderlineDA
             throw;
         }
         return obj;
-    }
-
-    public async Task<bool> Delete(long id)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-
-        try
-        {
-            const string sql = "DELETE FROM Orderline WHERE Id = @Id";
-            await dbConnection.ExecuteAsync(sql, id, transaction);
-            transaction.Commit();
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
-
-        return true;
     }
 
     public Task<Orderline> Get(long id)

@@ -3,9 +3,9 @@ using Models;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace RESTful_API.Repositories.CustomerDA;
+namespace RESTful_API.Repositories;
 
-public class CustomerRespository : ICustomerDA
+public class CustomerRespository
 {
     private readonly string _connectionString;
 
@@ -43,45 +43,6 @@ public class CustomerRespository : ICustomerDA
         catch (Exception)
         {
             // Rollback the transaction in case of an error
-            transaction.Rollback();
-            throw;
-        }
-    }
-
-    public async Task<bool> Delete(long id)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-
-        try
-        {
-            const string sql = "DELETE FROM Customer WHERE Id = @Id";
-            var rowsAffected = await dbConnection.ExecuteAsync(sql, new { Id = id }, transaction: transaction);
-            transaction.Commit();
-            return rowsAffected > 0;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
-    }
-
-    public async Task<Customer> Get(long id)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-        try
-        {
-            const string sql = "SELECT * FROM [Customer] WHERE ID = @ID";
-            var customer = await dbConnection.QuerySingleAsync<Customer>(sql, new { ID = id }, transaction);
-            transaction.Commit();
-            return customer;
-        }
-        catch (Exception)
-        {
             transaction.Rollback();
             throw;
         }
