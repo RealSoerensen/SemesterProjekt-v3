@@ -40,16 +40,6 @@
             labelFirstName = new Label();
             labelLastName = new Label();
             productGridView = new DataGridView();
-            label7 = new Label();
-            labelCustomerID = new Label();
-            label9 = new Label();
-            labelAddress = new Label();
-            buttonClose = new Button();
-            label8 = new Label();
-            labelOrderPrice = new Label();
-            label10 = new Label();
-            labelCity = new Label();
-            productBindingSource = new BindingSource(components);
             iDDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             descriptionDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             imageDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -61,6 +51,16 @@
             brandDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             categoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             inactiveDataGridViewCheckBoxColumn = new DataGridViewCheckBoxColumn();
+            productBindingSource = new BindingSource(components);
+            label7 = new Label();
+            labelCustomerID = new Label();
+            label9 = new Label();
+            labelAddress = new Label();
+            buttonClose = new Button();
+            label8 = new Label();
+            labelOrderPrice = new Label();
+            label10 = new Label();
+            labelCity = new Label();
             ((System.ComponentModel.ISupportInitialize)productGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)productBindingSource).BeginInit();
             SuspendLayout();
@@ -170,91 +170,6 @@
             productGridView.TabIndex = 10;
             productGridView.CellContentClick += ProductGridViewCellContentClick;
             // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(14, 174);
-            label7.Name = "label7";
-            label7.Size = new Size(90, 15);
-            label7.TabIndex = 11;
-            label7.Text = "Kundenummer:";
-            // 
-            // labelCustomerID
-            // 
-            labelCustomerID.AutoSize = true;
-            labelCustomerID.Location = new Point(115, 174);
-            labelCustomerID.Name = "labelCustomerID";
-            labelCustomerID.Size = new Size(88, 15);
-            labelCustomerID.TabIndex = 12;
-            labelCustomerID.Text = "*CUSTOMERID*";
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(14, 337);
-            label9.Name = "label9";
-            label9.Size = new Size(51, 15);
-            label9.TabIndex = 13;
-            label9.Text = "Adresse:";
-            // 
-            // labelAddress
-            // 
-            labelAddress.AutoSize = true;
-            labelAddress.Location = new Point(115, 337);
-            labelAddress.Name = "labelAddress";
-            labelAddress.Size = new Size(66, 15);
-            labelAddress.TabIndex = 14;
-            labelAddress.Text = "*ADDRESS*";
-            // 
-            // buttonClose
-            // 
-            buttonClose.Location = new Point(14, 403);
-            buttonClose.Name = "buttonClose";
-            buttonClose.Size = new Size(160, 43);
-            buttonClose.TabIndex = 15;
-            buttonClose.Text = "Close";
-            buttonClose.UseVisualStyleBackColor = true;
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Location = new Point(423, 337);
-            label8.Name = "label8";
-            label8.Size = new Size(61, 15);
-            label8.TabIndex = 16;
-            label8.Text = "Fulde pris:";
-            // 
-            // labelOrderPrice
-            // 
-            labelOrderPrice.AutoSize = true;
-            labelOrderPrice.Location = new Point(515, 337);
-            labelOrderPrice.Name = "labelOrderPrice";
-            labelOrderPrice.Size = new Size(85, 15);
-            labelOrderPrice.TabIndex = 17;
-            labelOrderPrice.Text = "*ORDERPRICE*";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(14, 295);
-            label10.Name = "label10";
-            label10.Size = new Size(23, 15);
-            label10.TabIndex = 18;
-            label10.Text = "By:";
-            // 
-            // labelCity
-            // 
-            labelCity.AutoSize = true;
-            labelCity.Location = new Point(115, 295);
-            labelCity.Name = "labelCity";
-            labelCity.Size = new Size(41, 15);
-            labelCity.TabIndex = 19;
-            labelCity.Text = "*CITY*";
-            // 
-            // productBindingSource
-            // 
-            productBindingSource.DataSource = typeof(Models.Product);
-            // 
             // iDDataGridViewTextBoxColumn
             // 
             iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
@@ -320,6 +235,91 @@
             inactiveDataGridViewCheckBoxColumn.DataPropertyName = "Inactive";
             inactiveDataGridViewCheckBoxColumn.HeaderText = "Inactive";
             inactiveDataGridViewCheckBoxColumn.Name = "inactiveDataGridViewCheckBoxColumn";
+            // 
+            // productBindingSource
+            // 
+            productBindingSource.DataSource = typeof(Models.Product);
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(14, 174);
+            label7.Name = "label7";
+            label7.Size = new Size(90, 15);
+            label7.TabIndex = 11;
+            label7.Text = "Kundenummer:";
+            // 
+            // labelCustomerID
+            // 
+            labelCustomerID.AutoSize = true;
+            labelCustomerID.Location = new Point(115, 174);
+            labelCustomerID.Name = "labelCustomerID";
+            labelCustomerID.Size = new Size(88, 15);
+            labelCustomerID.TabIndex = 12;
+            labelCustomerID.Text = "*CUSTOMERID*";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(14, 337);
+            label9.Name = "label9";
+            label9.Size = new Size(51, 15);
+            label9.TabIndex = 13;
+            label9.Text = "Adresse:";
+            // 
+            // labelAddress
+            // 
+            labelAddress.AutoSize = true;
+            labelAddress.Location = new Point(115, 337);
+            labelAddress.Name = "labelAddress";
+            labelAddress.Size = new Size(66, 15);
+            labelAddress.TabIndex = 14;
+            labelAddress.Text = "*ADDRESS*";
+            // 
+            // buttonClose
+            // 
+            buttonClose.Location = new Point(14, 403);
+            buttonClose.Name = "buttonClose";
+            buttonClose.Size = new Size(160, 43);
+            buttonClose.TabIndex = 15;
+            buttonClose.Text = "Luk";
+            buttonClose.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(423, 337);
+            label8.Name = "label8";
+            label8.Size = new Size(61, 15);
+            label8.TabIndex = 16;
+            label8.Text = "Fulde pris:";
+            // 
+            // labelOrderPrice
+            // 
+            labelOrderPrice.AutoSize = true;
+            labelOrderPrice.Location = new Point(515, 337);
+            labelOrderPrice.Name = "labelOrderPrice";
+            labelOrderPrice.Size = new Size(85, 15);
+            labelOrderPrice.TabIndex = 17;
+            labelOrderPrice.Text = "*ORDERPRICE*";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(14, 295);
+            label10.Name = "label10";
+            label10.Size = new Size(23, 15);
+            label10.TabIndex = 18;
+            label10.Text = "By:";
+            // 
+            // labelCity
+            // 
+            labelCity.AutoSize = true;
+            labelCity.Location = new Point(115, 295);
+            labelCity.Name = "labelCity";
+            labelCity.Size = new Size(41, 15);
+            labelCity.TabIndex = 19;
+            labelCity.Text = "*CITY*";
             // 
             // OrderDetails
             // 
