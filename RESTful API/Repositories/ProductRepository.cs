@@ -57,7 +57,7 @@ public class ProductRepository
 
         try
         {
-            const string sql = @"UPDATE Product SET Description = @Description, Image = @Image, SalePrice = @SalePrice, PurchasePrice = @PurchasePrice, NormalPrice = @NormalPrice, Name = @Name, Stock = @Stock, Brand = @Brand, Category = @Category, Inactive = @Inactive WHERE ID = @ID";
+            const string sql = "UPDATE Product SET Description = @Description, Image = @Image, SalePrice = @SalePrice, PurchasePrice = @PurchasePrice, NormalPrice = @NormalPrice, Name = @Name, Stock = @Stock, Brand = @Brand, Category = @Category, Inactive = @Inactive WHERE ID = @ID";
             await dbConnection.ExecuteAsync(sql, product, transaction);
             transaction.Commit();
             return true;

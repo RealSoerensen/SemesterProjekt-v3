@@ -39,7 +39,7 @@ public class OrderRespository
         dbConnection.Open();
         const string sql = "SELECT * FROM [Order]";
         var orderList = await dbConnection.QueryAsync<Order>(sql);
-        return orderList.ToList(); ;
+        return orderList.ToList();
     }
 
     public async Task<List<Order>> GetOrdersByCustomerID(long id)

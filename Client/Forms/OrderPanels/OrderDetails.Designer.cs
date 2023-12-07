@@ -372,9 +372,6 @@
         private Label labelCustomerID;
         private Label label9;
         private Label labelAddress;
-        private DataGridViewTextBoxColumn ProductID;
-        private DataGridViewTextBoxColumn ProductName;
-        private DataGridViewTextBoxColumn ProductPrice;
         private Button buttonClose;
         private Label label8;
         private Label labelOrderPrice;

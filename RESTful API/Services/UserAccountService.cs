@@ -1,42 +1,41 @@
 ﻿using Models;
 using RESTful_API.Repositories;
 
-namespace RESTful_API.Services
+namespace RESTful_API.Services;
+
+public class UserAccountService
 {
-    public class UserAccountService
+    private readonly UserAccountRepository _userAccountDB;
+
+    public UserAccountService()
     {
-        private readonly UserAccountRepository _userAccountDB;
+        var connectionString = DBConnection.GetConnectionString();
+        _userAccountDB = new UserAccountRepository(connectionString);
+    }
 
-        public UserAccountService()
+    internal async Task CreateUserAccount(UserAccount userAccount)
+    {
+        try
         {
-            var connectionString = DBConnection.GetConnectionString();
-            _userAccountDB = new UserAccountRepository(connectionString);
+            await _userAccountDB.CreateUserAccount(userAccount);
         }
-
-        internal async Task CreateUserAccount(UserAccount userAccount)
+        catch (Exception e)
         {
-            try
-            {
-                await _userAccountDB.CreateUserAccount(userAccount);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            Console.WriteLine(e);
+            throw;
         }
+    }
 
-        internal async Task<UserAccount?> GetUserAccountByEmail(string email)
+    internal async Task<UserAccount?> GetUserAccountByEmail(string email)
+    {
+        try
         {
-            try
-            {
-                return await _userAccountDB.GetUserAccountByEmail(email);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            return await _userAccountDB.GetUserAccountByEmail(email);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 }

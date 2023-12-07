@@ -178,7 +178,6 @@ public partial class CustomersPanel : Form
         customer.LastName = "";
         customer.Email = "";
         customer.PhoneNo = "";
-        customer.Password = "";
         customer.AddressID = null;
     }
 
@@ -235,8 +234,6 @@ public partial class CustomersPanel : Form
             1 => sortedCustomers.OrderByDescending(product => product.FirstName).ToList(),
             2 => sortedCustomers.OrderBy(product => product.LastName).ToList(),
             3 => sortedCustomers.OrderByDescending(product => product.LastName).ToList(),
-            4 => sortedCustomers.OrderByDescending(product => product.RegisterDate).ToList(),
-            5 => sortedCustomers.OrderBy(product => product.RegisterDate).ToList(),
             _ => sortedCustomers
         };
         customerGrid.DataSource = sortedCustomers;

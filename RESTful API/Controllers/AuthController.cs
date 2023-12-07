@@ -26,18 +26,20 @@ public class AuthController : ControllerBase
             }
 
             // Check if the customer exists.
-            var customer = await userAccountService.GetUserAccountByEmail(email);
+            var user = await userAccountService.GetUserAccountByEmail(email);
 
-            if (customer == null)
+            if (user == null)
             {
                 return NotFound($"Customer with email {email} was not found");
             }
 
             // Verify the password securely (e.g., using a password hashing library).
-            if (!VerifyPassword(password, customer.Password))
+            if (!VerifyPassword(password, user.Password))
             {
                 return Unauthorized("Incorrect password");
             }
+
+            var customer = await customerService.GetCustomerByID(user.CustomerID);
 
             return Ok(customer);
         }
@@ -57,9 +59,10 @@ public class AuthController : ControllerBase
         }
 
         var customerData = data["customer"];
+        var userAccountData = data["userAccount"];
         var addressData = data["address"];
 
-        if (customerData == null || addressData == null)
+        if (customerData == null || userAccountData == null || addressData == null)
         {
             return BadRequest("Invalid input");
         }
@@ -67,18 +70,20 @@ public class AuthController : ControllerBase
         try
         {
             var customer = customerData.ToObject<Customer>();
+            var userAccount = userAccountData.ToObject<UserAccount>();
             var address = addressData.ToObject<Address>();
 
-            if (customer == null || address == null)
+            if (customer == null || userAccount == null || address == null)
             {
                 return BadRequest("Failed to convert to object");
             }
 
-            customer.Password = HashPassword(customer.Password);
+            userAccount.Password = HashPassword(userAccount.Password);
 
             address = await addressService.CreateAddress(address);
             customer.AddressID = address.ID;
             await customerService.CreateCustomer(customer);
+            await userAccountService.CreateUserAccount(userAccount);
             return Ok();
         }
         catch (Exception ex)
@@ -88,12 +93,12 @@ public class AuthController : ControllerBase
         }
     }
 
-    private bool VerifyPassword(string enteredPassword, string storedHash)
+    private static bool VerifyPassword(string enteredPassword, string storedHash)
     {
         return BCrypt.Net.BCrypt.Verify(enteredPassword, storedHash);
     }
 
-    private string HashPassword(string password)
+    private static string HashPassword(string password)
     {
         return BCrypt.Net.BCrypt.HashPassword(password);
     }

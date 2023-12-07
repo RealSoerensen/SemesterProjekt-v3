@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿namespace Client.Forms.ProductPanels;
 
-namespace Client.Forms.ProductPanels {
-    public partial class ViewProduct : Form {
-        public ViewProduct() {
-            InitializeComponent();
-        }
+public partial class ViewProduct : Form
+{
+    public ViewProduct()
+    {
+        InitializeComponent();
     }
 }

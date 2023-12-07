@@ -26,6 +26,19 @@ public class CustomerService
         }
     }
 
+    public async Task<Customer> GetCustomerByID(long id)
+    {
+        try
+        {
+            return await _customerDB.Get(id);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     public async Task<bool> CheckEmailExists(string email)
     {
         try

@@ -1,10 +1,9 @@
-﻿namespace Models
+﻿namespace Models;
+
+public enum Status
 {
-    public enum Status
-    {
-        Pending,
-        Processing,
-        Shipped,
-        Delivered
-    }
+    Pending,
+    Processing,
+    Shipped,
+    Delivered
 }
