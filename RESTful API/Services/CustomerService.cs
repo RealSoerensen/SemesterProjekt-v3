@@ -26,19 +26,6 @@ public class CustomerService
         }
     }
 
-    public async Task<Customer?> GetCustomerByEmail(string email)
-    {
-        try
-        {
-            return await _customerDB.GetByEmail(email);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw; // Rethrow the exception for higher-level error handling
-        }
-    }
-
     public async Task<bool> CheckEmailExists(string email)
     {
         try

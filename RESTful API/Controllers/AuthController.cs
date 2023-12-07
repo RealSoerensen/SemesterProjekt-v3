@@ -11,6 +11,7 @@ public class AuthController : ControllerBase
 {
     private readonly CustomerService customerService = new();
     private readonly AddressService addressService = new();
+    private readonly UserAccountService userAccountService = new();
 
     [Route("login")]
     [HttpGet]
@@ -25,7 +26,7 @@ public class AuthController : ControllerBase
             }
 
             // Check if the customer exists.
-            var customer = await customerService.GetCustomerByEmail(email);
+            var customer = await userAccountService.GetUserAccountByEmail(email);
 
             if (customer == null)
             {

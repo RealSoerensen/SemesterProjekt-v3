@@ -1,5 +1,6 @@
 import Address from "../models/Address";
 import Customer from "../models/Customer";
+import { UserAccount } from "../models/UserAccount";
 import baseURL from "./Constants";
 import axios from "axios";
 
@@ -26,10 +27,11 @@ export async function login(email: string, password: string): Promise<Customer |
     }
 }
 
-export async function register(customer: Customer, address: Address): Promise<boolean> {
+export async function register(customer: Customer, userAccount: UserAccount, address: Address): Promise<boolean> {
     try {
         const response = await axios.post(`${url}/register`, {
             customer,
+            userAccount,
             address,
         });
         return response.status === 200;

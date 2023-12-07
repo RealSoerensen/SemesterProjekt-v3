@@ -57,16 +57,6 @@ public class CustomerRespository
         return customerList.ToList();
     }
 
-
-    public async Task<Customer?> GetByEmail(string email)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-
-        const string sql = "SELECT * FROM Customer WHERE Email = @Email";
-        return await dbConnection.QueryFirstOrDefaultAsync<Customer>(sql, new { Email = email });
-    }
-
     public async Task<bool> Update(Customer obj)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
@@ -97,5 +87,24 @@ public class CustomerRespository
         var result = await dbConnection.QueryAsync<string>(sql, new { Email = email });
 
         return result.FirstOrDefault() != null;
+    }
+
+    public async Task<Customer> Get(long id)
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        using var transaction = dbConnection.BeginTransaction();
+        try
+        {
+            const string sql = "SELECT * FROM Customer WHERE ID = @ID";
+            var customer = await dbConnection.QuerySingleAsync<Customer>(sql, new { ID = id }, transaction);
+            transaction.Commit();
+            return customer;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 }

@@ -5,6 +5,7 @@ import { checkEmailExists } from '../../../services/CustomerService';
 import Customer from "../../../models/Customer";
 import Address from "../../../models/Address";
 import { useNavigate } from 'react-router-dom';
+import { UserAccount } from '../../../models/UserAccount';
 
 type FormData = {
     name: string;
@@ -130,15 +131,19 @@ const RegisterPage: React.FC = () => {
             const newCustomer: Customer = {
                 firstName: firstName,
                 lastName: lastName,
-                email: email,
                 phoneNo: phoneNo,
-                password: password,
                 addressID: newAddress.id,
-                registerDate: new Date(),  // Placeholder, changed upon creation.
                 id: 0  // Placeholder, changed upon creation in database.
             };
 
-            return await register(newCustomer, newAddress);
+            const newUserAccount: UserAccount = {
+                id: 0, // Placeholder, changed upon creation in database.
+                email: email,
+                password: password,
+                customerId: newCustomer.id,
+            };
+
+            return await register(newCustomer, newUserAccount, newAddress);
         };
     };
 
