@@ -20,6 +20,24 @@ export async function updateCustomer(customer: Customer): Promise<boolean> {
     }
 }
 
+export async function getCustomerById(id: number): Promise<Customer | null> {
+    try {
+        const response = await axios.get(`${url}/${id}`, {
+            withCredentials: true,
+        });
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            return null;
+        }
+    }
+    catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
 export async function createCustomer(customer: Customer): Promise<Customer | null> {
     try {
         const response = await axios.post(`${url}`, customer, {
@@ -37,13 +55,3 @@ export async function createCustomer(customer: Customer): Promise<Customer | nul
         return null;
     }
 }
-
-export async function checkEmailExists(email: string): Promise<boolean> {
-    const response = await fetch(`${url}/CheckEmailExists/${email}`);
-    if (response.ok) {
-      const exists = await response.json();
-      return exists;
-    } else {
-      throw new Error('Failed to check email');
-    }
-  }

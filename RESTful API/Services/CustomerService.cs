@@ -39,19 +39,6 @@ public class CustomerService
         }
     }
 
-    public async Task<bool> CheckEmailExists(string email)
-    {
-        try
-        {
-            return await _customerDB.CheckEmailExists(email);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
     public async Task<List<Customer>> GetAllCustomers()
     {
         try
@@ -69,11 +56,7 @@ public class CustomerService
     {
         try
         {
-            if (await CheckEmailExists(customer.Email) == false)
-            {
-                return await _customerDB.Update(customer);
-            }
-            return false;
+            return await _customerDB.Update(customer);
         }
         catch (Exception e)
         {

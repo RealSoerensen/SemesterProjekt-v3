@@ -176,7 +176,6 @@ public partial class CustomersPanel : Form
         // Replace personal data with null or empty values
         customer.FirstName = "";
         customer.LastName = "";
-        customer.Email = "";
         customer.PhoneNo = "";
         customer.AddressID = null;
     }
@@ -188,7 +187,6 @@ public partial class CustomersPanel : Form
         var filteredCustomers = customers.Where(c =>
             FuzzyMatch(c.FirstName.ToLower(), searchValue) ||
             FuzzyMatch(c.LastName.ToLower(), searchValue) ||
-            FuzzyMatch(c.Email.ToLower(), searchValue) ||
             FuzzyMatch(c.PhoneNo.ToLower(), searchValue)
         ).ToList();
 

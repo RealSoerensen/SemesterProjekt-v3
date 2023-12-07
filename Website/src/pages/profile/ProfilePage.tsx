@@ -1,18 +1,32 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import Settings from './Settings';
 import Orders from './Orders';
 import Details from './Details';
+import { getCustomerById } from '../../services/CustomerService';
+import Customer from '../../models/Customer';
 
 const ProfilePage = () => {
-    const { customer } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const [customer, setCustomer] = useState<Customer>();
     const [active, setActive] = useState<string>('Bestillinger');
     const options = {
         'Bestillinger': <Orders />,
         'Indstillinger': <Settings />,
         'Oplysninger': <Details />
     };
+
+    useEffect(() => {
+        const fetchCustomer = async () => {
+            if (!user) return;
+            const data = await getCustomerById(user.id);
+            if (data !== null) {
+                setCustomer(data);
+            }
+        }
+        fetchCustomer();
+    }, [user]);
 
     if (!customer) {
         return <div>

@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import Address from "../../models/Address";
 import { getAddressById, updateAddress } from "../../services/AddressService";
-import { updateCustomer } from "../../services/CustomerService";
-
+import { getCustomerById, updateCustomer } from "../../services/CustomerService";
+import Customer from "../../models/Customer";
 
 const Details = () => {
-    const { customer, setCustomer } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [address, setAddress] = useState<Address>();
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
@@ -17,13 +17,25 @@ const Details = () => {
     const [houseNumber, setHouseNumber] = useState<string>('');
     const [zip, setZip] = useState<string>('');
     const [city, setCity] = useState<string>('');
+    const [customer, setCustomer] = useState<Customer>();
 
+    const fetchUser = useCallback(async () => {
+        if (!user) return;
+        const data = await getCustomerById(user.id);
+        if (data !== null) {
+            setCustomer(data);
+        }
+    }, [user]);
 
     useEffect(() => {
-        if (customer !== null) {
+        fetchUser();
+    }, [fetchUser]);
+
+    useEffect(() => {
+        if (customer !== undefined) {
             setFirstName(customer.firstName);
             setLastName(customer.lastName);
-            setEmail(customer.email);
+            setEmail(user?.email || '');
             setPhoneNo(customer.phoneNo);
             getAddressById(customer.addressID).then((data: Address | null) => {
                 if (data !== null) {
@@ -35,7 +47,7 @@ const Details = () => {
                 }
             });
         }
-    }, [customer]);
+    }, [customer, user]);
 
     if (!customer) {
         return <div>

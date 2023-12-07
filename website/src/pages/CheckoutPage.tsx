@@ -11,7 +11,7 @@ import Orderline from '../models/Orderline';
 
 const CheckoutPage: React.FC = () => {
     const { cart, setCart } = useContext(CartContext);
-    const { customer } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [address, setAddress] = useState('');
@@ -81,7 +81,7 @@ const CheckoutPage: React.FC = () => {
         return Object.keys(errors).length === 0;
     };
 
-    if (!customer) return (
+    if (!user) return (
         <div className='container'>
             <p>Du skal være logget ind for at kunne bestille</p>
             <p>Kurven er gemt, så du kan fortsætte når du er logget ind</p>
@@ -100,7 +100,7 @@ const CheckoutPage: React.FC = () => {
         const orderlines: Orderline[] = cart.map((item: CartItem) => item.orderline);
         console.log(orderlines);
         try {
-            const createdOrder = await createOrder(customer.id, orderlines)
+            const createdOrder = await createOrder(user.customerId, orderlines)
             if (!createdOrder) {
                 alert('Der skete en fejl ved oprettelse af ordre');
                 return;

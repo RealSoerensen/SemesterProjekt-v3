@@ -6,7 +6,6 @@ class Order {
     customerID: number;
     status: Status
 
-
     constructor(id: number, date: string, time: string, customerID: number, status: Status) {
         this.id = id;
         this.date = new Date(date);

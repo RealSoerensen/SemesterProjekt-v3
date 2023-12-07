@@ -10,42 +10,23 @@ public class CustomerController : ControllerBase
 {
     private readonly CustomerService customerService = new();
 
-    // GET api/<CustomerController>/emailExist
-    [HttpGet("CheckEmailExists/{email}")]
-    public async Task<IActionResult> CheckEmailExists(string email)
-    {
-        bool emailExists;
-        try
-        {
-            emailExists = await customerService.CheckEmailExists(email);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while checking the email.");
-        }
-        return Ok(emailExists);
-    }
-
     // GET: api/<CustomerController>
     [HttpGet] // Get all customers
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] long id)
     {
-        List<Customer> customers;
         try
         {
-            customers = await customerService.GetAllCustomers();
+            var customers = await customerService.GetAllCustomers();
+            if (id != 0)
+            {
+                customers = customers.FindAll(c => c.ID == id);
+            }
+            return Ok(customers);
         }
         catch (Exception)
         {
             return StatusCode(500, "An error occurred while fetching customers.");
         }
-
-        if (customers.Count == 0)
-        {
-            return NotFound("No customers found");
-        }
-
-        return Ok(customers);
     }
 
     // PUT api/<CustomerController>

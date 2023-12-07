@@ -17,6 +17,12 @@ public class UserAccount
         CustomerID = customerID;
     }
 
+    public UserAccount(string email, string password)
+    {
+        Email = email;
+        Password = password;
+    }
+
     public UserAccount(long id, string email, string password, long customerID)
     {
         ID = id;

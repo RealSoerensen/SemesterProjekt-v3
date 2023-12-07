@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import './RegisterPage.css';
-import { register } from '../../../services/AuthService';
-import { checkEmailExists } from '../../../services/CustomerService';
+import { checkEmailExists, register } from '../../../services/AuthService';
 import Customer from "../../../models/Customer";
 import Address from "../../../models/Address";
 import { useNavigate } from 'react-router-dom';

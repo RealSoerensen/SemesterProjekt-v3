@@ -1,9 +1,9 @@
 import { Dispatch, FC, ReactNode, SetStateAction, createContext, useEffect, useState } from "react";
-import Customer from "../models/Customer";
+import { UserAccount } from "../models/UserAccount";
 
 interface AuthContextType {
-    customer: Customer | null;
-    setCustomer: Dispatch<SetStateAction<Customer | null>>;
+    user: UserAccount | null;
+    setUser: Dispatch<SetStateAction<UserAccount | null>>;
 }
 
 interface AuthProviderProps {
@@ -11,31 +11,31 @@ interface AuthProviderProps {
 }
 
 export const AuthContext = createContext<AuthContextType>({
-    customer: null,
-    setCustomer: () => { },
+    user: null,
+    setUser: () => { },
 });
 
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
-    const [customer, setCustomer] = useState<Customer | null>(() => {
-        const customerString = localStorage.getItem('customer');
-        if (customerString) {
-            const customer: Customer = JSON.parse(customerString);
-            return customer;
+    const [user, setUser] = useState<UserAccount | null>(() => {
+        const userString = localStorage.getItem('user');
+        if (userString) {
+            const user: UserAccount = JSON.parse(userString);
+            return user;
         }
         return null;
     });
 
     // Update the token in localStorage whenever it changes
     useEffect(() => {
-        if (customer) {
-            localStorage.setItem('customer', JSON.stringify(customer));
+        if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
         } else {
-            localStorage.removeItem('customer');
+            localStorage.removeItem('user');
         }
-    }, [customer]);
+    }, [user]);
 
     return (
-        <AuthContext.Provider value={{ customer, setCustomer }}>
+        <AuthContext.Provider value={{ user, setUser }}>
             {children}
         </AuthContext.Provider>
     );

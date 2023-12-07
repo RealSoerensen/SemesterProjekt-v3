@@ -2,12 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import Order from "../../models/Order";
 import { AuthContext } from "../../contexts/AuthContext";
 import { getOrdersFromCustomer } from "../../services/OrderService";
-import { getOrderslinesFromOrderID } from "../../services/OrderlineService";
 import { getProductById } from "../../services/ProductService";
 import Orderline from "../../models/Orderline";
 import Product from "../../models/Product";
 import OrderCard from "../../components/OrderCard";
 import LoadingSpinner from "../../components/Spinner";
+import { getOrderslinesFromOrderID } from "../../services/OrderlineService";
 
 class CompleteOrder {
     order: Order;
@@ -32,14 +32,14 @@ class CompleteOrder {
 const Orders = () => {
     const [completeOrders, setCompleteOrders] = useState<CompleteOrder[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const { customer } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         const fetchOrders = async () => {
-            if (customer) {
+            if (user) {
                 setIsLoading(true);
                 try {
-                    const customerOrders = await getOrdersFromCustomer(customer.id);
+                    const customerOrders = await getOrdersFromCustomer(user.customerId);
                     const updatedCompleteOrders = await Promise.all(
                         customerOrders.map(async (order) => {
                             const orderlines = await getOrderslinesFromOrderID(order.id);
@@ -62,7 +62,7 @@ const Orders = () => {
         };
 
         fetchOrders();
-    }, [customer]);
+    }, [user]);
 
     return (
         <div>

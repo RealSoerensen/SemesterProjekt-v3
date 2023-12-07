@@ -25,30 +25,4 @@ public class OrderlineService
             throw; // Rethrow the exception for higher-level error handling
         }
     }
-
-    public async Task<List<Orderline>> GetOrderlineById(long id)
-    {
-        try
-        {
-            return await orderlineRepository.GetOrderlines(id);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw; // Rethrow the exception for higher-level error handling
-        }
-    }
-
-    public async Task<List<Orderline>> GetAllOrderlines()
-    {
-        try
-        {
-            return await orderlineRepository.GetAll();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw; // Rethrow the exception for higher-level error handling
-        }
-    }
 }

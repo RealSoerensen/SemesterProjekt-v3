@@ -13,8 +13,7 @@ public class AuthController : ControllerBase
     private readonly AddressService addressService = new();
     private readonly UserAccountService userAccountService = new();
 
-    [Route("login")]
-    [HttpGet]
+    [HttpGet("login")]
     public async Task<IActionResult> Login(string email, string password)
     {
         try
@@ -39,9 +38,7 @@ public class AuthController : ControllerBase
                 return Unauthorized("Incorrect password");
             }
 
-            var customer = await customerService.GetCustomerByID(user.CustomerID);
-
-            return Ok(customer);
+            return Ok(user);
         }
         catch (Exception)
         {
@@ -49,8 +46,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    [Route("register")]
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] JObject? data)
     {
         if (data == null)
@@ -90,6 +86,20 @@ public class AuthController : ControllerBase
         {
             Console.WriteLine(ex.StackTrace);
             return BadRequest("An error occurred during registration");
+        }
+    }
+
+    [HttpGet("{email}")]
+    public async Task<bool> IsEmailValid(string email)
+    {
+        try
+        {
+            var user = await userAccountService.GetUserAccountByEmail(email);
+            return user == null;
+        }
+        catch (Exception)
+        {
+            return false;
         }
     }
 

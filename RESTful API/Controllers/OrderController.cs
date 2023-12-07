@@ -12,19 +12,22 @@ public class OrderController : ControllerBase
 
     // GET: api/<OrderController>
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] long customerId)
     {
-        List<Order> orders;
         try
         {
-            orders = await _orderService.GetAllOrders();
+            List<Order> orders = await _orderService.GetAllOrders();
+            if (customerId != 0)
+            {
+                orders = orders.Where(o => o.CustomerID == customerId).ToList();
+            }
+            return Ok(orders);
         }
         catch (Exception)
         {
             return BadRequest("Order retrieval failed - DB ERROR");
         }
 
-        return Ok(orders);
     }
 
     [HttpPost]
@@ -34,7 +37,7 @@ public class OrderController : ControllerBase
         try
         {
             var order = new Order(customerID);
-            order = await _orderService.CreateOrder(order, orderlines);
+            await _orderService.CreateOrder(order, orderlines);
             return Ok();
         }
         catch (Exception ex)
@@ -42,22 +45,5 @@ public class OrderController : ControllerBase
             // Consider logging the exception details
             return BadRequest($"Order creation failed: {ex.Message}");
         }
-    }
-
-    // GET api/<OrderController>/customer/id
-    [HttpGet("customer/{id:int}")]
-    public async Task<IActionResult> GetOrdersByCustomerID(long id)
-    {
-        List<Order> orders;
-        try
-        {
-            orders = await _orderService.GetOrdersByCustomerID(id);
-        }
-        catch (Exception)
-        {
-            return BadRequest("Order retrieval failed - DB ERROR");
-        }
-
-        return Ok(orders);
     }
 }

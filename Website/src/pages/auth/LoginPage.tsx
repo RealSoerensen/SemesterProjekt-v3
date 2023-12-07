@@ -4,7 +4,7 @@ import { login } from "../../services/AuthService";
 import { Link } from "react-router-dom";
 
 const LoginPage: React.FC = () => {
-    const { setCustomer } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState("");
@@ -16,13 +16,13 @@ const LoginPage: React.FC = () => {
             return;
         }
 
-        const customer = await login(email, password);
+        const user = await login(email, password);
 
-        if (customer) {
+        if (user) {
             setSuccess('Logging in...');
             setError('');
             setTimeout(() => {
-                setCustomer(customer);
+                setUser(user);
                 window.location.href = '/';
             }, 200);
 

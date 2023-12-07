@@ -1,5 +1,4 @@
 ﻿using Models;
-using System.Globalization;
 
 namespace Client.Forms.CustomerPanels;
 
@@ -21,9 +20,7 @@ public partial class EditCustomer : Form
         tbID.Text = customer.ID.ToString();
         tbFirstName.Text = customer.FirstName;
         tbLastName.Text = customer.LastName;
-        tbEmail.Text = customer.Email;
         tbPhoneNo.Text = customer.PhoneNo;
-        tbDateCreated.Text = customer.RegisterDate.ToString(CultureInfo.CurrentCulture);
         tbHouseNumber.Text = address!.HouseNumber;
         tbStreet.Text = address.Street;
         tbCity.Text = address.City;
@@ -50,7 +47,6 @@ public partial class EditCustomer : Form
             // Update the customer object with the edited values
             customer.FirstName = tbFirstName.Text;
             customer.LastName = tbLastName.Text;
-            customer.Email = tbEmail.Text;
             customer.PhoneNo = tbPhoneNo.Text;
             return customer;
         }

@@ -6,7 +6,7 @@ import axios from "axios";
 
 const url = `${baseURL}/api/Auth`;
 
-export async function login(email: string, password: string): Promise<Customer | null> {
+export async function login(email: string, password: string): Promise<UserAccount | null> {
     try {
         const response = await axios.get(`${url}/login`, {
             params: {
@@ -40,4 +40,10 @@ export async function register(customer: Customer, userAccount: UserAccount, add
         console.error(e);
         return false;
     }
+}
+
+export async function checkEmailExists(email: string): Promise<boolean> {
+    const response = await axios.get(`${url}/${email}`);
+    const exists = response.data;
+    return exists;
 }

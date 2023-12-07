@@ -13,12 +13,14 @@ public partial class CreateCustomer : Form
     private async void btnCreate_Click(object sender, EventArgs e)
     {
         // Get customer and address from the form
-        var customer = this.Customer;
-        var address = this.Address;
+        var userAccount = UserAccount;
+        var customer = Customer;
+        var address = Address;
 
-        if (!IsCustomerValid(customer) || !IsAddressValid(address) ||
-            !IsPasswordValid(customer.Password, tbPasswordConfirm.Text) ||
-            !IsEmailValid(customer.Email))
+        if (!IsCustomerValid(customer) ||
+            !IsAddressValid(address) ||
+            !IsEmailValid(userAccount.Email) ||
+            !IsPasswordValid(userAccount.Password, tbPasswordConfirm.Text))
         {
             MessageBox.Show(@"Please check your input. Ensure all fields are correctly filled.");
             return;
@@ -46,9 +48,7 @@ public partial class CreateCustomer : Form
         // Add validation logic for Customer
         return !string.IsNullOrWhiteSpace(customer.FirstName) &&
                !string.IsNullOrWhiteSpace(customer.LastName) &&
-               !string.IsNullOrWhiteSpace(customer.Email) &&
-               !string.IsNullOrWhiteSpace(customer.PhoneNo) &&
-               !string.IsNullOrWhiteSpace(customer.Password);
+               !string.IsNullOrWhiteSpace(customer.PhoneNo);
     }
 
     private bool IsAddressValid(Address address)
@@ -86,9 +86,12 @@ public partial class CreateCustomer : Form
 
     public Customer Customer =>
         // Update the customer object with the edited values
-        new(tbFirstName.Text, tbLastName.Text, tbEmail.Text, tbPhonenumber.Text, tbPassword.Text);
+        new(tbFirstName.Text, tbLastName.Text, tbPhonenumber.Text);
 
     public Address Address =>
         // Update the address object with the edited values
         new(tbStreet.Text, tbCity.Text, tbZip.Text, tbHouseNumber.Text);
+    public UserAccount UserAccount =>
+        // Update the user account object with the edited values
+        new(tbEmail.Text, tbPassword.Text);
 }

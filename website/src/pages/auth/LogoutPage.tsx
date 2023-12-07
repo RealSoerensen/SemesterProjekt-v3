@@ -2,12 +2,12 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const LogoutPage = () => {
-    const { setCustomer } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
 
     useEffect(() => {
-        setCustomer(null);
+        setUser(null);
         window.location.href = '/';
-    }, [setCustomer]);
+    }, [setUser]);
 
     return (
         <div>
