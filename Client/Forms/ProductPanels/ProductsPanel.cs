@@ -1,5 +1,6 @@
 ﻿using Client.Controllers;
 using Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Client.Forms.ProductPanels;
 
@@ -236,14 +237,16 @@ public partial class ProductsPanel : Form
             return true;
         }
 
-        var searchTextIndex = 0;
-
-        foreach (var _ in produktName.Where(charFromText => searchedText[searchTextIndex] == charFromText))
+        int searchTermIndex = 0;
+        foreach (char charFromText in produktName)
         {
-            searchTextIndex++;
-            if (searchTextIndex == searchedText.Length)
+            if (charFromText == searchedText[searchTermIndex])
             {
-                return true;
+                searchTermIndex++;
+                if (searchTermIndex == searchedText.Length)
+                {
+                    return true;
+                }
             }
         }
 
