@@ -160,14 +160,14 @@ public partial class ProductsPanel : Form
             .Select(kv => kv.Value)
             .ToList();
 
-        var selectedPriceRange = checkBoxesToPriceRanges
+        var selectedPriceRanges = checkBoxesToPriceRanges
             .Where(kv => kv.Key.Checked)
             .Select(kv => kv.Value)
-            .FirstOrDefault(); // Take the first selected price range
+            .ToList();
+
 
         List<Product> filteredProducts;
 
-        // If no category is selected, display all products; otherwise, filter by selected categories.
         if (!selectedCategories.Any())
         {
             filteredProducts = new List<Product>(products);
@@ -179,11 +179,10 @@ public partial class ProductsPanel : Form
                 .ToList();
         }
 
-        // Apply price range filter if any price range is selected.
-        if (selectedPriceRange != default)
+        if (selectedPriceRanges.Any())
         {
             filteredProducts = filteredProducts
-                .Where(p => p.SalePrice >= selectedPriceRange.Item1 && p.SalePrice <= selectedPriceRange.Item2)
+                .Where(p => selectedPriceRanges.Any(range => p.SalePrice >= range.Item1 && p.SalePrice <= range.Item2))
                 .ToList();
         }
 
