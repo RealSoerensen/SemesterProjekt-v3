@@ -229,19 +229,19 @@ public partial class ProductsPanel : Form
     }
 
 
-    private bool FuzzyMatch(string text, string searchTerm)
+    private bool FuzzyMatch(string produktName, string searchedText)
     {
-        if (string.IsNullOrEmpty(searchTerm))
+        if (string.IsNullOrEmpty(searchedText))
         {
             return true;
         }
 
         var searchTextIndex = 0;
 
-        foreach (var _ in text.Where(charFromText => searchTerm[searchTextIndex] == charFromText))
+        foreach (var _ in produktName.Where(charFromText => searchedText[searchTextIndex] == charFromText))
         {
             searchTextIndex++;
-            if (searchTextIndex == searchTerm.Length)
+            if (searchTextIndex == searchedText.Length)
             {
                 return true;
             }
