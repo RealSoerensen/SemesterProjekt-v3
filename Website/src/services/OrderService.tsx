@@ -7,7 +7,7 @@ const url = `${baseURL}/api/Order`;
 
 export async function getOrdersFromCustomer(id: number): Promise<Order[]> {
     try {
-        const response = await axios.get(`${url}/customer/${id}`);
+        const response = await axios.get(`${url}?customerID=${id}`);
 
         if (response.status === 200) {
             const orders: Order[] = response.data.map((order: any) => {
