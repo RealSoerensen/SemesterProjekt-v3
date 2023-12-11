@@ -25,4 +25,17 @@ public class OrderlineService
             throw; // Rethrow the exception for higher-level error handling
         }
     }
+
+    public async Task<List<Orderline>> GetAllOrderlines()
+    {
+        try
+        {
+            return await orderlineRepository.GetAllOrderlines();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
+    }
 }

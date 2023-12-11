@@ -2,5 +2,7 @@
 DROP TABLE Orderline;
 DROP TABLE Product;
 DROP TABLE [Order];
+DROP TABLE [UserAccount];
 DROP TABLE Customer;
 DROP TABLE [Address];
+

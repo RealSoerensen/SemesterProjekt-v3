@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Data.SqlTypes;
 using System.Drawing;
 
 namespace Models;
@@ -15,6 +16,7 @@ public class Product
     public long Stock { get; set; }
     public string Brand { get; set; }
     public Category Category { get; set; }
+    public SqlDateTime Version { get; set; } = DateTime.UtcNow;
     public bool Inactive { get; set; }
 
     [JsonConstructor]
@@ -31,7 +33,7 @@ public class Product
         Category = category;
     }
 
-    public Product(long ID, string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, long stock, string brand, Category category, bool inactive)
+    public Product(long ID, string description, string image, decimal salePrice, decimal purchasePrice, decimal normalPrice, string name, long stock, string brand, Category category, bool inactive, DateTime version)
     {
         this.ID = ID;
         Description = description;
@@ -44,6 +46,7 @@ public class Product
         Brand = brand;
         Category = category;
         Inactive = inactive;
+        Version = version;
     }
 
     public Image? ConvertBase64ToImage()

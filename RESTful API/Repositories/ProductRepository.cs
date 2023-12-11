@@ -2,6 +2,7 @@
 using Models;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 
 namespace RESTful_API.Repositories;
 
@@ -23,8 +24,8 @@ public class ProductRepository
         try
         {
             // Define the SQL query for inserting a product
-            const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category, Inactive)
-                                VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category, @Inactive)";
+            const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category, Inactive, Version)
+                                VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category, @Inactive, @Version)";
 
             // Execute the query and pass the product and the transaction as parameters
             await dbConnection.ExecuteAsync(insertQuery, product, transaction: transaction);
@@ -96,4 +97,22 @@ public class ProductRepository
         var productList = await dbConnection.QueryAsync<Product>(sql, new { Category = category });
         return productList.ToList();
     }
+
+    public async Task<int> UpdateProductIfVersionMatches(Product product, SqlDateTime originalVersion)
+    {
+        await using var dbConnection = new SqlConnection(_connectionString);
+        const string sql = @"
+            UPDATE Product 
+            SET Stock = @Stock, Version = @NewVersion 
+            WHERE ID = @ID AND Version = @OriginalVersion";
+
+        return await dbConnection.ExecuteAsync(sql, new
+        {
+            product.Stock,
+            NewVersion = DateTime.UtcNow,
+            product.ID,
+            OriginalVersion = originalVersion
+        });
+    }
+
 }

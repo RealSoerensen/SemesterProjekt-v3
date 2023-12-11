@@ -32,4 +32,13 @@ public class OrderlineRepository
         }
         return obj;
     }
+
+    public async Task<List<Orderline>> GetAllOrderlines()
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        const string sql = "SELECT * FROM Orderline";
+        var orderlineList = await dbConnection.QueryAsync<Orderline>(sql);
+        return orderlineList.ToList();
+    }
 }

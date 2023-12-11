@@ -14,22 +14,11 @@ public class OrderRespository
         _connectionString = connectionString;
     }
 
-    public async Task<Order> Create(Order obj)
+    public async Task<Order> Create(Order obj, IDbTransaction? transaction = null)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-        try
-        {
-            const string sql = "INSERT INTO [Order] (CustomerId, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as int)";
-            obj.ID = await dbConnection.QuerySingleAsync<int>(sql, obj, transaction);
-            transaction.Commit();
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
+        const string sql = "INSERT INTO [Order] (CustomerId, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as int)";
+        obj.ID = await dbConnection.QuerySingleAsync<int>(sql, obj, transaction);
         return obj;
     }
 

@@ -77,4 +77,24 @@ public class ProductService
             throw; // Rethrow the exception for higher-level error handling
         }
     }
+
+    public async Task<bool> TryUpdateProduct(Product product, DateTime originalVersion)
+    {
+        try
+        {
+            var updatedRows = await productRepository.UpdateProductIfVersionMatches(product, originalVersion);
+
+            // If no rows are updated, it means the version has changed in the meantime
+            return updatedRows > 0;
+        }
+        catch (Exception e)
+        {
+            // Log the exception for debugging purposes
+            Console.WriteLine(e);
+
+            // In case of any other exception, we consider the update as failed
+            return false;
+        }
+    }
+
 }

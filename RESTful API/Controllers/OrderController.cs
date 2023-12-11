@@ -16,7 +16,7 @@ public class OrderController : ControllerBase
     {
         try
         {
-            List<Order> orders = await _orderService.GetAllOrders();
+            var orders = await _orderService.GetAllOrders();
             if (customerId != 0)
             {
                 orders = orders.Where(o => o.CustomerID == customerId).ToList();

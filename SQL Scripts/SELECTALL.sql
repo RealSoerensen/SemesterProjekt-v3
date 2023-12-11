@@ -3,6 +3,8 @@ SELECT * FROM [Address];
 -- Select all data from the Customer table
 SELECT * FROM [Customer];
 
+SELECT * FROM [UserAccount];
+
 -- Select all data from the Order table
 SELECT * FROM [Order];	
 

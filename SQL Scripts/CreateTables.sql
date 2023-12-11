@@ -11,10 +11,14 @@ CREATE TABLE [Customer] (
 	[firstName] varchar(50),
 	[lastName] varchar(50),
 	[addressID] bigint FOREIGN KEY REFERENCES [Address](ID),
-	[email] varchar(255) UNIQUE,
 	[phoneNo] varchar(50),
-	[password] varchar(30),
-	[registerDate] datetime2,
+);
+
+CREATE TABLE [UserAccount] (
+	[ID] bigint PRIMARY KEY IDENTITY(1,1),
+	[email] varchar(50),
+	[password] varchar(50),
+	[customerID] bigint FOREIGN KEY REFERENCES [Customer]([ID])
 );
 
 CREATE TABLE [Order] (
@@ -35,7 +39,8 @@ CREATE TABLE [Product] (
 	[stock] bigint CHECK (stock >= 0),
 	[brand] varchar(100),
 	[category] int,
-	[inactive] bit
+	[inactive] bit,
+	[version] datetime2
 );
 
 CREATE TABLE [Orderline] (
