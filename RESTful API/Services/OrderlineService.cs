@@ -38,4 +38,17 @@ public class OrderlineService
             throw; // Rethrow the exception for higher-level error handling
         }
     }
+
+    public async Task<List<Orderline>> GetOrderlinesByOrderID(long orderID)
+    {
+        try
+        {
+            return await orderlineRepository.GetOrderlinesByOrderID(orderID);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw; // Rethrow the exception for higher-level error handling
+        }
+    }
 }

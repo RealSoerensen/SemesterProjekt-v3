@@ -2,6 +2,7 @@
 using RESTful_API.Repositories;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 
 namespace RESTful_API.Services;
 
@@ -42,7 +43,7 @@ public class OrderService
                         throw new Exception("Not enough stock");
                     }
 
-                    DateTime originalVersion = product.Version;
+                    SqlDateTime originalVersion = product.Version;
                     product.Stock -= orderline.Quantity;
                     product.Version = DateTime.UtcNow;
 

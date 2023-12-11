@@ -6,7 +6,7 @@ const url = `${baseURL}/api/Orderline`;
 
 export async function getOrderslinesFromOrderID(id: number): Promise<Orderline[]> {
     try {
-        const response = await axios.get(`${url}/${id}`);
+        const response = await axios.get(`${url}?orderID=${id}`);
 
         if (response.status === 200) {
             const orderlines: Orderline[] = response.data.map((orderline: Orderline) => {

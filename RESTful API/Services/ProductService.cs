@@ -1,5 +1,6 @@
 ﻿using Models;
 using RESTful_API.Repositories;
+using System.Data.SqlTypes;
 
 namespace RESTful_API.Services;
 
@@ -78,7 +79,7 @@ public class ProductService
         }
     }
 
-    public async Task<bool> TryUpdateProduct(Product product, DateTime originalVersion)
+    public async Task<bool> TryUpdateProduct(Product product, SqlDateTime originalVersion)
     {
         try
         {

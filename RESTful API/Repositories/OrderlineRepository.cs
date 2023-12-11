@@ -41,4 +41,13 @@ public class OrderlineRepository
         var orderlineList = await dbConnection.QueryAsync<Orderline>(sql);
         return orderlineList.ToList();
     }
+
+    public async Task<List<Orderline>> GetOrderlinesByOrderID(long id)
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        const string sql = "SELECT * FROM Orderline WHERE OrderId = @Id";
+        var orderlineList = await dbConnection.QueryAsync<Orderline>(sql, new { Id = id });
+        return orderlineList.ToList();
+    }
 }

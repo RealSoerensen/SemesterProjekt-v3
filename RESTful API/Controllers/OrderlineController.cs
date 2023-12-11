@@ -11,12 +11,19 @@ public class OrderlineController : ControllerBase
     private readonly OrderlineService orderlineService = new();
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] long orderId)
     {
         List<Orderline> orderlines;
         try
         {
-            orderlines = await orderlineService.GetAllOrderlines();
+            if (orderId != 0)
+            {
+                orderlines = await orderlineService.GetOrderlinesByOrderID(orderId);
+            }
+            else
+            {
+                orderlines = await orderlineService.GetAllOrderlines();
+            }
         }
         catch (Exception)
         {
