@@ -43,11 +43,9 @@ const Orders = () => {
                     const updatedCompleteOrders = await Promise.all(
                         customerOrders.map(async (order) => {
                             const orderlines = await getOrderslinesFromOrderID(order.id);
-                            const completeProducts = await Promise.all(
-                                orderlines.map(async (orderline: Orderline) => await getProductById(orderline.productID))
-                            );
-
-                            return new CompleteOrder(order, orderlines, completeProducts);
+                            const completeOrders = (await Promise.all(orderlines.map(async (orderline: Orderline) =>
+                                await getProductById(orderline.productID)))).filter(product => product !== null);
+                            return new CompleteOrder(order, orderlines, completeOrders as Product[]);
                         })
                     );
 

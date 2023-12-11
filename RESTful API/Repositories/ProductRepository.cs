@@ -96,24 +96,4 @@ public class ProductRepository
         var productList = await dbConnection.QueryAsync<Product>(sql, new { Category = category });
         return productList.ToList();
     }
-
-    public async Task<bool> Delete(long id)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-
-        try
-        {
-            const string sql = "DELETE FROM Product WHERE ID = @ID";
-            await dbConnection.ExecuteAsync(sql, new { ID = id }, transaction);
-            transaction.Commit();
-            return true;
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
-    }
 }

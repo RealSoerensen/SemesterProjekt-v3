@@ -41,13 +41,4 @@ public class OrderRespository
         var orderList = await dbConnection.QueryAsync<Order>(sql);
         return orderList.ToList();
     }
-
-    public async Task<List<Order>> GetOrdersByCustomerID(long id)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-        const string sql = "SELECT * FROM [Order] WHERE CustomerID = @ID";
-        var orderList = await dbConnection.QueryAsync<Order>(sql, new { ID = id });
-        return orderList.ToList();
-    }
 }

@@ -31,7 +31,11 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        getAllProducts()?.then((data) => setProducts(data));
+        getAllProducts()?.then((data) => {
+            if (data) {
+                setProducts(data);
+            }
+        });
         setIsLoading(false);
     }, []);
 

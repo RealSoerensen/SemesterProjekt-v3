@@ -48,7 +48,6 @@ public class OrderService
             Console.WriteLine(e);
             throw;
         }
-
     }
 
     public async Task<List<Order>> GetAllOrders()
@@ -56,19 +55,6 @@ public class OrderService
         try
         {
             return await _orderDB.GetAll();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
-    public async Task<List<Order>> GetOrdersByCustomerID(long id)
-    {
-        try
-        {
-            return await _orderDB.GetOrdersByCustomerID(id);
         }
         catch (Exception e)
         {

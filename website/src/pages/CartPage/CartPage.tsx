@@ -11,7 +11,11 @@ const CartPage = () => {
 
     const addItemToCart = () => {
         for (let i = 1; i < 9; i++) {
-            getProductById(i).then((product) => addItem(product, cart, setCart));
+            getProductById(i).then((product) => {
+                if (product) {
+                    addItem(product, cart, setCart)
+                }
+            });
         }
     }
 

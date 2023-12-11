@@ -41,12 +41,19 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] Category category)
     {
         List<Product> products;
         try
         {
-            products = await productService.GetAllProducts();
+            if (category != 0)
+            {
+                products = await productService.GetProductsByCategory((int)category);
+            }
+            else
+            {
+                products = await productService.GetAllProducts();
+            }
         }
         catch (Exception)
         {
@@ -80,26 +87,5 @@ public class ProductController : ControllerBase
         }
 
         return Ok();
-    }
-
-    [HttpGet("category/{categoryId:int}")]
-    public async Task<IActionResult> GetByCategory(int categoryId)
-    {
-        List<Product> products;
-        try
-        {
-            products = await productService.GetProductsByCategory(categoryId);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while fetching products.");
-        }
-
-        if (products.Count == 0)
-        {
-            return NotFound("No products found");
-        }
-
-        return Ok(products);
     }
 }

@@ -77,18 +77,6 @@ public class CustomerRespository
         }
     }
 
-    public async Task<bool> CheckEmailExists(string email)
-    {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-
-        const string sql = "SELECT TOP 1 Email FROM Customer WHERE Email = @Email";
-
-        var result = await dbConnection.QueryAsync<string>(sql, new { Email = email });
-
-        return result.FirstOrDefault() != null;
-    }
-
     public async Task<Customer> Get(long id)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
