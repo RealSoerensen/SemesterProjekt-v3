@@ -60,9 +60,6 @@ const HomePage: React.FC = () => {
                     <h2 className='text-white'>
                         Padel Shop
                     </h2>
-                    <Link to="/" className='btn btn-primary'>
-                        SHOP NU
-                    </Link>
                 </div>
             </div>
             <div className='row mt-4'>
