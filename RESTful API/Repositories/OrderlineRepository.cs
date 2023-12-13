@@ -14,22 +14,14 @@ public class OrderlineRepository
         _connectionString = connectionString;
     }
 
-    public async Task<Orderline> Create(Orderline obj)
+    public async Task<Orderline> Create(Orderline obj, IDbTransaction? transaction = null)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        using var transaction = dbConnection.BeginTransaction();
-        try
-        {
-            const string sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity, PriceAtTimeOfOrder) VALUES (@OrderId, @ProductId, @Quantity, @PriceAtTimeOfOrder);";
-            await dbConnection.ExecuteAsync(sql, obj, transaction);
-            transaction.Commit();
-        }
-        catch (Exception)
-        {
-            transaction.Rollback();
-            throw;
-        }
+
+        const string sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity, PriceAtTimeOfOrder) VALUES (@OrderId, @ProductId, @Quantity, @PriceAtTimeOfOrder);";
+        await dbConnection.ExecuteAsync(sql, obj, transaction);
+
         return obj;
     }
 
