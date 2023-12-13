@@ -1,8 +1,10 @@
+-- Select all data from the Address table
 SELECT * FROM [Address];
 
 -- Select all data from the Customer table
 SELECT * FROM [Customer];
 
+-- Select all data from the UserAccount table
 SELECT * FROM [UserAccount];
 
 -- Select all data from the Order table
