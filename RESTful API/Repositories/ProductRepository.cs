@@ -27,17 +27,22 @@ public class ProductRepository
             const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category, Inactive, Version)
                                 VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category, @Inactive, @Version)";
 
-            // Execute the query and pass the product and the transaction as parameters
-            await dbConnection.ExecuteAsync(insertQuery, product, transaction: transaction);
-            transaction.Commit(); // Commit the transaction after the insert
+            // Execute the query and return the ID of the inserted product
+            var id = await dbConnection.QuerySingleAsync<long>(insertQuery, product, transaction);
+
+            // Set the ID of the product to the ID returned from the query
+            product.ID = id;
+
+            // Commit the transaction
+            transaction.Commit();
+            return product;
+
         }
         catch (Exception)
         {
             transaction.Rollback(); // Rollback the transaction if there's an error
             throw;
         }
-
-        return product;
     }
 
 
