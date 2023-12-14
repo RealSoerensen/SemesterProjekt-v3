@@ -1,3 +1,4 @@
+using Models;
 using RESTful_API.Services;
 
 namespace ApiTests;
@@ -10,36 +11,73 @@ public class CustomerTests
     [TestMethod]
     public void CreateCustomer_ReturnsCustomer()
     {
+        //Arrange
+        var customer = new Customer("TestFirstName", "TestLastName", "TestPhonenumber");
 
+        //Act
+        var createdCustomer = customerService.CreateCustomer(customer);
+
+        //Assert
+        Assert.IsNotNull(createdCustomer);
     }
 
     [TestMethod]
-    public void GetCustomer_ReturnsCustomer()
+    public async Task GetCustomer_ReturnsCustomer()
     {
+        // Arrange
+        var customer = new Customer("TestFirstName", "TestLastName", "TestPhonenumber");
+        var createdCustomer = await customerService.CreateCustomer(customer);
 
+        // Act
+        var gettedCustomer = await customerService.GetCustomerByID(createdCustomer.ID);
+
+        // Assert
+        Assert.AreEqual(createdCustomer.ID, gettedCustomer.ID);
     }
+
 
     [TestMethod]
     public void GetAllCustomers_ReturnsCustomers()
     {
+        // Arrange
+        var customer = new Customer("TestFirstName", "TestLastName", "TestPhonenumber");
+        customerService.CreateCustomer(customer);
 
+        // Act
+        var gettedCustomers = customerService.GetAllCustomers();
+
+        // Assert
+        Assert.IsTrue(gettedCustomers.Result.Count > 0);
     }
 
     [TestMethod]
-    public void UpdateCustomer_ReturnsTrue()
+    public async Task UpdateCustomer_ReturnsTrue()
     {
+        // Arrange
+        var customer = new Customer("TestFirstName", "TestLastName", "TestPhonenumber");
+        var createdCustomer = await customerService.CreateCustomer(customer);
+        createdCustomer.FirstName = "UpdatedTestFirstName";
 
+        // Act
+        var updatedCustomer = await customerService.UpdateCustomer(createdCustomer);
+
+        // Assert
+        Assert.IsTrue(updatedCustomer);
     }
 
-    [TestMethod]
-    public void DeleteCustomer_ReturnsTrue()
+    [TestCleanup]
+    public async Task CleanupAfterTest()
     {
-
-    }
-
-    [TestMethod]
-    public void DeleteCustomer_ReturnsFalse()
-    {
-
+        List<Customer> allCustomers = await customerService.GetAllCustomers();
+        foreach(var customer in allCustomers)
+        {
+            if (customer.PhoneNo.Equals("TestPhonenumber"))
+            {
+                customer.FirstName = "";
+                customer.LastName = "";
+                customer.PhoneNo = "";
+                customer.AddressID = null;
+            }
+        }
     }
 }

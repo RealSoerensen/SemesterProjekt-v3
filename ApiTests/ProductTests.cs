@@ -1,4 +1,5 @@
-﻿using RESTful_API.Services;
+﻿using Models;
+using RESTful_API.Services;
 
 namespace ApiTests;
 
@@ -15,19 +16,44 @@ public class ProductTests
     [TestMethod]
     public void ShouldCreateProduct()
     {
+        //Arrange
+        var product = new Product("TestDesc", "TestImage", 10, 10, 10, "TestName", 10, "TestBrand", Category.Shoes);
 
+        //Act
+        var createdProduct = productService.CreateProduct(product);
+
+        //Assert
+        Assert.IsNotNull(createdProduct);
     }
 
     [TestMethod]
-    public void ShouldUpdateProduct()
+    public async Task ShouldUpdateProduct()
     {
+        //Arrange
+        var product = new Product("TestDesc", "TestImage", 10, 10, 10, "TestName", 10, "TestBrand", Category.Shoes);
+        var createdProduct = await productService.CreateProduct(product);
+        createdProduct.Name = "UpdatedTestName";
 
+        //Act
+        var isUpdated = await productService.UpdateProduct(createdProduct);
+
+        //Assert
+        Assert.IsTrue(isUpdated);
     }
 
     [TestMethod]
-    public void ShouldGetProduct()
+    public async Task ShouldGetProduct()
     {
+        //Arrange
+        var product = new Product("TestDesc", "TestImage", 10, 10, 10, "TestName", 10, "TestBrand", Category.Shoes);
+        var createdProduct = await productService.CreateProduct(product);
 
+        //Act
+        long createdProductID = createdProduct.ID.Value;
+        var gettedProduct = await productService.GetProductByID(createdProductID);
+
+        //Assert
+        Assert.AreEqual(createdProduct.ID, gettedProduct.ID);
     }
 
     [TestMethod]
