@@ -24,9 +24,9 @@ public class CustomerRespository
         {
             // Updated SQL insert statement to include OUTPUT INSERTED.ID
             const string insertCustomerQuery = @"
-            INSERT INTO Customer (FirstName, LastName, AddressId, Email, PhoneNo, Password, RegisterDate)
+            INSERT INTO Customer (FirstName, LastName, AddressId, PhoneNo)
             OUTPUT INSERTED.ID
-            VALUES (@FirstName, @LastName, @AddressId, @Email, @PhoneNo, @Password, @RegisterDate)";
+            VALUES (@FirstName, @LastName, @AddressId, @PhoneNo)";
 
             // Execute the query and store the returned ID in a variable
             var customerId = await dbConnection.ExecuteScalarAsync<long>(insertCustomerQuery, obj, transaction);
@@ -65,7 +65,7 @@ public class CustomerRespository
 
         try
         {
-            const string sql = "UPDATE Customer SET FirstName = @FirstName, LastName = @LastName, AddressId = @AddressId, Email = @Email, PhoneNo = @PhoneNo, Password = @Password WHERE Id = @Id";
+            const string sql = "UPDATE Customer SET FirstName = @FirstName, LastName = @LastName, AddressId = @AddressId, PhoneNo = @PhoneNo WHERE Id = @Id";
             await dbConnection.ExecuteAsync(sql, obj, transaction);
             transaction.Commit();
             return true;

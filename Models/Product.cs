@@ -16,7 +16,7 @@ public class Product
     public long Stock { get; set; }
     public string Brand { get; set; }
     public Category Category { get; set; }
-    public SqlDateTime Version { get; set; } = DateTime.UtcNow;
+    public DateTime Version { get; set; } = DateTime.UtcNow;
     public bool Inactive { get; set; }
 
     [JsonConstructor]
