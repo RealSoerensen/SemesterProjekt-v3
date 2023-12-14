@@ -89,6 +89,7 @@ public partial class EditProduct : Form
             product.Stock = long.Parse(textBoxStock.Text);
             product.Category = (Category)comboBoxCategory.SelectedItem;
             product.Inactive = (bool)comboBoxInactive.SelectedValue;
+            product.Version = DateTime.Now;
             return product;
         }
     }
