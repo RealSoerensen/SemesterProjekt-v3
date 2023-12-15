@@ -23,11 +23,13 @@ public class ProductRepository
 
         try
         {
-            // Define the SQL query for inserting a product
-            const string insertQuery = @"INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category, Inactive, Version)
-                                VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category, @Inactive, @Version)";
+            // Define the SQL query for inserting a product and returning the new ID
+            const string insertQuery = @"
+            INSERT INTO [Product] (Description, Image, SalePrice, PurchasePrice, NormalPrice, Name, Stock, Brand, Category, Inactive, Version)
+            VALUES (@Description, @Image, @SalePrice, @PurchasePrice, @NormalPrice, @Name, @Stock, @Brand, @Category, @Inactive, @Version);
+            SELECT CAST(SCOPE_IDENTITY() as bigint);"; // Use SCOPE_IDENTITY() to return the ID
 
-            // Execute the query and return the ID of the inserted product
+            // Execute the query and get the ID of the inserted product
             var id = await dbConnection.QuerySingleAsync<long>(insertQuery, product, transaction);
 
             // Set the ID of the product to the ID returned from the query
@@ -36,7 +38,6 @@ public class ProductRepository
             // Commit the transaction
             transaction.Commit();
             return product;
-
         }
         catch (Exception)
         {
@@ -46,12 +47,13 @@ public class ProductRepository
     }
 
 
+
     public async Task<List<Product>> GetAll()
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        const string sql = "SELECT * FROM Product";
-        var productList = await dbConnection.QueryAsync<Product>(sql);
+        const string sql = "SELECT * FROM Product WHERE Description <> @TestDescription";
+        var productList = await dbConnection.QueryAsync<Product>(sql, new { TestDescription = "TestDesc" });
         return productList.ToList();
     }
 

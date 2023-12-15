@@ -43,7 +43,7 @@ public class OrderService
                         throw new Exception("Not enough stock");
                     }
 
-                    SqlDateTime originalVersion = product.Version;
+                    DateTime originalVersion = product.Version;
                     product.Stock -= orderline.Quantity;
                     product.Version = DateTime.UtcNow;
 
