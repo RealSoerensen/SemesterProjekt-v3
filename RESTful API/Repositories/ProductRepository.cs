@@ -2,7 +2,6 @@
 using Models;
 using System.Data;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 
 namespace RESTful_API.Repositories;
 
@@ -105,21 +104,22 @@ public class ProductRepository
         return productList.ToList();
     }
 
-    public async Task<int> UpdateProductIfVersionMatches(Product product, SqlDateTime originalVersion)
+    public async Task<int> UpdateProductIfVersionMatches(Product product, DateTime originalVersion)
     {
         await using var dbConnection = new SqlConnection(_connectionString);
+        await dbConnection.OpenAsync();
+
         const string sql = @"
-            UPDATE Product 
-            SET Stock = @Stock, Version = @NewVersion 
-            WHERE ID = @ID AND Version = @OriginalVersion";
+        UPDATE Product 
+        SET Stock = @Stock, Version = @NewVersion 
+        WHERE ID = @ID AND Version = @OriginalVersion";
 
-        return await dbConnection.ExecuteAsync(sql, new
-        {
-            product.Stock,
-            NewVersion = DateTime.UtcNow,
-            product.ID,
-            OriginalVersion = originalVersion
-        });
+        var parameters = new DynamicParameters();
+        parameters.Add("Stock", product.Stock);
+        parameters.Add("NewVersion", product.Version, DbType.DateTime2);
+        parameters.Add("ID", product.ID);
+        parameters.Add("OriginalVersion", originalVersion, DbType.DateTime2);
+
+        return await dbConnection.ExecuteAsync(sql, parameters);
     }
-
 }

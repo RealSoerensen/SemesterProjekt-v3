@@ -16,14 +16,34 @@ public class OrderlineRepository
 
     public async Task<Orderline> Create(Orderline obj, IDbTransaction? transaction = null)
     {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
-        dbConnection.Open();
-
         const string sql = "INSERT INTO Orderline (OrderId, ProductId, Quantity, PriceAtTimeOfOrder) VALUES (@OrderId, @ProductId, @Quantity, @PriceAtTimeOfOrder);";
-        await dbConnection.ExecuteAsync(sql, obj, transaction);
+
+        // Use the connection associated with the transaction if it's provided
+        if (transaction == null)
+        {
+            // Create a new connection and manage the transaction internally if none is provided
+            using IDbConnection dbConnection = new SqlConnection(_connectionString);
+            dbConnection.Open();
+            using var newTransaction = dbConnection.BeginTransaction();
+            try
+            {
+                await dbConnection.ExecuteAsync(sql, obj, newTransaction);
+                newTransaction.Commit();
+            }
+            catch
+            {
+                newTransaction.Rollback();
+                throw;
+            }
+        }
+        else
+        {
+            await transaction.Connection.ExecuteAsync(sql, obj, transaction);
+        }
 
         return obj;
     }
+
 
     public async Task<List<Orderline>> GetAllOrderlines()
     {

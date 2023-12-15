@@ -2,7 +2,6 @@
 using RESTful_API.Repositories;
 using System.Data;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
 
 namespace RESTful_API.Services;
 
@@ -30,7 +29,7 @@ public class OrderService
             foreach (var orderline in orderlines)
             {
                 orderline.OrderID = order.ID;
-                await _orderlineService.CreateOrderline(orderline);
+                await _orderlineService.CreateOrderline(orderline, transaction);
 
                 bool updateSuccessful = false;
                 int retryCount = 0;

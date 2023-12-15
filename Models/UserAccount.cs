@@ -4,10 +4,10 @@ namespace Models;
 
 public class UserAccount
 {
-    public long ID { get; set; }
-    public string Email { get; set; }
+    public long ID { get; init; }
+    public string Email { get; init; }
     public string Password { get; set; }
-    public long CustomerID { get; set; }
+    public long CustomerID { get; init; }
 
     [JsonConstructor]
     public UserAccount(string email, string password, long customerID)

@@ -1,6 +1,5 @@
 ﻿using Models;
 using RESTful_API.Repositories;
-using System.Data.SqlTypes;
 
 namespace RESTful_API.Services;
 
@@ -79,12 +78,11 @@ public class ProductService
         }
     }
 
-    public async Task<bool> TryUpdateProduct(Product product, SqlDateTime originalVersion)
+    public async Task<bool> TryUpdateProduct(Product product, DateTime originalVersion)
     {
         try
         {
             var updatedRows = await productRepository.UpdateProductIfVersionMatches(product, originalVersion);
-
             // If no rows are updated, it means the version has changed in the meantime
             return updatedRows > 0;
         }

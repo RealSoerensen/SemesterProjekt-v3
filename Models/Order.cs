@@ -5,9 +5,9 @@ namespace Models;
 public class Order
 {
     public long ID { get; set; }
-    public DateTime Date { get; set; } = DateTime.Now;
-    public long CustomerID { get; set; }
-    public Status Status { get; set; } = Status.Pending;
+    public DateTime Date { get; init; } = DateTime.Now;
+    public long CustomerID { get; init; }
+    public Status Status { get; init; } = Status.Pending;
 
     public Order(DateTime date, long id, long customerID, Status status)
     {

@@ -1,5 +1,6 @@
 ﻿using Models;
 using RESTful_API.Repositories;
+using System.Data;
 
 namespace RESTful_API.Services;
 
@@ -13,11 +14,11 @@ public class OrderlineService
         orderlineRepository = new OrderlineRepository(connectionString);
     }
 
-    public async Task CreateOrderline(Orderline orderline)
+    public async Task CreateOrderline(Orderline orderline, IDbTransaction transaction)
     {
         try
         {
-            await orderlineRepository.Create(orderline);
+            await orderlineRepository.Create(orderline, transaction);
         }
         catch (Exception e)
         {

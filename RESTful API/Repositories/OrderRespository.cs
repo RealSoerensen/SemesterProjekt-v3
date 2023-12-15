@@ -16,7 +16,21 @@ public class OrderRespository
 
     public async Task<Order> Create(Order obj, IDbTransaction? transaction = null)
     {
-        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        // Only create a new connection if no transaction is provided
+        if (transaction == null)
+        {
+            using IDbConnection dbConnection = new SqlConnection(_connectionString);
+            return await CreateOrderInternal(dbConnection, obj, null);
+        }
+        else
+        {
+            // Use the connection from the transaction
+            return await CreateOrderInternal(transaction.Connection, obj, transaction);
+        }
+    }
+
+    private async Task<Order> CreateOrderInternal(IDbConnection dbConnection, Order obj, IDbTransaction? transaction)
+    {
         const string sql = "INSERT INTO [Order] (CustomerId, Date) VALUES (@CustomerId, @Date); SELECT CAST(SCOPE_IDENTITY() as int)";
         obj.ID = await dbConnection.QuerySingleAsync<int>(sql, obj, transaction);
         return obj;
