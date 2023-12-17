@@ -8,6 +8,7 @@ public class UserAccount
     public string Email { get; init; }
     public string Password { get; set; }
     public long CustomerID { get; init; }
+    public DateTime RegisterDate { get; init; } = DateTime.UtcNow;
 
     [JsonConstructor]
     public UserAccount(string email, string password, long customerID)
