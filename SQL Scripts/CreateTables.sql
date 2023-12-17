@@ -18,7 +18,8 @@ CREATE TABLE [UserAccount] (
 	[ID] bigint PRIMARY KEY IDENTITY(1,1),
 	[email] varchar(50),
 	[password] varchar(50),
-	[customerID] bigint FOREIGN KEY REFERENCES [Customer]([ID])
+	[customerID] bigint FOREIGN KEY REFERENCES [Customer]([ID]),
+	[registerDate] datetime2
 );
 
 CREATE TABLE [Order] (
