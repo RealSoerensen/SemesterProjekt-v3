@@ -20,6 +20,9 @@ public partial class ProductsPanel : Form
         {
             products = await productController.GetAll();
             productGrid.DataSource = products;
+
+            comboBox1.SelectedIndex = 12;
+            comboBox1_SelectedIndexChanged(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
@@ -104,6 +107,8 @@ public partial class ProductsPanel : Form
             9 => sortedProducts.OrderBy(product => product.Stock).ToList(),
             10 => sortedProducts.OrderByDescending(product => product.Inactive).ToList(),
             11 => sortedProducts.OrderBy(product => product.Inactive).ToList(),
+            12 => sortedProducts.OrderBy(product => product.ID).ToList(),
+            13 => sortedProducts.OrderByDescending(product => product.ID).ToList(),
             _ => sortedProducts
         };
         productGrid.DataSource = sortedProducts;
@@ -187,6 +192,7 @@ public partial class ProductsPanel : Form
         }
 
         productGrid.DataSource = filteredProducts;
+        comboBox1.SelectedIndex = 12;
     }
 
     private void productGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)

@@ -115,13 +115,14 @@ public partial class CustomersPanel : Form
         try
         {
             var selectedCustomerAddress = await addressController.Get((long)selectedCustomer.AddressID!);
+            UserAccount selectedCustomerAccount = null; //This should get UserAccount.
             if (selectedCustomerAddress == null)
             {
                 MessageBox.Show("Kunne ikke hente kundens adresse");
                 return;
             }
 
-            var editCustomer = new EditCustomer(selectedCustomer, selectedCustomerAddress);
+            var editCustomer = new EditCustomer(selectedCustomer, selectedCustomerAddress, selectedCustomerAccount);
             editCustomer.ShowDialog();
 
             if (editCustomer.DialogResult != DialogResult.OK) return;

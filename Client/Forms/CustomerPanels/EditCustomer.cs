@@ -6,11 +6,13 @@ public partial class EditCustomer : Form
 {
     private readonly Customer customer;
     private readonly Address address;
+    private readonly UserAccount account;
 
-    public EditCustomer(Customer customer, Address address)
+    public EditCustomer(Customer customer, Address address, UserAccount account)
     {
         this.customer = customer;
         this.address = address;
+        this.account = account;
         InitializeComponent();
         SetCustomerInfo();
     }
@@ -21,6 +23,8 @@ public partial class EditCustomer : Form
         tbFirstName.Text = customer.FirstName;
         tbLastName.Text = customer.LastName;
         tbPhoneNo.Text = customer.PhoneNo;
+        tbEmail.Text = account.Email;
+        tbDateCreated.Text = account.RegisterDate.ToString();
         tbHouseNumber.Text = address!.HouseNumber;
         tbStreet.Text = address.Street;
         tbCity.Text = address.City;

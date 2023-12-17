@@ -1,5 +1,7 @@
-﻿namespace Client.Forms.ProductPanels {
-    partial class ProductsPanel {
+﻿namespace Client.Forms.ProductPanels
+{
+    partial class ProductsPanel
+    {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -9,8 +11,10 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing) {
-            if (disposing && (components != null)) {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -22,9 +26,11 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             components = new System.ComponentModel.Container();
             panel1 = new Panel();
+            label4 = new Label();
             label3 = new Label();
             checkBoxAccessories = new CheckBox();
             checkBoxPrice6 = new CheckBox();
@@ -57,7 +63,6 @@
             brandDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             categoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             productBindingSource = new BindingSource(components);
-            label4 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)productGrid).BeginInit();
@@ -90,6 +95,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(834, 159);
             panel1.TabIndex = 0;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 14.25F);
+            label4.Location = new Point(253, 33);
+            label4.Name = "label4";
+            label4.Size = new Size(48, 25);
+            label4.TabIndex = 20;
+            label4.Text = "Søg:";
             // 
             // label3
             // 
@@ -257,7 +272,7 @@
             // 
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Name (a-å)", "Name (å-a)", "SalePrice (høj-lav)", "SalePrice (lav-høj)", "PurchasePrice (høj-lav)", "PurchasePrice (lav-høj)", "NormalPrice (høj-lav)", "NormalPrice (lav-høj)", "Stock (høj-lav)", "Stock (lav-høj)", "Inaktiv (true-false)", "Inaktiv (false-true)" });
+            comboBox1.Items.AddRange(new object[] { "Name (a-å)", "Name (å-a)", "SalePrice (høj-lav)", "SalePrice (lav-høj)", "PurchasePrice (høj-lav)", "PurchasePrice (lav-høj)", "NormalPrice (høj-lav)", "NormalPrice (lav-høj)", "Stock (høj-lav)", "Stock (lav-høj)", "Inaktiv (true-false)", "Inaktiv (false-true)", "ID (lav-høj)", "ID (høj-lav)" });
             comboBox1.Location = new Point(685, 35);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 23);
@@ -315,19 +330,19 @@
             // productGrid
             // 
             productGrid.AutoGenerateColumns = false;
+            productGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             productGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             productGrid.Columns.AddRange(new DataGridViewColumn[] { iDDataGridViewTextBoxColumn, descriptionDataGridViewTextBoxColumn, salePriceDataGridViewTextBoxColumn, purchasePriceDataGridViewTextBoxColumn, normalPriceDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn, stockDataGridViewTextBoxColumn, brandDataGridViewTextBoxColumn, categoryDataGridViewTextBoxColumn });
             productGrid.DataSource = productBindingSource;
             productGrid.Location = new Point(4, 167);
+            productGrid.MultiSelect = false;
             productGrid.Name = "productGrid";
             productGrid.RowTemplate.Height = 25;
+            productGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             productGrid.Size = new Size(661, 403);
             productGrid.TabIndex = 2;
-            productGrid.Name = "Products";
-            productGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            productGrid.DataSource = products;
-            productGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            productGrid.MultiSelect = false;
+            productGrid.CellFormatting += productGrid_CellFormatting;
+            productGrid.SelectionChanged += productGrid_SelectionChanged;
             productGrid.DoubleClick += productGrid_CellDoubleClick;
             // 
             // iDDataGridViewTextBoxColumn
@@ -335,68 +350,67 @@
             iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
             iDDataGridViewTextBoxColumn.HeaderText = "ID";
             iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            iDDataGridViewTextBoxColumn.Width = 43;
             // 
             // descriptionDataGridViewTextBoxColumn
             // 
             descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
             descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
             descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            descriptionDataGridViewTextBoxColumn.Width = 92;
             // 
             // salePriceDataGridViewTextBoxColumn
             // 
             salePriceDataGridViewTextBoxColumn.DataPropertyName = "SalePrice";
             salePriceDataGridViewTextBoxColumn.HeaderText = "SalePrice";
             salePriceDataGridViewTextBoxColumn.Name = "salePriceDataGridViewTextBoxColumn";
+            salePriceDataGridViewTextBoxColumn.Width = 79;
             // 
             // purchasePriceDataGridViewTextBoxColumn
             // 
             purchasePriceDataGridViewTextBoxColumn.DataPropertyName = "PurchasePrice";
             purchasePriceDataGridViewTextBoxColumn.HeaderText = "PurchasePrice";
             purchasePriceDataGridViewTextBoxColumn.Name = "purchasePriceDataGridViewTextBoxColumn";
+            purchasePriceDataGridViewTextBoxColumn.Width = 106;
             // 
             // normalPriceDataGridViewTextBoxColumn
             // 
             normalPriceDataGridViewTextBoxColumn.DataPropertyName = "NormalPrice";
             normalPriceDataGridViewTextBoxColumn.HeaderText = "NormalPrice";
             normalPriceDataGridViewTextBoxColumn.Name = "normalPriceDataGridViewTextBoxColumn";
+            normalPriceDataGridViewTextBoxColumn.Width = 98;
             // 
             // nameDataGridViewTextBoxColumn
             // 
             nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
             nameDataGridViewTextBoxColumn.HeaderText = "Name";
             nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            nameDataGridViewTextBoxColumn.Width = 64;
             // 
             // stockDataGridViewTextBoxColumn
             // 
             stockDataGridViewTextBoxColumn.DataPropertyName = "Stock";
             stockDataGridViewTextBoxColumn.HeaderText = "Stock";
             stockDataGridViewTextBoxColumn.Name = "stockDataGridViewTextBoxColumn";
+            stockDataGridViewTextBoxColumn.Width = 61;
             // 
             // brandDataGridViewTextBoxColumn
             // 
             brandDataGridViewTextBoxColumn.DataPropertyName = "Brand";
             brandDataGridViewTextBoxColumn.HeaderText = "Brand";
             brandDataGridViewTextBoxColumn.Name = "brandDataGridViewTextBoxColumn";
+            brandDataGridViewTextBoxColumn.Width = 63;
             // 
             // categoryDataGridViewTextBoxColumn
             // 
             categoryDataGridViewTextBoxColumn.DataPropertyName = "Category";
             categoryDataGridViewTextBoxColumn.HeaderText = "Category";
             categoryDataGridViewTextBoxColumn.Name = "categoryDataGridViewTextBoxColumn";
+            categoryDataGridViewTextBoxColumn.Width = 80;
             // 
             // productBindingSource
             // 
             productBindingSource.DataSource = typeof(Models.Product);
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 14.25F);
-            label4.Location = new Point(253, 33);
-            label4.Name = "label4";
-            label4.Size = new Size(48, 25);
-            label4.TabIndex = 20;
-            label4.Text = "Søg:";
             // 
             // ProductsPanel
             // 
@@ -412,8 +426,6 @@
             Text = "Produkter";
             WindowState = FormWindowState.Maximized;
             Load += ProductsPanel_Load;
-            productGrid.SelectionChanged += productGrid_SelectionChanged;
-            productGrid.CellFormatting += productGrid_CellFormatting;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);

@@ -52,10 +52,11 @@ public class CustomerRespository
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
-        const string sql = "SELECT * FROM Customer WHERE FirstName <> @DeletedCustomer";
-        var customerList = await dbConnection.QueryAsync<Customer>(sql, new { DeletedCustomer = "" });
+        const string sql = "SELECT * FROM Customer WHERE FirstName <> '' AND LastName <> @TestCustomer";
+        var customerList = await dbConnection.QueryAsync<Customer>(sql, new { TestCustomer = "TestLastName" });
         return customerList.ToList();
     }
+
 
     public async Task<bool> Update(Customer obj)
     {
