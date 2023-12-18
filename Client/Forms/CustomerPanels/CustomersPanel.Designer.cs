@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+
+using System.ComponentModel;
 using Models;
 
 namespace Client.Forms.CustomerPanels {
@@ -43,9 +44,6 @@ namespace Client.Forms.CustomerPanels {
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
             dataGridViewTextBoxColumn5 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn6 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn7 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn8 = new DataGridViewTextBoxColumn();
             bindingSource1 = new BindingSource(components);
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -163,7 +161,7 @@ namespace Client.Forms.CustomerPanels {
             customerGrid.AllowUserToResizeColumns = false;
             customerGrid.AutoGenerateColumns = false;
             customerGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            customerGrid.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5, dataGridViewTextBoxColumn6, dataGridViewTextBoxColumn7, dataGridViewTextBoxColumn8 });
+            customerGrid.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewTextBoxColumn5 });
             customerGrid.DataSource = bindingSource1;
             customerGrid.EditMode = DataGridViewEditMode.EditProgrammatically;
             customerGrid.Location = new Point(6, 106);
@@ -183,6 +181,7 @@ namespace Client.Forms.CustomerPanels {
             dataGridViewTextBoxColumn1.HeaderText = "ID";
             dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             dataGridViewTextBoxColumn1.ReadOnly = true;
+            dataGridViewTextBoxColumn1.Width = 50;
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -190,6 +189,7 @@ namespace Client.Forms.CustomerPanels {
             dataGridViewTextBoxColumn2.HeaderText = "FirstName";
             dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             dataGridViewTextBoxColumn2.ReadOnly = true;
+            dataGridViewTextBoxColumn2.Width = 150;
             // 
             // dataGridViewTextBoxColumn3
             // 
@@ -197,6 +197,7 @@ namespace Client.Forms.CustomerPanels {
             dataGridViewTextBoxColumn3.HeaderText = "LastName";
             dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             dataGridViewTextBoxColumn3.ReadOnly = true;
+            dataGridViewTextBoxColumn3.Width = 150;
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -204,34 +205,15 @@ namespace Client.Forms.CustomerPanels {
             dataGridViewTextBoxColumn4.HeaderText = "AddressID";
             dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             dataGridViewTextBoxColumn4.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            dataGridViewTextBoxColumn5.DataPropertyName = "Email";
-            dataGridViewTextBoxColumn5.HeaderText = "Email";
-            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            dataGridViewTextBoxColumn5.ReadOnly = true;
+            dataGridViewTextBoxColumn4.Width = 100;
             // 
             // dataGridViewTextBoxColumn6
             // 
-            dataGridViewTextBoxColumn6.DataPropertyName = "PhoneNo";
-            dataGridViewTextBoxColumn6.HeaderText = "PhoneNo";
-            dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            dataGridViewTextBoxColumn7.DataPropertyName = "Password";
-            dataGridViewTextBoxColumn7.HeaderText = "Password";
-            dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            dataGridViewTextBoxColumn7.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            dataGridViewTextBoxColumn8.DataPropertyName = "RegisterDate";
-            dataGridViewTextBoxColumn8.HeaderText = "RegisterDate";
-            dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            dataGridViewTextBoxColumn8.ReadOnly = true;
+            dataGridViewTextBoxColumn5.DataPropertyName = "PhoneNo";
+            dataGridViewTextBoxColumn5.HeaderText = "PhoneNo";
+            dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn6";
+            dataGridViewTextBoxColumn5.ReadOnly = true;
+            dataGridViewTextBoxColumn5.Width = 150;
             // 
             // bindingSource1
             // 
@@ -273,9 +255,6 @@ namespace Client.Forms.CustomerPanels {
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
         private BindingSource bindingSource1;
         private ComboBox sortBox;
         private TextBox textboxSearch;
