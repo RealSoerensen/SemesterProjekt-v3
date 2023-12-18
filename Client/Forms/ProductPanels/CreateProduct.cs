@@ -72,6 +72,10 @@ public partial class CreateProduct : Form
             MessageBox.Show(@"Produktet blev ikke oprettet.");
             return;
         }
+        else
+        {
+            DialogResult = DialogResult.OK;
+        }
 
         MessageBox.Show(@"Produktet blev oprettet.");
         Close();
