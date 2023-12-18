@@ -63,7 +63,6 @@ public partial class ProductsPanel : Form
             selectedRowIndex = productGrid.SelectedRows[0].Index;
         }
 
-        productGrid.DataSource = null;
         products = await productController.GetAll();
         productGrid.DataSource = products;
 
