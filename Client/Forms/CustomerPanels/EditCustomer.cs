@@ -24,7 +24,6 @@ public partial class EditCustomer : Form
         tbLastName.Text = customer.LastName;
         tbPhoneNo.Text = customer.PhoneNo;
         tbEmail.Text = account.Email;
-        tbDateCreated.Text = account.RegisterDate.ToString();
         tbHouseNumber.Text = address!.HouseNumber;
         tbStreet.Text = address.Street;
         tbCity.Text = address.City;
