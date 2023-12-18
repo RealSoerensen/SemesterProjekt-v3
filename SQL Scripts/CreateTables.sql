@@ -19,7 +19,6 @@ CREATE TABLE [UserAccount] (
 	[email] varchar(50),
 	[password] varchar(50),
 	[customerID] bigint FOREIGN KEY REFERENCES [Customer]([ID]),
-	[registerDate] datetime2
 );
 
 CREATE TABLE [Order] (
