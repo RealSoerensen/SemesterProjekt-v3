@@ -36,6 +36,6 @@ export const calculateTotal = (cart: CartItem[]) => {
 }
 
 export const calculateProcentDifference = (product: Product) => {
-    const procentDifference = Math.round((product.normalPrice - product.salePrice) / product.normalPrice * 100);
+    const procentDifference = Math.round((product?.normalPrice - product?.salePrice) / product?.normalPrice * 100);
     return procentDifference;
 }
