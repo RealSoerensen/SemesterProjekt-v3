@@ -12,15 +12,15 @@ const ProductShowcase: React.FC<{ product: Product }> = ({ product }) => {
         <div className="card" style={{ width: "18rem" }}>
             <div className="card-body d-flex flex-column">
                 <Link to={`/product/${product.id}`} className="text-decoration-none text-dark">
-                    <Image image={product.image} imageTitle={product.name} className="img-fluid" />
+                    <Image image={product?.image} imageTitle={product?.name} className="img-fluid" />
                     <div className="card-body">
-                        <h5 className="card-title">{product.name}</h5>
-                        <p className="card-text">{product.brand}</p>
+                        <h5 className="card-title">{product?.name}</h5>
+                        <p className="card-text">{product?.brand}</p>
                         {
-                            product.salePrice === product.normalPrice ?
-                                <p className="card-text">{product.salePrice} kr.</p> :
+                            product.salePrice === product?.normalPrice ?
+                                <p className="card-text">{product?.salePrice} kr.</p> :
                                 <div>
-                                    <p className="card-text"><del>{product.normalPrice} kr.</del> {product.salePrice} kr.</p>
+                                    <p className="card-text"><del>{product.normalPrice} kr.</del> {product?.salePrice} kr.</p>
                                     <p className="card-text">Du sparer {calculateProcentDifference(product)}%</p>
                                 </div>
                         }

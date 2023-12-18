@@ -41,14 +41,14 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery] Category category)
+    public async Task<IActionResult> GetAll([FromQuery] Category? category)
     {
         List<Product> products;
         try
         {
-            if (category != 0)
+            if (category.HasValue)
             {
-                products = await productService.GetProductsByCategory((int)category);
+                products = await productService.GetProductsByCategory((int)category.Value);
             }
             else
             {
@@ -67,6 +67,7 @@ public class ProductController : ControllerBase
 
         return Ok(products);
     }
+
 
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] Product product)

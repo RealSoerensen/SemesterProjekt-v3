@@ -18,6 +18,7 @@ const ProductPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [sliceNum, setSliceNum] = useState(4)
     const [buttonText, setButtonText] = useState('')
+
     useEffect(() => {
         setIsLoading(true);
         if (id) {
@@ -63,7 +64,7 @@ const ProductPage = () => {
         <div className="container">
             <div className="row mt-5">
                 <div className="col-md-6 col-sm-3">
-                    <Image image={product.image} imageTitle={product.name} className="img-fluid" />
+                    <Image image={product?.image} imageTitle={product.name} className="img-fluid" />
                 </div>
                 <div className="col-4">
                     <h1>{product.name}</h1>
@@ -98,7 +99,7 @@ const ProductPage = () => {
                             relatedProducts.length > 0 ?
                                 (<>
                                     {
-                                        relatedProducts.slice(0, sliceNum).map((product, index) => {
+                                        relatedProducts?.slice(0, sliceNum).map((product, index) => {
                                             return (
                                                 <div className="col-sm-6 col-md-3 mb-4" key={index}>
                                                     <ProductShowcase key={index} product={product} />
