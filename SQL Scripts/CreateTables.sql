@@ -15,10 +15,9 @@ CREATE TABLE [Customer] (
 );
 
 CREATE TABLE [UserAccount] (
-	[ID] bigint PRIMARY KEY IDENTITY(1,1),
 	[email] varchar(50),
-	[password] varchar(50),
-	[customerID] bigint FOREIGN KEY REFERENCES [Customer]([ID]),
+	[password] varchar(MAX),
+	[customerID] bigint PRIMARY KEY FOREIGN KEY REFERENCES [Customer]([ID])
 );
 
 CREATE TABLE [Order] (
