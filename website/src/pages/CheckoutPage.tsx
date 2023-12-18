@@ -98,9 +98,8 @@ const CheckoutPage: React.FC = () => {
 
         setIsSubmitting(true);
         const orderlines: Orderline[] = cart.map((item: CartItem) => item.orderline);
-        console.log(orderlines);
         try {
-            const createdOrder = await createOrder(user.customerId, orderlines)
+            const createdOrder = await createOrder(user.customerID, orderlines)
             if (!createdOrder) {
                 alert('Der skete en fejl ved oprettelse af ordre');
                 return;
@@ -109,7 +108,6 @@ const CheckoutPage: React.FC = () => {
             setCart([]);
         }
         catch (error) {
-            console.log(error);
             alert('Der skete en fejl ved oprettelse af ordre');
             navigate("/cart")
         }

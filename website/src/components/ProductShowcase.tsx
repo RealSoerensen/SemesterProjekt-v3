@@ -24,8 +24,6 @@ const ProductShowcase: React.FC<{ product: Product }> = ({ product }) => {
                                     <p className="card-text">Du sparer {calculateProcentDifference(product)}%</p>
                                 </div>
                         }
-
-
                     </div>
                 </Link>
             </div>

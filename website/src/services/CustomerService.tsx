@@ -22,7 +22,7 @@ export async function updateCustomer(customer: Customer): Promise<boolean> {
 
 export async function getCustomerById(id: number): Promise<Customer | null> {
     try {
-        const response = await axios.get(`${url}/${id}`, {
+        const response = await axios.get(`${url}?id=${id}`, {
             withCredentials: true,
         });
 

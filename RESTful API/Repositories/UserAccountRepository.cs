@@ -14,14 +14,18 @@ public class UserAccountRepository
         _connectionString = connectionString;
     }
 
-    internal Task<UserAccount?> GetUserAccountByEmail(string email)
+    public async Task<UserAccount?> GetUserAccountByEmail(string email)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
 
         const string query = "SELECT * FROM UserAccount WHERE Email = @Email";
-        var userAccount = dbConnection.QueryFirstOrDefaultAsync<UserAccount>(query, new { Email = email });
+
+        var userAccount = await dbConnection.QueryFirstOrDefaultAsync<UserAccount>(query, new { Email = email });
+
         return userAccount;
     }
+
+
 
     public async Task CreateUserAccount(UserAccount userAccount)
     {
@@ -35,6 +39,27 @@ public class UserAccountRepository
 
             await dbConnection.ExecuteAsync(insertQuery, userAccount, transaction);
             transaction.Commit();
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            throw;
+        }
+    }
+
+    public async Task<bool> Update(UserAccount user)
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        using var transaction = dbConnection.BeginTransaction();
+
+        try
+        {
+            const string updateQuery = @"UPDATE [UserAccount] SET Email = @Email WHERE customerID = @CustomerID";
+
+            await dbConnection.ExecuteAsync(updateQuery, user, transaction);
+            transaction.Commit();
+            return true;
         }
         catch (Exception)
         {

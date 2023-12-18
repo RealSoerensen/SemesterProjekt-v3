@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { getAllProducts } from '../services/ProductService';
 import { CustomCard } from '../components/Card/Card';
 import Card from '../components/Card/Card';

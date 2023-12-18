@@ -128,8 +128,6 @@ public partial class CustomersPanel : Form
             if (editCustomer.DialogResult != DialogResult.OK) return;
             var customer = editCustomer.Customer;
             var address = editCustomer.Address;
-            Console.WriteLine(customer);
-            Console.WriteLine(address);
             bool customerUpdated = await customerController.Update(customer);
             bool addressUpdated = await addressController.Update(address);
             if (customerUpdated && addressUpdated)

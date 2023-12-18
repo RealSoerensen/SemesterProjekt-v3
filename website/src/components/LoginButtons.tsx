@@ -15,7 +15,7 @@ const LoginButtons = (props: Props) => {
     useEffect(() => {
         const fetchCustomer = async () => {
             if (!user) return;
-            const data = await getCustomerById(user.id);
+            const data = await getCustomerById(user.customerID);
             if (data !== null) {
                 setCustomer(data);
             }

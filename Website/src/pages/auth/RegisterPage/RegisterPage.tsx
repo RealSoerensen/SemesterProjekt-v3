@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import './RegisterPage.css';
-import { checkEmailExists, register } from '../../../services/AuthService';
+import { isEmailValid, register } from '../../../services/AuthService';
 import Customer from "../../../models/Customer";
 import Address from "../../../models/Address";
 import { useNavigate } from 'react-router-dom';
@@ -50,8 +50,8 @@ const RegisterPage: React.FC = () => {
                     errorCount++;
                 }
                 try {
-                    const emailExists = await checkEmailExists(value);
-                    if (emailExists) {
+                    const valid = await isEmailValid(value);
+                    if (!valid) {
                         errorMessage += 'Email already exists.\n';
                         errorCount++;
                     }
@@ -136,10 +136,9 @@ const RegisterPage: React.FC = () => {
             };
 
             const newUserAccount: UserAccount = {
-                id: 0, // Placeholder, changed upon creation in database.
                 email: email,
                 password: password,
-                customerId: newCustomer.id,
+                customerID: 0  // Placeholder, changed upon creation in database.
             };
 
             return await register(newCustomer, newUserAccount, newAddress);
@@ -183,7 +182,7 @@ const RegisterPage: React.FC = () => {
     return (
         <div className="container text-center">
             <div className="row">
-                <h1>RegisterPage</h1>
+                <h1>Register Page</h1>
                 <form className="col-12 px-5" onSubmit={handleConfirm}>
                     {formData.map((data, index) => (
                         <div key={index} className="form-group mx-auto">

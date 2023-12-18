@@ -38,7 +38,6 @@ export async function updateAddress(address: Address): Promise<boolean> {
 }
 
 export async function createAddress(address: Address): Promise<Address | null> {
-    console.log(address);
     try {
         const response = await axios.post(`${url}`, address);
 

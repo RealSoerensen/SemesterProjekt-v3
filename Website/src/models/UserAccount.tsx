@@ -1,13 +1,11 @@
 export class UserAccount {
-    public id: number;
     public email: string;
     public password: string;
-    public customerId: number;
+    public customerID: number;
 
-    constructor(email: string, password: string, customerId: number, id: number) {
+    constructor(email: string, password: string, customerID: number) {
         this.email = email;
         this.password = password;
-        this.customerId = customerId;
-        this.id = id;
+        this.customerID = customerID;
     }
 }
