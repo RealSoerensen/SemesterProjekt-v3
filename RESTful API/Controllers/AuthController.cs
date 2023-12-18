@@ -14,7 +14,7 @@ public class AuthController : ControllerBase
     private readonly UserAccountService userAccountService = new();
 
     [HttpGet("login")]
-    public async Task<IActionResult> Login(string email, string password)
+    public async Task<IActionResult> Login([FromQuery] string email, [FromQuery] string password)
     {
         try
         {
@@ -74,11 +74,18 @@ public class AuthController : ControllerBase
                 return BadRequest("Failed to convert to object");
             }
 
+            var isEmailValid = await IsEmailValid(userAccount.Email);
+            if (!isEmailValid)
+            {
+                return BadRequest("Email is already in use");
+            }
+
             userAccount.Password = HashPassword(userAccount.Password);
 
             address = await addressService.CreateAddress(address);
             customer.AddressID = address.ID;
-            await customerService.CreateCustomer(customer);
+            customer = await customerService.CreateCustomer(customer);
+            userAccount.CustomerID = customer.ID;
             await userAccountService.CreateUserAccount(userAccount);
             return Ok();
         }

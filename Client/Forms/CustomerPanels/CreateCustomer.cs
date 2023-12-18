@@ -1,5 +1,6 @@
 ﻿using Client.Controllers;
 using Models;
+using System.Net.Mail;
 
 namespace Client.Forms.CustomerPanels;
 
@@ -27,20 +28,21 @@ public partial class CreateCustomer : Form
         }
 
 
-        // Create instances of CustomerController and AddressDA
+        // Create instances of CustomerController
         var customerController = new CustomerController();
 
         // Create the customer
-        var createdCustomer = await customerController.Create(customer, address);
-        if (createdCustomer != null)
+        var created = await customerController.Create(customer, address, userAccount);
+        if (created)
         {
-            MessageBox.Show(@"Customer and Address created successfully!");
-            Close();
-            return;
+            MessageBox.Show(@"Customer created successfully.");
+            DialogResult = DialogResult.OK;
         }
-
-        MessageBox.Show(@"Failed to create Customer and Address.");
-        DialogResult = DialogResult.Cancel;
+        else
+        {
+            MessageBox.Show(@"Customer was not created.");
+            DialogResult = DialogResult.TryAgain;
+        }
     }
 
     private bool IsCustomerValid(Customer customer)
@@ -70,7 +72,7 @@ public partial class CreateCustomer : Form
         // Simple email validation logic
         try
         {
-            var Eaddr = new System.Net.Mail.MailAddress(email);
+            var Eaddr = new MailAddress(email);
             return Eaddr.Address == email;
         }
         catch
@@ -84,14 +86,14 @@ public partial class CreateCustomer : Form
         DialogResult = DialogResult.Cancel;
     }
 
-    public Customer Customer =>
+    private Customer Customer =>
         // Update the customer object with the edited values
         new(tbFirstName.Text, tbLastName.Text, tbPhonenumber.Text);
 
-    public Address Address =>
+    private Address Address =>
         // Update the address object with the edited values
         new(tbStreet.Text, tbCity.Text, tbZip.Text, tbHouseNumber.Text);
-    public UserAccount UserAccount =>
+    private UserAccount UserAccount =>
         // Update the user account object with the edited values
         new(tbEmail.Text, tbPassword.Text);
 }

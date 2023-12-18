@@ -1,11 +1,14 @@
-﻿namespace Client.Forms.OrderPanels
+﻿using System.ComponentModel;
+using Models;
+
+namespace Client.Forms.OrderPanels
 {
     partial class OrderDetails
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -238,7 +241,7 @@
             // 
             // productBindingSource
             // 
-            productBindingSource.DataSource = typeof(Models.Product);
+            productBindingSource.DataSource = typeof(Product);
             // 
             // label7
             // 

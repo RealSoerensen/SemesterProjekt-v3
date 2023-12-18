@@ -5,9 +5,10 @@ import Address from "../../models/Address";
 import { getAddressById, updateAddress } from "../../services/AddressService";
 import { getCustomerById, updateCustomer } from "../../services/CustomerService";
 import Customer from "../../models/Customer";
+import { update } from "../../services/UserAccountService";
 
 const Details = () => {
-    const { user } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
     const [address, setAddress] = useState<Address>();
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
@@ -21,7 +22,7 @@ const Details = () => {
 
     const fetchUser = useCallback(async () => {
         if (!user) return;
-        const data = await getCustomerById(user.id);
+        const data = await getCustomerById(user.customerID);
         if (data !== null) {
             setCustomer(data);
         }
@@ -62,11 +63,9 @@ const Details = () => {
             ...customer,
             firstName: firstName,
             lastName: lastName,
-            email: email,
             phoneNo: phoneNo,
         }
 
-        console.log(newCustomer);
         updateCustomer(newCustomer).then((data: boolean) => {
             if (data) {
                 alert('Oplysninger gemt');
@@ -78,6 +77,25 @@ const Details = () => {
         setCustomer(newCustomer);
     }
 
+    function handleUserAccountSave() {
+        if (!user) return;
+        const newUser = {
+            ...user,
+            email: email,
+        }
+
+        update(user).then((data: boolean) => {
+            if (data) {
+                alert('Oplysninger gemt');
+                setUser(newUser);
+            } else {
+                alert('Noget gik galt');
+            }
+        });
+
+    }
+
+
     function handleAddressSave() {
         if (!address) return alert('Noget gik galt');
         const newAddress = {
@@ -88,7 +106,6 @@ const Details = () => {
             city: city,
         }
 
-        console.log(newAddress);
         updateAddress(newAddress).then((data: boolean) => {
             if (data) {
                 alert('Oplysninger gemt');
@@ -102,15 +119,17 @@ const Details = () => {
         <div>
             <div className="row">
                 <div className="col">
-                    <h4> Konto Oplysninger</h4>
+                    <h4>Konto oplysninger</h4>
+                    <div className="input-group mb-3">
+                        <span className="input-group-text" id="inputGroup-sizing-default">Email</span>
+                        <input type="text" className="form-control" defaultValue={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                    <button type="button" className="btn btn-primary" onClick={handleUserAccountSave}>Gem</button>
+                    <h4> Personlige Oplysninger</h4>
                     <div className="input-group mb-3">
                         <span className="input-group-text">For- og efternavn</span>
                         <input type="text" aria-label="First name" className="form-control" defaultValue={firstName} onChange={(e) => setFirstName(e.target.value)} />
                         <input type="text" aria-label="Last name" className="form-control" defaultValue={lastName} onChange={(e) => setLastName(e.target.value)} />
-                    </div>
-                    <div className="input-group mb-3">
-                        <span className="input-group-text" id="inputGroup-sizing-default">Email</span>
-                        <input type="text" className="form-control" defaultValue={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
                     <div className="input-group mb-3">
                         <span className="input-group-text" id="inputGroup-sizing-default">Telefon nummer</span>
@@ -142,7 +161,6 @@ const Details = () => {
         </div>
 
     )
-
 }
 
 export default Details

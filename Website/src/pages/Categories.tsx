@@ -1,9 +1,7 @@
 import Card from '../components/Card/Card';
 import { useCategory } from '../contexts/CategoryContext';
 
-type Props = {}
-
-const Categories = (props: Props) => {
+const Categories = () => {
   const { categories } = useCategory();
 
   return (

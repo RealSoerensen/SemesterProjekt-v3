@@ -30,7 +30,34 @@ public class UserAccountService
     {
         try
         {
-            return await _userAccountDB.GetUserAccountByEmail(email);
+            var account = await _userAccountDB.GetUserAccountByEmail(email);
+            return account;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task<List<UserAccount>> GetAllUserAccounts()
+    {
+        try
+        {
+            return await _userAccountDB.GetAll();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task UpdateUserAccount(UserAccount user)
+    {
+        try
+        {
+            await _userAccountDB.Update(user);
         }
         catch (Exception e)
         {

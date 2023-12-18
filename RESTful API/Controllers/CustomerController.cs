@@ -17,11 +17,13 @@ public class CustomerController : ControllerBase
         try
         {
             var customers = await customerService.GetAllCustomers();
-            if (id != 0)
+            if (id == 0) return Ok(customers);
+            var customer = customers.FirstOrDefault(c => c.ID == id);
+            if (customer == null)
             {
-                customers = customers.FindAll(c => c.ID == id);
+                return NotFound($"Customer with ID {id} was not found");
             }
-            return Ok(customers);
+            return Ok(customer);
         }
         catch (Exception)
         {

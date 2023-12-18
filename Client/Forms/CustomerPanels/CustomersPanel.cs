@@ -9,6 +9,7 @@ public partial class CustomersPanel : Form
     private Customer? selectedCustomer;
     private readonly CustomerController customerController = new();
     private readonly AddressController addressController = new();
+    private readonly UserAccountController userAccountController = new();
 
     public CustomersPanel()
     {
@@ -53,7 +54,7 @@ public partial class CustomersPanel : Form
         }
         catch (Exception ex)
         {
-            MessageBox.Show("Error while trying to restore grid position and selection: " + ex.Message);
+            MessageBox.Show(@"Error while trying to restore grid position and selection: " + ex.Message);
         }
     }
 
@@ -68,34 +69,8 @@ public partial class CustomersPanel : Form
     {
         var createCustomer = new CreateCustomer();
         createCustomer.ShowDialog();
-        if (createCustomer.DialogResult != DialogResult.OK)
-        {
-            RefreshCustomers();
-            return;
-        }
-
-        var customer = createCustomer.Customer;
-        var address = createCustomer.Address;
-
-        var created = false;
-        try
-        {
-            created = created && await customerController.Create(customer, address) != null;
-        }
-        catch (Exception)
-        {
-            MessageBox.Show(@"Kunne ikke oprette kunden i databasen");
-            return;
-        }
-
-        if (!created)
-        {
-            MessageBox.Show(@"Kunden blev ikke oprettet");
-            return;
-        }
-
+        if (createCustomer.DialogResult != DialogResult.OK) return;
         RefreshCustomers();
-        MessageBox.Show(@"Kunden blev oprettet");
     }
 
     private void buttonEdit_Click(object sender, EventArgs e)
@@ -114,10 +89,16 @@ public partial class CustomersPanel : Form
         try
         {
             var selectedCustomerAddress = await addressController.Get((long)selectedCustomer.AddressID!);
-            UserAccount selectedCustomerAccount = null; //This should get UserAccount.
             if (selectedCustomerAddress == null)
             {
                 MessageBox.Show("Kunne ikke hente kundens adresse");
+                return;
+            }
+
+            var selectedCustomerAccount = await userAccountController.Get(selectedCustomer.ID);
+            if (selectedCustomerAccount == null)
+            {
+                MessageBox.Show("Kunne ikke hente kundens brugeroplysninger");
                 return;
             }
 
@@ -127,11 +108,11 @@ public partial class CustomersPanel : Form
             if (editCustomer.DialogResult != DialogResult.OK) return;
             var customer = editCustomer.Customer;
             var address = editCustomer.Address;
-            Console.WriteLine(customer);
-            Console.WriteLine(address);
+            var account = editCustomer.UserAccount;
             bool customerUpdated = await customerController.Update(customer);
             bool addressUpdated = await addressController.Update(address);
-            if (customerUpdated && addressUpdated)
+            bool accountUpdated = await userAccountController.Update(account);
+            if (customerUpdated && addressUpdated && accountUpdated)
             {
                 RefreshCustomers();
                 MessageBox.Show("Kunden blev opdateret");
@@ -144,6 +125,7 @@ public partial class CustomersPanel : Form
         catch (Exception ex)
         {
             MessageBox.Show($"Fejl: {ex.Message}");
+            await Console.Out.WriteLineAsync(ex.StackTrace);
         }
     }
 
@@ -202,15 +184,12 @@ public partial class CustomersPanel : Form
 
         var searchTextIndex = 0;
 
-        foreach (var charFromText in text)
+        foreach (var _ in text.Where(charFromText => searchTerm[searchTextIndex] == charFromText))
         {
-            if (searchTerm[searchTextIndex] == charFromText)
+            searchTextIndex++;
+            if (searchTextIndex == searchTerm.Length)
             {
-                searchTextIndex++;
-                if (searchTextIndex == searchTerm.Length)
-                {
-                    return true;
-                }
+                return true;
             }
         }
 

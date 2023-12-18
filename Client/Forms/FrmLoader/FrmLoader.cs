@@ -13,7 +13,7 @@ public partial class FrmLoader : Form
     protected override void OnLoad(EventArgs e)
     {
         base.OnLoad(e);
-        Task.Factory.StartNew(Worker).ContinueWith(t => { this.Close(); }, TaskScheduler.FromCurrentSynchronizationContext());
+        Task.Factory.StartNew(Worker).ContinueWith(t => { Close(); }, TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private void FrmLoader_Load(object sender, EventArgs e)

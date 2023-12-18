@@ -10,7 +10,7 @@ internal class CustomerDA
     private readonly string URL = Connection.BaseURL() + "api/Customer";
     private readonly HttpClient _client = new();
 
-    public async Task<Customer?> Create(Customer customer, Address address)
+    public async Task<bool> Create(Customer customer, Address address, UserAccount account)
     {
         string url = Connection.BaseURL() + "api/Auth/register";
         try
@@ -18,23 +18,18 @@ internal class CustomerDA
             JObject keyValuePairs = new()
             {
                 {"customer", JObject.FromObject(customer)},
-                {"address", JObject.FromObject(address)}
+                {"address", JObject.FromObject(address)},
+                {"userAccount", JObject.FromObject(account)}
             };
             HttpContent content = new StringContent(JsonConvert.SerializeObject(keyValuePairs), Encoding.UTF8, "application/json");
             var response = await _client.PostAsync(url, content);
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<Customer>(jsonResponse);
-            }
+            return response.IsSuccessStatusCode;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
-
-        return null;
     }
 
     public async Task<bool> Update(Customer obj)

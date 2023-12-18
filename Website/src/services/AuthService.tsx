@@ -42,7 +42,7 @@ export async function register(customer: Customer, userAccount: UserAccount, add
     }
 }
 
-export async function checkEmailExists(email: string): Promise<boolean> {
+export async function isEmailValid(email: string): Promise<boolean> {
     const response = await axios.get(`${url}/${email}`);
     const exists = response.data;
     return exists;

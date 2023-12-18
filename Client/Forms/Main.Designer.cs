@@ -1,9 +1,11 @@
-﻿namespace Client.Forms {
+﻿using System.ComponentModel;
+
+namespace Client.Forms {
     partial class Main {
         /// <summary>
         ///  Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         ///  Clean up any resources being used.

@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Data.SqlTypes;
 using System.Drawing;
 
 namespace Models;

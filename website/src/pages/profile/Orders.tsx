@@ -39,7 +39,7 @@ const Orders = () => {
             if (user) {
                 setIsLoading(true);
                 try {
-                    const customerOrders = await getOrdersFromCustomer(user.customerId);
+                    const customerOrders = await getOrdersFromCustomer(user.customerID);
                     const updatedCompleteOrders = await Promise.all(
                         customerOrders.map(async (order) => {
                             const orderlines = await getOrderslinesFromOrderID(order.id);

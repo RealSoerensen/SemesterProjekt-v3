@@ -1,6 +1,6 @@
 ﻿using Models;
 
-namespace Client.Forms.OrderPanels;
+namespace Client.Models;
 
 public class OrderViewModel
 {
