@@ -1,11 +1,14 @@
-﻿namespace Client.Forms.ProductPanels
+﻿using System.ComponentModel;
+using Models;
+
+namespace Client.Forms.ProductPanels
 {
     partial class ProductsPanel
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -410,7 +413,7 @@
             // 
             // productBindingSource
             // 
-            productBindingSource.DataSource = typeof(Models.Product);
+            productBindingSource.DataSource = typeof(Product);
             // 
             // ProductsPanel
             // 

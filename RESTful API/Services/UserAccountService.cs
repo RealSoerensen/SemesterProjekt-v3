@@ -40,11 +40,24 @@ public class UserAccountService
         }
     }
 
-    public async Task<bool> UpdateUserAccount(UserAccount user)
+    public async Task<List<UserAccount>> GetAllUserAccounts()
     {
         try
         {
-            return await _userAccountDB.Update(user);
+            return await _userAccountDB.GetAll();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task UpdateUserAccount(UserAccount user)
+    {
+        try
+        {
+            await _userAccountDB.Update(user);
         }
         catch (Exception e)
         {

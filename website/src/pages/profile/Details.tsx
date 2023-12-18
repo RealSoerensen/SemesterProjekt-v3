@@ -5,7 +5,7 @@ import Address from "../../models/Address";
 import { getAddressById, updateAddress } from "../../services/AddressService";
 import { getCustomerById, updateCustomer } from "../../services/CustomerService";
 import Customer from "../../models/Customer";
-import { update } from "../../services/AuthService";
+import { update } from "../../services/UserAccountService";
 
 const Details = () => {
     const { user, setUser } = useContext(AuthContext);

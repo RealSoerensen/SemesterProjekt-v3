@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Client.Controllers;
+using Models;
 
 namespace Client.Forms.CustomerPanels;
 
@@ -7,6 +8,9 @@ public partial class EditCustomer : Form
     private readonly Customer customer;
     private readonly Address address;
     private readonly UserAccount account;
+    private readonly CustomerController customerController = new();
+    private readonly AddressController addressController = new();
+    private readonly UserAccountController accountController = new();
 
     public EditCustomer(Customer customer, Address address, UserAccount account)
     {
@@ -32,10 +36,21 @@ public partial class EditCustomer : Form
     }
 
     // Add event handlers for saving changes, e.g., when the save button is clicked
-    private void saveButton_Click(object sender, EventArgs e)
+    private async void saveButton_Click(object sender, EventArgs e)
     {
-        // Save the changes
-        DialogResult = DialogResult.OK;
+        var customerUpdated = await customerController.Update(Customer);
+        var addressUpdated = await addressController.Update(Address);
+        var accountUpdated = await accountController.Update(account);
+
+        if (customerUpdated && addressUpdated && accountUpdated)
+        {
+            // Save the changes
+            DialogResult = DialogResult.OK;
+        }
+        else
+        {
+            DialogResult = DialogResult.TryAgain;
+        }
     }
 
     private void cancelButton_Click(object sender, EventArgs e)
@@ -66,6 +81,16 @@ public partial class EditCustomer : Form
             address.City = tbCity.Text;
             address.Zip = tbZip.Text;
             return address;
+        }
+    }
+
+    public UserAccount UserAccount
+    {
+        get
+        {
+            // Update the user account object with the edited values
+            account.Email = tbEmail.Text;
+            return account;
         }
     }
 }

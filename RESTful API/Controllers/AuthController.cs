@@ -119,22 +119,4 @@ public class AuthController : ControllerBase
     {
         return BCrypt.Net.BCrypt.HashPassword(password);
     }
-
-    [HttpPut]
-    public async Task<IActionResult> UpdateUserAccount(UserAccount userAccount)
-    {
-        try
-        {
-            var updated = await userAccountService.UpdateUserAccount(userAccount);
-            if (!updated)
-            {
-                return BadRequest("Customer unable to update");
-            }
-            return Ok();
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, "An error occurred while updating the user account.");
-        }
-    }
 }

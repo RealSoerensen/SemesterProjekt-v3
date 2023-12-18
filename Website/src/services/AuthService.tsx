@@ -47,15 +47,3 @@ export async function isEmailValid(email: string): Promise<boolean> {
     const exists = response.data;
     return exists;
 }
-
-export async function update(userAccount: UserAccount): Promise<boolean> {
-    try {
-        console.log(userAccount);
-        const response = await axios.put(`${url}`, userAccount);
-        return response.status === 200;
-    }
-    catch (e) {
-        console.error(e);
-        return false;
-    }
-}

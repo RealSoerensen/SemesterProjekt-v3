@@ -48,34 +48,30 @@ public partial class EditProduct : Form
 
         if (result)
         {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
         else
         {
-            this.DialogResult = DialogResult.TryAgain;
+            DialogResult = DialogResult.TryAgain;
         }
     }
 
     private void buttonChoosePicture_Click(object sender, EventArgs e)
     {
-        using (var openFileDialog = new OpenFileDialog())
-        {
-            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
-            openFileDialog.Title = "Select a Product Image";
+        using var openFileDialog = new OpenFileDialog();
+        openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp";
+        openFileDialog.Title = "Select a Product Image";
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                var originalImage = Image.FromFile(openFileDialog.FileName);
-                pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+        if (openFileDialog.ShowDialog() != DialogResult.OK) return;
+        var originalImage = Image.FromFile(openFileDialog.FileName);
+        pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
 
-                // Now you can use the resized image
-                pictureBox.Image = originalImage;
-            }
-        }
+        // Now you can use the resized image
+        pictureBox.Image = originalImage;
     }
 
-    public Product Product
+    private Product Product
     {
         get
         {
@@ -143,6 +139,6 @@ public partial class EditProduct : Form
 
     private void buttonCancel_Click(object sender, EventArgs e)
     {
-        this.Close();
+        Close();
     }
 }

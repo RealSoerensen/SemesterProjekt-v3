@@ -1,5 +1,6 @@
 ﻿using Client.DAL;
 using Models;
+using System.Drawing.Imaging;
 
 namespace Client.Controllers;
 
@@ -36,7 +37,7 @@ internal class ProductController
 
         using var ms = new MemoryStream();
         // Assuming the image format is PNG
-        image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+        image.Save(ms, ImageFormat.Png);
         var imageBytes = ms.ToArray();
         return Convert.ToBase64String(imageBytes);
     }

@@ -25,8 +25,6 @@ public class UserAccountRepository
         return userAccount;
     }
 
-
-
     public async Task CreateUserAccount(UserAccount userAccount)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
@@ -47,7 +45,7 @@ public class UserAccountRepository
         }
     }
 
-    public async Task<bool> Update(UserAccount user)
+    public async Task Update(UserAccount user)
     {
         using IDbConnection dbConnection = new SqlConnection(_connectionString);
         dbConnection.Open();
@@ -59,12 +57,20 @@ public class UserAccountRepository
 
             await dbConnection.ExecuteAsync(updateQuery, user, transaction);
             transaction.Commit();
-            return true;
         }
         catch (Exception)
         {
             transaction.Rollback();
             throw;
         }
+    }
+
+    public async Task<List<UserAccount>> GetAll()
+    {
+        using IDbConnection dbConnection = new SqlConnection(_connectionString);
+        dbConnection.Open();
+        const string sql = "SELECT * FROM UserAccount";
+        var productList = await dbConnection.QueryAsync<UserAccount>(sql);
+        return productList.ToList();
     }
 }

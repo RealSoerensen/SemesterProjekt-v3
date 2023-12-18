@@ -22,11 +22,9 @@ public class OrderRespository
             using IDbConnection dbConnection = new SqlConnection(_connectionString);
             return await CreateOrderInternal(dbConnection, obj, null);
         }
-        else
-        {
-            // Use the connection from the transaction
-            return await CreateOrderInternal(transaction.Connection, obj, transaction);
-        }
+
+        // Use the connection from the transaction
+        return await CreateOrderInternal(transaction.Connection, obj, transaction);
     }
 
     private async Task<Order> CreateOrderInternal(IDbConnection dbConnection, Order obj, IDbTransaction? transaction)

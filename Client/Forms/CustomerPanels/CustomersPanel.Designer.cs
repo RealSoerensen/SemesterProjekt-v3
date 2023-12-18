@@ -1,9 +1,12 @@
-﻿namespace Client.Forms.CustomerPanels {
+﻿using System.ComponentModel;
+using Models;
+
+namespace Client.Forms.CustomerPanels {
     partial class CustomersPanel {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -232,7 +235,7 @@
             // 
             // bindingSource1
             // 
-            bindingSource1.DataSource = typeof(Models.Customer);
+            bindingSource1.DataSource = typeof(Customer);
             // 
             // CustomersPanel
             // 

@@ -1,9 +1,11 @@
-﻿namespace Client.Forms.OrderPanels {
+﻿using System.ComponentModel;
+
+namespace Client.Forms.OrderPanels {
     partial class OrdersPanel {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
