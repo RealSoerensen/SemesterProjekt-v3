@@ -14,4 +14,11 @@ public class Orderline
         Quantity = quantity;
         PriceAtTimeOfOrder = priceAtTimeOfOrder;
     }
+
+    public Orderline(long productID, int quantity, decimal priceAtTimeOfOrder)
+    {
+        ProductID = productID;
+        Quantity = quantity;
+        PriceAtTimeOfOrder = priceAtTimeOfOrder;
+    }
 }

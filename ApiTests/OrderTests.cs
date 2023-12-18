@@ -6,53 +6,50 @@ namespace ApiTests;
 [TestClass]
 public class OrderTests
 {
-    private readonly OrderService orderService;
-    private readonly CustomerService customerService;
-    private readonly OrderlineService orderlineService;
+    private OrderService _orderService;
 
-    public OrderTests()
+    [TestInitialize]
+    public void Initialize()
     {
-        orderService = new OrderService();
-        customerService = new CustomerService();
-        orderlineService = new();
+        _orderService = new OrderService();
     }
 
     [TestMethod]
-    public async Task TestCreateOrder()
+    public async Task CreateOrder_WithValidOrderAndOrderlines_ReturnsOrder()
     {
-        //Arrange
-        var order = new Order(DateTime.UtcNow, 0, 1, Status.Pending);
-        List<Orderline> orderlines = new List<Orderline>();
-        var orderline = new Orderline(1, 10, 1, 0);
-        orderlines.Add(orderline);
+        // Arrange
+        var order = new Order(1);
+        var orderlines = new List<Orderline>
+        {
+            new(1, 3, 18),
+            new(2, 2, 12),
+            new(3, 1, 114)
+        };
 
-        //Act
-        var createdOrder = await orderService.CreateOrder(order, orderlines);
+        // Act
+        var result = await _orderService.CreateOrder(order, orderlines);
 
-        //Assert
-        Assert.IsNotNull(createdOrder);
+        // Assert
+        // Add assertions here to verify the expected behavior
+        Assert.IsNotNull(result);
+        Assert.AreEqual(order.ID, result.ID);
+        Assert.AreEqual(order.CustomerID, result.CustomerID);
+        Assert.AreEqual(order.Date, result.Date);
+        Assert.AreEqual(order.Status, result.Status);
     }
 
     [TestMethod]
-    public async Task TestGetOrder()
+    public async Task GetAllOrders_ReturnsListOfOrders()
     {
+        // Arrange
 
-    }
+        // Act
+        var result = await _orderService.GetAllOrders();
 
-    [TestMethod]
-    public async Task TestGetAllOrders()
-    {
-
-    }
-
-    [TestMethod]
-    public async Task TestUpdateOrder()
-    {
-
-    }
-
-    [TestCleanup]
-    public async Task Cleanup()
-    {
+        // Assert
+        // Add assertions here to verify the expected behavior
+        Assert.IsNotNull(result);
+        Assert.IsInstanceOfType(result, typeof(List<Order>));
+        Assert.IsTrue(result.Count > 0);
     }
 }

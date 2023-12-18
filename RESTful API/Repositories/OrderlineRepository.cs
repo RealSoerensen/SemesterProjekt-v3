@@ -38,7 +38,15 @@ public class OrderlineRepository
         }
         else
         {
-            await transaction.Connection.ExecuteAsync(sql, obj, transaction);
+            try
+            {
+                if (transaction.Connection != null) await transaction.Connection.ExecuteAsync(sql, obj, transaction);
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         return obj;
