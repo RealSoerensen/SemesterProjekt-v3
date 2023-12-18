@@ -24,7 +24,6 @@ public partial class CustomersPanel : Form
     private void InitializeDataGridView()
     {
         customerGrid.Name = "Customers";
-        customerGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         customerGrid.DataSource = customers;
     }
 
