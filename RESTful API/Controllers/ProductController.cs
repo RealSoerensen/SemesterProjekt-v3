@@ -46,7 +46,6 @@ public class ProductController : ControllerBase
         List<Product> products;
         try
         {
-            // Check if category is specified in the query
             if (category.HasValue)
             {
                 products = await productService.GetProductsByCategory((int)category.Value);

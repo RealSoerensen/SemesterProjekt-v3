@@ -12,7 +12,6 @@ const CategoryPage: React.FC = () => {
     useEffect(() => {
         if (category) {
             const categoryId = parseInt(category);
-            console.log(categoryId);
             getProductsByCategory(categoryId).then((products) => setProducts(products));
         }
     }, [category]);
