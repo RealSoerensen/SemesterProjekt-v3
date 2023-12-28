@@ -21,4 +21,6 @@ public class Orderline
         Quantity = quantity;
         PriceAtTimeOfOrder = priceAtTimeOfOrder;
     }
+
+    public Orderline() { }
 }
